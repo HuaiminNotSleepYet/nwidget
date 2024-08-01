@@ -4,7 +4,7 @@
 
 > Note: This library is not yet complete.
 
-Create QWidget program UI in declerative syntax.
+Create QWidget program UI in declarative syntax.
 
 From imperative:
 ```cpp
