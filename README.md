@@ -4,7 +4,7 @@
 
 > Note: This library is not yet complete.
 
-Create QWidget program UI in declclarative syntax.
+Create QWidget program UI in declerative syntax.
 
 From imperative:
 ```cpp
@@ -32,13 +32,13 @@ formLayout->addRow(gridLayout);
 
 To declarative:
 ```cpp
-QFormLayout* formLayout = FormLayout{
-    {"Lable 0", LineEdit().text("Hello")},
-    {"Lable 1", Slider(Qt::Horizontal).range(0, 100).value(25)},
+QLayout* layout = nw::FormLayout{
+    {"Lable 0", nw::LineEdit().text("Hello")},
+    {"Lable 1", nw::Slider(Qt::Horizontal).range(0, 100).value(25)},
     {GridLayout{
-        {0, 0,       PushButton("Button 0")},
-        {1, 0,       PushButton("Button 1")},
-        {0, 1, 2, 1, PushButton("Button 2").sizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding)
+        {0, 0,       nw::PushButton("Button 0")},
+        {1, 0,       nw::PushButton("Button 1")},
+        {0, 1, 2, 1, nw::PushButton("Button 2").sizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding)
         },
     }}};
 ```
@@ -56,10 +56,10 @@ button->setText("Button");
 QSlider* slider0 = nullptr;
 QSlider* slider1 = nullptr;
 
-QVBoxLayout* layout = VBoxLayout{
+QLayout* layout = nw::VBoxLayout{
     button,
-    Slider().bindTo(slider0),
-    Slider().bindTo(slider1),
+    nw::Slider().bindTo(slider0),
+    nw::Slider().bindTo(slider1),
 };
 
 connect(slider0, &QSlider::valueChanged, slider1, &QSlider::setValue);
