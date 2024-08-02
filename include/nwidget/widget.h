@@ -117,9 +117,6 @@ public:
 
     inline S& layout(QLayout* l)                                        { t->setLayout(l);                          return self(); }
 
-    inline S& parent(QWidget* p)                                        { t->setParent(p);                          return self(); }
-    inline S& parent(QWidget* p, Qt::WindowFlags flag)                  { t->setParent(p, flag);                    return self(); }
-
     inline S& acceptDrops(bool b)                                       { t->setAcceptDrops(b);                     return self(); }
 
     inline S& windowFlags(Qt::WindowFlags type)                         { t->setWindowFlags(type);                  return self(); }
@@ -128,6 +125,11 @@ public:
     inline S& inputMethodHints(Qt::InputMethodHints hints)              { t->setInputMethodHints(hints);            return self(); }
 
     inline S& backingStore(QBackingStore* store)                        { t->setBackingStore(store);                return self(); }
+
+    N_SIGNAL(onWindowTitleChanged        , QWidget::windowTitleChanged        )
+    N_SIGNAL(onWindowIconChanged         , QWidget::windowIconChanged         )
+    N_SIGNAL(onWindowIconTextChanged     , QWidget::windowIconTextChanged     )
+    N_SIGNAL(onCustomContextMenuRequested, QWidget::customContextMenuRequested)
 };
 
 N_BUILDER_IMPL(WidgetBuilder, QWidget, Widget);
