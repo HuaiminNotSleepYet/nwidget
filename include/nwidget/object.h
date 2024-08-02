@@ -37,7 +37,14 @@ public:
                       Qt::ConnectionType type = Qt::AutoConnection)
     { QObject::connect(t, signal, context, slot); return self(); }
 
-    inline S& objectName(const QString& name) { t->setObjectName(name); return self(); }
+    inline S& objectName(const QString& name)                       { t->setObjectName(name);     return self(); }
+    inline S& objectName(QAnyStringView name)                       { t->setObjectName(name);     return self(); }
+
+    inline S& property(const char* name, const QVariant& value)     { t->setProerty(name, value); return self(); }
+    inline S& property(const char* name, QVariant&& value)          { t->setProerty(name, value); return self(); }
+
+    N_SIGNAL(onDestroyed        , QObject::destroyed        )
+    N_SIGNAL(onObjectNameChanged, QObject::objectNameChanged)
 };
 
 }
