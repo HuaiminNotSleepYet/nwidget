@@ -26,14 +26,15 @@ struct BoxLayoutItem
 
     template<typename S, typename T>
     BoxLayoutItem(const WidgetBuilder<S, T>& widget, int stretch = 0, Qt::Alignment align = Qt::Alignment())
-    { addTo = [widget = widget.operator T*(), stretch, align](QBoxLayout* l){l->addWidget(widget, stretch, align); }; }
+        : BoxLayoutItem(widget.operator T*(), stretch, align) {}
 
     template<typename S, typename T>
     BoxLayoutItem(const LayoutBuilder<S, T>& layout, int stretch = 0)
-    { addTo = [layout = layout.operator T*(), stretch](QBoxLayout* l){l->addLayout(layout, stretch); }; }
+        : BoxLayoutItem(layout.operator T*(), stretch) {}
 
     template<typename S, typename T>
-    BoxLayoutItem(const LayoutItemBuilder<S, T>& item) { [item = item.operator T*()](QBoxLayout* l){l->addItem(item); }; }
+    BoxLayoutItem(const LayoutItemBuilder<S, T>& item)
+        : BoxLayoutItem(item.operator T*()) {}
 
     BoxLayoutItem(SpacingType, int size)        { addTo = [size   ](QBoxLayout* l) { l->addSpacing(size);    }; }
     BoxLayoutItem(StretchType, int stretch = 0) { addTo = [stretch](QBoxLayout* l) { l->addStretch(stretch); }; }
