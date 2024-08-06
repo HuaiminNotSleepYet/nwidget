@@ -5,14 +5,20 @@
 
 #include "builder.h"
 
-#define N_SIGNAL(NAME, SIG)                                                                                 \
-template <typename Func>                                                                                    \
-inline S& NAME(Func&& slot, Qt::ConnectionType type = Qt::AutoConnection)                                   \
-{ QObject::connect(t, &SIG, t, slot); return self(); }                                                      \
-template <typename Func>                                                                                    \
-inline S& NAME(const typename QtPrivate::ContextTypeForFunctor<Func>::ContextType* context, Func&& slot,    \
-               Qt::ConnectionType type = Qt::AutoConnection)                                                \
-{ QObject::connect(t, &SIG, context, slot); return self(); }                                                \
+#if QT_VERSION <= QT_VERSION_CHECK(6, 6, 0)
+#define N_SIGNAL_RECEIVER_TYPE(F) const typename QtPrivate::FunctionPointer<F>::ContextType*
+#else
+#define N_SIGNAL_RECEIVER_TYPE(F) const typename QtPrivate::ContextTypeForFunctor<F>::ContextType*
+#endif
+
+#define N_SIGNAL(NAME, SIG)                                                 \
+template <typename Func>                                                    \
+inline S& NAME(Func&& slot, Qt::ConnectionType type = Qt::AutoConnection)   \
+{ QObject::connect(t, &SIG, t, slot); return self(); }                      \
+template <typename Func>                                                    \
+inline S& NAME(N_SIGNAL_RECEIVER_TYPE(Func) context, Func&& slot,           \
+               Qt::ConnectionType type = Qt::AutoConnection)                \
+{ QObject::connect(t, &SIG, context, slot); return self(); }
 
 namespace nw {
 
@@ -33,7 +39,7 @@ public:
     { QObject::connect(t, signal, receiver, method); return self(); }
 
     template <typename Func1, typename Func2>
-    inline S& connect(Func1 signal, const typename QtPrivate::ContextTypeForFunctor<Func2>::ContextType* context, Func2&& slot,
+    inline S& connect(Func1 signal, N_SIGNAL_RECEIVER_TYPE(Func2) context, Func2&& slot,
                       Qt::ConnectionType type = Qt::AutoConnection)
     { QObject::connect(t, signal, context, slot); return self(); }
 
