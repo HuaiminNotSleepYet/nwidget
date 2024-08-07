@@ -36,8 +36,8 @@ public:
     MenuBuilder(T* target, std::initializer_list<MenuItem> items)            : WidgetBuilder<S, T>(target) { addItems(items); }
     MenuBuilder(const QString& title, std::initializer_list<MenuItem> items) : WidgetBuilder<S, T>(new T(title)) { addItems(items); }
 
-    inline S& icon(const QIcon& ico)    { t->setIcon(ico); return self(); }
-    inline S& title(const QString& s)   { t->setTitle(s); return self(); }
+    S& icon(const QIcon& ico)  { t->setIcon(ico); return self(); }
+    S& title(const QString& s) { t->setTitle(s); return self(); }
 
 private:
     void addItems(std::initializer_list<MenuItem> items)

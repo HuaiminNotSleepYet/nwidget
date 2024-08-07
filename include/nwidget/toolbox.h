@@ -27,7 +27,7 @@ public:
     ToolBoxBuilder(T* target, std::initializer_list<ToolBoxItem> items) : FrameBuilder<S, T>(target) { applyItems(items); }
 
 private:
-    inline void applyItems(std::initializer_list<ToolBoxItem> items)
+    void applyItems(std::initializer_list<ToolBoxItem> items)
     {
         auto end = items.end();
         for (auto i = items.begin(); i != end; ++i)

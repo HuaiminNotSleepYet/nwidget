@@ -17,10 +17,10 @@ public:
     explicit ToolButtonBuilder(T* target)  : AbstractButtonBuilder<S, T>(target) {}
     ToolButtonBuilder(const QString& text) : AbstractButtonBuilder<S, T>(new T) { t->setText(text); }
 
-    inline S& arrowType(Qt::ArrowType type)                     { t->setArrowType(type); return self(); }
-    inline S& popupMode(QToolButton::ToolButtonPopupMode mode)  { t->setPopupMode(mode); return self(); }
-    inline S& autoRaise(bool b)                                 { t->setAutoRaise(b);    return self(); }
-    inline S& menu(QMenu* m)                                    { t->setMenu(m);         return self(); }
+    S& arrowType(Qt::ArrowType type)                     { t->setArrowType(type); return self(); }
+    S& popupMode(QToolButton::ToolButtonPopupMode mode)  { t->setPopupMode(mode); return self(); }
+    S& autoRaise(bool b)                                 { t->setAutoRaise(b);    return self(); }
+    S& menu(QMenu* m)                                    { t->setMenu(m);         return self(); }
 };
 
 N_BUILDER_IMPL(ToolButtonBuilder, QToolButton, ToolButton);

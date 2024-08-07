@@ -40,7 +40,7 @@ public:
     N_SIGNAL(onCurrentTextChanged , QComboBox::currentTextChanged )
 
 private:
-    inline void addItems(std::initializer_list<ComboBoxItem> items)
+    void addItems(std::initializer_list<ComboBoxItem> items)
     {
         const auto end = items.end();
         for (auto i = items.begin(); i != end; ++i)

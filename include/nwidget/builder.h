@@ -24,9 +24,9 @@ class Builder
 public:
     explicit Builder(Target* target) : t(target) {}
 
-    inline operator Target*() const { return t; }
+    operator Target*() const { return t; }
 
-    template<typename V> inline Self& bindTo(V& v) { v = t; return self(); }
+    template<typename V> Self& bindTo(V& v) { v = t; return self(); }
 
 protected:
     Target* t;

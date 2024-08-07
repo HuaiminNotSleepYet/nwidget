@@ -41,7 +41,7 @@
 
 using namespace nw;
 
-static inline QString className(const QObject *o)
+static QString className(const QObject *o)
 {
     return QString::fromUtf8(o->metaObject()->className());
 }
@@ -54,7 +54,7 @@ static QString helpUrl(const QString &page)
     return result;
 }
 
-static inline QString helpUrl(const QWidget *w)
+static QString helpUrl(const QWidget *w)
 {
     return helpUrl(className(w).toLower());
 }

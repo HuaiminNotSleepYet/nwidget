@@ -19,7 +19,7 @@ public:
     MenuBarBuilder(T* target, std::initializer_list<Menu> menus) : WidgetBuilder<S, T>(target) { addMenus(menus); }
 
 private:
-    inline void addMenus(std::initializer_list<Menu> menus)
+    void addMenus(std::initializer_list<Menu> menus)
     {
         auto menu = menus.begin();
         auto end = menus.end();

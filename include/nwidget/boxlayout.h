@@ -53,7 +53,7 @@ public:
     BoxLayoutBuilder(T* target, std::initializer_list<BoxLayoutItem> items) : LayoutBuilder<S, T>(target) { addItems(items); }
 
 private:
-    inline void addItems(std::initializer_list<BoxLayoutItem> items)
+    void addItems(std::initializer_list<BoxLayoutItem> items)
     {
         auto end = items.end();
         for (auto i = items.begin(); i != end; ++i)

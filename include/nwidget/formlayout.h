@@ -37,7 +37,7 @@ public:
     FormLayoutBuilder(T* target, std::initializer_list<FormLayoutItem> items) : LayoutBuilder<S, T>(target) { applyItems(items); }
 
 private:
-    inline void applyItems(std::initializer_list<FormLayoutItem> items)
+    void applyItems(std::initializer_list<FormLayoutItem> items)
     {
         const auto end = items.end();
         for (auto i = items.begin(); i != end; ++i)

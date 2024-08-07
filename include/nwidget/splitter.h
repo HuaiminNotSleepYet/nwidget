@@ -17,10 +17,10 @@ public:
     explicit SplitterBuilder(T* target)                    : FrameBuilder<S, T>(target) {}
     SplitterBuilder(std::initializer_list<Widget> widgets) : FrameBuilder<S, T>(new T) { applyWidgets(widgets); }
 
-    inline S& orientation(Qt::Orientation o) { t->setOrientation(o); return self(); }
+    S& orientation(Qt::Orientation o) { t->setOrientation(o); return self(); }
 
 private:
-    inline void applyWidgets(std::initializer_list<Widget> widgets)
+    void applyWidgets(std::initializer_list<Widget> widgets)
     {
         auto end = widgets.end();
         for (auto i = widgets.begin(); i != end; ++i)

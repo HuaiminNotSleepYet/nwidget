@@ -27,7 +27,7 @@ public:
     TabWidgetBuilder(T* target, std::initializer_list<TabWidgetItem> pages) : WidgetBuilder<S, T>(target) { applyPages(pages); }
 
 private:
-    inline void applyPages(std::initializer_list<TabWidgetItem> pages)
+    void applyPages(std::initializer_list<TabWidgetItem> pages)
     {
         auto end = pages.end();
         for (auto i = pages.begin(); i != end; ++i)

@@ -19,11 +19,11 @@ public:
     explicit GroupBoxBuilder(T* target)                    : WidgetBuilder<S, T>(target) {};
     GroupBoxBuilder(T* target, QLayout* layout)            : WidgetBuilder<S, T>(target, layout) {};
 
-    inline S& title(const QString& s)   { t->setTitle(s);         return self(); }
-    inline S& alignment(int align)      { t->setAlignment(align); return self(); }
-    inline S& flat(bool b)              { t->setFlat(b);          return self(); }
-    inline S& checkable(bool b)         { t->setCheckable(b);     return self(); }
-    inline S& checked(bool b)           { t->setChecked(b);       return self(); }
+    S& title(const QString& s)   { t->setTitle(s);         return self(); }
+    S& alignment(int align)      { t->setAlignment(align); return self(); }
+    S& flat(bool b)              { t->setFlat(b);          return self(); }
+    S& checkable(bool b)         { t->setCheckable(b);     return self(); }
+    S& checked(bool b)           { t->setChecked(b);       return self(); }
 };
 
 N_BUILDER_IMPL(GroupBoxBuilder, QGroupBox, GroupBox);

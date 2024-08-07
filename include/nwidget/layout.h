@@ -45,8 +45,8 @@ public:
     LayoutItemBuilder()          : Builder<S, T>(new T) {}
     LayoutItemBuilder(T* target) : Builder<S, T>(target) {}
 
-    inline S& alignment(Qt::Alignment a)    { t->setAlignment(a); return self(); }
-    inline S& geometry(const QRect &rect)   { t->setGeometry(rect); return self(); }
+    S& alignment(Qt::Alignment a)    { t->setAlignment(a); return self(); }
+    S& geometry(const QRect &rect)   { t->setGeometry(rect); return self(); }
 };
 
 N_BUILDER_IMPL(LayoutItemBuilder, QLayoutItem, LayoutItem);
@@ -64,13 +64,13 @@ public:
     explicit LayoutBuilder(T* target)                                         : LayoutItemBuilder<S, T>(target) {}
     LayoutBuilder(T* target, std::initializer_list<WidgetOrLayoutItem> items) : LayoutItemBuilder<S, T>(target) { applyItems(items); }
 
-    inline S& spacing(int v) { t->setSpacing(v); return self(); }
+    S& spacing(int v) { t->setSpacing(v); return self(); }
 
-    inline S& contentsMargins(int l, int t, int r, int b)   { this->t->setContentsMargins(l, t, r, b); return self(); }
-    inline S& contentsMargins(const QMargins& margins)      { t->setContentsMargins(margins);          return self(); }
+    S& contentsMargins(int l, int t, int r, int b)   { this->t->setContentsMargins(l, t, r, b); return self(); }
+    S& contentsMargins(const QMargins& margins)      { t->setContentsMargins(margins);          return self(); }
 
 private:
-    inline void applyItems(std::initializer_list<WidgetOrLayoutItem> items)
+    void applyItems(std::initializer_list<WidgetOrLayoutItem> items)
     {
         auto end = items.end();
         for (auto i = items.begin(); i != end; ++i)

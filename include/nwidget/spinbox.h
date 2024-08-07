@@ -16,15 +16,15 @@ public:
     SpinBoxBuilder()                   : AbstractSpinBoxBuilder<S, T>(new T) {}
     explicit SpinBoxBuilder(T* target) : AbstractSpinBoxBuilder<S, T>(target) {}
 
-    inline S& prefix(const QString &s)          { t->setPrefix(s);            return self(); }
-    inline S& suffix(const QString &s)          { t->setSuffix(s);            return self(); }
-    inline S& singleStep(int val)               { t->setSingleStep(val);      return self(); }
-    inline S& minimum(int min)                  { t->setMinimum(min);         return self(); }
-    inline S& maximum(int max)                  { t->setMaximum(max);         return self(); }
-    inline S& range(int min, int max)           { t->setRange(min, max);      return self(); }
-    inline S& stepType(QSpinBox::StepType type) { t->setStepType(type);       return self(); }
-    inline S& displayIntegerBase(int base)      { t->setDisplayInteger(base); return self(); }
-    inline S& value(int val)                    { t->setValue(val);           return self(); }
+    S& prefix(const QString &s)          { t->setPrefix(s);            return self(); }
+    S& suffix(const QString &s)          { t->setSuffix(s);            return self(); }
+    S& singleStep(int val)               { t->setSingleStep(val);      return self(); }
+    S& minimum(int min)                  { t->setMinimum(min);         return self(); }
+    S& maximum(int max)                  { t->setMaximum(max);         return self(); }
+    S& range(int min, int max)           { t->setRange(min, max);      return self(); }
+    S& stepType(QSpinBox::StepType type) { t->setStepType(type);       return self(); }
+    S& displayIntegerBase(int base)      { t->setDisplayInteger(base); return self(); }
+    S& value(int val)                    { t->setValue(val);           return self(); }
 
     N_SIGNAL(onValueChanged, QSpinBox::valueChanged)
     N_SIGNAL(onTextChanged , QSpinBox::textChanged )
@@ -41,16 +41,16 @@ public:
     DoubleSpinBoxBuilder()                   : AbstractSpinBoxBuilder<S, T>(new T) {}
     explicit DoubleSpinBoxBuilder(T* target) : AbstractSpinBoxBuilder<S, T>(target) {}
 
-    inline S& prefix(const QString &s)          { t->setPrefix(s);            return self(); }
-    inline S& suffix(const QString &s)          { t->setSuffix(s);            return self(); }
-    inline S& singleStep(int val)               { t->setSingleStep(val);      return self(); }
-    inline S& minimum(int min)                  { t->setMinimum(min);         return self(); }
-    inline S& maximum(int max)                  { t->setMaximum(max);         return self(); }
-    inline S& range(int min, int max)           { t->setRange(min, max);      return self(); }
-    inline S& stepType(QSpinBox::StepType type) { t->setStepType(type);       return self(); }
-    inline S& displayIntegerBase(int base)      { t->setDisplayInteger(base); return self(); }
-    inline S& decimals(int prec)                { t->setDecimals(prec);       return self(); }
-    inline S& value(int val)                    { t->setValue(val);           return self(); }
+    S& prefix(const QString &s)          { t->setPrefix(s);            return self(); }
+    S& suffix(const QString &s)          { t->setSuffix(s);            return self(); }
+    S& singleStep(int val)               { t->setSingleStep(val);      return self(); }
+    S& minimum(int min)                  { t->setMinimum(min);         return self(); }
+    S& maximum(int max)                  { t->setMaximum(max);         return self(); }
+    S& range(int min, int max)           { t->setRange(min, max);      return self(); }
+    S& stepType(QSpinBox::StepType type) { t->setStepType(type);       return self(); }
+    S& displayIntegerBase(int base)      { t->setDisplayInteger(base); return self(); }
+    S& decimals(int prec)                { t->setDecimals(prec);       return self(); }
+    S& value(int val)                    { t->setValue(val);           return self(); }
 
     N_SIGNAL(onValueChanged, QSpinBox::valueChanged)
     N_SIGNAL(onTextChanged , QSpinBox::textChanged )

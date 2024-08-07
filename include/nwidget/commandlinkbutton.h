@@ -18,7 +18,7 @@ public:
     CommandLinkButtonBuilder(const QString& text)                             : PushButtonBuilder<S, T>(new T(text)) {}
     CommandLinkButtonBuilder(const QString& text, const QString& description) : PushButtonBuilder<S, T>(new T(text, description)) {}
 
-    inline S& description(const QString& s) { t->setDescription(s); return self(); }
+    S& description(const QString& s) { t->setDescription(s); return self(); }
 };
 
 N_BUILDER_IMPL(CommandLinkButtonBuilder, QCommandLinkButton, CommandLinkButton);

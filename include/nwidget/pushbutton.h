@@ -18,10 +18,10 @@ public:
     PushButtonBuilder(const QString& text)                    : AbstractButtonBuilder<S, T>(new T(text)) {}
     PushButtonBuilder(const QIcon& icon, const QString& text) : AbstractButtonBuilder<S, T>(new T(icon, text)) {}
 
-    inline S& autoDefault(bool b)   { t->setAutoDefault(b); return self(); }
-    inline S& default_(bool b)      { t->setDefault(b);     return self(); }
-    inline S& flat(bool b)          { t->setFlat(b);        return self(); }
-    inline S& menu(QMenu* m)        { t->setMenu(m);        return self(); }
+    S& autoDefault(bool b)   { t->setAutoDefault(b); return self(); }
+    S& default_(bool b)      { t->setDefault(b);     return self(); }
+    S& flat(bool b)          { t->setFlat(b);        return self(); }
+    S& menu(QMenu* m)        { t->setMenu(m);        return self(); }
 };
 
 N_BUILDER_IMPL(PushButtonBuilder, QPushButton, PushButton);

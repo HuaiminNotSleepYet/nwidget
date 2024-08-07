@@ -17,7 +17,7 @@ public:
     explicit LabelBuilder(T* target)  : FrameBuilder<S, T>(target) {}
     LabelBuilder(const QString& text) : FrameBuilder<S, T>(new T(text)) {}
 
-    inline S& alignment(Qt::Alignment align) { t->setAlignment(align); return self(); }
+    S& alignment(Qt::Alignment align) { t->setAlignment(align); return self(); }
 };
 
 N_BUILDER_IMPL(LabelBuilder, QLabel, Label);
