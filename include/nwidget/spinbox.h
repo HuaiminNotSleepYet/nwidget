@@ -43,14 +43,14 @@ public:
 
     S& prefix(const QString &s)          { t->setPrefix(s);            return self(); }
     S& suffix(const QString &s)          { t->setSuffix(s);            return self(); }
-    S& singleStep(int val)               { t->setSingleStep(val);      return self(); }
-    S& minimum(int min)                  { t->setMinimum(min);         return self(); }
-    S& maximum(int max)                  { t->setMaximum(max);         return self(); }
-    S& range(int min, int max)           { t->setRange(min, max);      return self(); }
+    S& singleStep(double val)            { t->setSingleStep(val);      return self(); }
+    S& minimum(double min)               { t->setMinimum(min);         return self(); }
+    S& maximum(double max)               { t->setMaximum(max);         return self(); }
+    S& range(double min, double max)     { t->setRange(min, max);      return self(); }
     S& stepType(QSpinBox::StepType type) { t->setStepType(type);       return self(); }
-    S& displayIntegerBase(int base)      { t->setDisplayInteger(base); return self(); }
-    S& decimals(int prec)                { t->setDecimals(prec);       return self(); }
-    S& value(int val)                    { t->setValue(val);           return self(); }
+    S& displayIntegerBase(double base)   { t->setDisplayInteger(base); return self(); }
+    S& decimals(double prec)             { t->setDecimals(prec);       return self(); }
+    S& value(double val)                 { t->setValue(val);           return self(); }
 
     N_SIGNAL(onValueChanged, QSpinBox::valueChanged)
     N_SIGNAL(onTextChanged , QSpinBox::textChanged )
