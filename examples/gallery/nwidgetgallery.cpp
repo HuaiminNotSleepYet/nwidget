@@ -138,7 +138,7 @@ NWidgetGallery::NWidgetGallery()
             BoxLayoutItem::Stretch,
             Label(tr("Press F1 over a widget to see Documentation")),
             BoxLayoutItem::Stretch,
-            CheckBox(tr("Disable widgets")).bindTo(disableWidgetsCheckBox),
+            CheckBox(tr("Disable widgets")).linkTo(disableWidgetsCheckBox),
         }},
         {1, 0, GroupBox(tr("Buttons"),
         HBoxLayout{
@@ -166,7 +166,7 @@ NWidgetGallery::NWidgetGallery()
                 CheckBox(tr("Tri-state check box")).tristate().checkState(Qt::PartiallyChecked),
                 BoxLayoutItem::Stretch,
             }
-        }).bindTo(buttonsGroupBox)},
+        }).linkTo(buttonsGroupBox)},
         {1, 1, GroupBox(tr("Simple Input Widgets"), GridLayout{
             {0, 0, 1, 2, LineEdit("zhang").clearButtonEnabled(true).echoMode(QLineEdit::Password)},
             {1, 0, 1, 2, SpinBox().value(50)},
@@ -174,19 +174,19 @@ NWidgetGallery::NWidgetGallery()
             {3, 0,       Slider(Qt::Horizontal).value(40)},
             {4, 0,       ScrollBar(Qt::Horizontal).value(60)},
             {3, 1, 2, 1, Dial().value(30).notchesVisible(true)},
-        }).bindTo(simpleInputWidgetsGroupBox).checkable(true).checked(true)},
+        }).linkTo(simpleInputWidgetsGroupBox).checkable(true).checked(true)},
         {2, 0, TabWidget{
             {tr("Tree View")     , TreeView(fileSystemModel)},
             {tr("Table")         , TableWidget(10, 10)},
             {tr("List")          , ListView(listModel)},
             {tr("Icon Mode List"), ListView(listModel).viewMode(QListView::IconMode)},
-        }.bindTo(itemViewTabWidget)},
+        }.linkTo(itemViewTabWidget)},
         {2, 1, ToolBox{
             {tr("Text Edit")      , TextEdit(richText)},
             {tr("Plain Text Edit"), PlainTextEdit(plainText)},
-            {tr("Text Browser")   , TextBrowser().bindTo(systemInfoTextBrowser)},
-        }.bindTo(textToolBox)},
-        {3, 0, 1, 2, ProgressBar(0, 10000).bindTo(progressBar)},
+            {tr("Text Browser")   , TextBrowser().linkTo(systemInfoTextBrowser)},
+        }.linkTo(textToolBox)},
+        {3, 0, 1, 2, ProgressBar(0, 10000).linkTo(progressBar)},
         {4, 0, 1, 2,
             DialogButtonBox(QDialogButtonBox::Help | QDialogButtonBox::Close)
                 .onHelpRequested(this, launchModuleHelp)
