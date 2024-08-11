@@ -225,7 +225,7 @@ public:
     using Setter = typename Info::Setter;
     using Notify = typename Info::Notify;
 
-    constexpr explicit Property(Object* object) : object(object) {};
+    explicit Property(Object* object) : object(object) {};
 
     typename Info::Type get() const { return Getter::get(object); }
 
@@ -344,7 +344,7 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
 #define N_NO_NOTIFY using Notify = nw::NoNotify;
 
 #define N_PROPERTY(TYPE, NAME, GETTER, SETTER, NOTIFY)                                      \
-    constexpr auto NAME()                                                                   \
+    auto NAME()                                                                             \
     {                                                                                       \
         using Object = typename std::decay<decltype(*this->o)>::type;                       \
         using Type = TYPE;                                                                  \
@@ -359,7 +359,7 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
             static QString bindingName() { return QStringLiteral("nw_binding_to_"#NAME); }  \
         };                                                                                  \
                                                                                             \
-        Q_ASSERT(ObjectRefT<T>::o != nullptr);                                              \
+        Q_ASSERT(ObjectRefT<T>::o);                                                         \
         return Property<Info>(ObjectRefT<T>::o);                                            \
     }
 
