@@ -26,6 +26,23 @@ public:
 
 N_BUILDER_IMPL(TextBrowserBuilder, QTextBrowser, TextBrowser);
 
+
+
+template <typename T>
+class TextBrowserRefT : public TextEditRefT<T>
+{
+public:
+    using TextEditRefT<T>::TextEditRefT;
+
+    N_PROPERTY(QUrl                       , source           , N_GETTER(source           ), N_NO_SETTER                   , N_NO_NOTIFY)
+    N_PROPERTY(QTextDocument::ResourceType, sourceType       , N_GETTER(sourceType       ), N_NO_SETTER                   , N_NO_NOTIFY)
+    N_PROPERTY(QStringList                , searchPaths      , N_GETTER(searchPaths      ), N_SETTER(setSearchPaths      ), N_NO_NOTIFY)
+    N_PROPERTY(bool                       , openExternalLinks, N_GETTER(openExternalLinks), N_SETTER(setOpenExternalLinks), N_NO_NOTIFY)
+    N_PROPERTY(bool                       , openLinks        , N_GETTER(openLinks        ), N_SETTER(setOpenLinks        ), N_NO_NOTIFY)
+};
+
+using TextBrowserRef = TextBrowserRefT<QTextBrowser>;
+
 }
 
 #endif // TEXTBROWSER_H

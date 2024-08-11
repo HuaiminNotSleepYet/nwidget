@@ -58,6 +58,46 @@ public:
 
 N_BUILDER_IMPL(DoubleSpinBoxBuilder, QDoubleSpinBox, DoubleSpinBox);
 
+
+
+template<typename T>
+class SpinBoxRefT : public AbstractSpinBoxRefT<T>
+{
+public:
+    using AbstractSpinBoxRefT<T>::AbstractSpinBoxRefT;
+
+    N_PROPERTY(QString           , suffix            , N_GETTER(suffix            ), N_SETTER(setSuffix            ), N_NO_NOTIFY)
+    N_PROPERTY(QString           , prefix            , N_GETTER(prefix            ), N_SETTER(setPrefix            ), N_NO_NOTIFY)
+    N_PROPERTY(QString           , cleanText         , N_GETTER(cleanText         ), N_NO_SETTER                    , N_NO_NOTIFY)
+    N_PROPERTY(int               , minimum           , N_GETTER(minimum           ), N_SETTER(setMinimum           ), N_NO_NOTIFY)
+    N_PROPERTY(int               , maximum           , N_GETTER(maximum           ), N_SETTER(setMaximum           ), N_NO_NOTIFY)
+    N_PROPERTY(int               , singleStep        , N_GETTER(singleStep        ), N_SETTER(setSingleStep        ), N_NO_NOTIFY)
+    N_PROPERTY(QSpinBox::StepType, stepType          , N_GETTER(stepType          ), N_SETTER(setStepType          ), N_NO_NOTIFY)
+    N_PROPERTY(int               , value             , N_GETTER(value             ), N_SETTER(setValue             ), N_NOTIFY(valueChanged))
+    N_PROPERTY(int               , displayIntegerBase, N_GETTER(displayIntegerBase), N_SETTER(setDisplayIntegerBase), N_NO_NOTIFY)
+};
+
+using SpinBoxRef = SpinBoxRefT<QSpinBox>;
+
+template<typename T>
+class DoubleSpinBoxRefT : public AbstractSpinBoxRefT<T>
+{
+public:
+    using AbstractSpinBoxRefT<T>::AbstractSpinBoxRefT;
+
+    N_PROPERTY(QString           , suffix            , N_GETTER(suffix            ), N_SETTER(setSuffix            ), N_NO_NOTIFY)
+    N_PROPERTY(QString           , prefix            , N_GETTER(prefix            ), N_SETTER(setPrefix            ), N_NO_NOTIFY)
+    N_PROPERTY(QString           , cleanText         , N_GETTER(cleanText         ), N_NO_SETTER                    , N_NO_NOTIFY)
+    N_PROPERTY(double            , minimum           , N_GETTER(minimum           ), N_SETTER(setMinimum           ), N_NO_NOTIFY)
+    N_PROPERTY(double            , maximum           , N_GETTER(maximum           ), N_SETTER(setMaximum           ), N_NO_NOTIFY)
+    N_PROPERTY(double            , singleStep        , N_GETTER(singleStep        ), N_SETTER(setSingleStep        ), N_NO_NOTIFY)
+    N_PROPERTY(QSpinBox::StepType, stepType          , N_GETTER(stepType          ), N_SETTER(setStepType          ), N_NO_NOTIFY)
+    N_PROPERTY(double            , value             , N_GETTER(value             ), N_SETTER(setValue             ), N_NOTIFY(valueChanged))
+    N_PROPERTY(double            , displayIntegerBase, N_GETTER(displayIntegerBase), N_SETTER(setDisplayIntegerBase), N_NO_NOTIFY)
+};
+
+using DoubleSpinBoxRef = DoubleSpinBoxRefT<QDoubleSpinBox>;
+
 }
 
 #endif // SPINBOX_H

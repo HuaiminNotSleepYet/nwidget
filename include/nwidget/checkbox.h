@@ -19,9 +19,25 @@ public:
 
     S& checkState(Qt::CheckState state)  { t->setCheckState(state); return self(); }
     S& tristate(bool b = true)           { t->setTristate(b);       return self(); }
+
+    N_SIGNAL(onStateChanged, QCheckBox::stateChanged)
 };
 
 N_BUILDER_IMPL(CheckBoxBuilder, QCheckBox, CheckBox);
+
+
+
+template<typename T>
+class CheckBoxtRefT : public AbstractButtonRefT<T>
+{
+public:
+    using AbstractButtonRefT<T>::AbstractButtonRefT;
+
+    N_PROPERTY(bool          , tristate  , N_GETTER(isTristate), N_SETTER(setTristate  ), N_NO_NOTIFY)
+    N_PROPERTY(Qt::CheckState, checkState, N_GETTER(checkState), N_SETTER(setCheckState), N_NO_NOTIFY)
+};
+
+using CheckBoxtRef = CheckBoxtRefT<QCheckBox>;
 
 }
 

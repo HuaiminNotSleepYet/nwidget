@@ -33,6 +33,20 @@ private:
 
 N_BUILDER_IMPL(MenuBarBuilder, QMenuBar, MenuBar);
 
+
+
+template <typename T>
+class MenuBarRefT : public WidgetRefT<T>
+{
+public:
+    using WidgetRefT<T>::WidgetRefT;
+
+    N_PROPERTY(bool, defaultUp    , N_GETTER(isDefaultUp    ), N_SETTER(setDefaultUp    ), N_NO_NOTIFY)
+    N_PROPERTY(bool, nativeMenuBar, N_GETTER(isNativeMenuBar), N_SETTER(setNativeMenuBar), N_NO_NOTIFY)
+};
+
+using MenuBarRef = MenuBarRefT<QMenuBar>;
+
 }
 
 #endif // MENUBAR_H

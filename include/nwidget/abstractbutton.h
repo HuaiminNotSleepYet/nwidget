@@ -37,6 +37,31 @@ public:
 
 N_BUILDER_IMPL(AbstractButtonBuilder, QAbstractButton, AbstractButton);
 
+
+
+template<typename T>
+class AbstractButtonRefT : public WidgetRefT<T>
+{
+public:
+    using WidgetRefT<T>::WidgetRefT;
+
+    N_PROPERTY(QString     , text              , N_GETTER(text              ), N_SETTER(setText              ), N_NO_NOTIFY)
+    N_PROPERTY(QIcon       , icon              , N_GETTER(icon              ), N_SETTER(setIcon              ), N_NO_NOTIFY)
+    N_PROPERTY(QSize       , iconSize          , N_GETTER(iconSize          ), N_SETTER(setIconSize          ), N_NO_NOTIFY)
+#ifndef QT_NO_SHORTCUT
+    N_PROPERTY(QKeySequence, shortcut          , N_GETTER(shortcut          ), N_SETTER(setShortcut          ), N_NO_NOTIFY)
+#endif
+    N_PROPERTY(bool        , checkable         , N_GETTER(isCheckable       ), N_SETTER(setCheckable         ), N_NO_NOTIFY)
+    N_PROPERTY(bool        , checked           , N_GETTER(isChecked         ), N_SETTER(setChecked           ), N_NOTIFY(toggled))
+    N_PROPERTY(bool        , autoRepeat        , N_GETTER(autoRepeat        ), N_SETTER(setAutoRepeat        ), N_NO_NOTIFY)
+    N_PROPERTY(bool        , autoExclusive     , N_GETTER(autoExclusive     ), N_SETTER(setAutoExclusive     ), N_NO_NOTIFY)
+    N_PROPERTY(int         , autoRepeatDelay   , N_GETTER(autoRepeatDelay   ), N_SETTER(setAutoRepeatDelay   ), N_NO_NOTIFY)
+    N_PROPERTY(int         , autoRepeatInterval, N_GETTER(autoRepeatInterval), N_SETTER(setAutoRepeatInterval), N_NO_NOTIFY)
+    N_PROPERTY(bool        , down              , N_GETTER(isDown            ), N_SETTER(setDown              ), N_NO_NOTIFY)
+};
+
+using AbstractButtonRef = AbstractButtonRefT<QAbstractButton>;
+
 }
 
 #endif // ABSTRACTBUTTON_H

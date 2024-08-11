@@ -27,6 +27,22 @@ public:
 
 N_BUILDER_IMPL(DialogButtonBoxBuilder, QDialogButtonBox, DialogButtonBox);
 
+
+
+template <typename T>
+class DialogButtonBoxRefT : public WidgetRefT<T>
+{
+public:
+    using WidgetRefT<T>::WidgetRefT;
+
+    N_PROPERTY(Qt::Orientation, orientation    , N_GETTER(orientation    ), N_SETTER(setOrientation    ), N_NO_NOTIFY)
+    N_PROPERTY(QDialogButtonBox::StandardButtons
+                              , standardButtons, N_GETTER(standardButtons), N_SETTER(setStandardButtons), N_NO_NOTIFY)
+    N_PROPERTY(bool           , centerButtons  , N_GETTER(centerButtons  ), N_SETTER(setCenterButtons  ), N_NO_NOTIFY)
+};
+
+using DialogButtonBoxRef = DialogButtonBoxRefT<QDialogButtonBox>;
+
 }
 
 #endif // DIALOGBUTTONBOX_H

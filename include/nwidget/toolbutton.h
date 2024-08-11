@@ -25,6 +25,24 @@ public:
 
 N_BUILDER_IMPL(ToolButtonBuilder, QToolButton, ToolButton);
 
+
+
+template<typename T>
+class ToolButtonRefT : public AbstractButtonRefT<T>
+{
+public:
+    using AbstractButtonRefT<T>::AbstractButtonRefT;
+
+#if QT_CONFIG(menu)
+    N_PROPERTY(QToolButton::ToolButtonPopupMode, popupMode, N_GETTER(popupMode), N_SETTER(setPopupMode), N_NO_NOTIFY)
+#endif
+    N_PROPERTY(Qt::ToolButtonStyle, toolButtonStyle, N_GETTER(toolButtonStyle), N_SETTER(setToolButtonStyle), N_NO_NOTIFY)
+    N_PROPERTY(bool               , autoRaise      , N_GETTER(autoRaise      ), N_SETTER(setAutoRaise      ), N_NO_NOTIFY)
+    N_PROPERTY(Qt::ArrowType      , arrowType      , N_GETTER(arrowType      ), N_SETTER(setArrowType      ), N_NO_NOTIFY)
+};
+
+using ToolButtonRef = AbstractButtonRefT<QToolButton>;
+
 }
 
 #endif // TOOLBUTTON_H

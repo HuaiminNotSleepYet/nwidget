@@ -21,6 +21,21 @@ public:
 
 N_BUILDER_IMPL(StackedLayoutBuilder, QStackedLayout, StackedLayout);
 
+
+
+template<typename T>
+class StackedLayoutRefT : public LayoutRefT<T>
+{
+public:
+    using LayoutRefT<T>::LayoutRefT;
+
+    N_PROPERTY(int                         , currentIndex, N_GETTER(currentIndex), N_SETTER(setCurrentIndex), N_NOTIFY(currentChanged))
+    N_PROPERTY(QStackedLayout::StackingMode, stackingMode, N_GETTER(stackingMode), N_SETTER(setStackingMode), N_NO_NOTIFY)
+    N_PROPERTY(int                         , count       , N_GETTER(count       ), N_NO_SETTER              , N_NO_NOTIFY)
+};
+
+using StackedLayoutRef = StackedLayoutRefT<QStackedLayout>;
+
 }
 
 #endif // STACKEDLAYOUT_H

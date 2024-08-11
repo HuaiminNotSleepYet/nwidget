@@ -39,6 +39,20 @@ private:
 
 N_BUILDER_IMPL(ToolBoxBuilder, QToolBox, ToolBox);
 
+
+
+template <typename T>
+class ToolBoxRefT : public FrameRefT<T>
+{
+public:
+    using FrameRefT<T>::FrameRefT;
+
+    N_PROPERTY(int, currentIndex, N_GETTER(currentIndex), N_SETTER(setCurrentIndex), N_NOTIFY(currentChanged))
+    N_PROPERTY(int, count       , N_GETTER(count       ), N_NO_SETTER              , N_NO_NOTIFY             )
+};
+
+using ToolBoxRef = ToolBoxRefT<QToolBox>;
+
 }
 
 #endif // TOOLBOX_H

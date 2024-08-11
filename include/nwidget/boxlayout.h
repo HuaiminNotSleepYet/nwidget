@@ -65,6 +65,12 @@ N_BUILDER_IMPL(BoxLayoutBuilder, QBoxLayout , BoxLayout );
 N_BUILDER_IMPL(BoxLayoutBuilder, QHBoxLayout, HBoxLayout);
 N_BUILDER_IMPL(BoxLayoutBuilder, QVBoxLayout, VBoxLayout);
 
+
+
+using BoxLayoutRef  = LayoutRefT<QBoxLayout>;
+using HBoxLayoutRef = LayoutRefT<QHBoxLayout>;
+using VBoxLayoutRef = LayoutRefT<QVBoxLayout>;
+
 }
 
 #endif // BOXLAYOUT_H

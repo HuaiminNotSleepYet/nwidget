@@ -20,6 +20,10 @@ public:
 
 N_BUILDER_IMPL(RadioButtonBuilder, QRadioButton, RadioButton);
 
+
+
+using RadioButtonRef = AbstractButtonRefT<QRadioButton>;
+
 }
 
 #endif // RADIOBUTTON_H

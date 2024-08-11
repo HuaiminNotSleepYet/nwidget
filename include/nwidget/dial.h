@@ -24,6 +24,22 @@ public:
 
 N_BUILDER_IMPL(DialBuilder, QDial, Dial);
 
+
+
+template <typename T>
+class DialRefT : public AbstractSliderRefT<T>
+{
+public:
+    using AbstractSliderRefT<T>::AbstractSliderRefT;
+
+    N_PROPERTY(bool , wrapping      , N_GETTER(wrapping      ), N_SETTER(setWrapping      ), N_NO_NOTIFY)
+    N_PROPERTY(int  , notchSize     , N_GETTER(notchSize     ), N_NO_SETTER                , N_NO_NOTIFY)
+    N_PROPERTY(qreal, notchTarget   , N_GETTER(notchTarget   ), N_SETTER(setNotchTarget   ), N_NO_NOTIFY)
+    N_PROPERTY(bool , notchesVisible, N_GETTER(notchesVisible), N_SETTER(setNotchesVisible), N_NO_NOTIFY)
+};
+
+using DialRef = DialRefT<QDial>;
+
 }
 
 #endif // DIAL_H

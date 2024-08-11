@@ -55,6 +55,20 @@ private:
 
 N_BUILDER_IMPL(GridLayoutBuilder, QGridLayout, GridLayout);
 
+
+
+template<typename T>
+class GridLayoutRefT : public LayoutRefT<T>
+{
+public:
+    using LayoutRefT<T>::LayoutRefT;
+
+    N_PROPERTY(int, horizontalSpacing, N_GETTER(horizontalSpacing), N_SETTER(setHorizontalSpacing), N_NO_NOTIFY)
+    N_PROPERTY(int, verticalSpacing  , N_GETTER(verticalSpacing  ), N_SETTER(setVerticalSpacing  ), N_NO_NOTIFY)
+};
+
+using GridLayoutRef = GridLayoutRefT<QGridLayout>;
+
 }
 
 #endif // GRIDLAYOUT_H

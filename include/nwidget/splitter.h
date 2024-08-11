@@ -30,6 +30,22 @@ private:
 
 N_BUILDER_IMPL(SplitterBuilder, QSplitter, Splitter);
 
+
+
+template <typename T>
+class SplitterRefT : public FrameRefT<T>
+{
+public:
+    using FrameRefT<T>::FrameRefT;
+
+    N_PROPERTY(Qt::Orientation, orientation        , N_GETTER(orientation        ), N_SETTER(setOrientation        ), N_NO_NOTIFY)
+    N_PROPERTY(bool           , opaqueResize       , N_GETTER(opaqueResize       ), N_SETTER(setOpaqueResize       ), N_NO_NOTIFY)
+    N_PROPERTY(int            , handleWidth        , N_GETTER(handleWidth        ), N_SETTER(setHandleWidth        ), N_NO_NOTIFY)
+    N_PROPERTY(bool           , childrenCollapsible, N_GETTER(childrenCollapsible), N_SETTER(setChildrenCollapsible), N_NO_NOTIFY)
+};
+
+using SplitterRef = SplitterRefT<QSplitter>;
+
 }
 
 

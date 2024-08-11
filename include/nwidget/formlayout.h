@@ -47,6 +47,23 @@ private:
 
 N_BUILDER_IMPL(FormLayoutBuilder, QFormLayout, FormLayout);
 
+
+
+template<typename T>
+class FormLayoutRefT : public LayoutRefT<T>
+{
+public:
+    using LayoutRefT<T>::LayoutRefT;
+
+    N_PROPERTY(QFormLayout::FieldGrowthPolicy, fieldGrowthPolicy, N_GETTER(fieldGrowthPolicy), N_SETTER(setFieldGrowthPolicy), N_NO_NOTIFY)
+    N_PROPERTY(QFormLayout::RowWrapPolicy    , rowWrapPolicy    , N_GETTER(rowWrapPolicy    ), N_SETTER(setRowWrapPolicy    ), N_NO_NOTIFY)
+    N_PROPERTY(Qt::Alignment                 , labelAlignment   , N_GETTER(labelAlignment   ), N_SETTER(setLabelAlignment   ), N_NO_NOTIFY)
+    N_PROPERTY(Qt::Alignment                 , formAlignment    , N_GETTER(formAlignment    ), N_SETTER(setFormAlignment    ), N_NO_NOTIFY)
+    N_PROPERTY(int                           , horizontalSpacing, N_GETTER(horizontalSpacing), N_SETTER(setHorizontalSpacing), N_NO_NOTIFY)
+    N_PROPERTY(int                           , verticalSpacing  , N_GETTER(verticalSpacing  ), N_SETTER(setVerticalSpacing  ), N_NO_NOTIFY)
+};
+
+using FormLayoutRef = FormLayoutRefT<QFormLayout>;
 }
 
 #endif // FORMLAYOUT_H

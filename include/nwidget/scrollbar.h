@@ -20,6 +20,10 @@ public:
 
 N_BUILDER_IMPL(ScrollBarBuilder, QScrollBar, ScrollBar);
 
+
+
+using ScrollBarRef = AbstractSliderRefT<QAbstractSlider>;
+
 }
 
 #endif // SCROLLBAR_H

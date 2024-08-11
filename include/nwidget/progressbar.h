@@ -34,6 +34,28 @@ public:
 
 N_BUILDER_IMPL(ProgressBarBuilder, QProgressBar, ProgressBar);
 
+
+
+template<typename T>
+class ProgressBarRefT : public WidgetRefT<T>
+{
+public:
+    using WidgetRefT<T>::WidgetRefT;
+
+    N_PROPERTY(int                    , minimum           , N_GETTER(minimum           ), N_SETTER(setMinimum           ), N_NO_NOTIFY)
+    N_PROPERTY(int                    , maximum           , N_GETTER(maximum           ), N_SETTER(setMaximum           ), N_NO_NOTIFY)
+    N_PROPERTY(QString                , text              , N_GETTER(text              ), N_NO_SETTER                    , N_NO_NOTIFY)
+    N_PROPERTY(int                    , value             , N_GETTER(value             ), N_SETTER(setValue             ), N_NOTIFY(valueChanged))
+    N_PROPERTY(Qt::Alignment          , alignment         , N_GETTER(alignment         ), N_SETTER(setAlignment         ), N_NO_NOTIFY)
+    N_PROPERTY(bool                   , textVisible       , N_GETTER(isTextVisible     ), N_SETTER(setTextVisible       ), N_NO_NOTIFY)
+    N_PROPERTY(Qt::Orientation        , orientation       , N_GETTER(orientation       ), N_SETTER(setOrientation       ), N_NO_NOTIFY)
+    N_PROPERTY(bool                   , invertedAppearance, N_GETTER(invertedAppearance), N_SETTER(setInvertedAppearance), N_NO_NOTIFY)
+    N_PROPERTY(QProgressBar::Direction, textDirection     , N_GETTER(textDirection     ), N_SETTER(setTextDirection     ), N_NO_NOTIFY)
+    N_PROPERTY(QString                , format            , N_GETTER(format            ), N_SETTER(setFormat            ), N_NO_NOTIFY)
+};
+
+using ProgressBarRef = ProgressBarRefT<QProgressBar>;
+
 }
 
 #endif // PROGRESSBAR_H
