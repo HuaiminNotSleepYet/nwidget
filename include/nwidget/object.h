@@ -254,7 +254,7 @@ public:
     template<typename T> void bindTo(Property<T> prop) { bindTo(makeBindingExpr<NoAction>(prop)); }
 
     template<typename Action, typename ...Args>
-    void bindTo(const BindingExpr<Action, Args...>& expr)
+    Binding* bindTo(const BindingExpr<Action, Args...>& expr)
     {
         Binding* bind = static_cast<QObject*>(object)->findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
         if (bind)
@@ -268,6 +268,7 @@ public:
             Setter::set(object, expr());
         });
         Setter::set(object, expr());
+        return bind;
     }
 
     template<typename Func, typename ...Args>
