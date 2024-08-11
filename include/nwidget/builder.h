@@ -26,7 +26,7 @@ public:
 
     operator Target*() const { return t; }
 
-    template<typename V> Self& bindTo(V& v) { v = t; return self(); }
+    template<typename V> Self& linkTo(V& v) { v = t; return self(); }
 
 protected:
     Target* t;
