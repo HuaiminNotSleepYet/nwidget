@@ -335,7 +335,7 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
 
 
 
-#define N_GETTER(FUNC) struct Getter { static Type get(const Object* object) { return object->FUNC(); } };
+#define N_GETTER(FUNC) struct Getter { static auto get(const Object* object) { return object->FUNC(); } };
 #define N_SETTER(FUNC) struct Setter { static void set(Object* object, const Type& value) { object->FUNC(value); } };
 #define N_NOTIFY(SIG)  struct Notify { static constexpr auto signal() { return &Object::SIG; } };
 

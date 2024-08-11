@@ -134,6 +134,91 @@ public:
 
 N_BUILDER_IMPL(WidgetBuilder, QWidget, Widget);
 
+
+
+template<typename T>
+class WidgetRefT : public ObjectRefT<T>
+{
+public:
+    using ObjectRefT<T>::ObjectRefT;
+
+
+    N_PROPERTY(bool                 , modal                , N_GETTER(isModal              ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(Qt::WindowModality   , windowModality       , N_GETTER(windowModality       ), N_SETTER(setWindowModality       ), N_NO_NOTIFY)
+    N_PROPERTY(bool                 , enabled              , N_GETTER(isEnabled            ), N_SETTER(setEnabled              ), N_NO_NOTIFY)
+    N_PROPERTY(QRect                , geometry             , N_GETTER(geometry             ), N_SETTER(setGeometry             ), N_NO_NOTIFY)
+    N_PROPERTY(QRect                , frameGeometry        , N_GETTER(frameGeometry        ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(QRect                , normalGeometry       , N_GETTER(normalGeometry       ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(int                  , x                    , N_GETTER(x                    ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(int                  , y                    , N_GETTER(y                    ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(QPoint               , pos                  , N_GETTER(pos                  ), N_SETTER(move                    ), N_NO_NOTIFY)
+    N_PROPERTY(QSize                , frameSize            , N_GETTER(frameSize            ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(QSize                , size                 , N_GETTER(size                 ), N_SETTER(resize                  ), N_NO_NOTIFY)
+    N_PROPERTY(int                  , width                , N_GETTER(width                ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(int                  , height               , N_GETTER(height               ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(QRect                , rect                 , N_GETTER(rect                 ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(QRect                , childrenRect         , N_GETTER(childrenRect         ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(QRegion              , childrenRegion       , N_GETTER(childrenRegion       ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(QSizePolicy          , sizePolicy           , N_GETTER(sizePolicy           ), N_SETTER(setSizePolicy           ), N_NO_NOTIFY)
+    N_PROPERTY(QSize                , minimumSize          , N_GETTER(minimumSize          ), N_SETTER(setMinimumSize          ), N_NO_NOTIFY)
+    N_PROPERTY(QSize                , maximumSize          , N_GETTER(maximumSize          ), N_SETTER(setMaximumSize          ), N_NO_NOTIFY)
+    N_PROPERTY(int                  , minimumWidth         , N_GETTER(minimumWidth         ), N_SETTER(setMinimumWidth         ), N_NO_NOTIFY)
+    N_PROPERTY(int                  , minimumHeight        , N_GETTER(minimumHeight        ), N_SETTER(setMinimumHeight        ), N_NO_NOTIFY)
+    N_PROPERTY(int                  , maximumWidth         , N_GETTER(maximumWidth         ), N_SETTER(setMaximumWidth         ), N_NO_NOTIFY)
+    N_PROPERTY(int                  , maximumHeight        , N_GETTER(maximumHeight        ), N_SETTER(setMaximumHeight        ), N_NO_NOTIFY)
+    N_PROPERTY(QSize                , sizeIncrement        , N_GETTER(sizeIncrement        ), N_SETTER(setSizeIncrement        ), N_NO_NOTIFY)
+    N_PROPERTY(QSize                , baseSize             , N_GETTER(baseSize             ), N_SETTER(setBaseSize             ), N_NO_NOTIFY)
+    N_PROPERTY(QPalette             , alette               , N_GETTER(palette              ), N_SETTER(setPalette              ), N_NO_NOTIFY)
+    N_PROPERTY(QFont                , font                 , N_GETTER(font                 ), N_SETTER(setFont                 ), N_NO_NOTIFY)
+#ifndef QT_NO_CURSOR
+    N_PROPERTY(QCursor              , cursor               , N_GETTER(cursor               ), N_SETTER(setCursor               ), N_NO_NOTIFY)
+#endif
+    N_PROPERTY(bool                 , mouseTracking        , N_GETTER(hasMouseTracking     ), N_SETTER(setMouseTracking        ), N_NO_NOTIFY)
+    N_PROPERTY(bool                 , tabletTracking       , N_GETTER(hasTabletTracking    ), N_SETTER(setTabletTracking       ), N_NO_NOTIFY)
+    N_PROPERTY(bool                 , isActiveWindow       , N_GETTER(isActiveWindow       ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(Qt::FocusPolicy      , focusPolicy          , N_GETTER(focusPolicy          ), N_SETTER(setFocusPolicy          ), N_NO_NOTIFY)
+    N_PROPERTY(bool                 , focus                , N_GETTER(hasFocus             ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(Qt::ContextMenuPolicy, contextMenuPolicy    , N_GETTER(contextMenuPolicy    ), N_SETTER(setContextMenuPolicy    ), N_NO_NOTIFY)
+    N_PROPERTY(bool                 , updatesEnabled       , N_GETTER(updatesEnabled       ), N_SETTER(setUpdatesEnabled       ), N_NO_NOTIFY)
+    N_PROPERTY(bool                 , visible              , N_GETTER(isVisible            ), N_SETTER(setVisible              ), N_NO_NOTIFY)
+    N_PROPERTY(bool                 , minimized            , N_GETTER(isMinimized          ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(bool                 , maximized            , N_GETTER(isMaximized          ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(bool                 , fullScreen           , N_GETTER(isFullScreen         ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(QSize                , sizeHint             , N_GETTER(sizeHint             ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(QSize                , minimumSizeHint      , N_GETTER(minimumSizeHint      ), N_NO_SETTER                       , N_NO_NOTIFY)
+    N_PROPERTY(bool                 , acceptDrops          , N_GETTER(acceptDrops          ), N_SETTER(setAcceptDrops          ), N_NO_NOTIFY)
+    N_PROPERTY(QString              , windowTitle          , N_GETTER(windowTitle          ), N_SETTER(setWindowTitle          ), N_NOTIFY(windowTitleChanged))
+    N_PROPERTY(QIcon                , windowIcon           , N_GETTER(windowIcon           ), N_SETTER(setWindowIcon           ), N_NOTIFY(windowIconChanged))
+    N_PROPERTY(QString              , windowIconText       , N_GETTER(windowIconText       ), N_SETTER(setWindowIconText       ), N_NOTIFY(windowIconTextChanged))
+    N_PROPERTY(double               , windowOpacity        , N_GETTER(windowOpacity        ), N_SETTER(setWindowOpacity        ), N_NO_NOTIFY)
+    N_PROPERTY(bool                 , windowModified       , N_GETTER(isWindowModified     ), N_SETTER(setWindowModified       ), N_NO_NOTIFY)
+#if QT_CONFIG(tooltip)
+    N_PROPERTY(QString              , toolTip              , N_GETTER(toolTip              ), N_SETTER(setToolTip              ), N_NO_NOTIFY)
+    N_PROPERTY(int                  , toolTipDuration      , N_GETTER(toolTipDuration      ), N_SETTER(setToolTipDuration      ), N_NO_NOTIFY)
+#endif
+#if QT_CONFIG(statustip)
+    N_PROPERTY(QString              , statusTip            , N_GETTER(statusTip            ), N_SETTER(setStatusTip            ), N_NO_NOTIFY)
+#endif
+#if QT_CONFIG(whatsthis)
+    N_PROPERTY(QString              , whatsThis            , N_GETTER(whatsThis            ), N_SETTER(setWhatsThis            ), N_NO_NOTIFY)
+#endif
+#if QT_CONFIG(accessibility)
+    N_PROPERTY(QString              , accessibleName       , N_GETTER(accessibleName       ), N_SETTER(setAccessibleName       ), N_NO_NOTIFY)
+    N_PROPERTY(QString              , accessibleDescription, N_GETTER(accessibleDescription), N_SETTER(setAccessibleDescription), N_NO_NOTIFY)
+#endif
+    N_PROPERTY(Qt::LayoutDirection  , layoutDirection      , N_GETTER(layoutDirection      ), N_SETTER(setLayoutDirection      ), N_NO_NOTIFY)
+    N_PROPERTY(Qt::WindowFlags      , windowFlags          , N_GETTER(windowFlags          ), N_SETTER(setWindowFlags          ), N_NO_NOTIFY)
+    N_PROPERTY(bool                 , autoFillBackground   , N_GETTER(autoFillBackground   ), N_SETTER(setAutoFillBackground   ), N_NO_NOTIFY)
+#ifndef QT_NO_STYLE_STYLESHEET
+    N_PROPERTY(QString              , styleSheet           , N_GETTER(styleSheet           ), N_SETTER(setStyleSheet           ), N_NO_NOTIFY)
+#endif
+    N_PROPERTY(QLocale              , locale               , N_GETTER(locale               ), N_SETTER(setLocale               ), N_NO_NOTIFY)
+    N_PROPERTY(QString              , windowFilePath       , N_GETTER(windowFilePath       ), N_SETTER(setWindowFilePath       ), N_NO_NOTIFY)
+    N_PROPERTY(Qt::InputMethodHints , inputMethodHints     , N_GETTER(inputMethodHints     ), N_SETTER(setInputMethodHints     ), N_NO_NOTIFY)
+};
+
+using WidgetRef = WidgetRefT<QWidget>;
+
 }
 
 #endif // WIDGET_H
