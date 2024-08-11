@@ -229,7 +229,13 @@ public:
 
     typename Info::Type get() const { return Getter::get(object); }
 
-    void set(const Type& value) { return Setter::set(object, value); }
+    void set(const Type& value)
+    {
+        Binding* bind = static_cast<QObject*>(object)->findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
+        if (bind)
+            delete bind;
+        return Setter::set(object, value);
+    }
 
     operator Type() const { return get(); }
 
