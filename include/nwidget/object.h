@@ -81,6 +81,10 @@ signals:
 
 struct NoAction { template<typename T> auto operator()(const T& value) { return value; } };
 
+template<typename To> struct ActionCast            { template<typename From> auto operator()(const From& from){ return (To)from; };  };
+template<typename To> struct ActionStaticCast      { template<typename From> auto operator()(const From& from){ return static_cast<To>(from); };  };
+template<typename To> struct ActionReinterpretCast { template<typename From> auto operator()(const From& from){ return reinterpret_cast<To>(from); };  };
+
 struct ActionCond { template<typename A, typename B, typename C> auto operator()(const A& a, const B& b, const C& c) { return a ? b : c; } };
 
 struct ActionCall { template<typename Func, typename ...Args> auto operator()(Func func, const Args&... args) { return func(args...); } };
@@ -291,10 +295,14 @@ public:
 
 
 template<typename F, typename ...Args>
-auto call(F f, const Args&... args) { return BindingExpr<ActionCall, F, Args...>(f, args...); }
+auto call(F f, const Args&... args) { return makeBindingExpr<ActionCall>(f, args...); }
 
 template<typename A, typename B, typename C>
-auto cond(const A& a, const B& b, const C& c) { return BindingExpr<ActionCond, A, B, C>(a, b, c); }
+auto cond(const A& a, const B& b, const C& c) { return makeBindingExpr<ActionCond>(a, b, c); }
+
+template<typename To, typename From> auto cast(const From& from)              { return makeBindingExpr<ActionCast<To>>(from); }
+template<typename To, typename From> auto static_cast_(const From& from)      { return makeBindingExpr<ActionStaticCast<To>>(from); }
+template<typename To, typename From> auto reinterpret_cast_(const From& from) { return makeBindingExpr<ActionReinterpretCast<To>>(from); }
 
 #define N_BINDING_EXPR_BE(NAME, ACTION)                                                                                                             \
 template<typename L, typename R> auto NAME(Property<L> l, const R   & r) { return makeBindingExpr<ACTION>(l, r); }                                  \
