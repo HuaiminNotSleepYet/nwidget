@@ -360,14 +360,14 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
         SETTER                                                                              \
         NOTIFY                                                                              \
                                                                                             \
-        struct Info : PropertyInfo<Object, Type, Getter, Setter, Notify>                    \
+        struct Info : nw::PropertyInfo<Object, Type, Getter, Setter, Notify>                \
         {                                                                                   \
             static QString name()        { return QStringLiteral(#NAME); }                  \
             static QString bindingName() { return QStringLiteral("nw_binding_to_"#NAME); }  \
         };                                                                                  \
                                                                                             \
-        Q_ASSERT(ObjectRefT<T>::o);                                                         \
-        return Property<Info>(ObjectRefT<T>::o);                                            \
+        Q_ASSERT(nw::ObjectRefT<Object>::o);                                                \
+        return nw::Property<Info>(nw::ObjectRefT<Object>::o);                               \
     }
 
 template<typename T>
