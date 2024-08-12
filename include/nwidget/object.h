@@ -67,11 +67,9 @@ class Binding : public QObject
 {
     Q_OBJECT
 
-public:
-    Binding(QObject* parent = nullptr) : QObject(parent) {}
+    template<typename PropertyInfo> friend class Property;
 
-public slots:
-    void destroy() { delete this; }
+    Binding(QObject* parent = nullptr) : QObject(parent) {}
 
 signals:
     void update();
@@ -186,8 +184,8 @@ private:
     static void bindTo(Binding* bind, Property<Info> prop)
     {
         if constexpr (!std::is_same<typename Info::Notify, NoNotify>::value) {
-            QObject::connect(prop.object, &QObject::destroyed   , bind, &Binding::destroy, Qt::UniqueConnection);
-            QObject::connect(prop.object, Info::Notify::signal(), bind, &Binding::update , Qt::UniqueConnection);
+            QObject::connect(prop.object, &QObject::destroyed   , bind, &Binding::deleteLater, Qt::UniqueConnection);
+            QObject::connect(prop.object, Info::Notify::signal(), bind, &Binding::update     , Qt::UniqueConnection);
         }
     }
 
@@ -237,7 +235,7 @@ public:
     {
         Binding* bind = static_cast<QObject*>(object)->findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
         if (bind)
-            delete bind;
+            bind->deleteLater();
         return Setter::set(object, value);
     }
 
@@ -268,12 +266,11 @@ public:
     {
         Binding* bind = static_cast<QObject*>(object)->findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
         if (bind)
-            delete bind;
+            bind->deleteLater();
 
         bind = new Binding(object);
         bind->setObjectName(Info::bindingName());
         expr.bindTo(bind);
-        QObject::connect(object, &QObject::destroyed, bind, &Binding::destroy, Qt::UniqueConnection);
         QObject::connect(bind  , &Binding::update   , bind, [object = this->object, expr](){
             Setter::set(object, expr());
         });
