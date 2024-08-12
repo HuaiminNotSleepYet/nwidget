@@ -315,7 +315,7 @@ template<typename ...T> auto NAME(const BindingExpr<T...>& value) { return makeB
 N_BINDING_EXPR_BE(operator+, ActionAdd)
 N_BINDING_EXPR_BE(operator-, ActionSub)
 N_BINDING_EXPR_BE(operator*, ActionMul)
-N_BINDING_EXPR_BE(operator/, ActionSub)
+N_BINDING_EXPR_BE(operator/, ActionDiv)
 
 N_BINDING_EXPR_BE(operator==, ActionEQ)
 N_BINDING_EXPR_BE(operator!=, ActionNE)
