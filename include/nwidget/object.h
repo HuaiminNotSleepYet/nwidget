@@ -241,10 +241,10 @@ public:
 
     template<typename T> void operator=(const T& value) { set(value); }
 
-    auto operator++()    { Type val = get(); ++val; set(val); return val; }
-    void operator++(int) { Type val = get(); set(++get());    return val; }
-    auto operator--()    { Type val = get(); --val; set(val); return val; }
-    void operator--(int) { Type val = get(); set(--get());    return val; }
+    auto operator++()    { Type val = get(); set(++val);   return val; }
+    auto operator++(int) { Type val = get(); set(++get()); return val; }
+    auto operator--()    { Type val = get(); set(--val);   return val; }
+    auto operator--(int) { Type val = get(); set(--get()); return val; }
 
     template<typename T> void operator+= (const T& r) { set(get() +  r); }
     template<typename T> void operator-= (const T& r) { set(get() -  r); }
