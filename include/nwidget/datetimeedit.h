@@ -13,8 +13,11 @@ class DateTimeEditBuilder : public AbstractSpinBoxBuilder<S, T>
     N_USING_BUILDER_MEMBER(AbstractSpinBoxBuilder, S, T)
 
 public:
-    DateTimeEditBuilder()                   : AbstractSpinBoxBuilder<S, T>(new T) {}
-    explicit DateTimeEditBuilder(T* target) : AbstractSpinBoxBuilder<S, T>(target) {}
+    DateTimeEditBuilder()                             : AbstractSpinBoxBuilder<S, T>(new T) {}
+    explicit DateTimeEditBuilder(const QDateTime& dt) : AbstractSpinBoxBuilder<S, T>(new T(dt)) {}
+    explicit DateTimeEditBuilder(QDate date)          : AbstractSpinBoxBuilder<S, T>(new T(date)) {}
+    explicit DateTimeEditBuilder(QTime time)          : AbstractSpinBoxBuilder<S, T>(new T(time)) {}
+    explicit DateTimeEditBuilder(T* target)           : AbstractSpinBoxBuilder<S, T>(target) {}
 
     S& calendar(QCalendar calendar)                              { t->setCalendar(calendar);         return self(); }
 
@@ -54,7 +57,31 @@ public:
     N_SIGNAL(onDateChanged    , QDateTimeEdit::dateChanged    )
 };
 
+template<typename S, typename T>
+class TimeEditBuilder : public DateTimeEditBuilder<S, T>
+{
+    N_USING_BUILDER_MEMBER(DateTimeEditBuilder, S, T)
+
+public:
+    TimeEditBuilder()                    : DateTimeEditBuilder<S, T>(new T) {}
+    explicit TimeEditBuilder(QTime time) : DateTimeEditBuilder<S, T>(new T(time)) {}
+    explicit TimeEditBuilder(T* target)  : DateTimeEditBuilder<S, T>(target) {}
+};
+
+template<typename S, typename T>
+class DateEditBuilder : public DateTimeEditBuilder<S, T>
+{
+    N_USING_BUILDER_MEMBER(DateTimeEditBuilder, S, T)
+
+public:
+    DateEditBuilder()                    : DateTimeEditBuilder<S, T>(new T) {}
+    explicit DateEditBuilder(QDate date) : DateTimeEditBuilder<S, T>(new T(date)) {}
+    explicit DateEditBuilder(T* target)  : DateTimeEditBuilder<S, T>(target) {}
+};
+
 N_BUILDER_IMPL(DateTimeEditBuilder, QDateTimeEdit, DateTimeEdit);
+N_BUILDER_IMPL(TimeEditBuilder    , QTimeEdit    , TimeEdit    );
+N_BUILDER_IMPL(DateEditBuilder    , QDateEdit    , DateEdit    );
 
 
 
