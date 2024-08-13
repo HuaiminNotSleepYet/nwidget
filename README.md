@@ -58,8 +58,8 @@ QSlider* slider1 = nullptr;
 
 QLayout* layout = nw::VBoxLayout{
     button,
-    nw::Slider().bindTo(slider0),
-    nw::Slider().bindTo(slider1),
+    nw::Slider().linkTo(slider0),
+    nw::Slider().linkTo(slider1),
 };
 
 connect(slider0, &QSlider::valueChanged, slider1, &QSlider::setValue);
