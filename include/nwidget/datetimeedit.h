@@ -109,7 +109,28 @@ public:
     N_PROPERTY(Qt::TimeSpec           , timeSpec           , N_GETTER(timeSpec           ), N_SETTER(setTimeSpec           ), N_NO_NOTIFY)
 };
 
+template <typename T>
+class TimeEditRefT : public DateTimeEditRefT<T>
+{
+public:
+    using DateTimeEditRefT<T>::DateTimeEditRefT;
+
+    N_PROPERTY(QTime, time, N_GETTER(time), N_SETTER(setTime), N_NOTIFY(userTimeChanged))
+};
+
+
+template <typename T>
+class DateEditRefT : public DateTimeEditRefT<T>
+{
+public:
+    using DateTimeEditRefT<T>::DateTimeEditRefT;
+
+    N_PROPERTY(QDate, date, N_GETTER(date), N_SETTER(setDate), N_NOTIFY(userDateChanged))
+};
+
 using DateTimeEditRef = DateTimeEditRefT<QDateTimeEdit>;
+using TimeEditRef = TimeEditRefT<QTimeEdit>;
+using DateEditRef = DateEditRefT<QDateEdit>;
 
 }
 
