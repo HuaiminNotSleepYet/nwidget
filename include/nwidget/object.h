@@ -301,6 +301,8 @@ template<typename To, typename From> auto cast(const From& from)              { 
 template<typename To, typename From> auto static_cast_(const From& from)      { return makeBindingExpr<ActionStaticCast<To>>(from); }
 template<typename To, typename From> auto reinterpret_cast_(const From& from) { return makeBindingExpr<ActionReinterpretCast<To>>(from); }
 
+template<typename ...Args> auto asprintf(const char* cformat, const Args&... args) { return call(QString::asprintf, cformat, args...); }
+
 #define N_BINDING_EXPR_BE(NAME, ACTION)                                                                                                             \
 template<typename L, typename R> auto NAME(Property<L> l, const R   & r) { return makeBindingExpr<ACTION>(l, r); }                                  \
 template<typename L, typename R> auto NAME(const L   & l, Property<R> r) { return makeBindingExpr<ACTION>(l, r); }                                  \
