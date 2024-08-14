@@ -358,7 +358,7 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
 #define N_NO_NOTIFY using Notify = nw::NoNotify;
 
 #define N_PROPERTY(TYPE, NAME, GETTER, SETTER, NOTIFY)                                      \
-    auto NAME()                                                                             \
+    auto NAME() const                                                                       \
     {                                                                                       \
         using Object = typename std::decay<decltype(*this->o)>::type;                       \
         using Type = TYPE;                                                                  \
