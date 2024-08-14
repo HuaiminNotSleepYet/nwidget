@@ -14,8 +14,10 @@ class LabelBuilder : public FrameBuilder<S, T>
 
 public:
     LabelBuilder()                    : FrameBuilder<S, T>(new T) {}
-    explicit LabelBuilder(T* target)  : FrameBuilder<S, T>(target) {}
     LabelBuilder(const QString& text) : FrameBuilder<S, T>(new T(text)) {}
+
+    explicit LabelBuilder(T* target)             : FrameBuilder<S, T>(target) {}
+    LabelBuilder(T* target, const QString& text) : FrameBuilder<S, T>(target) { t->setText(text); }
 
     S& alignment(Qt::Alignment align) { t->setAlignment(align); return self(); }
 };

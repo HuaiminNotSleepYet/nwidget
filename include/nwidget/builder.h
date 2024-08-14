@@ -25,11 +25,9 @@ class Builder
     Builder& operator=(const Builder&) = delete;
 
 public:
-    explicit Builder(Target* target) : t(target) {}
+    explicit Builder(Target* target) : t(target) { Q_ASSERT(target); }
 
     operator Target*() const { return t; }
-
-    template<typename V> Self& linkTo(V& v) { v = t; return self(); }
 
 protected:
     Target* t;

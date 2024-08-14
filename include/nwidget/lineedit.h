@@ -13,9 +13,11 @@ class LineEditBuilder : public WidgetBuilder<S, T>
     N_USING_BUILDER_MEMBER(WidgetBuilder, S, T)
 
 public:
-    LineEditBuilder()                       : WidgetBuilder<S, T>(new T) {}
-    explicit LineEditBuilder(T* target)     : WidgetBuilder<S, T>(target) {}
-    LineEditBuilder(const QString& content) : WidgetBuilder<S, T>(new T(content)) {}
+    LineEditBuilder()                    : WidgetBuilder<S, T>(new T) {}
+    LineEditBuilder(const QString& text) : WidgetBuilder<S, T>(new T(text)) {}
+
+    explicit LineEditBuilder(T* target)             : WidgetBuilder<S, T>(target) {}
+    LineEditBuilder(T* target, const QString& text) : WidgetBuilder<S, T>(target) { t->setText(text); }
 
     S& placeholderText(const QString& s)          { t->setPlaceHolderText(s);            return self(); }
     S& maxLength(int len)                         { t->setMaxLength(len);                return self(); }

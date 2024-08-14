@@ -14,8 +14,9 @@ class TextEditBuilder : public AbstractScrollAreaBuilder<S, T>
 
 public:
     TextEditBuilder()                    : AbstractScrollAreaBuilder<S, T>(new T) {}
-    explicit TextEditBuilder(T* target)  : AbstractScrollAreaBuilder<S, T>(target) {}
     TextEditBuilder(const QString& text) : AbstractScrollAreaBuilder<S, T>(new T(text)) {}
+    explicit TextEditBuilder(T* target)  : AbstractScrollAreaBuilder<S, T>(target) {}
+    TextEditBuilder(T* target, const QString& text) : AbstractScrollAreaBuilder<S, T>(target) { t->setPlainText(text); }
 
     N_SIGNAL(onTextChanged             , QTextEdit::textChanged             )
     N_SIGNAL(onUndoAvailable           , QTextEdit::undoAvailable           )

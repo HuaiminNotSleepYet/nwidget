@@ -14,9 +14,12 @@ class PushButtonBuilder : public AbstractButtonBuilder<S, T>
 
 public:
     PushButtonBuilder()                                       : AbstractButtonBuilder<S, T>(new T) {}
-    explicit PushButtonBuilder(T* target)                     : AbstractButtonBuilder<S, T>(target) {}
     PushButtonBuilder(const QString& text)                    : AbstractButtonBuilder<S, T>(new T(text)) {}
     PushButtonBuilder(const QIcon& icon, const QString& text) : AbstractButtonBuilder<S, T>(new T(icon, text)) {}
+
+    explicit PushButtonBuilder(T* target)                                : AbstractButtonBuilder<S, T>(target) {}
+    PushButtonBuilder(T* target, const QString& text)                    : AbstractButtonBuilder<S, T>(target) { t->setText(text); }
+    PushButtonBuilder(T* target, const QIcon& icon, const QString& text) : AbstractButtonBuilder<S, T>(target) { t->setIcon(icon); t->setText(text); }
 
     S& autoDefault(bool b)   { t->setAutoDefault(b); return self(); }
     S& default_(bool b)      { t->setDefault(b);     return self(); }

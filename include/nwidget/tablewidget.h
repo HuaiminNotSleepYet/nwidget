@@ -14,8 +14,9 @@ class TableWidgetBuilder : public TableViewBuilder<S, T>
 
 public:
     TableWidgetBuilder()                      : TableViewBuilder<S, T>(new T) {}
-    explicit TableWidgetBuilder(T* target)    : TableViewBuilder<S, T>(target) {}
     TableWidgetBuilder(int rows, int columns) : TableViewBuilder<S, T>(new T(rows, columns)) {}
+    explicit TableWidgetBuilder(T* target)              : TableViewBuilder<S, T>(target) {}
+    TableWidgetBuilder(T* target, int row, int columns) : TableViewBuilder<S, T>(target) { t->setRowCount(row); t->setColumnCount(columns); }
 };
 
 N_BUILDER_IMPL(TableWidgetBuilder, QTableWidget, TableWidget);

@@ -34,10 +34,13 @@ class ComboBoxBuilder : public WidgetBuilder<S, T>
 {
     N_USING_BUILDER_MEMBER(WidgetBuilder, S, T)
 
+    void jiejie() { std::vector<int> a = {1, 2}; }
+
 public:
     ComboBoxBuilder()                                                     : WidgetBuilder<S, T>(new T) {};
-    ComboBoxBuilder(const QStringList& items)                             : WidgetBuilder<S, T>(new T) { t->addItems(items); }
+    explicit ComboBoxBuilder(const QStringList& items)                    : WidgetBuilder<S, T>(new T) { t->addItems(items); }
     ComboBoxBuilder(std::initializer_list<ComboBoxItem> items)            : WidgetBuilder<S, T>(new T) { addItems(items); }
+
     explicit ComboBoxBuilder(T* target)                                   : WidgetBuilder<S, T>(target) {};
     ComboBoxBuilder(T* target, const QStringList& items)                  : WidgetBuilder<S, T>(target) { t->addItems(items); }
     ComboBoxBuilder(T* target, std::initializer_list<ComboBoxItem> items) : WidgetBuilder<S, T>(target) { addItems(items); }

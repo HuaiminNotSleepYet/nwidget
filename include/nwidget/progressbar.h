@@ -13,9 +13,8 @@ class ProgressBarBuilder : public WidgetBuilder<S, T>
     N_USING_BUILDER_MEMBER(WidgetBuilder, S, T)
 
 public:
-    ProgressBarBuilder()                                : WidgetBuilder<S, T>(new T) {}
-    explicit ProgressBarBuilder(T* target)              : WidgetBuilder<S, T>(target) {}
-    ProgressBarBuilder(int min, int max, int value = 0) : WidgetBuilder<S, T>(new T) { minimum(min).maximum(max).value(value); }
+    ProgressBarBuilder()                   : WidgetBuilder<S, T>(new T) {}
+    explicit ProgressBarBuilder(T* target) : WidgetBuilder<S, T>(target) {}
 
     S& textVisible(bool b)                               { t->TextVisible(b);           return self(); }
     S& alignment(Qt::Alignment align)                    { t->Alignment(align);         return self(); }

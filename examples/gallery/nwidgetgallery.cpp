@@ -125,11 +125,13 @@ NWidgetGallery::NWidgetGallery()
 
 
 
-    QCheckBox* disableWidgetsCheckBox = nullptr;
-    QWidget* buttonsGroupBox = nullptr;
-    QWidget* itemViewTabWidget  = nullptr;
-    QWidget* simpleInputWidgetsGroupBox  = nullptr;
-    QWidget* textToolBox = nullptr;
+    progressBar                      = new QProgressBar;
+    systemInfoTextBrowser            = new QTextBrowser;
+    auto* disableWidgetsCheckBox     = new QCheckBox;
+    auto* buttonsGroupBox            = new QGroupBox;
+    auto* itemViewTabWidget          = new QTabWidget;
+    auto* simpleInputWidgetsGroupBox = new QGroupBox;
+    auto* textToolBox                = new QToolBox;
 
     setLayout(GridLayout{
         {0, 0, 1, 2, HBoxLayout{
@@ -138,9 +140,9 @@ NWidgetGallery::NWidgetGallery()
             BoxLayoutItem::Stretch,
             Label(tr("Press F1 over a widget to see Documentation")),
             BoxLayoutItem::Stretch,
-            CheckBox(tr("Disable widgets")).linkTo(disableWidgetsCheckBox),
+            CheckBox(disableWidgetsCheckBox).text(tr("Disable widgets")),
         }},
-        {1, 0, GroupBox(tr("Buttons"),
+        {1, 0, GroupBox(buttonsGroupBox, tr("Buttons"),
         HBoxLayout{
             VBoxLayout{
                 PushButton(tr("Default Push Button")).default_(true),
@@ -166,27 +168,27 @@ NWidgetGallery::NWidgetGallery()
                 CheckBox(tr("Tri-state check box")).tristate().checkState(Qt::PartiallyChecked),
                 BoxLayoutItem::Stretch,
             }
-        }).linkTo(buttonsGroupBox)},
-        {1, 1, GroupBox(tr("Simple Input Widgets"), GridLayout{
+        })},
+        {1, 1, GroupBox(simpleInputWidgetsGroupBox, tr("Simple Input Widgets"), GridLayout{
             {0, 0, 1, 2, LineEdit("zhang").clearButtonEnabled(true).echoMode(QLineEdit::Password)},
             {1, 0, 1, 2, SpinBox().value(50)},
             {2, 0, 1, 2, DateTimeEdit().dateTime(QDateTime::currentDateTime())},
             {3, 0,       Slider(Qt::Horizontal).value(40)},
             {4, 0,       ScrollBar(Qt::Horizontal).value(60)},
             {3, 1, 2, 1, Dial().value(30).notchesVisible(true)},
-        }).linkTo(simpleInputWidgetsGroupBox).checkable(true).checked(true)},
-        {2, 0, TabWidget{
+        }).checkable(true).checked(true)},
+        {2, 0, TabWidget(itemViewTabWidget,{
             {tr("Tree View")     , TreeView(fileSystemModel)},
             {tr("Table")         , TableWidget(10, 10)},
             {tr("List")          , ListView(listModel)},
             {tr("Icon Mode List"), ListView(listModel).viewMode(QListView::IconMode)},
-        }.linkTo(itemViewTabWidget)},
-        {2, 1, ToolBox{
+        })},
+        {2, 1, ToolBox(textToolBox, {
             {tr("Text Edit")      , TextEdit(richText)},
             {tr("Plain Text Edit"), PlainTextEdit(plainText)},
-            {tr("Text Browser")   , TextBrowser().linkTo(systemInfoTextBrowser)},
-        }.linkTo(textToolBox)},
-        {3, 0, 1, 2, ProgressBar(0, 10000).linkTo(progressBar)},
+            {tr("Text Browser")   , TextBrowser(systemInfoTextBrowser)},
+        })},
+        {3, 0, 1, 2, ProgressBar(progressBar).range(0, 10000)},
         {4, 0, 1, 2,
             DialogButtonBox(QDialogButtonBox::Help | QDialogButtonBox::Close)
                 .onHelpRequested(this, launchModuleHelp)

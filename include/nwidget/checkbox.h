@@ -13,9 +13,10 @@ class CheckBoxBuilder : public AbstractButtonBuilder<S, T>
     N_USING_BUILDER_MEMBER(AbstractButtonBuilder, S, T)
 
 public:
-    CheckBoxBuilder()                    : AbstractButtonBuilder<S, T>(new T) {}
-    CheckBoxBuilder(const QString& text) : AbstractButtonBuilder<S, T>(new T(text)) {}
-    explicit CheckBoxBuilder(T* target)  : AbstractButtonBuilder<S, T>(target) {}
+    CheckBoxBuilder()                               : AbstractButtonBuilder<S, T>(new T) {}
+    explicit CheckBoxBuilder(const QString& text)   : AbstractButtonBuilder<S, T>(new T(text)) {}
+    explicit CheckBoxBuilder(T* target)             : AbstractButtonBuilder<S, T>(target) {}
+    CheckBoxBuilder(T* target, const QString& text) : AbstractButtonBuilder<S, T>(target) { t->setText(text); }
 
     S& checkState(Qt::CheckState state)  { t->setCheckState(state); return self(); }
     S& tristate(bool b = true)           { t->setTristate(b);       return self(); }
