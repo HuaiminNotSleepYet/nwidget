@@ -25,14 +25,24 @@ template<typename S, typename T> class WidgetBuilder;
 
 struct WidgetOrLayoutItem
 {
-    QWidget*     widget = nullptr;
-    QLayoutItem* layoutItem   = nullptr;
+    std::function<void(QLayout*)> addTo;
 
     WidgetOrLayoutItem() {}
-    WidgetOrLayoutItem(QWidget* widget) : widget(widget) {}
-    WidgetOrLayoutItem(QLayoutItem* item) : layoutItem(item) {}
-    template<typename S, typename T> WidgetOrLayoutItem(const WidgetBuilder<S, T>& widget) : widget(widget) {}
-    template<typename S, typename T> WidgetOrLayoutItem(const LayoutItemBuilder<S, T>& item) : layoutItem(item) {}
+    WidgetOrLayoutItem(QWidget* widget)   { addTo = [widget](QLayout* l){ l->addWidget(widget); }; }
+    WidgetOrLayoutItem(QLayoutItem* item) { addTo = [item  ](QLayout* l){ l->addItem(item)    ; }; }
+    template<typename S, typename T> WidgetOrLayoutItem(const WidgetBuilder<S, T>& widget) : WidgetOrLayoutItem(widget.operator QWidget*()) {}
+    template<typename S, typename T> WidgetOrLayoutItem(const LayoutItemBuilder<S, T>& item) : WidgetOrLayoutItem(item.operator QLayoutItem*()) {}
+
+    WidgetOrLayoutItem(ItemGenerator<WidgetOrLayoutItem> generator)
+    {
+        addTo = [generator](QLayout* l){
+            auto item = generator();
+            while (item) {
+                item->addTo(l);
+                item = generator();
+            }
+        };
+    }
 };
 
 
@@ -75,12 +85,7 @@ private:
     {
         auto end = items.end();
         for (auto i = items.begin(); i != end; ++i)
-        {
-            if (i->widget)
-                t->addWidget(i->widget);
-            else if (i->layoutItem)
-                t->addItem(i->layoutItem);
-        }
+            i->addTo(t);
     }
 };
 

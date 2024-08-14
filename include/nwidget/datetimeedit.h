@@ -17,7 +17,11 @@ public:
     explicit DateTimeEditBuilder(const QDateTime& dt) : AbstractSpinBoxBuilder<S, T>(new T(dt)) {}
     explicit DateTimeEditBuilder(QDate date)          : AbstractSpinBoxBuilder<S, T>(new T(date)) {}
     explicit DateTimeEditBuilder(QTime time)          : AbstractSpinBoxBuilder<S, T>(new T(time)) {}
-    explicit DateTimeEditBuilder(T* target)           : AbstractSpinBoxBuilder<S, T>(target) {}
+
+    explicit DateTimeEditBuilder(T* target)             : AbstractSpinBoxBuilder<S, T>(target) {}
+    DateTimeEditBuilder(T* target, const QDateTime& dt) : AbstractSpinBoxBuilder<S, T>(target) { t->setDateTime(dt); }
+    DateTimeEditBuilder(T* target, QDate date)          : AbstractSpinBoxBuilder<S, T>(target) { t->setDate(date); }
+    DateTimeEditBuilder(T* target, QTime time)          : AbstractSpinBoxBuilder<S, T>(target) { t->setTime(time); }
 
     S& calendar(QCalendar calendar)                              { t->setCalendar(calendar);         return self(); }
 
@@ -63,9 +67,10 @@ class TimeEditBuilder : public DateTimeEditBuilder<S, T>
     N_USING_BUILDER_MEMBER(DateTimeEditBuilder, S, T)
 
 public:
-    TimeEditBuilder()                    : DateTimeEditBuilder<S, T>(new T) {}
-    explicit TimeEditBuilder(QTime time) : DateTimeEditBuilder<S, T>(new T(time)) {}
-    explicit TimeEditBuilder(T* target)  : DateTimeEditBuilder<S, T>(target) {}
+    TimeEditBuilder()                      : DateTimeEditBuilder<S, T>(new T) {}
+    explicit TimeEditBuilder(QTime time)   : DateTimeEditBuilder<S, T>(new T(time)) {}
+    explicit TimeEditBuilder(T* target)    : DateTimeEditBuilder<S, T>(target) {}
+    TimeEditBuilder(T* target, QTime time) : DateTimeEditBuilder<S, T>(target, time) {}
 };
 
 template<typename S, typename T>
@@ -74,9 +79,10 @@ class DateEditBuilder : public DateTimeEditBuilder<S, T>
     N_USING_BUILDER_MEMBER(DateTimeEditBuilder, S, T)
 
 public:
-    DateEditBuilder()                    : DateTimeEditBuilder<S, T>(new T) {}
-    explicit DateEditBuilder(QDate date) : DateTimeEditBuilder<S, T>(new T(date)) {}
-    explicit DateEditBuilder(T* target)  : DateTimeEditBuilder<S, T>(target) {}
+    DateEditBuilder()                      : DateTimeEditBuilder<S, T>(new T) {}
+    explicit DateEditBuilder(QDate date)   : DateTimeEditBuilder<S, T>(new T(date)) {}
+    explicit DateEditBuilder(T* target)    : DateTimeEditBuilder<S, T>(target) {}
+    DateEditBuilder(T* target, QDate date) : DateTimeEditBuilder<S, T>(target, date) {}
 };
 
 N_BUILDER_IMPL(DateTimeEditBuilder, QDateTimeEdit, DateTimeEdit);

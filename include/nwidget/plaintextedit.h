@@ -14,8 +14,10 @@ class PlainTextEditBuilder : public AbstractScrollAreaBuilder<S, T>
 
 public:
     PlainTextEditBuilder()                    : AbstractScrollAreaBuilder<S, T>(new T) {}
-    explicit PlainTextEditBuilder(T* target)  : AbstractScrollAreaBuilder<S, T>(target) {}
     PlainTextEditBuilder(const QString& text) : AbstractScrollAreaBuilder<S, T>(new T(text)) {}
+
+    explicit PlainTextEditBuilder(T* target)             : AbstractScrollAreaBuilder<S, T>(target) {}
+    PlainTextEditBuilder(T* target, const QString& text) : AbstractScrollAreaBuilder<S, T>(target) { t->setPlainText(text); }
 };
 
 N_BUILDER_IMPL(PlainTextEditBuilder, QPlainTextEdit, PlainTextEdit);

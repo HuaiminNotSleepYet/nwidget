@@ -14,8 +14,9 @@ class ToolButtonBuilder : public AbstractButtonBuilder<S, T>
 
 public:
     ToolButtonBuilder()                    : AbstractButtonBuilder<S, T>(new T) {}
-    explicit ToolButtonBuilder(T* target)  : AbstractButtonBuilder<S, T>(target) {}
     ToolButtonBuilder(const QString& text) : AbstractButtonBuilder<S, T>(new T) { t->setText(text); }
+    explicit ToolButtonBuilder(T* target)  : AbstractButtonBuilder<S, T>(target) {}
+    ToolButtonBuilder(T* target, const QString& text) : AbstractButtonBuilder<S, T>(target) { t->setText(text); }
 
     S& arrowType(Qt::ArrowType type)                     { t->setArrowType(type); return self(); }
     S& popupMode(QToolButton::ToolButtonPopupMode mode)  { t->setPopupMode(mode); return self(); }

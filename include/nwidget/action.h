@@ -13,10 +13,12 @@ class ActionBuilder : public ObjectBuilder<S, T>
     N_USING_BUILDER_MEMBER(ObjectBuilder, S, T)
 
 public:
-    ActionBuilder()                                       : ObjectBuilder<S, T>(new T) {}
-    ActionBuilder(const QString& text)                    : ObjectBuilder<S, T>(new T(text)) {}
-    ActionBuilder(const QIcon& icon, const QString& text) : ObjectBuilder<S, T>(new T(icon, text)) {}
-    explicit ActionBuilder(T* target)                     : ObjectBuilder<S, T>(target) {}
+    ActionBuilder()                                                  : ObjectBuilder<S, T>(new T) {}
+    explicit ActionBuilder(const QString& text)                      : ObjectBuilder<S, T>(new T(text)) {}
+    ActionBuilder(const QIcon& icon, const QString& text)            : ObjectBuilder<S, T>(new T(icon, text)) {}
+    explicit ActionBuilder(T* target)                                : ObjectBuilder<S, T>(target) {}
+    ActionBuilder(T* target, const QString& text)                    : ObjectBuilder<S, T>(target) { t->setText(text); }
+    ActionBuilder(T* target, const QIcon& icon, const QString& text) : ObjectBuilder<S, T>(target) { t->setIcon(icon); t->setText(text); }
 
     N_SIGNAL(onChanged         , QAction::changed         )
     N_SIGNAL(onEnabledChanged  , QAction::enabledChanged  )

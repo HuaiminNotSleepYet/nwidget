@@ -22,8 +22,8 @@ private slots:
     void updateSystemInfo();
 
 private:
-    QProgressBar* progressBar;
-    QTextBrowser* systemInfoTextBrowser;
+    QProgressBar* progressBar = nullptr;
+    QTextBrowser* systemInfoTextBrowser = nullptr;
 };
 
 #endif // NWIDGETGALLERY_H

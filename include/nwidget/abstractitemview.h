@@ -14,7 +14,7 @@ class AbstractItemViewBuilder : public AbstractScrollAreaBuilder<S, T>
 
 public:
     AbstractItemViewBuilder()                                     : AbstractScrollAreaBuilder<S, T>(new T) {}
-    AbstractItemViewBuilder(QAbstractItemModel* model)            : AbstractScrollAreaBuilder<S, T>(new T) { t->setModel(model); }
+    explicit AbstractItemViewBuilder(QAbstractItemModel* model)   : AbstractScrollAreaBuilder<S, T>(new T) { t->setModel(model); }
     explicit AbstractItemViewBuilder(T* target)                   : AbstractScrollAreaBuilder<S, T>(target) {}
     AbstractItemViewBuilder(T* target, QAbstractItemModel* model) : AbstractScrollAreaBuilder<S, T>(target) { t->setModel(model); }
 };

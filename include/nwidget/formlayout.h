@@ -23,6 +23,17 @@ struct FormLayoutItem
     template<typename S, typename T> FormLayoutItem(const WidgetBuilder<S, T>& widget)   : FormLayoutItem(widget.operator T*()) {}
     template<typename S, typename T> FormLayoutItem(const LayoutBuilder<S, T>& layout)   : FormLayoutItem(layout.operator T*()) {}
     template<typename S, typename T> FormLayoutItem(const LayoutItemBuilder<S, T>& item) : FormLayoutItem(item.operator T*()) {}
+
+    FormLayoutItem(ItemGenerator<FormLayoutItem> generator)
+    {
+        addTo = [generator](QFormLayout* l){
+            auto item = generator();
+            while (item) {
+                item->addTo(l);
+                item = generator();
+            }
+        };
+    }
 };
 
 template<typename S, typename T>
