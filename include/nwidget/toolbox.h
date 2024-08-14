@@ -13,6 +13,17 @@ struct ToolBoxItem
 
     ToolBoxItem(const QString& text, QWidget* item)                    { addTo = [item, text](QToolBox* box){ box->addItem(item, text); }; }
     ToolBoxItem(const QIcon& icon, const QString& text, QWidget* item) { addTo = [item, icon, text](QToolBox* box){ box->addItem(item, icon, text); }; }
+
+    ToolBoxItem(ItemGenerator<ToolBoxItem> generator)
+    {
+        addTo = [generator](QToolBox* box){
+            auto item = generator();
+            while (item) {
+                item->addTo(box);
+                item = generator();
+            }
+        };
+    }
 };
 
 template<typename S, typename T>

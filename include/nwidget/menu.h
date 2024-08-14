@@ -22,6 +22,17 @@ struct MenuItem
 
     template<typename S, typename T> MenuItem(const ActionBuilder<S, T>& action) { addTo = [action = action.operator T*()](QMenu* m){ m->addAction(action); }; }
     template<typename S, typename T> MenuItem(const MenuBuilder<S, T>& menu)     { addTo = [menu = menu.operator T*()](QMenu* m){ m->addMenu(menu); }; }
+
+    MenuItem(ItemGenerator<MenuItem> generator)
+    {
+        addTo = [generator](QMenu* m){
+            auto item = generator();
+            while (item) {
+                item->addTo(m);
+                item = generator();
+            }
+        };
+    }
 };
 
 template<typename S, typename T>

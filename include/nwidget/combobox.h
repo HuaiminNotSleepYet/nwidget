@@ -16,6 +16,17 @@ struct ComboBoxItem
 
     ComboBoxItem(const QIcon& icon, const QString& text, const QVariant &userData = QVariant())
     { addTo = [icon, text, userData](QComboBox* box){ box->addItem(icon, text, userData); }; }
+
+    ComboBoxItem(ItemGenerator<ComboBoxItem> generator)
+    {
+        addTo = [generator](QComboBox* box){
+            auto item = generator();
+            while (item) {
+                item->addTo(box);
+                item = generator();
+            }
+        };
+    }
 };
 
 template<typename S, typename T>

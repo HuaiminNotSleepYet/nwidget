@@ -39,6 +39,17 @@ struct BoxLayoutItem
     BoxLayoutItem(SpacingType, int size)        { addTo = [size   ](QBoxLayout* l) { l->addSpacing(size);    }; }
     BoxLayoutItem(StretchType, int stretch = 0) { addTo = [stretch](QBoxLayout* l) { l->addStretch(stretch); }; }
     BoxLayoutItem(StrutType  , int size)        { addTo = [size   ](QBoxLayout* l) { l->addStrut(size);      }; }
+
+    BoxLayoutItem(ItemGenerator<BoxLayoutItem> generator)
+    {
+        addTo = [generator](QBoxLayout* l){
+            auto item = generator();
+            while (item) {
+                item->addTo(l);
+                item = generator();
+            }
+        };
+    }
 };
 
 template<typename S, typename T>

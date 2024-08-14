@@ -31,6 +31,17 @@ struct GridLayoutItem
     template<typename S, typename T> GridLayoutItem(int row, int col, const LayoutItemBuilder<S, T>& item)                                                : GridLayoutItem(row, col, 1      , 1      , Qt::Alignment(), item.operator T*()) {}
     template<typename S, typename T> GridLayoutItem(int row, int col, int rowSpan, int colSpan, const LayoutItemBuilder<S, T>& item)                      : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), item.operator T*()) {}
     template<typename S, typename T> GridLayoutItem(int row, int col, int rowSpan, int colSpan, Qt::Alignment align, const LayoutItemBuilder<S, T>& item) : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), item.operator T*()) {}
+
+    GridLayoutItem(ItemGenerator<GridLayoutItem> generator)
+    {
+        addTo = [generator](QGridLayout* l){
+            auto item = generator();
+            while (item) {
+                item->addTo(l);
+                item = generator();
+            }
+        };
+    }
 };
 
 template<typename S, typename T>

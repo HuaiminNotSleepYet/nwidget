@@ -13,6 +13,17 @@ struct TabWidgetItem
 
     TabWidgetItem(const QString& label, QWidget* page)                    { addTo = [label, page](QTabWidget* tab){ tab->addTab(page, label); }; }
     TabWidgetItem(const QIcon& icon, const QString& label, QWidget* page) { addTo = [icon, label, page](QTabWidget* tab){ tab->addTab(page, icon, label); }; }
+
+    TabWidgetItem(ItemGenerator<TabWidgetItem> generator)
+    {
+        addTo = [generator](QTabWidget* tab){
+            auto item = generator();
+            while (item) {
+                item->addTo(tab);
+                item = generator();
+            }
+        };
+    }
 };
 
 template<typename S, typename T>
