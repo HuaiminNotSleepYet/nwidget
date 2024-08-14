@@ -41,13 +41,14 @@ using ItemGenerator = std::function<std::optional<Item>()>;
 template<typename Iterator,
          typename Generator,
          typename Arg = typename std::decay<decltype(*std::declval<Iterator>())>::type,
-         typename Item = typename std::invoke_result<Generator, Arg>::type>
+         typename Item = typename std::invoke_result<Generator, int, Arg>::type>
 ItemGenerator<Item> ForEach(Iterator begin, Iterator end, Generator generator)
 {
-    return [begin, end, generator]() mutable -> std::optional<Item> {
+    return [index = (int)0, begin, end, generator]() mutable -> std::optional<Item> {
         if (begin == end)
             return std::nullopt;
-        auto item = generator(*begin);
+        auto item = generator(index, *begin);
+        ++index;
         ++begin;
         return item;
     };
