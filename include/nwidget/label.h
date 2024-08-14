@@ -25,7 +25,7 @@ public:
 N_BUILDER_IMPL(LabelBuilder, QLabel, Label);
 
 template<typename T>
-class LabelRefT : FrameRefT<T>
+class LabelRefT : public FrameRefT<T>
 {
 public:
     using FrameRefT<T>::FrameRefT;
