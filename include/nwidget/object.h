@@ -241,7 +241,7 @@ public:
 
     operator Type() const { return get(); }
 
-    template<typename T> void operator=(const T& value) { set(value); }
+    void operator=(const Type& value) { set(value); }
 
     auto operator++()    { Type val = get(); set(++val);   return val; }
     auto operator++(int) { Type val = get(); set(++get()); return val; }
@@ -259,10 +259,10 @@ public:
     template<typename T> void operator<<=(const T& r) { set(get() << r); }
     template<typename T> void operator>>=(const T& r) { set(get() >> r); }
 
-    template<typename T> void bindTo(Property<T> prop) { bindTo(makeBindingExpr<NoAction>(prop)); }
+    template<typename T> Binding* operator=(Property<T> prop) { return bindTo(makeBindingExpr<NoAction>(prop)); }
 
     template<typename Action, typename ...Args>
-    Binding* bindTo(const BindingExpr<Action, Args...>& expr)
+    Binding* operator=(const BindingExpr<Action, Args...>& expr)
     {
         Binding* bind = static_cast<QObject*>(object)->findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
         if (bind)
