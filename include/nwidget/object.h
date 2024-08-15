@@ -79,6 +79,8 @@ signals:
 
 struct NoAction { template<typename T> auto operator()(const T& value) { return value; } };
 
+template<typename T> struct ActionConstructor { template<typename ...Args> T operator()(const Args&... args){ return T(args...); }; };
+
 template<typename To> struct ActionCast            { template<typename From> auto operator()(const From& from){ return (To)from; };  };
 template<typename To> struct ActionStaticCast      { template<typename From> auto operator()(const From& from){ return static_cast<To>(from); };  };
 template<typename To> struct ActionReinterpretCast { template<typename From> auto operator()(const From& from){ return reinterpret_cast<To>(from); };  };
@@ -292,6 +294,9 @@ public:
 };
 
 
+
+template<typename T, typename ...Args>
+auto constructor(const Args&... args) { return makeBindingExpr<ActionConstructor<T>>(args...); }
 
 template<typename F, typename ...Args>
 auto call(F f, const Args&... args) { return makeBindingExpr<ActionCall>(f, args...); }
