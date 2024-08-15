@@ -164,8 +164,9 @@ public:
     auto operator()() const
     { return std::apply(Action{}, std::apply([](auto&&... args){ return calc(args...); }, args)); }
 
+    template<typename Prop>
     void bindTo(Binding* bind) const
-    { std::apply([bind](auto&&... args){ bindTo(bind, args...); }, args); }
+    { std::apply([bind](auto&&... args){ bindTo<Prop>(bind, args...); }, args); }
 
 private:
     std::tuple<Args...> args;
@@ -178,20 +179,21 @@ private:
     static auto calc(const Arg0& arg0, const ArgN&... argn)
     { return std::tuple_cat(calc(arg0), calc(argn...)); }
 
-    template<typename    T> static void bindTo(Binding* bind, const T& value)                         {}
-    template<typename ...T> static void bindTo(Binding* bind, const BindingExpr<T...>& expr) { return expr.bindTo(bind); }
-    template<typename Info>
+    template<typename Prop, typename    T> static void bindTo(Binding* bind, const T& value)                {}
+    template<typename Prop, typename ...T> static void bindTo(Binding* bind, const BindingExpr<T...>& expr) { return expr.template bindTo<Prop>(bind); }
+    template<typename Prop, typename Info>
     static void bindTo(Binding* bind, Property<Info> prop)
     {
-        if constexpr (!std::is_same<typename Info::Notify, NoNotify>::value) {
+        if constexpr (!std::is_same<Prop, Property<Info>>::value
+                   && !std::is_same<typename Info::Notify, NoNotify>::value) {
             QObject::connect(prop.object, &QObject::destroyed   , bind, &Binding::deleteLater, Qt::UniqueConnection);
             QObject::connect(prop.object, Info::Notify::signal(), bind, &Binding::update     , Qt::UniqueConnection);
         }
     }
 
-    template<typename Arg0, typename ...ArgN>
+    template<typename Prop, typename Arg0, typename ...ArgN>
     static void bindTo(Binding* bind, Arg0 arg0, ArgN... argn)
-    { bindTo(bind, arg0); bindTo(bind, argn...); }
+    { bindTo<Prop>(bind, arg0); bindTo<Prop>(bind, argn...); }
 };
 
 
@@ -270,7 +272,7 @@ public:
 
         bind = new Binding(object);
         bind->setObjectName(Info::bindingName());
-        expr.bindTo(bind);
+        expr.template bindTo<Property<Info>>(bind);
         QObject::connect(bind  , &Binding::update   , bind, [object = this->object, expr](){
             Setter::set(object, expr());
         });
