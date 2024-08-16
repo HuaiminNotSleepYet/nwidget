@@ -13,8 +13,7 @@ class SpinBoxBuilder : public AbstractSpinBoxBuilder<S, T>
     N_USING_BUILDER_MEMBER(AbstractSpinBoxBuilder, S, T)
 
 public:
-    SpinBoxBuilder()                   : AbstractSpinBoxBuilder<S, T>(new T) {}
-    explicit SpinBoxBuilder(T* target) : AbstractSpinBoxBuilder<S, T>(target) {}
+    using AbstractSpinBoxBuilder<S, T>::AbstractSpinBoxBuilder;
 
     S& prefix(const QString &s)          { t->setPrefix(s);            return self(); }
     S& suffix(const QString &s)          { t->setSuffix(s);            return self(); }
@@ -38,8 +37,7 @@ class DoubleSpinBoxBuilder : public AbstractSpinBoxBuilder<S, T>
     N_USING_BUILDER_MEMBER(AbstractSpinBoxBuilder, S, T)
 
 public:
-    DoubleSpinBoxBuilder()                   : AbstractSpinBoxBuilder<S, T>(new T) {}
-    explicit DoubleSpinBoxBuilder(T* target) : AbstractSpinBoxBuilder<S, T>(target) {}
+    using AbstractSpinBoxBuilder<S, T>::AbstractSpinBoxBuilder;
 
     S& prefix(const QString &s)          { t->setPrefix(s);            return self(); }
     S& suffix(const QString &s)          { t->setSuffix(s);            return self(); }
@@ -48,12 +46,11 @@ public:
     S& maximum(double max)               { t->setMaximum(max);         return self(); }
     S& range(double min, double max)     { t->setRange(min, max);      return self(); }
     S& stepType(QSpinBox::StepType type) { t->setStepType(type);       return self(); }
-    S& displayIntegerBase(double base)   { t->setDisplayInteger(base); return self(); }
-    S& decimals(double prec)             { t->setDecimals(prec);       return self(); }
+    S& decimals(int prec)                { t->setDecimals(prec);       return self(); }
     S& value(double val)                 { t->setValue(val);           return self(); }
 
-    N_SIGNAL(onValueChanged, QSpinBox::valueChanged)
-    N_SIGNAL(onTextChanged , QSpinBox::textChanged )
+    N_SIGNAL(onValueChanged, QDoubleSpinBox::valueChanged)
+    N_SIGNAL(onTextChanged , QDoubleSpinBox::textChanged )
 };
 
 N_BUILDER_IMPL(DoubleSpinBoxBuilder, QDoubleSpinBox, DoubleSpinBox);
@@ -88,12 +85,12 @@ public:
     N_PROPERTY(QString           , suffix            , N_GETTER(suffix            ), N_SETTER(setSuffix            ), N_NO_NOTIFY)
     N_PROPERTY(QString           , prefix            , N_GETTER(prefix            ), N_SETTER(setPrefix            ), N_NO_NOTIFY)
     N_PROPERTY(QString           , cleanText         , N_GETTER(cleanText         ), N_NO_SETTER                    , N_NO_NOTIFY)
+    N_PROPERTY(int               , decimals          , N_GETTER(decimals          ), N_SETTER(setDecimals          ), N_NO_NOTIFY)
     N_PROPERTY(double            , minimum           , N_GETTER(minimum           ), N_SETTER(setMinimum           ), N_NO_NOTIFY)
     N_PROPERTY(double            , maximum           , N_GETTER(maximum           ), N_SETTER(setMaximum           ), N_NO_NOTIFY)
     N_PROPERTY(double            , singleStep        , N_GETTER(singleStep        ), N_SETTER(setSingleStep        ), N_NO_NOTIFY)
     N_PROPERTY(QSpinBox::StepType, stepType          , N_GETTER(stepType          ), N_SETTER(setStepType          ), N_NO_NOTIFY)
     N_PROPERTY(double            , value             , N_GETTER(value             ), N_SETTER(setValue             ), N_NOTIFY(valueChanged))
-    N_PROPERTY(double            , displayIntegerBase, N_GETTER(displayIntegerBase), N_SETTER(setDisplayIntegerBase), N_NO_NOTIFY)
 };
 
 using DoubleSpinBoxRef = DoubleSpinBoxRefT<QDoubleSpinBox>;
