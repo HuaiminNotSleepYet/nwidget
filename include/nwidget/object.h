@@ -270,7 +270,10 @@ public:
     template<typename T> void operator<<=(const T& r) { set(get() << r); }
     template<typename T> void operator>>=(const T& r) { set(get() >> r); }
 
-    template<typename T> Binding* operator=(Property<T> prop) { return bindTo(makeBindingExpr<NoAction>(prop)); }
+    Binding* operator=(Property<Info> prop) { return operator=(makeBindingExpr<NoAction>(prop)); }
+
+    template<typename T>
+    Binding* operator=(Property<T>    prop) { return operator=(makeBindingExpr<NoAction>(prop)); }
 
     template<typename Action, typename ...Args>
     Binding* operator=(const BindingExpr<Action, Args...>& expr)
