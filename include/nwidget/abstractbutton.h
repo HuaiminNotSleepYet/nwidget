@@ -2,7 +2,7 @@
 #define ABSTRACTBUTTON_H
 
 #include <QAbstractButton>
-#include <QToolButton>
+#include <QButtonGroup>
 
 #include "widget.h"
 
@@ -28,6 +28,8 @@ public:
 
     S& checked(bool b)           { t->setChecked(b);            return self(); }
     S& iconSize(const QSize& s)  { t->setIconSize(s);           return self(); }
+
+    S& group(QButtonGroup* g)    { g->addButton(t);             return self(); }
 
     N_SIGNAL(onClicked , QAbstractButton::clicked )
     N_SIGNAL(onPressed , QAbstractButton::pressed )
