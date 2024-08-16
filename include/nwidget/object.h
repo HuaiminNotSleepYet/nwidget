@@ -149,10 +149,10 @@ auto makeBindingExpr(const Args&... args) { return BindingExpr<Action, Args...>(
 template<typename Action, typename ...Args>
 class BindingExpr
 {
+    template<typename PropertyInfo> friend class Property;
+
 public:
     BindingExpr(const Args&... args) : args(args...) {};
-
-    template<typename PropertyInfo> friend class Property;
 
     template<typename Func, typename ...Args_>
     auto invoke(Func func, const Args_&... args) const
@@ -166,9 +166,9 @@ public:
     auto operator()() const
     { return std::apply(Action{}, std::apply([](auto&&... args){ return calc(args...); }, args)); }
 
-    template<typename Prop>
-    void bindTo(Binding* bind) const
-    { std::apply([bind](auto&&... args){ bindTo<Prop>(bind, args...); }, args); }
+    template<typename Info>
+    void bindTo(Property<Info> prop, Binding* bind) const
+    { std::apply([prop, bind](auto&&... args){ bindTo(prop, bind, args...); }, args); }
 
 private:
     std::tuple<Args...> args;
@@ -181,21 +181,28 @@ private:
     static auto calc(const Arg0& arg0, const ArgN&... argn)
     { return std::tuple_cat(calc(arg0), calc(argn...)); }
 
-    template<typename Prop, typename    T> static void bindTo(Binding* bind, const T& value)                {}
-    template<typename Prop, typename ...T> static void bindTo(Binding* bind, const BindingExpr<T...>& expr) { return expr.template bindTo<Prop>(bind); }
-    template<typename Prop, typename Info>
-    static void bindTo(Binding* bind, Property<Info> prop)
+    template<typename Info, typename    T> static void bindTo(Property<Info>, Binding*, const T&) {}
+    template<typename Info, typename ...T> static void bindTo(Property<Info> prop, Binding* bind, const BindingExpr<T...>& expr) { return expr.bindTo(prop, bind); }
+    template<typename InfoA, typename InfoB>
+    static void bindTo(Property<InfoA> to, Binding* bind, Property<InfoB> from)
     {
-        if constexpr (!std::is_same<Prop, Property<Info>>::value
-                   && !std::is_same<typename Info::Notify, NoNotify>::value) {
-            QObject::connect(prop.object, &QObject::destroyed   , bind, &Binding::deleteLater, Qt::UniqueConnection);
-            QObject::connect(prop.object, Info::Notify::signal(), bind, &Binding::update     , Qt::UniqueConnection);
+        if constexpr (!std::is_same<typename InfoB::Notify, NoNotify>::value) {
+            if constexpr (!std::is_same<Property<InfoA>, Property<InfoB>>::value) {
+                QObject::connect(from.object, &QObject::destroyed    , bind, &Binding::deleteLater, Qt::UniqueConnection);
+                QObject::connect(from.object, InfoB::Notify::signal(), bind, &Binding::update     , Qt::UniqueConnection);
+            } else if (from.object != to.object) {
+                QObject::connect(from.object, &QObject::destroyed    , bind, &Binding::deleteLater, Qt::UniqueConnection);
+                QObject::connect(from.object, InfoB::Notify::signal(), bind, &Binding::update     , Qt::UniqueConnection);
+            }
         }
     }
 
-    template<typename Prop, typename Arg0, typename ...ArgN>
-    static void bindTo(Binding* bind, Arg0 arg0, ArgN... argn)
-    { bindTo<Prop>(bind, arg0); bindTo<Prop>(bind, argn...); }
+    template<typename Info, typename Arg0, typename ...ArgN>
+    static void bindTo(Property<Info> prop, Binding* bind, Arg0 arg0, ArgN... argn)
+    {
+        bindTo(prop, bind, arg0);
+        bindTo(prop, bind, argn...);
+    }
 };
 
 
@@ -274,7 +281,7 @@ public:
 
         bind = new Binding(object);
         bind->setObjectName(Info::bindingName());
-        expr.template bindTo<Property<Info>>(bind);
+        expr.bindTo(*this, bind);
         QObject::connect(bind  , &Binding::update   , bind, [object = this->object, expr](){
             Setter::set(object, expr());
         });
