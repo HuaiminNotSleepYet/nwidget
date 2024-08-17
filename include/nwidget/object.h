@@ -398,11 +398,15 @@ template<typename T>
 class ObjectRefT
 {
 public:
-    constexpr ObjectRefT(T* object = nullptr) : o(object) {}
+    ObjectRefT(T* object) : o(object) { Q_ASSERT(object); }
+
+    T* get() const { return o; }
 
     operator T*() const { return o; }
 
-    T* get() const { return o; }
+    T* operator->() const  { return o; }
+
+    T& operator*() const { return *o; }
 
     N_PROPERTY(QString, objectName, N_GETTER(objectName), N_SETTER(setObjectName), N_NOTIFY(objectNameChanged))
 
