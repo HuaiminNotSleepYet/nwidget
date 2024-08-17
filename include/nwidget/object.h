@@ -223,7 +223,7 @@ struct PropertyInfo
 
     // Class that inherits from PropertyInfo should provide the following methods:
     //   static QString name()        { return QStringLiteral("name"); }
-    //   static QString bindingName() { return QStringLiteral("binding_to_name"); }
+    //   static QString bindingName() { return QStringLiteral("nw_binding_on_propertyName"); }
 };
 
 template<typename PropertyInfo>
@@ -388,7 +388,7 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
         struct Info : nw::PropertyInfo<Object, Type, Getter, Setter, Notify>                \
         {                                                                                   \
             static QString name()        { return QStringLiteral(#NAME); }                  \
-            static QString bindingName() { return QStringLiteral("nw_binding_to_"#NAME); }  \
+            static QString bindingName() { return QStringLiteral("nw_binding_on_"#NAME); }  \
         };                                                                                  \
                                                                                             \
         Q_ASSERT(nw::ObjectRefT<Object>::o);                                                \
