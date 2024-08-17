@@ -13,12 +13,12 @@ class GroupBoxBuilder : public WidgetBuilder<S, T>
     N_USING_BUILDER_MEMBER(WidgetBuilder, S, T)
 
 public:
-    GroupBoxBuilder()                                      : WidgetBuilder<S, T>(new T) {};
-    explicit GroupBoxBuilder(const QString& title)         : WidgetBuilder<S, T>(new T(title)) {};
+    GroupBoxBuilder()                                      : WidgetBuilder<S, T>(new T) {}
+    explicit GroupBoxBuilder(const QString& title)         : WidgetBuilder<S, T>(new T(title)) {}
     GroupBoxBuilder(const QString& title, QLayout* layout) : WidgetBuilder<S, T>(new T(title), layout) {}
 
-    explicit GroupBoxBuilder(T* target)                               : WidgetBuilder<S, T>(target) {};
-    GroupBoxBuilder(T* target, QLayout* layout)                       : WidgetBuilder<S, T>(target, layout) {};
+    explicit GroupBoxBuilder(T* target)                               : WidgetBuilder<S, T>(target) {}
+    GroupBoxBuilder(T* target, QLayout* layout)                       : WidgetBuilder<S, T>(target, layout) {}
     GroupBoxBuilder(T* target, const QString& title, QLayout* layout) : WidgetBuilder<S, T>(target, layout) { this->title(title); }
 
     S& title(const QString& s)   { t->setTitle(s);         return self(); }

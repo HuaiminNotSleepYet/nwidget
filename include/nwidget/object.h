@@ -11,13 +11,15 @@
 #define N_SIGNAL_RECEIVER_TYPE(F) const typename QtPrivate::ContextTypeForFunctor<F>::ContextType*
 #endif
 
-#define N_SIGNAL(NAME, SIG)                                         \
-template <typename Func>                                            \
-S& NAME(Func&& slot, Qt::ConnectionType type = Qt::AutoConnection)  \
-{ QObject::connect(t, &SIG, t, slot); return self(); }              \
-template <typename Func>                                            \
-S& NAME(N_SIGNAL_RECEIVER_TYPE(Func) context, Func&& slot,          \
-               Qt::ConnectionType type = Qt::AutoConnection)        \
+#define N_SIGNAL(NAME, SIG)                                  \
+template <typename Func>                                     \
+S& NAME(Func&& slot,                                         \
+        Qt::ConnectionType type = Qt::AutoConnection)        \
+{ QObject::connect(t, &SIG, t, slot); return self(); }       \
+                                                             \
+template <typename Func>                                     \
+S& NAME(N_SIGNAL_RECEIVER_TYPE(Func) context, Func&& slot,   \
+        Qt::ConnectionType type = Qt::AutoConnection)        \
 { QObject::connect(t, &SIG, context, slot); return self(); }
 
 namespace nw {
@@ -31,16 +33,16 @@ public:
     using Builder<S, T>::Builder;
 
     S& connect(const char* signal, const QObject* receiver, const char* member,
-                      Qt::ConnectionType = Qt::AutoConnection)
+               Qt::ConnectionType = Qt::AutoConnection)
     { QObject::connect(t, signal, receiver, member); return self(); }
 
     S& connect(const QMetaMethod& signal, const QObject* receiver, const QMetaMethod& method,
-                      Qt::ConnectionType type = Qt::AutoConnection)
+               Qt::ConnectionType type = Qt::AutoConnection)
     { QObject::connect(t, signal, receiver, method); return self(); }
 
     template <typename Func1, typename Func2>
     S& connect(Func1 signal, N_SIGNAL_RECEIVER_TYPE(Func2) context, Func2&& slot,
-                      Qt::ConnectionType type = Qt::AutoConnection)
+               Qt::ConnectionType type = Qt::AutoConnection)
     { QObject::connect(t, signal, context, slot); return self(); }
 
     S& objectName(const QString& name)                       { t->setObjectName(name);     return self(); }
@@ -97,8 +99,7 @@ struct ActionInvoke
         if constexpr (std::is_pointer<Object>::value) {
             Q_ASSERT(obj);
             return func(obj, args...);
-        }
-        else {
+        } else {
             return func(&obj, args...);
         }
     }
@@ -152,7 +153,7 @@ class BindingExpr
     template<typename PropertyInfo> friend class Property;
 
 public:
-    BindingExpr(const Args&... args) : args(args...) {};
+    BindingExpr(const Args&... args) : args(args...) {}
 
     template<typename Func, typename ...Args_>
     auto invoke(Func func, const Args_&... args) const
@@ -238,7 +239,7 @@ public:
     using Setter = typename Info::Setter;
     using Notify = typename Info::Notify;
 
-    explicit Property(Object* object) : object(object) {};
+    explicit Property(Object* object) : object(object) {}
 
     typename Info::Type get() const { return Getter::get(object); }
 
