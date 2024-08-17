@@ -395,6 +395,10 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
         return nw::Property<Info>(nw::ObjectRefT<Object>::o);                               \
     }
 
+// TODO: find a better name.
+//   xxxRef is not a good name and does not reflect its exact feature:
+//   1. Uniquely identifies an object, similar to the 'id' in qml, so it cannot be set to a new value.
+//   2. Return a Property instance that represents a QObject property.
 template<typename T>
 class ObjectRefT
 {
