@@ -46,7 +46,6 @@ public:
     S& calendarPopup(bool enable)                                { t->setCalendarPopup(enable);      return self(); }
 
 #if QT_DEPRECATED_SINCE(6, 10)
-    QT_DEPRECATED_VERSION_X_6_10("Use timeZone() instead")
     S& timeSpec(Qt::TimeSpec spec)                               { t->setTimeSpec(spec);             return self(); }
 #endif
 
