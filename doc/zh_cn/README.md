@@ -1,10 +1,18 @@
 # nwidget
 
-> 注意：该库当前尚不完善
+> 注意：该库当前仍在开发中
 
-用声明式语法创建 QWidget 程序界面
+QWidget 的 `声明式语法` 和 `属性绑定` 拓展
 
-从命令式：
+[文档](Document.md)
+
+## 功能
+
+### 声明式语法
+
+![](../img/nwidget.png)
+
+命令式：
 ```cpp
 auto* lineEdit = new QLineEdit;
 lineEdit->setText("Hello");
@@ -28,7 +36,7 @@ formLayout->addRow("Line 1", slider);
 formLayout->addRow(gridLayout);
 ```
 
-到声明式：
+声明式：
 ```cpp
 QLayout* layout = nw::FormLayout{
     {"Lable 0", nw::LineEdit().text("Hello")},
@@ -41,26 +49,22 @@ QLayout* layout = nw::FormLayout{
     }}};
 ```
 
-效果：
+### 属性绑定
 
-![](../img/nwidget.png)
-
-同时，你依然可以使用命令式语法：
+![](../img/binding_example.gif)
 
 ```cpp
-auto* button = new QPushButton;
-button->setText("Button");
-
-QSlider* slider0 = nullptr;
-QSlider* slider1 = nullptr;
+nw::LabelRef  label   = new QLabel;
+nw::SliderRef slider1 = new QSlider;
+nw::SliderRef slider2 = new QSlider;
 
 QLayout* layout = nw::VBoxLayout{
-    button,
-    nw::Slider().linkTo(slider0),
-    nw::Slider().linkTo(slider1),
+    nw::Label(label),
+    nw::Slider(slider1, Qt::Horizontal),
+    nw::Slider(slider2, Qt::Horizontal),
 };
 
-connect(slider0, &QSlider::valueChanged, slider1, &QSlider::setValue);
+label.text() = nw::asprintf("%d", slider1.value() + slider2.value());
 ```
 
 ## 优点
@@ -72,4 +76,10 @@ connect(slider0, &QSlider::valueChanged, slider1, &QSlider::setValue);
 
 ## 示例
 
-- [NWidget Gallery](../../examples/gallery)：用 nwidget 编写的 [Widget Gallery](https://doc.qt.io/qt-6/qtwidgets-gallery-example.html)
+[NWidget Gallery](../../examples/gallery)：用 nwidget 编写的 [Widget Gallery](https://doc.qt.io/qt-6/qtwidgets-gallery-example.html)
+
+![](../img/nwidget_gallery.png)
+
+[Length Calculator](../../examples/length_caculator)：属性绑定示例
+
+![](../img/length_calculator.gif)

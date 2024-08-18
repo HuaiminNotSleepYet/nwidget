@@ -2,11 +2,19 @@
 
 [中文](./doc/zh_cn/README.md)
 
-> Note: This library is not yet complete.
+> Note: This library is still under development.
 
-Create QWidget program UI in declarative syntax.
+`declarative syntax` and `property binding` extension for QWidget.
 
-From imperative:
+[Document](./doc/en/Document.md)
+
+## Features
+
+### Declarative Syntax
+
+![](./doc/img/nwidget.png)
+
+Imperative:
 ```cpp
 auto* lineEdit = new QLineEdit;
 lineEdit->setText("Hello");
@@ -30,11 +38,11 @@ formLayout->addRow("Line 1", slider);
 formLayout->addRow(gridLayout);
 ```
 
-To declarative:
+Declarative:
 ```cpp
 QLayout* layout = nw::FormLayout{
-    {"Lable 0", nw::LineEdit().text("Hello")},
-    {"Lable 1", nw::Slider(Qt::Horizontal).range(0, 100).value(25)},
+    {"Label 0", nw::LineEdit().text("Hello")},
+    {"Label 1", nw::Slider(Qt::Horizontal).range(0, 100).value(25)},
     {GridLayout{
         {0, 0,       nw::PushButton("Button 0")},
         {1, 0,       nw::PushButton("Button 1")},
@@ -43,35 +51,37 @@ QLayout* layout = nw::FormLayout{
     }}};
 ```
 
-Result:
+### Property Binding
 
-![](./doc/img/nwidget.png)
-
-At the same time, you can still use imperative syntax:
+![](./doc/img/binding_example.gif)
 
 ```cpp
-auto* button = new QPushButton;
-button->setText("Button");
-
-QSlider* slider0 = nullptr;
-QSlider* slider1 = nullptr;
+nw::LabelRef  label   = new QLabel;
+nw::SliderRef slider1 = new QSlider;
+nw::SliderRef slider2 = new QSlider;
 
 QLayout* layout = nw::VBoxLayout{
-    button,
-    nw::Slider().linkTo(slider0),
-    nw::Slider().linkTo(slider1),
+    nw::Label(label),
+    nw::Slider(slider1, Qt::Horizontal),
+    nw::Slider(slider2, Qt::Horizontal),
 };
 
-connect(slider0, &QSlider::valueChanged, slider1, &QSlider::setValue);
+label.text() = nw::asprintf("%d", slider1.value() + slider2.value());
 ```
 
-## Advantage
+## Advantages
 
 - Intuitive
 - Easy to modify
 - Easy to maintain
-- Funny
+- Fun
 
-## Example
+## Examples
 
-- [NWidget Gallery](./examples/gallery) : [Widget Gallery](https://doc.qt.io/qt-6/qtwidgets-gallery-example.html) written using nwidget.
+[NWidget Gallery](./examples/gallery) : [Widget Gallery](https://doc.qt.io/qt-6/qtwidgets-gallery-example.html) written with nwidget.
+
+![](./doc/img/nwidget_gallery.png)
+
+[Length Calculator](./examples/length_calculator): Example of property binding.
+
+![](./doc/img/length_calculator.gif)
