@@ -7,49 +7,47 @@
 
 namespace nw {
 
-struct BoxLayoutItem
+class BoxLayoutItem : public BuilderItem<QBoxLayout>
 {
-    std::function<void(QBoxLayout*)> addTo;
-
+public:
     enum SpacingType { Spacing };
     enum StretchType { Stretch };
     enum StrutType   { Strut   };
 
     BoxLayoutItem(QWidget* widget, int stretch = 0, Qt::Alignment align = Qt::Alignment())
-    { addTo = [widget, stretch, align](QBoxLayout* l){l->addWidget(widget, stretch, align); }; }
+        : BuilderItem([widget, stretch, align](QBoxLayout* l){l->addWidget(widget, stretch, align); })
+    {}
 
     BoxLayoutItem(QLayout* layout, int stretch = 0)
-    { addTo = [layout, stretch](QBoxLayout* l){l->addLayout(layout, stretch); }; }
+        : BuilderItem([layout, stretch](QBoxLayout* l){l->addLayout(layout, stretch); })
+    {}
 
     BoxLayoutItem(QLayoutItem* item)
-    { addTo = [item](QBoxLayout* l){l->addItem(item); }; }
+        : BuilderItem([item](QBoxLayout* l){l->addItem(item); })
+    {}
 
     template<typename S, typename T>
     BoxLayoutItem(const WidgetBuilder<S, T>& widget, int stretch = 0, Qt::Alignment align = Qt::Alignment())
-        : BoxLayoutItem(widget.operator T*(), stretch, align) {}
+        : BoxLayoutItem((T*)widget, stretch, align)
+    {}
 
     template<typename S, typename T>
     BoxLayoutItem(const LayoutBuilder<S, T>& layout, int stretch = 0)
-        : BoxLayoutItem(layout.operator T*(), stretch) {}
+        : BoxLayoutItem((T*)layout, stretch)
+    {}
 
     template<typename S, typename T>
     BoxLayoutItem(const LayoutItemBuilder<S, T>& item)
-        : BoxLayoutItem(item.operator T*()) {}
+        : BoxLayoutItem((T*)item)
+    {}
 
-    BoxLayoutItem(SpacingType, int size)        { addTo = [size   ](QBoxLayout* l) { l->addSpacing(size);    }; }
-    BoxLayoutItem(StretchType, int stretch = 0) { addTo = [stretch](QBoxLayout* l) { l->addStretch(stretch); }; }
-    BoxLayoutItem(StrutType  , int size)        { addTo = [size   ](QBoxLayout* l) { l->addStrut(size);      }; }
+    BoxLayoutItem(SpacingType, int size)        : BuilderItem([size   ](QBoxLayout* l) { l->addSpacing(size);    }) {}
+    BoxLayoutItem(StretchType, int stretch = 0) : BuilderItem([stretch](QBoxLayout* l) { l->addStretch(stretch); }) {}
+    BoxLayoutItem(StrutType  , int size)        : BuilderItem([size   ](QBoxLayout* l) { l->addStrut(size);      }) {}
 
     BoxLayoutItem(ItemGenerator<BoxLayoutItem> generator)
-    {
-        addTo = [generator](QBoxLayout* l){
-            auto item = generator();
-            while (item) {
-                item->addTo(l);
-                item = generator();
-            }
-        };
-    }
+        : BuilderItem(generator)
+    {}
 };
 
 template<typename S, typename T>
@@ -66,14 +64,6 @@ public:
     BoxLayoutBuilder(T* target, QBoxLayout::Direction direction) : LayoutBuilder<S, T>(target) { t->setDirection(direction); }
     BoxLayoutBuilder(T* target, QBoxLayout::Direction direction,
                      std::initializer_list<BoxLayoutItem> items) : LayoutBuilder<S, T>(target) { t->setDirection(direction); addItems(items); }
-
-protected:
-    void addItems(std::initializer_list<BoxLayoutItem> items)
-    {
-        auto end = items.end();
-        for (auto i = items.begin(); i != end; ++i)
-            i->addTo(LayoutItemBuilder<S, T>::t);
-    }
 };
 
 N_BUILDER_IMPL(BoxLayoutBuilder, QBoxLayout , BoxLayout);
@@ -97,8 +87,6 @@ public:
     explicit VBoxLayout(Layout* target)                                    : BoxLayoutBuilder<VBoxLayout, Layout>(target) {}
     VBoxLayout(Layout* target, std::initializer_list<BoxLayoutItem> items) : BoxLayoutBuilder<VBoxLayout, Layout>(target) { addItems(items); }
 };
-
-
 
 using BoxLayoutRef  = LayoutRefT<QBoxLayout>;
 using HBoxLayoutRef = LayoutRefT<QHBoxLayout>;

@@ -7,33 +7,25 @@
 
 namespace nw {
 
-struct FormLayoutItem
+class FormLayoutItem : public BuilderItem<QFormLayout>
 {
-    std::function<void(QFormLayout* layout)> addTo;
+public:
+    FormLayoutItem(const QString& label, QWidget* field) : BuilderItem([label, field](QFormLayout* layout){ layout->addRow(label, field); }) {}
+    FormLayoutItem(const QString& label, QLayout* field) : BuilderItem([label, field](QFormLayout* layout){ layout->addRow(label, field); }) {}
+    FormLayoutItem(QWidget* label, QWidget* field)       : BuilderItem([label, field](QFormLayout* layout){ layout->addRow(label, field); }) {}
+    FormLayoutItem(QWidget* label, QLayout* field)       : BuilderItem([label, field](QFormLayout* layout){ layout->addRow(label, field); }) {}
 
-    FormLayoutItem(const QString& label, QWidget* field) { addTo = [label, field](QFormLayout* layout){ layout->addRow(label, field); }; }
-    FormLayoutItem(const QString& label, QLayout* field) { addTo = [label, field](QFormLayout* layout){ layout->addRow(label, field); }; }
-    FormLayoutItem(QWidget* label, QWidget* field)       { addTo = [label, field](QFormLayout* layout){ layout->addRow(label, field); }; }
-    FormLayoutItem(QWidget* label, QLayout* field)       { addTo = [label, field](QFormLayout* layout){ layout->addRow(label, field); }; }
+    FormLayoutItem(QWidget* widget)   : BuilderItem([widget](QFormLayout* l){ l->addRow(widget); }) {}
+    FormLayoutItem(QLayout* layout)   : BuilderItem([layout](QFormLayout* l){ l->addRow(layout); }) {}
+    FormLayoutItem(QLayoutItem* item) : BuilderItem([item  ](QFormLayout* l){ l->addItem(item) ; }) {}
 
-    FormLayoutItem(QWidget* widget)   { addTo = [widget](QFormLayout* layout){ layout->addRow(widget); }; }
-    FormLayoutItem(QLayout* layout)   { addTo = [layout](QFormLayout* l){ l->addRow(layout); }; }
-    FormLayoutItem(QLayoutItem* item) { addTo = [item](QFormLayout* layout){ layout->addItem(item); }; }
-
-    template<typename S, typename T> FormLayoutItem(const WidgetBuilder<S, T>& widget)   : FormLayoutItem(widget.operator T*()) {}
-    template<typename S, typename T> FormLayoutItem(const LayoutBuilder<S, T>& layout)   : FormLayoutItem(layout.operator T*()) {}
-    template<typename S, typename T> FormLayoutItem(const LayoutItemBuilder<S, T>& item) : FormLayoutItem(item.operator T*()) {}
+    template<typename S, typename T> FormLayoutItem(const WidgetBuilder<S, T>& widget)   : FormLayoutItem((T*)widget) {}
+    template<typename S, typename T> FormLayoutItem(const LayoutBuilder<S, T>& layout)   : FormLayoutItem((T*)layout) {}
+    template<typename S, typename T> FormLayoutItem(const LayoutItemBuilder<S, T>& item) : FormLayoutItem((T*)item  ) {}
 
     FormLayoutItem(ItemGenerator<FormLayoutItem> generator)
-    {
-        addTo = [generator](QFormLayout* l){
-            auto item = generator();
-            while (item) {
-                item->addTo(l);
-                item = generator();
-            }
-        };
-    }
+        : BuilderItem(generator)
+    {}
 };
 
 template<typename S, typename T>
@@ -43,17 +35,9 @@ class FormLayoutBuilder : public LayoutBuilder<S, T>
 
 public:
     FormLayoutBuilder()                                                       : LayoutBuilder<S, T>(new T) {}
-    FormLayoutBuilder(std::initializer_list<FormLayoutItem> items)            : LayoutBuilder<S, T>(new T) { applyItems(items); }
+    FormLayoutBuilder(std::initializer_list<FormLayoutItem> items)            : LayoutBuilder<S, T>(new T) { addItems(items); }
     explicit FormLayoutBuilder(T* target)                                     : LayoutBuilder<S, T>(target) {}
-    FormLayoutBuilder(T* target, std::initializer_list<FormLayoutItem> items) : LayoutBuilder<S, T>(target) { applyItems(items); }
-
-private:
-    void applyItems(std::initializer_list<FormLayoutItem> items)
-    {
-        const auto end = items.end();
-        for (auto i = items.begin(); i != end; ++i)
-            i->addTo(t);
-    }
+    FormLayoutBuilder(T* target, std::initializer_list<FormLayoutItem> items) : LayoutBuilder<S, T>(target) { addItems(items); }
 };
 
 N_BUILDER_IMPL(FormLayoutBuilder, QFormLayout, FormLayout);

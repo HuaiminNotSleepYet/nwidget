@@ -7,23 +7,15 @@
 
 namespace nw {
 
-struct ToolBoxItem
+class ToolBoxItem : public BuilderItem<QToolBox>
 {
-    std::function<void(QToolBox* box)> addTo;
-
-    ToolBoxItem(const QString& text, QWidget* item)                    { addTo = [item, text](QToolBox* box){ box->addItem(item, text); }; }
-    ToolBoxItem(const QIcon& icon, const QString& text, QWidget* item) { addTo = [item, icon, text](QToolBox* box){ box->addItem(item, icon, text); }; }
+public:
+    ToolBoxItem(const QString& text, QWidget* item)                    : BuilderItem([item, text](QToolBox* box){ box->addItem(item, text); }) {}
+    ToolBoxItem(const QIcon& icon, const QString& text, QWidget* item) : BuilderItem([item, icon, text](QToolBox* box){ box->addItem(item, icon, text); }) {}
 
     ToolBoxItem(ItemGenerator<ToolBoxItem> generator)
-    {
-        addTo = [generator](QToolBox* box){
-            auto item = generator();
-            while (item) {
-                item->addTo(box);
-                item = generator();
-            }
-        };
-    }
+        : BuilderItem(generator)
+    {}
 };
 
 template<typename S, typename T>
@@ -33,17 +25,9 @@ class ToolBoxBuilder : public FrameBuilder<S, T>
 
 public:
     ToolBoxBuilder()                                                    : FrameBuilder<S, T>(new T) {}
-    ToolBoxBuilder(std::initializer_list<ToolBoxItem> items)            : FrameBuilder<S, T>(new T) { applyItems(items); }
+    ToolBoxBuilder(std::initializer_list<ToolBoxItem> items)            : FrameBuilder<S, T>(new T) { addItems(items); }
     explicit ToolBoxBuilder(T* target)                                  : FrameBuilder<S, T>(target) {}
-    ToolBoxBuilder(T* target, std::initializer_list<ToolBoxItem> items) : FrameBuilder<S, T>(target) { applyItems(items); }
-
-private:
-    void applyItems(std::initializer_list<ToolBoxItem> items)
-    {
-        auto end = items.end();
-        for (auto i = items.begin(); i != end; ++i)
-            i->addTo(t);
-    }
+    ToolBoxBuilder(T* target, std::initializer_list<ToolBoxItem> items) : FrameBuilder<S, T>(target) { addItems(items); }
 };
 
 N_BUILDER_IMPL(ToolBoxBuilder, QToolBox, ToolBox);

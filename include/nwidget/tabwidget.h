@@ -7,23 +7,15 @@
 
 namespace nw {
 
-struct TabWidgetItem
+class TabWidgetItem : public BuilderItem<QTabWidget>
 {
-    std::function<void(QTabWidget*)> addTo;
-
-    TabWidgetItem(const QString& label, QWidget* page)                    { addTo = [label, page](QTabWidget* tab){ tab->addTab(page, label); }; }
-    TabWidgetItem(const QIcon& icon, const QString& label, QWidget* page) { addTo = [icon, label, page](QTabWidget* tab){ tab->addTab(page, icon, label); }; }
+public:
+    TabWidgetItem(const QString& label, QWidget* page)                    : BuilderItem([label, page](QTabWidget* tab){ tab->addTab(page, label); }) {}
+    TabWidgetItem(const QIcon& icon, const QString& label, QWidget* page) : BuilderItem([icon, label, page](QTabWidget* tab){ tab->addTab(page, icon, label); }) {}
 
     TabWidgetItem(ItemGenerator<TabWidgetItem> generator)
-    {
-        addTo = [generator](QTabWidget* tab){
-            auto item = generator();
-            while (item) {
-                item->addTo(tab);
-                item = generator();
-            }
-        };
-    }
+        : BuilderItem(generator)
+    {}
 };
 
 template<typename S, typename T>
@@ -33,9 +25,9 @@ class TabWidgetBuilder : public WidgetBuilder<S, T>
 
 public:
     TabWidgetBuilder()                                                      : WidgetBuilder<S, T>(new T) {}
-    TabWidgetBuilder(std::initializer_list<TabWidgetItem> pages)            : WidgetBuilder<S, T>(new T) { applyPages(pages); }
+    TabWidgetBuilder(std::initializer_list<TabWidgetItem> pages)            : WidgetBuilder<S, T>(new T) { addItems(pages); }
     explicit TabWidgetBuilder(T* target)                                    : WidgetBuilder<S, T>(target) {}
-    TabWidgetBuilder(T* target, std::initializer_list<TabWidgetItem> pages) : WidgetBuilder<S, T>(target) { applyPages(pages); }
+    TabWidgetBuilder(T* target, std::initializer_list<TabWidgetItem> pages) : WidgetBuilder<S, T>(target) { addItems(pages); }
 
     S& tabEnabled(int index, bool enabled)                          { t->setTabEnabled(index, enabled)   ; return self(); }
     S& tabVisible(int index, bool visible)                          { t->setTabVisible(index, visible)   ; return self(); }
@@ -64,14 +56,6 @@ public:
     N_SIGNAL(onTabCloseRequested  , QTabWidget::tabCloseRequested  )
     N_SIGNAL(onTabBarClicked      , QTabWidget::tabBarClicked      )
     N_SIGNAL(onTabBarDoubleClicked, QTabWidget::tabBarDoubleClicked)
-
-private:
-    void applyPages(std::initializer_list<TabWidgetItem> pages)
-    {
-        auto end = pages.end();
-        for (auto i = pages.begin(); i != end; ++i)
-            i->addTo(t);
-    }
 };
 
 N_BUILDER_IMPL(TabWidgetBuilder, QTabWidget, TabWidget);

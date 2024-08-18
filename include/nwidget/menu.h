@@ -10,29 +10,21 @@ namespace nw {
 template<typename S, typename T> class ActionBuilder;
 template<typename S, typename T> class MenuBuilder;
 
-struct MenuItem
+class MenuItem : public BuilderItem<QMenu>
 {
-    std::function<void(QMenu*)> addTo;
-
+public:
     enum SpearatorType { Spearator };
 
-    MenuItem(SpearatorType)   { addTo = [](QMenu* m){ m->addSeparator(); }; }
-    MenuItem(QAction* action) { addTo = [action](QMenu* m){ m->addAction(action); }; }
-    MenuItem(QMenu* menu)     { addTo = [menu](QMenu* m){ m->addMenu(menu); }; }
+    MenuItem(SpearatorType)   : BuilderItem([      ](QMenu* m){ m->addSeparator();    }) {}
+    MenuItem(QAction* action) : BuilderItem([action](QMenu* m){ m->addAction(action); }) {}
+    MenuItem(QMenu* menu)     : BuilderItem([menu  ](QMenu* m){ m->addMenu(menu);     }) {}
 
-    template<typename S, typename T> MenuItem(const ActionBuilder<S, T>& action) { addTo = [action = action.operator T*()](QMenu* m){ m->addAction(action); }; }
-    template<typename S, typename T> MenuItem(const MenuBuilder<S, T>& menu)     { addTo = [menu = menu.operator T*()](QMenu* m){ m->addMenu(menu); }; }
+    template<typename S, typename T> MenuItem(const ActionBuilder<S, T>& action) : MenuItem((T*)action) {}
+    template<typename S, typename T> MenuItem(const MenuBuilder  <S, T>& menu  ) : MenuItem((T*)menu  ) {}
 
     MenuItem(ItemGenerator<MenuItem> generator)
-    {
-        addTo = [generator](QMenu* m){
-            auto item = generator();
-            while (item) {
-                item->addTo(m);
-                item = generator();
-            }
-        };
-    }
+        : BuilderItem(generator)
+    {}
 };
 
 template<typename S, typename T>
@@ -50,14 +42,6 @@ public:
 
     S& icon(const QIcon& ico)  { t->setIcon(ico); return self(); }
     S& title(const QString& s) { t->setTitle(s); return self(); }
-
-private:
-    void addItems(std::initializer_list<MenuItem> items)
-    {
-        auto end = items.end();
-        for (auto i = items.begin(); i != end; ++i)
-            i->addTo(t);
-    }
 };
 
 N_BUILDER_IMPL(MenuBuilder, QMenu, Menu);

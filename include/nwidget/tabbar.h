@@ -7,23 +7,15 @@
 
 namespace nw {
 
-struct TabBarItem
+class TabBarItem : public BuilderItem<QTabBar>
 {
-    std::function<void(QTabBar*)> addTo;
-
-    TabBarItem(const QString& text)                    { addTo = [text      ](QTabBar* bar){ bar->addTab(text)      ; }; }
-    TabBarItem(const QIcon& icon, const QString& text) { addTo = [icon, text](QTabBar* bar){ bar->addTab(icon, text); }; }
+public:
+    TabBarItem(const QString& text)                    : BuilderItem([text      ](QTabBar* bar){ bar->addTab(text);       }) {}
+    TabBarItem(const QIcon& icon, const QString& text) : BuilderItem([icon, text](QTabBar* bar){ bar->addTab(icon, text); }) {}
 
     TabBarItem(ItemGenerator<TabBarItem> generator)
-    {
-        addTo = [generator](QTabBar* tab){
-            auto item = generator();
-            while (item) {
-                item->addTo(tab);
-                item = generator();
-            }
-        };
-    }
+        : BuilderItem(generator)
+    {}
 };
 
 template<typename S, typename T>
@@ -33,9 +25,9 @@ class TabBarBuilder : public WidgetBuilder<S, T>
 
 public:
     TabBarBuilder()                                        : WidgetBuilder<S, T>(new T) {}
-    TabBarBuilder(std::initializer_list<TabBarItem> items) : WidgetBuilder<S, T>(new T) { applyItems(items); }
+    TabBarBuilder(std::initializer_list<TabBarItem> items) : WidgetBuilder<S, T>(new T) { addItems(items); }
     explicit TabBarBuilder(T* target)                                 : WidgetBuilder<S, T>(target) {}
-    TabBarBuilder(T* target, std::initializer_list<TabBarItem> items) : WidgetBuilder<S, T>(target) { applyItems(items); }
+    TabBarBuilder(T* target, std::initializer_list<TabBarItem> items) : WidgetBuilder<S, T>(target) { addItems(items); }
 
     S& shape(QTabBar::Shape shape)                                 { t->setShape(shape)                  ; return self(); }
     S& tabEnabled(int index, bool enabled)                         { t->setTabEnabled(index, enabled)    ; return self(); }
@@ -70,14 +62,6 @@ public:
     N_SIGNAL(onTabMoved           , QTabBar::tabMoved           )
     N_SIGNAL(onTabBarClicked      , QTabBar::tabBarClicked      )
     N_SIGNAL(onTabBarDoubleClicked, QTabBar::tabBarDoubleClicked)
-
-private:
-    void applyItems(std::initializer_list<TabBarItem> items)
-    {
-        auto end = items.end();
-        for (auto i = items.begin(); i != end; ++i)
-            i->addTo(t);
-    }
 };
 
 N_BUILDER_IMPL(TabBarBuilder, QTabBar, TabBar);

@@ -7,22 +7,21 @@
 
 namespace nw {
 
-struct GridLayoutItem
+class GridLayoutItem : public BuilderItem<QGridLayout>
 {
-    std::function<void(QGridLayout*)> addTo;
-
-    GridLayoutItem(int row, int col, QWidget* widget)                                                  : GridLayoutItem(row, col, 1      , 1      , Qt::Alignment(), widget) {}
-    GridLayoutItem(int row, int col, QLayout* layout)                                                  : GridLayoutItem(row, col, 1      , 1      , Qt::Alignment(), layout) {}
-    GridLayoutItem(int row, int col, Qt::Alignment align, QWidget* widget)                             : GridLayoutItem(row, col, 1      , 1      , align          , widget) {}
-    GridLayoutItem(int row, int col, Qt::Alignment align, QLayout* layout)                             : GridLayoutItem(row, col, 1      , 1      , align          , layout) {}
-    GridLayoutItem(int row, int col, int rowSpan, int colSpan, QWidget* widget)                        : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), widget) {}
-    GridLayoutItem(int row, int col, int rowSpan, int colSpan, QLayout* layout)                        : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), layout) {}
-    GridLayoutItem(int row, int col, int rowSpan, int colSpan, Qt::Alignment align, QWidget* widget)   { addTo = [row, col, rowSpan, colSpan, align, widget](QGridLayout* l){ l->addWidget(widget, row, col, rowSpan, colSpan, align); }; }
-    GridLayoutItem(int row, int col, int rowSpan, int colSpan, Qt::Alignment align, QLayout* layout)   { addTo = [row, col, rowSpan, colSpan, align, layout](QGridLayout* l){ l->addLayout(layout, row, col, rowSpan, colSpan, align); }; }
+public:
+    GridLayoutItem(int row, int col, QWidget* widget)                                                : GridLayoutItem(row, col, 1      , 1      , Qt::Alignment(), widget) {}
+    GridLayoutItem(int row, int col, QLayout* layout)                                                : GridLayoutItem(row, col, 1      , 1      , Qt::Alignment(), layout) {}
+    GridLayoutItem(int row, int col, Qt::Alignment align, QWidget* widget)                           : GridLayoutItem(row, col, 1      , 1      , align          , widget) {}
+    GridLayoutItem(int row, int col, Qt::Alignment align, QLayout* layout)                           : GridLayoutItem(row, col, 1      , 1      , align          , layout) {}
+    GridLayoutItem(int row, int col, int rowSpan, int colSpan, QWidget* widget)                      : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), widget) {}
+    GridLayoutItem(int row, int col, int rowSpan, int colSpan, QLayout* layout)                      : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), layout) {}
+    GridLayoutItem(int row, int col, int rowSpan, int colSpan, Qt::Alignment align, QWidget* widget) : BuilderItem([row, col, rowSpan, colSpan, align, widget](QGridLayout* l){ l->addWidget(widget, row, col, rowSpan, colSpan, align); }) {}
+    GridLayoutItem(int row, int col, int rowSpan, int colSpan, Qt::Alignment align, QLayout* layout) : BuilderItem([row, col, rowSpan, colSpan, align, layout](QGridLayout* l){ l->addLayout(layout, row, col, rowSpan, colSpan, align); }) {}
 
     GridLayoutItem(int row, int col, QLayoutItem* item)                                                : GridLayoutItem(row, col, 1      , 1      , Qt::Alignment(), item) {}
     GridLayoutItem(int row, int col, int rowSpan, int colSpan, QLayoutItem* item)                      : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), item) {}
-    GridLayoutItem(int row, int col, int rowSpan, int colSpan, Qt::Alignment align, QLayoutItem* item) { addTo = [row, col, rowSpan, colSpan, align, item](QGridLayout* l){ l->addItem(item, row, col, rowSpan, colSpan, align); }; }
+    GridLayoutItem(int row, int col, int rowSpan, int colSpan, Qt::Alignment align, QLayoutItem* item) : BuilderItem([row, col, rowSpan, colSpan, align, item](QGridLayout* l){ l->addItem(item, row, col, rowSpan, colSpan, align); }) {}
 
     template<typename S, typename T> GridLayoutItem(int row, int col, const LayoutBuilder<S, T>& layout)                                                  : GridLayoutItem(row, col, 1      , 1      , Qt::Alignment(), layout.operator T*()) {}
     template<typename S, typename T> GridLayoutItem(int row, int col, int rowSpan, int colSpan, const LayoutBuilder<S, T>& layout)                        : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), layout.operator T*()) {}
@@ -33,15 +32,8 @@ struct GridLayoutItem
     template<typename S, typename T> GridLayoutItem(int row, int col, int rowSpan, int colSpan, Qt::Alignment align, const LayoutItemBuilder<S, T>& item) : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), item.operator T*()) {}
 
     GridLayoutItem(ItemGenerator<GridLayoutItem> generator)
-    {
-        addTo = [generator](QGridLayout* l){
-            auto item = generator();
-            while (item) {
-                item->addTo(l);
-                item = generator();
-            }
-        };
-    }
+        : BuilderItem(generator)
+    {}
 };
 
 template<typename S, typename T>
@@ -51,9 +43,9 @@ class GridLayoutBuilder : public LayoutBuilder<S, T>
 
 public:
     GridLayoutBuilder()                                                       : LayoutBuilder<S, T>(new T) {}
-    GridLayoutBuilder(std::initializer_list<GridLayoutItem> items)            : LayoutBuilder<S, T>(new T) { applyItems(items); }
+    GridLayoutBuilder(std::initializer_list<GridLayoutItem> items)            : LayoutBuilder<S, T>(new T) { addItems(items); }
     explicit GridLayoutBuilder(T* target)                                     : LayoutBuilder<S, T>(target) {}
-    GridLayoutBuilder(T* target, std::initializer_list<GridLayoutItem> items) : LayoutBuilder<S, T>(target) { applyItems(items); }
+    GridLayoutBuilder(T* target, std::initializer_list<GridLayoutItem> items) : LayoutBuilder<S, T>(target) { addItems(items); }
 
     S& horizontalSpacing(int spacing)                    { t->setHorizontalSpacing(spacing)      ; return self(); }
     S& verticalSpacing(int spacing)                      { t->setVerticalSpacing(spacing)        ; return self(); }
@@ -63,14 +55,6 @@ public:
     S& columnMinimumWidth(int col, int minSize)          { t->setColumnMinimumWidth(col, minSize); return self(); }
     S& originCorner(Qt::Corner corner)                   { t->setOriginCorner(corner)            ; return self(); }
     S& defaultPositioning(int n, Qt::Orientation orient) { t->setDefaultPositioning(n, orient)   ; return self(); }
-
-private:
-    void applyItems(std::initializer_list<GridLayoutItem> items)
-    {
-        const auto end = items.end();
-        for (auto i = items.begin(); i != end; ++i)
-            i->addTo(t);
-    }
 };
 
 N_BUILDER_IMPL(GridLayoutBuilder, QGridLayout, GridLayout);

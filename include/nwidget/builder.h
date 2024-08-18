@@ -7,7 +7,8 @@
 #define N_USING_BUILDER_MEMBER(BASE, SELF, TARGET)  \
 protected:                                          \
     using BASE<SELF, TARGET>::t;                    \
-    using BASE<SELF, TARGET>::self;
+    using BASE<SELF, TARGET>::self;                 \
+    using BASE<SELF, TARGET>::addItems;
 
 #define N_BUILDER_IMPL(BUILDER, TARGET, NAME)       \
 class NAME : public BUILDER<NAME, TARGET>           \
@@ -17,6 +18,29 @@ public:                                             \
 }
 
 namespace nw {
+
+template<typename Item>
+using ItemGenerator = std::function<std::optional<Item>()>;
+
+template<typename T>
+class BuilderItem
+{
+public:
+    template<typename F> explicit BuilderItem(F f) : addTo(f) {}
+
+    template<typename I> BuilderItem(ItemGenerator<I> g)
+    {
+        addTo = [g](T* l){
+            auto item = g();
+            while (item) {
+                item->addTo(l);
+                item = g();
+            }
+        };
+    }
+
+    std::function<void(T*)> addTo;
+};
 
 template<typename Self, typename Target>
 class Builder
@@ -33,10 +57,17 @@ protected:
     Target* t;
 
     constexpr Self& self() { return static_cast<Self&>(*this); }
+
+    template<typename E>
+    void addItems(std::initializer_list<E> items)
+    {
+        auto end = items.end();
+        for (auto i = items.begin(); i != end; ++i)
+            i->addTo(t);
+    }
 };
 
-template<typename Item>
-using ItemGenerator = std::function<std::optional<Item>()>;
+
 
 template<typename Iterator,
          typename Generator,
