@@ -3,53 +3,37 @@
 
 #include <QLayout>
 
-#include "builder.h"
 #include "object.h"
 
 namespace nw {
 
-template<typename S, typename T> class LayoutItemBuilder;
 template<typename S, typename T> class LayoutBuilder;
 template<typename S, typename T> class WidgetBuilder;
 
-template<typename S, typename T>
-class LayoutItemBuilder : public Builder<S, T>
+// QLayoutItem is usually used during the layout process, so we did not add a LayoutItemBuilder.
+class LayoutItem : public BuilderItem<QLayout>
 {
-    N_USING_BUILDER_MEMBER(Builder, S, T)
+public:
+    LayoutItem(QWidget* widget)   : BuilderItem([widget](QLayout* l){ l->addWidget(widget); }) {}
+    LayoutItem(QLayoutItem* item) : BuilderItem([item]  (QLayout* l){ l->addItem(item)    ; }) {}
+    template<typename S, typename T> LayoutItem(const WidgetBuilder<S, T>& widget) : LayoutItem((T*)widget) {}
+    template<typename S, typename T> LayoutItem(const LayoutBuilder<S, T>& item  ) : LayoutItem((T*)item  ) {}
+
+    LayoutItem(ItemGenerator<LayoutItem> generator) : BuilderItem(generator) {}
+};
+
+template<typename S, typename T>
+class LayoutBuilder : public ObjectBuilder<S, T>
+{
+    N_USING_BUILDER_MEMBER(ObjectBuilder, S, T)
 
 public:
-    LayoutItemBuilder()          : Builder<S, T>(new T) {}
-    LayoutItemBuilder(T* target) : Builder<S, T>(target) {}
+    LayoutBuilder()                                                   : ObjectBuilder<S, T>(new T) {}
+    LayoutBuilder(std::initializer_list<LayoutItem> items)            : ObjectBuilder<S, T>(new T) { addItems(items); }
+    explicit LayoutBuilder(T* target)                                 : ObjectBuilder<S, T>(target) {}
+    LayoutBuilder(T* target, std::initializer_list<LayoutItem> items) : ObjectBuilder<S, T>(target) { addItems(items); }
 
     S& alignment(Qt::Alignment a)    { t->setAlignment(a); return self(); }
-    S& geometry(const QRect &rect)   { t->setGeometry(rect); return self(); }
-};
-
-N_BUILDER_IMPL(LayoutItemBuilder, QLayoutItem, LayoutItem);
-
-
-
-class WidgetOrLayoutItem : public BuilderItem<QLayout>
-{
-public:
-    WidgetOrLayoutItem(QWidget* widget)   : BuilderItem([widget](QLayout* l){ l->addWidget(widget); }) {}
-    WidgetOrLayoutItem(QLayoutItem* item) : BuilderItem([item]  (QLayout* l){ l->addItem(item)    ; }) {}
-    template<typename S, typename T> WidgetOrLayoutItem(const WidgetBuilder<S, T>& widget)   : WidgetOrLayoutItem((QWidget*)widget) {}
-    template<typename S, typename T> WidgetOrLayoutItem(const LayoutItemBuilder<S, T>& item) : WidgetOrLayoutItem((QLayoutItem*)item) {}
-
-    WidgetOrLayoutItem(ItemGenerator<WidgetOrLayoutItem> generator) : BuilderItem(generator) {}
-};
-
-template<typename S, typename T>
-class LayoutBuilder : public LayoutItemBuilder<S, T>
-{
-    N_USING_BUILDER_MEMBER(LayoutItemBuilder, S, T)
-
-public:
-    LayoutBuilder()                                                           : LayoutItemBuilder<S, T>(new T) {}
-    LayoutBuilder(std::initializer_list<WidgetOrLayoutItem> items)            : LayoutItemBuilder<S, T>(new T) { addItems(items); }
-    explicit LayoutBuilder(T* target)                                         : LayoutItemBuilder<S, T>(target) {}
-    LayoutBuilder(T* target, std::initializer_list<WidgetOrLayoutItem> items) : LayoutItemBuilder<S, T>(target) { addItems(items); }
 
     S& spacing(int v) { t->setSpacing(v); return self(); }
 

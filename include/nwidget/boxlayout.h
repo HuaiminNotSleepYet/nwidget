@@ -36,11 +36,6 @@ public:
         : BoxLayoutItem((T*)layout, stretch)
     {}
 
-    template<typename S, typename T>
-    BoxLayoutItem(const LayoutItemBuilder<S, T>& item)
-        : BoxLayoutItem((T*)item)
-    {}
-
     BoxLayoutItem(SpacingType, int size)        : BuilderItem([size   ](QBoxLayout* l) { l->addSpacing(size);    }) {}
     BoxLayoutItem(StretchType, int stretch = 0) : BuilderItem([stretch](QBoxLayout* l) { l->addStretch(stretch); }) {}
     BoxLayoutItem(StrutType  , int size)        : BuilderItem([size   ](QBoxLayout* l) { l->addStrut(size);      }) {}

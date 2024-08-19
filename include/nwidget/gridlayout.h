@@ -23,13 +23,9 @@ public:
     GridLayoutItem(int row, int col, int rowSpan, int colSpan, QLayoutItem* item)                      : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), item) {}
     GridLayoutItem(int row, int col, int rowSpan, int colSpan, Qt::Alignment align, QLayoutItem* item) : BuilderItem([row, col, rowSpan, colSpan, align, item](QGridLayout* l){ l->addItem(item, row, col, rowSpan, colSpan, align); }) {}
 
-    template<typename S, typename T> GridLayoutItem(int row, int col, const LayoutBuilder<S, T>& layout)                                                  : GridLayoutItem(row, col, 1      , 1      , Qt::Alignment(), layout.operator T*()) {}
-    template<typename S, typename T> GridLayoutItem(int row, int col, int rowSpan, int colSpan, const LayoutBuilder<S, T>& layout)                        : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), layout.operator T*()) {}
-    template<typename S, typename T> GridLayoutItem(int row, int col, int rowSpan, int colSpan, Qt::Alignment align, const LayoutBuilder<S, T>& layout)   : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), layout.operator T*()) {}
-
-    template<typename S, typename T> GridLayoutItem(int row, int col, const LayoutItemBuilder<S, T>& item)                                                : GridLayoutItem(row, col, 1      , 1      , Qt::Alignment(), item.operator T*()) {}
-    template<typename S, typename T> GridLayoutItem(int row, int col, int rowSpan, int colSpan, const LayoutItemBuilder<S, T>& item)                      : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), item.operator T*()) {}
-    template<typename S, typename T> GridLayoutItem(int row, int col, int rowSpan, int colSpan, Qt::Alignment align, const LayoutItemBuilder<S, T>& item) : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), item.operator T*()) {}
+    template<typename S, typename T> GridLayoutItem(int row, int col, const LayoutBuilder<S, T>& layout)                                                : GridLayoutItem(row, col, 1      , 1      , Qt::Alignment(), (T*)layout) {}
+    template<typename S, typename T> GridLayoutItem(int row, int col, int rowSpan, int colSpan, const LayoutBuilder<S, T>& layout)                      : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), (T*)layout) {}
+    template<typename S, typename T> GridLayoutItem(int row, int col, int rowSpan, int colSpan, Qt::Alignment align, const LayoutBuilder<S, T>& layout) : GridLayoutItem(row, col, rowSpan, colSpan, Qt::Alignment(), (T*)layout) {}
 
     GridLayoutItem(ItemGenerator<GridLayoutItem> generator)
         : BuilderItem(generator)

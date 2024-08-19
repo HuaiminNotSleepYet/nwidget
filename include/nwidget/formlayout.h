@@ -21,7 +21,6 @@ public:
 
     template<typename S, typename T> FormLayoutItem(const WidgetBuilder<S, T>& widget)   : FormLayoutItem((T*)widget) {}
     template<typename S, typename T> FormLayoutItem(const LayoutBuilder<S, T>& layout)   : FormLayoutItem((T*)layout) {}
-    template<typename S, typename T> FormLayoutItem(const LayoutItemBuilder<S, T>& item) : FormLayoutItem((T*)item  ) {}
 
     FormLayoutItem(ItemGenerator<FormLayoutItem> generator)
         : BuilderItem(generator)
