@@ -83,3 +83,8 @@ label.text() = nw::asprintf("%d", slider1.value() + slider2.value());
 [Length Calculator](../../examples/length_caculator)：属性绑定示例
 
 ![](../img/length_calculator.gif)
+
+## 特别感谢
+
+- [@QuadnucYard](https://github.com/QuadnucYard) 对 C++ 的解疑
+- [@Niwik](https://github.com/niwik-dev) 对属性绑定机制的建议

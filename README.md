@@ -85,3 +85,8 @@ label.text() = nw::asprintf("%d", slider1.value() + slider2.value());
 [Length Calculator](./examples/length_calculator): Example of property binding.
 
 ![](./doc/img/length_calculator.gif)
+
+## Special Thanks
+
+- [@QuadnucYard](https://github.com/QuadnucYard) for clarifying doubts about C++.
+- [@Niwik](https://github.com/niwik-dev) for suggestions on the property binding.
