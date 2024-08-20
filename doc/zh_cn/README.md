@@ -51,7 +51,7 @@ QLayout* layout = nw::FormLayout{
 
 ### 属性绑定
 
-![](../img/binding_example.gif)
+![](../img/binding.gif)
 
 ```cpp
 nw::LabelRef  label   = new QLabel;
@@ -80,7 +80,10 @@ label.text() = nw::asprintf("%d", slider1.value() + slider2.value());
 
 ![](../img/nwidget_gallery.png)
 
-[Length Calculator](../../examples/length_caculator)：属性绑定示例
+[Binding Example](../../examples/binding_example)：属性绑定示例
+![](../img/binding_example.gif)
+
+[Length Calculator](../../examples/length_caculator)：长度单位计算器
 
 ![](../img/length_calculator.gif)
 

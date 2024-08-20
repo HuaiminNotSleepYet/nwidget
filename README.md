@@ -53,7 +53,7 @@ QLayout* layout = nw::FormLayout{
 
 ### Property Binding
 
-![](./doc/img/binding_example.gif)
+![](./doc/img/binding.gif)
 
 ```cpp
 nw::LabelRef  label   = new QLabel;
@@ -82,7 +82,10 @@ label.text() = nw::asprintf("%d", slider1.value() + slider2.value());
 
 ![](./doc/img/nwidget_gallery.png)
 
-[Length Calculator](./examples/length_calculator): Example of property binding.
+[Binding Example](./examples/binding_example)
+![](./doc/img/binding_example.gif)
+
+[Length Calculator](./examples/length_calculator)
 
 ![](./doc/img/length_calculator.gif)
 
