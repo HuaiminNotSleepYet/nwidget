@@ -16,17 +16,17 @@ public:
     AbstractSpinBoxBuilder()                   : WidgetBuilder<S, T>(new T) {}
     explicit AbstractSpinBoxBuilder(T* target) : WidgetBuilder<S, T>(target) {}
 
-    void buttonSymbols(QAbstractSpinBox::ButtonSymbols bs)   { t->setButtonSymbols(bs)         ; return self(); }
-    void correctionMode(QAbstractSpinBox::CorrectionMode cm) { t->setCorrectionMode(cm)        ; return self(); }
-    void specialValueText(const QString &txt)                { t->setSpecialValueText(txt)     ; return self(); }
-    void wrapping(bool w)                                    { t->setWrapping(w)               ; return self(); }
-    void readOnly(bool r)                                    { t->setReadOnly(r)               ; return self(); }
-    void keyboardTracking(bool kt)                           { t->setKeyboardTracking(kt)      ; return self(); }
-    void alignment(Qt::Alignment flag)                       { t->setAlignment(flag)           ; return self(); }
-    void frame(bool b)                                       { t->setFrame(b)                  ; return self(); }
-    void accelerated(bool on)                                { t->setAccelerated(on)           ; return self(); }
-    void groupSeparatorShown(bool shown)                     { t->setGroupSeparatorShown(shown); return self(); }
-    void lineEdit(QLineEdit *edit)                           { t->setLineEdit(edit)            ; return self(); }
+    S& buttonSymbols(QAbstractSpinBox::ButtonSymbols bs)   { t->setButtonSymbols(bs)         ; return self(); }
+    S& correctionMode(QAbstractSpinBox::CorrectionMode cm) { t->setCorrectionMode(cm)        ; return self(); }
+    S& specialValueText(const QString &txt)                { t->setSpecialValueText(txt)     ; return self(); }
+    S& wrapping(bool w)                                    { t->setWrapping(w)               ; return self(); }
+    S& readOnly(bool r)                                    { t->setReadOnly(r)               ; return self(); }
+    S& keyboardTracking(bool kt)                           { t->setKeyboardTracking(kt)      ; return self(); }
+    S& alignment(Qt::Alignment flag)                       { t->setAlignment(flag)           ; return self(); }
+    S& frame(bool b)                                       { t->setFrame(b)                  ; return self(); }
+    S& accelerated(bool on)                                { t->setAccelerated(on)           ; return self(); }
+    S& groupSeparatorShown(bool shown)                     { t->setGroupSeparatorShown(shown); return self(); }
+    S& lineEdit(QLineEdit *edit)                           { t->setLineEdit(edit)            ; return self(); }
 
     N_SIGNAL(onEditingFinished, QAbstractSpinBox::editingFinished)
 };
