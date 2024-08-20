@@ -155,6 +155,7 @@ auto makeBindingExpr(const Args&... args) { return BindingExpr<Action, Args...>(
 template<typename Action, typename ...Args>
 class BindingExpr
 {
+    template<typename A, typename ...TN> friend class BindingExpr;
     template<typename PropertyInfo> friend class Property;
 
 public:
@@ -186,8 +187,7 @@ public:
         else {
             bind = new Binding(object);
             bind->setObjectName(Info::bindingName());
-            std::apply([prop, bind](auto&&... args){ bindTo(prop, bind, args...); }, args);
-
+            bindTo(prop, bind);
             QObject::connect(bind  , &Binding::update   , bind, [object, expr = *this](){
                 Info::Setter::set(object, expr());
             });
@@ -209,13 +209,7 @@ private:
     { return std::tuple_cat(calc(arg0), calc(argn...)); }
 
 
-    template<typename T>    struct is_observable { static constexpr bool value = false; };
-    template<typename Info> struct is_observable<Property<Info>>
-    {
-        static constexpr bool value = std::conditional<std::is_same<typename Info::Notify, NoNotify>::value,
-                                                       std::false_type,
-                                                       std::true_type>::type::value;
-    };
+    template<typename T> struct is_observable { static constexpr bool value = false; };
 
     template<typename T0, typename ...TN>
     static constexpr bool isObservable() {
@@ -225,6 +219,12 @@ private:
             return isObservable<TN...>();
         return false;
     }
+
+    template<typename T> struct is_observable<Property<T>>
+    { static constexpr bool value = !std::is_same<typename T::Notify, NoNotify>::value; };
+
+    template<typename A, typename ...TN> struct is_observable<BindingExpr<A, TN...>>
+    { static constexpr bool value = isObservable<TN...>(); };
 
 
     template<typename Info, typename    T> static void bindTo(Property<Info>, Binding*, const T&) {}
@@ -249,6 +249,10 @@ private:
         bindTo(prop, bind, arg0);
         bindTo(prop, bind, argn...);
     }
+
+    template<typename Info>
+    void bindTo(Property<Info> prop, Binding* bind) const
+    { std::apply([prop, bind](auto&&... args){ bindTo(prop, bind, args...); }, args); }
 };
 
 

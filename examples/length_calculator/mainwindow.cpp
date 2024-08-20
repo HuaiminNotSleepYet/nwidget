@@ -42,7 +42,8 @@ MainWindow::MainWindow()
         {nmi, "nmi"},
     };
 
-    static const QList<length_unit> lengthUnits = {mm, cm, m , km, in, ft, yd, mi, nmi};
+    // static const QList<length_unit> lengthUnits = {mm, cm, m , km, in, ft, yd, mi, nmi};
+    static const QList<length_unit> lengthUnits = {m};
 
     const int row_count = lengthUnits.size();
 
