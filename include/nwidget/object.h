@@ -74,7 +74,7 @@ class Binding : public QObject
 {
     Q_OBJECT
 
-    template<typename PropertyInfo> friend class Property;
+    template<typename Action, typename ...Args> friend class BindingExpr;
 
     Binding(QObject* parent = nullptr) : QObject(parent) {}
 
@@ -173,8 +173,29 @@ public:
     { return std::apply(Action{}, std::apply([](auto&&... args){ return calc(args...); }, args)); }
 
     template<typename Info>
-    void bindTo(Property<Info> prop, Binding* bind) const
-    { std::apply([prop, bind](auto&&... args){ bindTo(prop, bind, args...); }, args); }
+    Binding* bindTo(Property<Info> prop) const
+    {
+        typename Info::Object* object = prop.object;
+
+        Binding* bind = static_cast<QObject*>(object)->findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
+        if (bind)
+            bind->deleteLater();
+
+        if constexpr (!isObservable<Args...>())
+            bind = nullptr;
+        else {
+            bind = new Binding(object);
+            bind->setObjectName(Info::bindingName());
+            std::apply([prop, bind](auto&&... args){ bindTo(prop, bind, args...); }, args);
+
+            QObject::connect(bind  , &Binding::update   , bind, [object, expr = *this](){
+                Info::Setter::set(object, expr());
+            });
+        }
+
+        Info::Setter::set(object, (*this)());
+        return bind;
+    }
 
 private:
     std::tuple<Args...> args;
@@ -186,6 +207,25 @@ private:
     template<typename Arg0, typename ...ArgN>
     static auto calc(const Arg0& arg0, const ArgN&... argn)
     { return std::tuple_cat(calc(arg0), calc(argn...)); }
+
+
+    template<typename T>    struct is_observable { static constexpr bool value = false; };
+    template<typename Info> struct is_observable<Property<Info>>
+    {
+        static constexpr bool value = std::conditional<std::is_same<typename Info::Notify, NoNotify>::value,
+                                                       std::false_type,
+                                                       std::true_type>::type::value;
+    };
+
+    template<typename T0, typename ...TN>
+    static constexpr bool isObservable() {
+        if constexpr (is_observable<T0>::value)
+            return true;
+        if constexpr (sizeof...(TN) > 0)
+            return isObservable<TN...>();
+        return false;
+    }
+
 
     template<typename Info, typename    T> static void bindTo(Property<Info>, Binding*, const T&) {}
     template<typename Info, typename ...T> static void bindTo(Property<Info> prop, Binding* bind, const BindingExpr<T...>& expr) { return expr.bindTo(prop, bind); }
@@ -276,27 +316,13 @@ public:
     template<typename T> void operator<<=(const T& r) { set(get() << r); }
     template<typename T> void operator>>=(const T& r) { set(get() >> r); }
 
-    Binding* operator=(Property<Info> prop) { return operator=(makeBindingExpr<NoAction>(prop)); }
+    Binding* operator=(Property<Info> prop) { return makeBindingExpr<NoAction>(prop).bindTo(*this); }
 
     template<typename T>
-    Binding* operator=(Property<T>    prop) { return operator=(makeBindingExpr<NoAction>(prop)); }
+    Binding* operator=(Property<T>    prop) { return makeBindingExpr<NoAction>(prop).bindTo(*this); }
 
     template<typename Action, typename ...Args>
-    Binding* operator=(const BindingExpr<Action, Args...>& expr)
-    {
-        Binding* bind = static_cast<QObject*>(object)->findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
-        if (bind)
-            bind->deleteLater();
-
-        bind = new Binding(object);
-        bind->setObjectName(Info::bindingName());
-        expr.bindTo(*this, bind);
-        QObject::connect(bind  , &Binding::update   , bind, [object = this->object, expr](){
-            Setter::set(object, expr());
-        });
-        Setter::set(object, expr());
-        return bind;
-    }
+    Binding* operator=(const BindingExpr<Action, Args...>& expr) { return expr.bindTo(*this); }
 
     template<typename Func, typename ...Args>
     auto invoke(Func func, const Args&... args) const
