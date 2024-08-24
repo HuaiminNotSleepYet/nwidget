@@ -83,6 +83,7 @@ label.text() = nw::asprintf("%d", slider1.value() + slider2.value());
 ![](./doc/img/nwidget_gallery.png)
 
 [Binding Example](./examples/binding_example)
+
 ![](./doc/img/binding_example.gif)
 
 [Length Calculator](./examples/length_calculator)

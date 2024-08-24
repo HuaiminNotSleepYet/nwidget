@@ -1,20 +1,16 @@
-# Documentation
+# Document
 
 - [Layout Syntax](#layout-syntax)
-  - [Overview](#overview)
   - [ForEach](#foreach)
 - [Property Binding](#property-binding)
-  - [Overview](#overview-1)
   - [xxxRef](#xxxref)
   - [Property](#property)
-  - [Member Functions](#member-functions)
-  - [Special C++ Features](#special-c-features)
+  - [Property Binding](#property-binding-1)
+  - [Binding Object](#binding-object)
 
 ## Layout Syntax
 
-### Overview
-
-Use declarative syntax to arrange controls and set their properties through chain calls.
+Use declarative syntax to arrange controls and set control properties through method chaining.
 
 ```cpp
 auto* button1 = new QPushButton;
@@ -22,10 +18,10 @@ auto* button2 = new QPushButton;
 button1.setText("Button");
 
 QLayout* layout = nw::VBoxLayout{
-    button1,                                // Use existing object
+    button1,                                // Use existing instance
     new QPushButton,
     nw::PushButton(),
-    nw::PushButton(button2).text("Button"), // Build on existing object
+    nw::PushButton(button2).text("Button"), // Set on existing instance
 };
 ```
 
@@ -46,8 +42,6 @@ QLayout* layout = nw::VBoxLayout{
 
 ## Property Binding
 
-### Overview
-
 nwidget uses syntax similar to [qml property binding](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html).
 
 ```cpp
@@ -64,70 +58,159 @@ QLayout* layout = nw::VBoxLayout{
 slider3.value() = slider1.value() + slider2.value();
 ```
 
-You can use the same property of the same instance in expressions but should avoid loops and updating expression values within the expression.
-
-```cpp
-button.iconSize()
-= nw::constructor<QSize>(slider.value(), button.iconSize().invoke(&QSize::height));
-//                       ^               ^ changed signal were ignored
-//                       changed signal were connedt
-```
-
 ### xxxRef
 
-`xxxRef` is a helper class with the following feature:
-1. Uniquely identifies an object, similar to [id](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#the-id-attribute) in qml, so it cannot be set to a new value.
-2. Returns an instance of the `Property` object representing a QObject property.
+`xxxRef` is an auxiliary class primarily for:
+- Uniquely identifying an object, mimicking the [id](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#the-id-attribute) mechanism in qml.
+- Returning a [Property](#property) instance.
 
-> The name `xxxRef` does not clearly indicate its functionality. I hope to find a better name in the future.
+> The name `xxxRef` does not clearly indicate its function; we hope to find a better.
 
-> To create a corresponding Ref object for your class, refer to [length_calculator](../../examples/length_calculator):
+To create a Ref type for custom class, refer to `MainWindowRef` in [length_calculator](../../examples/length_calculator/mainwindow.cpp).
 
 ### Property
 
-`Property` represents a property of a QObject, recording the property's name, Getter, Setter, and changed signal.
+`Property` is a template class representing a property of a QObject instance. It uses template parameters to record the property’s name, Getter, Setter, and change signal:
 
 ```cpp
-nw::LabelRef label = new QLabel;
+template<typename Object_,
+         typename Type_,
+         typename Getter_,
+         typename Setter_,
+         typename Notify_>
+struct PropertyInfo
+{
+    using Object = Object_;
+    using Type   = Type_;
+    using Getter = Getter_;
+    using Setter = Setter_;
+    using Notify = Notify_;
+};
 
-QString name = decltype(label.text())::Info::name(); // "text"
-
-label.text() = "hello";
-QString text = label.text();
+template<typename PropertyInfo>
+class Property
+{
+public:
+    using Info = PropertyInfo;
+    // ...
+}
 ```
 
-> The `Binding` object automatically connects to the `destroyed` signal of the QObject corresponding to the Property object in the binding expression.
+Usually you don't need to create `Property` directly, but use the `N_PROPERTY` macro to declare it.
 
-### Member Functions
-
-Use `invoke` to represent member function calls:
+For the property without Getter/Setter/Notify, use `N_NO_GETTER`/`N_NO_SETTER`/`N_NO_NOTIFY` instend.
 
 ```cpp
-nw::LineEditRef edit1;
-nw::LineEditRef edit2;
-nw::LabelRef label;
-
-// ...
-
-label.text() = (edit1.text() + ' ' + edit2.text()).invoke(&QString::toLower);
+class xxxRef : public ObjectRefT<xxx>
+{
+public:
+    N_PROPERTY(int, propA, N_GETTER(propA), N_SETTER(setPropA), N_NOTIFY(propAChanged))
+    N_PROPERTY(int, propB, N_GETTER(propB), N_NO_SETTER       , N_NO_NOTIFY           )
+}
 ```
 
-The `invoke` method can carry parameters:
+There are several ways to manipulate `Property`:
 
 ```cpp
-label.text() = lineEdit.text().invoke(&QString::last, 5);
+// Set and get methods
+auto textProp = label.text();
+textProp.set("value1");
+QString text = textProp.get();
+
+// Assignment operator
+auto valueProp = slider.value();
+valueProp = 20;
+valueProp += 10;
+
+// Increment/Decrement
+++valueProp;
 ```
 
-### Special C++ Features
+### Property Binding
 
-Some C++ features cannot be directly used in binding expressions, so nwidget provides the following methods:
+Similar to qml, binding is created by assigning an expression of `Property` to another. When a new value or binding is set for a `Property`, the old binding is removed.
 
-|                            | Function         | Note                 |
-| -------------------------- | ---------------- | -------------------- |
-| `nw::call`                 | Function call    | Can carry parameters |
-| `nw::constructor<T>`       | Constructor call | Can carry parameters |
-| `nw::cast`                 | Type casting     |                      |
-| `nw::static_cast_<T>`      | static_cast      |                      |
-| `nw::reinterpret_cast_<T>` | reinterpret_cast |                      |
+The simplest binding is assigning one property to another:
 
-And a helper method `nw::asprintf`
+```cpp
+label.text() = lineEdit.text()
+```
+
+Binding expressions support most c++ operators:
+
+```cpp
+slider1.value() = slider2.value() / 2;
+
+checkBox.checked() = slider.value() > 50;
+
+checkBox.checked() = !((spinBox.value() > 25) && (slider.value() < 75));
+```
+
+For some operators and C++ features, specific methods are required:
+
+Ternary operator: `nw::cond`
+
+```cpp
+label.text() = nw::cond(slider.value() > 50, QString(">"), QString("<"));
+```
+
+Function calls: `nw::call`
+
+```cpp
+int add(int a, int b) { return a + b; }
+
+slider1.value() = nw::call(add, slider2.value(), slider3.value())
+
+slider1.value() = nw::call([](int a, int b){ return a + b; },
+                           slider2.value(),
+                           slider3.value())
+```
+
+Constructor calls: `nw::constructor<T>`
+
+```cpp
+dateTimeEdit.dateTime() = nw::constructor<QDateTime>(dateEdit.date(), timeEdit.time());
+```
+
+Member function calls: `invoke`
+
+```cpp
+spinBox.value() = lineEdit.text().invoke(&QString::length)
+```
+
+Cast: `nw::cast<T>`, `nw::static_cast_<T>`, `nw::reinterpret_cast_<T>`
+
+```cpp
+doubleSpinBox.value() = nw::cast<double>(spinBox.value());
+
+doubleSpinBox.value() = nw::static_cast_<double>(spinBox.value());
+```
+
+nwidget also provides a string formatting method `nw::asprintf`, internally calling `QString::asprintf`:
+
+```cpp
+label.text() = nw::asprintf("%d, %d", slider1.value(), slider2.value());
+```
+
+You can use the same instance’s properties in expressions, but need to avoid loops and updating the value of an expression within the expression:
+
+```cpp
+button.iconSize()
+= nw::constructor<QSize>(slider.value(),   // < Signal change here is subscribed
+                         button.iconSize() // < Signal change here is ignored
+                         .invoke(&QSize::height));
+```
+
+### Binding Object
+
+When creating a binding, you can get a `Binding` instance:
+
+```cpp
+Binding* bind = label.text() = lineEdit.text();
+```
+
+> If there are no observable values in the binding expression, `nullptr` is returned.
+
+`Binding` has an `update` signal triggered when the binding expression is recalculated.
+
+`Binding` automatically connects to the `destroyed` signal of the `QObject` corresponding to `Property` in the binding expression, so you don’t need to manage its lifecycle.
