@@ -29,6 +29,8 @@ public:
     explicit TabBarBuilder(T* target)                                 : WidgetBuilder<S, T>(target) {}
     TabBarBuilder(T* target, std::initializer_list<TabBarItem> items) : WidgetBuilder<S, T>(target) { addItems(items); }
 
+    S& item(std::initializer_list<TabBarItem> items)               { addItems(items)                     ; return self(); }
+
     S& shape(QTabBar::Shape shape)                                 { t->setShape(shape)                  ; return self(); }
     S& tabEnabled(int index, bool enabled)                         { t->setTabEnabled(index, enabled)    ; return self(); }
     S& tabVisible(int index, bool visible)                         { t->setTabVisible(index, visible)    ; return self(); }

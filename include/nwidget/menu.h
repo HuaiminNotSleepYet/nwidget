@@ -40,6 +40,8 @@ public:
     MenuBuilder(T* target, std::initializer_list<MenuItem> items)                       : WidgetBuilder<S, T>(target) { addItems(items); }
     MenuBuilder(T* target, const QString& title, std::initializer_list<MenuItem> items) : WidgetBuilder<S, T>(target) { t->setTitle(title); addItems(items); }
 
+    S& item(std::initializer_list<MenuItem> items) { addItems(items); return self(); }
+
     S& icon(const QIcon& ico)  { t->setIcon(ico); return self(); }
     S& title(const QString& s) { t->setTitle(s); return self(); }
 };

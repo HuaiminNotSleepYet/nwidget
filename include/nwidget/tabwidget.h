@@ -29,6 +29,8 @@ public:
     explicit TabWidgetBuilder(T* target)                                    : WidgetBuilder<S, T>(target) {}
     TabWidgetBuilder(T* target, std::initializer_list<TabWidgetItem> pages) : WidgetBuilder<S, T>(target) { addItems(pages); }
 
+    S& items(std::initializer_list<TabWidgetItem> pages)            { addItems(pages)                    ; return self(); }
+
     S& tabEnabled(int index, bool enabled)                          { t->setTabEnabled(index, enabled)   ; return self(); }
     S& tabVisible(int index, bool visible)                          { t->setTabVisible(index, visible)   ; return self(); }
     S& tabText(int index, const QString &text)                      { t->setTabText(index, text)         ; return self(); }

@@ -37,6 +37,8 @@ public:
     ComboBoxBuilder(T* target, const QStringList& items)                  : WidgetBuilder<S, T>(target) { t->addItems(items); }
     ComboBoxBuilder(T* target, std::initializer_list<ComboBoxItem> items) : WidgetBuilder<S, T>(target) { addItems(items); }
 
+    S& item(std::initializer_list<ComboBoxItem> items) { addItems(items); return self(); }
+
     N_SIGNAL(onEditTextChanged    , QComboBox::editTextChanged    )
     N_SIGNAL(onActivated          , QComboBox::activated          )
     N_SIGNAL(onTextActivated      , QComboBox::textActivated      )

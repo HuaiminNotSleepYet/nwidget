@@ -59,6 +59,9 @@ public:
     BoxLayoutBuilder(T* target, QBoxLayout::Direction direction) : LayoutBuilder<S, T>(target) { t->setDirection(direction); }
     BoxLayoutBuilder(T* target, QBoxLayout::Direction direction,
                      std::initializer_list<BoxLayoutItem> items) : LayoutBuilder<S, T>(target) { t->setDirection(direction); addItems(items); }
+
+    S& items(std::initializer_list<LayoutItem> items) = delete;
+    S& items(std::initializer_list<BoxLayoutItem> items) { addItems(items); return self(); }
 };
 
 N_BUILDER_IMPL(BoxLayoutBuilder, QBoxLayout , BoxLayout);

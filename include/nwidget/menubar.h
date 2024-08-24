@@ -29,6 +29,8 @@ public:
     MenuBarBuilder(std::initializer_list<MenuBarItem> menus)            : WidgetBuilder<S, T>(new T) { addItems(menus); }
     explicit MenuBarBuilder(T* target)                                  : WidgetBuilder<S, T>(target) {}
     MenuBarBuilder(T* target, std::initializer_list<MenuBarItem> menus) : WidgetBuilder<S, T>(target) { addItems(menus); }
+
+    S& item(std::initializer_list<MenuBarItem> items) { addItems(items); return self(); }
 };
 
 N_BUILDER_IMPL(MenuBarBuilder, QMenuBar, MenuBar);

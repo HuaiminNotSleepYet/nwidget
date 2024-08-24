@@ -43,6 +43,9 @@ public:
     explicit GridLayoutBuilder(T* target)                                     : LayoutBuilder<S, T>(target) {}
     GridLayoutBuilder(T* target, std::initializer_list<GridLayoutItem> items) : LayoutBuilder<S, T>(target) { addItems(items); }
 
+    S& items(std::initializer_list<LayoutItem> items) = delete;
+    S& items(std::initializer_list<GridLayoutItem> items) { addItems(items); return self(); }
+
     S& horizontalSpacing(int spacing)                    { t->setHorizontalSpacing(spacing)      ; return self(); }
     S& verticalSpacing(int spacing)                      { t->setVerticalSpacing(spacing)        ; return self(); }
     S& rowStretch(int row, int stretch)                  { t->setRowStretch(row, stretch)        ; return self(); }
