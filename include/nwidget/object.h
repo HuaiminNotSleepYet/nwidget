@@ -53,8 +53,8 @@ public:
     S& objectName(const QString& name)                       { t->setObjectName(name);     return self(); }
     S& objectName(QAnyStringView name)                       { t->setObjectName(name);     return self(); }
 
-    S& property(const char* name, const QVariant& value)     { t->setProerty(name, value); return self(); }
-    S& property(const char* name, QVariant&& value)          { t->setProerty(name, value); return self(); }
+    S& property(const char* name, const QVariant& value)     { t->setProperty(name, value); return self(); }
+    S& property(const char* name, QVariant&& value)          { t->setProperty(name, value); return self(); }
 
     N_SIGNAL(onDestroyed        , QObject::destroyed        )
     N_SIGNAL(onObjectNameChanged, QObject::objectNameChanged)
