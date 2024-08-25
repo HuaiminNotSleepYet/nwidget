@@ -65,10 +65,10 @@ N_BUILDER_IMPL(TabWidgetBuilder, QTabWidget, TabWidget);
 
 
 template <typename T>
-class TabWidgetRefT : public WidgetRefT<T>
+class TabWidgetIdT : public WidgetIdT<T>
 {
 public:
-    using WidgetRefT<T>::WidgetRefT;
+    using WidgetIdT<T>::WidgetIdT;
 
     N_PROPERTY(QTabWidget::TabPosition, tabPosition      , N_GETTER(tabPosition      ), N_SETTER(setTabPosition      ), N_NO_NOTIFY)
     N_PROPERTY(QTabWidget::TabShape   , tabShape         , N_GETTER(tabShape         ), N_SETTER(setTabShape         ), N_NO_NOTIFY)
@@ -83,7 +83,7 @@ public:
     N_PROPERTY(bool                   , tabBarAutoHide   , N_GETTER(tabBarAutoHide   ), N_SETTER(setTabBarAutoHide   ), N_NO_NOTIFY)
 };
 
-using TabWidgetRef = TabWidgetRefT<QTabWidget>;
+using TabWidgetId = TabWidgetIdT<QTabWidget>;
 
 }
 

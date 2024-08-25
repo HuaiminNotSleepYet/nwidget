@@ -21,17 +21,17 @@ N_BUILDER_IMPL(AbstractScrollAreaBuilder, QAbstractScrollArea, AbstractScrollAre
 
 
 template<typename T>
-class AbstractScrollAreaRefT : public FrameRefT<T>
+class AbstractScrollAreaIdT : public FrameIdT<T>
 {
 public:
-    using FrameRefT<T>::FrameRefT;
+    using FrameIdT<T>::FrameIdT;
 
     N_PROPERTY(Qt::ScrollBarPolicy, verticalScrollBarPolicy  , N_GETTER(verticalScrollBarPolicy  ), N_SETTER(setVerticalScrollBarPolicy  ), N_NO_NOTIFY)
     N_PROPERTY(Qt::ScrollBarPolicy, horizontalScrollBarPolicy, N_GETTER(horizontalScrollBarPolicy), N_SETTER(setHorizontalScrollBarPolicy), N_NO_NOTIFY)
     N_PROPERTY(QAbstractScrollArea::SizeAdjustPolicy, sizeAdjustPolicy, N_GETTER(sizeAdjustPolicy), N_SETTER(setSizeAdjustPolicy         ), N_NO_NOTIFY)
 };
 
-using AbstractScrollAreaRef = AbstractScrollAreaRefT<QAbstractScrollArea>;
+using AbstractScrollAreaId = AbstractScrollAreaIdT<QAbstractScrollArea>;
 
 }
 

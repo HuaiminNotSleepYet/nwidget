@@ -28,10 +28,10 @@ N_BUILDER_IMPL(FrameBuilder, QFrame, Frame);
 
 
 template<typename T>
-class FrameRefT : public WidgetRefT<T>
+class FrameIdT : public WidgetIdT<T>
 {
 public:
-    using WidgetRefT<T>::WidgetRefT;
+    using WidgetIdT<T>::WidgetIdT;
 
     N_PROPERTY(QFrame::Shape , frameShape  , N_GETTER(frameShape  ), N_SETTER(setFrameShape  ), N_NO_NOTIFY)
     N_PROPERTY(QFrame::Shadow, frameShadow , N_GETTER(frameShadow ), N_SETTER(setFrameShadow ), N_NO_NOTIFY)
@@ -41,7 +41,7 @@ public:
     N_PROPERTY(QRect         , frameRect   , N_GETTER(frameRect   ), N_SETTER(setFrameRect   ), N_NO_NOTIFY)
 };
 
-using FrameRef = FrameRefT<QFrame>;
+using FrameId = FrameIdT<QFrame>;
 
 }
 

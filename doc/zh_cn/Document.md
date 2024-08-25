@@ -3,7 +3,7 @@
 - [布局语法](#布局语法)
   - [ForEach](#foreach)
 - [属性绑定](#属性绑定)
-  - [xxxRef](#xxxref)
+  - [xxxId](#xxxid)
   - [Property](#property)
   - [属性绑定](#属性绑定-1)
   - [Binding 对象](#binding-对象)
@@ -45,9 +45,9 @@ QLayout* layout = nw::VBoxLayout{
 nwidget 使用类似 [qml 属性绑定](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html) 的语法：
 
 ```cpp
-nw::SliderRef slider1;
-nw::SliderRef slider2;
-nw::SliderRef slider3;
+nw::SliderId slider1;
+nw::SliderId slider2;
+nw::SliderId slider3;
 
 QLayout* layout = nw::VBoxLayout{
     nw::Slider(slider1, Qt::Horizontal),
@@ -58,15 +58,11 @@ QLayout* layout = nw::VBoxLayout{
 slider3.value() = slider1.value() + slider2.value();
 ```
 
-### xxxRef
+### xxxId
 
-`xxxRef` 是一个辅助类，主要功能为：
-- 唯一标识一个对象，这是为了还原 qml 中的 [id](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#the-id-attribute) 机制
-- 返回一个 [Property](#property) 实例
+为了实现类似 qml 的 [id](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#the-id-attribute) 机制，nwidget 添加了 `xxxId` 类型，它用于唯一标识一个对象和获取 [Property](#property) 实例
 
-> xxxRef 这个名字不能明确表示它的功能，我希望将来找到更好的代替
-
-要为自定义类创建对应的 Ref 类型，请参考 [length_calculator](../../examples/length_calculator/mainwindow.cpp) 中的 `MainWindowRef`
+要为自定义类创建对应的 Id 类型，请参考 [length_calculator](../../examples/length_calculator/mainwindow.cpp) 中的 `MainWindowId`
 
 ### Property
 
@@ -120,7 +116,7 @@ valueProp += 10;
 对于没有 Getter/Setter/Notify 的属性, 使用 `N_NO_GETTER`/`N_NO_SETTER`/`N_NO_NOTIFY` 代替
 
 ```cpp
-class xxxRef : public ObjectRefT<xxx>
+class xxxId : public ObjectIdT<xxx>
 {
 public:
     N_PROPERTY(int, propA, N_GETTER(propA), N_SETTER(setPropA), N_NOTIFY(propAChanged))

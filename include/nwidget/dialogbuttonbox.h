@@ -37,10 +37,10 @@ N_BUILDER_IMPL(DialogButtonBoxBuilder, QDialogButtonBox, DialogButtonBox);
 
 
 template <typename T>
-class DialogButtonBoxRefT : public WidgetRefT<T>
+class DialogButtonBoxIdT : public WidgetIdT<T>
 {
 public:
-    using WidgetRefT<T>::WidgetRefT;
+    using WidgetIdT<T>::WidgetIdT;
 
     N_PROPERTY(Qt::Orientation, orientation    , N_GETTER(orientation    ), N_SETTER(setOrientation    ), N_NO_NOTIFY)
     N_PROPERTY(QDialogButtonBox::StandardButtons
@@ -48,7 +48,7 @@ public:
     N_PROPERTY(bool           , centerButtons  , N_GETTER(centerButtons  ), N_SETTER(setCenterButtons  ), N_NO_NOTIFY)
 };
 
-using DialogButtonBoxRef = DialogButtonBoxRefT<QDialogButtonBox>;
+using DialogButtonBoxId = DialogButtonBoxIdT<QDialogButtonBox>;
 
 }
 

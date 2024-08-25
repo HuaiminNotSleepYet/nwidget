@@ -42,10 +42,10 @@ N_BUILDER_IMPL(AbstractButtonBuilder, QAbstractButton, AbstractButton);
 
 
 template<typename T>
-class AbstractButtonRefT : public WidgetRefT<T>
+class AbstractButtonIdT : public WidgetIdT<T>
 {
 public:
-    using WidgetRefT<T>::WidgetRefT;
+    using WidgetIdT<T>::WidgetIdT;
 
     N_PROPERTY(QString     , text              , N_GETTER(text              ), N_SETTER(setText              ), N_NO_NOTIFY)
     N_PROPERTY(QIcon       , icon              , N_GETTER(icon              ), N_SETTER(setIcon              ), N_NO_NOTIFY)
@@ -62,7 +62,7 @@ public:
     N_PROPERTY(bool        , down              , N_GETTER(isDown            ), N_SETTER(setDown              ), N_NO_NOTIFY)
 };
 
-using AbstractButtonRef = AbstractButtonRefT<QAbstractButton>;
+using AbstractButtonId = AbstractButtonIdT<QAbstractButton>;
 
 }
 

@@ -29,10 +29,10 @@ N_BUILDER_IMPL(ToolButtonBuilder, QToolButton, ToolButton);
 
 
 template<typename T>
-class ToolButtonRefT : public AbstractButtonRefT<T>
+class ToolButtonIdT : public AbstractButtonIdT<T>
 {
 public:
-    using AbstractButtonRefT<T>::AbstractButtonRefT;
+    using AbstractButtonIdT<T>::AbstractButtonIdT;
 
 #if QT_CONFIG(menu)
     N_PROPERTY(QToolButton::ToolButtonPopupMode, popupMode, N_GETTER(popupMode), N_SETTER(setPopupMode), N_NO_NOTIFY)
@@ -42,7 +42,7 @@ public:
     N_PROPERTY(Qt::ArrowType      , arrowType      , N_GETTER(arrowType      ), N_SETTER(setArrowType      ), N_NO_NOTIFY)
 };
 
-using ToolButtonRef = AbstractButtonRefT<QToolButton>;
+using ToolButtonId = AbstractButtonIdT<QToolButton>;
 
 }
 

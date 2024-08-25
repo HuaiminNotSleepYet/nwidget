@@ -54,9 +54,9 @@ QLayout* layout = nw::FormLayout{
 ![](../img/binding.gif)
 
 ```cpp
-nw::LabelRef  label   = new QLabel;
-nw::SliderRef slider1 = new QSlider;
-nw::SliderRef slider2 = new QSlider;
+nw::LabelId  label   = new QLabel;
+nw::SliderId slider1 = new QSlider;
+nw::SliderId slider2 = new QSlider;
 
 QLayout* layout = nw::VBoxLayout{
     nw::Label(label),

@@ -24,16 +24,16 @@ N_BUILDER_IMPL(SliderBuilder, QSlider, Slider);
 
 
 template<typename T>
-class SliderRefT : public AbstractSliderRefT<T>
+class SliderIdT : public AbstractSliderIdT<T>
 {
 public:
-    using AbstractSliderRefT<T>::AbstractSliderRefT;
+    using AbstractSliderIdT<T>::AbstractSliderIdT;
 
     N_PROPERTY(QSlider::TickPosition, tickPosition, N_GETTER(tickPosition), N_SETTER(setTickPosition), N_NO_NOTIFY)
     N_PROPERTY(int                  , tickInterval, N_GETTER(tickInterval), N_SETTER(setTickInterval), N_NO_NOTIFY)
 };
 
-using SliderRef = SliderRefT<QSlider>;
+using SliderId = SliderIdT<QSlider>;
 
 }
 

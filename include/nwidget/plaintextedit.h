@@ -25,10 +25,10 @@ N_BUILDER_IMPL(PlainTextEditBuilder, QPlainTextEdit, PlainTextEdit);
 
 
 template <typename T>
-class PlainTextEditRefT : public AbstractScrollAreaRefT<T>
+class PlainTextEditIdT : public AbstractScrollAreaIdT<T>
 {
 public:
-    using AbstractScrollAreaRefT<T>::AbstractScrollAreaRefT;
+    using AbstractScrollAreaIdT<T>::AbstractScrollAreaIdT;
 
     N_PROPERTY(bool                        , tabChangesFocus     , N_GETTER(tabChangesFocus     ), N_SETTER(setTabChangesFocus     ), N_NO_NOTIFY)
     N_PROPERTY(QString                     , documentTitle       , N_GETTER(documentTitle       ), N_SETTER(setDocumentTitle       ), N_NO_NOTIFY)
@@ -48,7 +48,7 @@ public:
     N_PROPERTY(QString                     , placeholderText     , N_GETTER(placeholderText     ), N_SETTER(setPlaceholderText     ), N_NO_NOTIFY)
 };
 
-using PlainTextEditRef = PlainTextEditRefT<QPlainTextEdit>;
+using PlainTextEditId = PlainTextEditIdT<QPlainTextEdit>;
 
 }
 

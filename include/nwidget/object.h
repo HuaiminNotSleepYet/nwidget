@@ -413,7 +413,7 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
 #define N_PROPERTY(TYPE, NAME, GETTER, SETTER, NOTIFY)                                      \
     auto NAME() const                                                                       \
     {                                                                                       \
-        using Object = typename std::decay<decltype(*this->o)>::type;                       \
+        using Object = typename std::decay<decltype(*this->t)>::type;                       \
         using Type = TYPE;                                                                  \
                                                                                             \
         GETTER                                                                              \
@@ -426,35 +426,31 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
             static QString bindingName() { return QStringLiteral("nw_binding_on_"#NAME); }  \
         };                                                                                  \
                                                                                             \
-        Q_ASSERT(nw::ObjectRefT<Object>::o);                                                \
-        return nw::Property<Info>(nw::ObjectRefT<Object>::o);                               \
+        Q_ASSERT(nw::ObjectIdT<Object>::t);                                                 \
+        return nw::Property<Info>(nw::ObjectIdT<Object>::t);                                \
     }
 
-// TODO: find a better name.
-//   xxxRef is not a good name and does not reflect its exact feature:
-//   1. Uniquely identifies an object, similar to the 'id' in qml, so it cannot be set to a new value.
-//   2. Return a Property instance that represents a QObject property.
 template<typename T>
-class ObjectRefT
+class ObjectIdT
 {
 public:
-    ObjectRefT(T* object) : o(object) { Q_ASSERT(object); }
+    ObjectIdT(T* target) : t(target) { Q_ASSERT(target); }
 
-    T* get() const { return o; }
+    T* get() const { return t; }
 
-    operator T*() const { return o; }
+    operator T*() const { return t; }
 
-    T* operator->() const  { return o; }
+    T* operator->() const  { return t; }
 
-    T& operator*() const { return *o; }
+    T& operator*() const { return *t; }
 
     N_PROPERTY(QString, objectName, N_GETTER(objectName), N_SETTER(setObjectName), N_NOTIFY(objectNameChanged))
 
 protected:
-    T* o;
+    T* t;
 };
 
-using ObjectRef = ObjectRefT<QObject>;
+using ObjectId = ObjectIdT<QObject>;
 
 }
 

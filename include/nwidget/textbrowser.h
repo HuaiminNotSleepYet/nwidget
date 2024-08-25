@@ -29,10 +29,10 @@ N_BUILDER_IMPL(TextBrowserBuilder, QTextBrowser, TextBrowser);
 
 
 template <typename T>
-class TextBrowserRefT : public TextEditRefT<T>
+class TextBrowserIdT : public TextEditIdT<T>
 {
 public:
-    using TextEditRefT<T>::TextEditRefT;
+    using TextEditIdT<T>::TextEditIdT;
 
     N_PROPERTY(QUrl                       , source           , N_GETTER(source           ), N_NO_SETTER                   , N_NO_NOTIFY)
     N_PROPERTY(QTextDocument::ResourceType, sourceType       , N_GETTER(sourceType       ), N_NO_SETTER                   , N_NO_NOTIFY)
@@ -41,7 +41,7 @@ public:
     N_PROPERTY(bool                       , openLinks        , N_GETTER(openLinks        ), N_SETTER(setOpenLinks        ), N_NO_NOTIFY)
 };
 
-using TextBrowserRef = TextBrowserRefT<QTextBrowser>;
+using TextBrowserId = TextBrowserIdT<QTextBrowser>;
 
 }
 

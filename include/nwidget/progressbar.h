@@ -36,10 +36,10 @@ N_BUILDER_IMPL(ProgressBarBuilder, QProgressBar, ProgressBar);
 
 
 template<typename T>
-class ProgressBarRefT : public WidgetRefT<T>
+class ProgressBarIdT : public WidgetIdT<T>
 {
 public:
-    using WidgetRefT<T>::WidgetRefT;
+    using WidgetIdT<T>::WidgetIdT;
 
     N_PROPERTY(int                    , minimum           , N_GETTER(minimum           ), N_SETTER(setMinimum           ), N_NO_NOTIFY)
     N_PROPERTY(int                    , maximum           , N_GETTER(maximum           ), N_SETTER(setMaximum           ), N_NO_NOTIFY)
@@ -53,7 +53,7 @@ public:
     N_PROPERTY(QString                , format            , N_GETTER(format            ), N_SETTER(setFormat            ), N_NO_NOTIFY)
 };
 
-using ProgressBarRef = ProgressBarRefT<QProgressBar>;
+using ProgressBarId = ProgressBarIdT<QProgressBar>;
 
 }
 

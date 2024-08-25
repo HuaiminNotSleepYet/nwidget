@@ -38,16 +38,16 @@ N_BUILDER_IMPL(MenuBarBuilder, QMenuBar, MenuBar);
 
 
 template <typename T>
-class MenuBarRefT : public WidgetRefT<T>
+class MenuBarIdT : public WidgetIdT<T>
 {
 public:
-    using WidgetRefT<T>::WidgetRefT;
+    using WidgetIdT<T>::WidgetIdT;
 
     N_PROPERTY(bool, defaultUp    , N_GETTER(isDefaultUp    ), N_SETTER(setDefaultUp    ), N_NO_NOTIFY)
     N_PROPERTY(bool, nativeMenuBar, N_GETTER(isNativeMenuBar), N_SETTER(setNativeMenuBar), N_NO_NOTIFY)
 };
 
-using MenuBarRef = MenuBarRefT<QMenuBar>;
+using MenuBarId = MenuBarIdT<QMenuBar>;
 
 }
 

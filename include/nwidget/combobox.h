@@ -53,10 +53,10 @@ N_BUILDER_IMPL(ComboBoxBuilder, QComboBox, ComboBox);
 
 
 template <typename T>
-class ComboBoxRefT : public WidgetRefT<T>
+class ComboBoxIdT : public WidgetIdT<T>
 {
 public:
-    using WidgetRefT<T>::WidgetRefT;
+    using WidgetIdT<T>::WidgetIdT;
 
     N_PROPERTY(bool                       , editable             , N_GETTER(isEditable           ), N_SETTER(setEditable             ), N_NO_NOTIFY)
     N_PROPERTY(int                        , count                , N_GETTER(count                ), N_NO_SETTER                       , N_NO_NOTIFY)
@@ -75,7 +75,7 @@ public:
     N_PROPERTY(int                        , modelColumn          , N_GETTER(modelColumn          ), N_SETTER(setModelColumn          ), N_NO_NOTIFY)
 };
 
-using ComboBoxRef = ComboBoxRefT<QComboBox>;
+using ComboBoxId = ComboBoxIdT<QComboBox>;
 
 }
 

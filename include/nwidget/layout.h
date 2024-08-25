@@ -47,17 +47,17 @@ N_BUILDER_IMPL(LayoutBuilder, QLayout, Layout);
 
 
 template<typename T>
-class LayoutRefT : public ObjectRefT<T>
+class LayoutIdT : public ObjectIdT<T>
 {
 public:
-    using ObjectRefT<T>::ObjectRefT;
+    using ObjectIdT<T>::ObjectIdT;
 
     N_PROPERTY(int                    , spacing        , N_GETTER(spacing        ),  N_SETTER(setSpacing        ), N_NO_NOTIFY)
     N_PROPERTY(QMargins               , contentsMargins, N_GETTER(contentsMargins),  N_SETTER(setContentsMargins), N_NO_NOTIFY)
     N_PROPERTY(QLayout::SizeConstraint, sizeConstraint , N_GETTER(sizeConstraint ),  N_SETTER(setSizeConstraint ), N_NO_NOTIFY)
 };
 
-using LayoutRef = LayoutRefT<QLayout>;
+using LayoutId = LayoutIdT<QLayout>;
 
 }
 

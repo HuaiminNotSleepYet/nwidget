@@ -15,27 +15,27 @@ MainWindow::MainWindow()
 
     using namespace nw;
 
-    LabelRef label_0_0 = new QLabel;
-    LineEditRef lineEdit_0_0 = new QLineEdit;
+    LabelId label_0_0 = new QLabel;
+    LineEditId lineEdit_0_0 = new QLineEdit;
 
-    LabelRef label_0_1 = new QLabel;
-    SliderRef slider_0_1 = new QSlider;
+    LabelId label_0_1 = new QLabel;
+    SliderId slider_0_1 = new QSlider;
 
-    SliderRef slider_1_0_0 = new QSlider;
-    SliderRef slider_1_0_1 = new QSlider;
-    SliderRef slider_1_0_2 = new QSlider;
-    SliderRef slider_1_0_3 = new QSlider;
+    SliderId slider_1_0_0 = new QSlider;
+    SliderId slider_1_0_1 = new QSlider;
+    SliderId slider_1_0_2 = new QSlider;
+    SliderId slider_1_0_3 = new QSlider;
 
-    DateEditRef dateEdit_1_1_0 = new QDateEdit;
-    DateEditRef dateEdit_1_1_1 = new QDateEdit;
-    LabelRef label_1_1 = new QLabel;
+    DateEditId dateEdit_1_1_0 = new QDateEdit;
+    DateEditId dateEdit_1_1_1 = new QDateEdit;
+    LabelId label_1_1 = new QLabel;
 
-    LabelRef label_2_0 = new QLabel;
-    SliderRef slider_2_0 = new QSlider;
+    LabelId label_2_0 = new QLabel;
+    SliderId slider_2_0 = new QSlider;
 
-    DateTimeEditRef dateTimeEdit_2_1 = new QDateTimeEdit;
-    DateEditRef dateEdit_2_1 = new QDateEdit;
-    TimeEditRef timeEdit_2_1 = new QTimeEdit;
+    DateTimeEditId dateTimeEdit_2_1 = new QDateTimeEdit;
+    DateEditId dateEdit_2_1 = new QDateEdit;
+    TimeEditId timeEdit_2_1 = new QTimeEdit;
 
     setCentralWidget(Widget(GridLayout{
         {0, 0, GroupBox("Binding", VBoxLayout{

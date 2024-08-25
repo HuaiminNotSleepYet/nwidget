@@ -8,10 +8,10 @@
 
 using namespace nw;
 
-class MainWindowRef : public WidgetRefT<MainWindow>
+class MainWindowId : public WidgetIdT<MainWindow>
 {
 public:
-    using WidgetRefT<MainWindow>::WidgetRefT;
+    using WidgetIdT<MainWindow>::WidgetIdT;
 
     N_PROPERTY(units::length, length1, N_GETTER(length1), N_SETTER(setLength1), N_NOTIFY(length1Changed))
     N_PROPERTY(units::length, length2, N_GETTER(length2), N_SETTER(setLength2), N_NOTIFY(length2Changed))
@@ -42,8 +42,7 @@ MainWindow::MainWindow()
         {nmi, "nmi"},
     };
 
-    // static const QList<length_unit> lengthUnits = {mm, cm, m , km, in, ft, yd, mi, nmi};
-    static const QList<length_unit> lengthUnits = {m};
+    static const QList<length_unit> lengthUnits = {mm, cm, m , km, in, ft, yd, mi, nmi};
 
     const int row_count = lengthUnits.size();
 
@@ -52,17 +51,17 @@ MainWindow::MainWindow()
     auto* group1 = new QButtonGroup(this);
     auto* group2 = new QButtonGroup(this);
 
-    MainWindowRef window = this;
+    MainWindowId window = this;
 
-    LabelRef label = new QLabel;
+    LabelId label = new QLabel;
 
-    DoubleSpinBoxRef spinBox1 = new QDoubleSpinBox;
-    DoubleSpinBoxRef spinBox2 = new QDoubleSpinBox;
+    DoubleSpinBoxId spinBox1 = new QDoubleSpinBox;
+    DoubleSpinBoxId spinBox2 = new QDoubleSpinBox;
 
     setCentralWidget(Widget(GridLayout{
         ForEach(lengthUnits,
         [=](int index, length_unit unit) -> GridLayoutItem {
-            LabelRef label = new QLabel;
+            LabelId label = new QLabel;
             label.text() = call(number, window.length1().invoke(&length::convert_to, unit)
                                                             .invoke(&length::value));
             return {index, 0, Label(label).alignment(Qt::AlignRight)};
@@ -70,7 +69,7 @@ MainWindow::MainWindow()
 
         ForEach(lengthUnits,
         [=](int index, length_unit unit) -> GridLayoutItem {
-            CheckBoxRef box = new QCheckBox;
+            CheckBoxId box = new QCheckBox;
             box.checked() = window.length1().invoke(&length::unit) == unit;
             return {index, 1, CheckBox(box, lengthUnitNames[unit])
                     .group(group1)
@@ -85,7 +84,7 @@ MainWindow::MainWindow()
 
         ForEach(lengthUnits,
         [=](int index, length_unit unit) -> GridLayoutItem {
-            LabelRef label = new QLabel;
+            LabelId label = new QLabel;
             label.text() = call(number, window.length2().invoke(&length::convert_to, unit)
                                                             .invoke(&length::value));
             return {index, 3, Label(label).alignment(Qt::AlignRight)};
@@ -93,7 +92,7 @@ MainWindow::MainWindow()
 
         ForEach(lengthUnits,
         [=](int index, length_unit unit) -> GridLayoutItem {
-            CheckBoxRef box = new QCheckBox;
+            CheckBoxId box = new QCheckBox;
             box.checked() = window.length2().invoke(&length::unit) == unit;
             return {index, 4, CheckBox(box, lengthUnitNames[unit])
                     .group(group2)

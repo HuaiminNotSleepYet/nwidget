@@ -3,7 +3,7 @@
 - [Layout Syntax](#layout-syntax)
   - [ForEach](#foreach)
 - [Property Binding](#property-binding)
-  - [xxxRef](#xxxref)
+  - [xxxId](#xxxid)
   - [Property](#property)
   - [Property Binding](#property-binding-1)
   - [Binding Object](#binding-object)
@@ -45,9 +45,9 @@ QLayout* layout = nw::VBoxLayout{
 nwidget uses syntax similar to [qml property binding](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html).
 
 ```cpp
-nw::SliderRef slider1;
-nw::SliderRef slider2;
-nw::SliderRef slider3;
+nw::SliderId slider1;
+nw::SliderId slider2;
+nw::SliderId slider3;
 
 QLayout* layout = nw::VBoxLayout{
     nw::Slider(slider1, Qt::Horizontal),
@@ -58,15 +58,11 @@ QLayout* layout = nw::VBoxLayout{
 slider3.value() = slider1.value() + slider2.value();
 ```
 
-### xxxRef
+### xxxId
 
-`xxxRef` is an auxiliary class primarily for:
-- Uniquely identifying an object, mimicking the [id](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#the-id-attribute) mechanism in qml.
-- Returning a [Property](#property) instance.
+To achieve a mechanism similar to QML's [id](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#the-id-attribute), nwidget provides the `xxxId` class. It is used to uniquely identify an object and get instance of [Property](#property).
 
-> The name `xxxRef` does not clearly indicate its function; we hope to find a better.
-
-To create a Ref type for custom class, refer to `MainWindowRef` in [length_calculator](../../examples/length_calculator/mainwindow.cpp).
+To create a Id type for custom class, refer to `MainWindowId` in [length_calculator](../../examples/length_calculator/mainwindow.cpp).
 
 ### Property
 
@@ -101,7 +97,7 @@ Usually you don't need to create `Property` directly, but use the `N_PROPERTY` m
 For the property without Getter/Setter/Notify, use `N_NO_GETTER`/`N_NO_SETTER`/`N_NO_NOTIFY` instend.
 
 ```cpp
-class xxxRef : public ObjectRefT<xxx>
+class xxxId : public ObjectIdT<xxx>
 {
 public:
     N_PROPERTY(int, propA, N_GETTER(propA), N_SETTER(setPropA), N_NOTIFY(propAChanged))

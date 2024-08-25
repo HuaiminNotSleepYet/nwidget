@@ -29,16 +29,16 @@ N_BUILDER_IMPL(CheckBoxBuilder, QCheckBox, CheckBox);
 
 
 template<typename T>
-class CheckBoxRefT : public AbstractButtonRefT<T>
+class CheckBoxIdT : public AbstractButtonIdT<T>
 {
 public:
-    using AbstractButtonRefT<T>::AbstractButtonRefT;
+    using AbstractButtonIdT<T>::AbstractButtonIdT;
 
     N_PROPERTY(bool          , tristate  , N_GETTER(isTristate), N_SETTER(setTristate  ), N_NO_NOTIFY)
     N_PROPERTY(Qt::CheckState, checkState, N_GETTER(checkState), N_SETTER(setCheckState), N_NO_NOTIFY)
 };
 
-using CheckBoxRef = CheckBoxRefT<QCheckBox>;
+using CheckBoxId = CheckBoxIdT<QCheckBox>;
 
 }
 

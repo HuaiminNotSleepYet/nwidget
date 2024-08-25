@@ -91,10 +91,10 @@ N_BUILDER_IMPL(DateEditBuilder    , QDateEdit    , DateEdit    );
 
 
 template <typename T>
-class DateTimeEditRefT : public AbstractSpinBoxRefT<T>
+class DateTimeEditIdT : public AbstractSpinBoxIdT<T>
 {
 public:
-    using AbstractSpinBoxRefT<T>::AbstractSpinBoxRefT;
+    using AbstractSpinBoxIdT<T>::AbstractSpinBoxIdT;
 
     N_PROPERTY(QDateTime              , dateTime           , N_GETTER(dateTime           ), N_SETTER(setDateTime           ), N_NOTIFY(dateTimeChanged))
     N_PROPERTY(QDate                  , date               , N_GETTER(date               ), N_SETTER(setDate               ), N_NOTIFY(dateChanged))
@@ -115,27 +115,27 @@ public:
 };
 
 template <typename T>
-class TimeEditRefT : public DateTimeEditRefT<T>
+class TimeEditIdT : public DateTimeEditIdT<T>
 {
 public:
-    using DateTimeEditRefT<T>::DateTimeEditRefT;
+    using DateTimeEditIdT<T>::DateTimeEditIdT;
 
     N_PROPERTY(QTime, time, N_GETTER(time), N_SETTER(setTime), N_NOTIFY(userTimeChanged))
 };
 
 
 template <typename T>
-class DateEditRefT : public DateTimeEditRefT<T>
+class DateEditIdT : public DateTimeEditIdT<T>
 {
 public:
-    using DateTimeEditRefT<T>::DateTimeEditRefT;
+    using DateTimeEditIdT<T>::DateTimeEditIdT;
 
     N_PROPERTY(QDate, date, N_GETTER(date), N_SETTER(setDate), N_NOTIFY(userDateChanged))
 };
 
-using DateTimeEditRef = DateTimeEditRefT<QDateTimeEdit>;
-using TimeEditRef = TimeEditRefT<QTimeEdit>;
-using DateEditRef = DateEditRefT<QDateEdit>;
+using DateTimeEditId = DateTimeEditIdT<QDateTimeEdit>;
+using TimeEditId = TimeEditIdT<QTimeEdit>;
+using DateEditId = DateEditIdT<QDateEdit>;
 
 }
 

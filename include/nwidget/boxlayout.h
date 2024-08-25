@@ -86,9 +86,9 @@ public:
     VBoxLayout(Layout* target, std::initializer_list<BoxLayoutItem> items) : BoxLayoutBuilder<VBoxLayout, Layout>(target) { addItems(items); }
 };
 
-using BoxLayoutRef  = LayoutRefT<QBoxLayout>;
-using HBoxLayoutRef = LayoutRefT<QHBoxLayout>;
-using VBoxLayoutRef = LayoutRefT<QVBoxLayout>;
+using BoxLayoutId  = LayoutIdT<QBoxLayout>;
+using HBoxLayoutId = LayoutIdT<QHBoxLayout>;
+using VBoxLayoutId = LayoutIdT<QVBoxLayout>;
 
 }
 

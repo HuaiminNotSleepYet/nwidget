@@ -25,10 +25,10 @@ public:
 N_BUILDER_IMPL(LabelBuilder, QLabel, Label);
 
 template<typename T>
-class LabelRefT : public FrameRefT<T>
+class LabelIdT : public FrameIdT<T>
 {
 public:
-    using FrameRefT<T>::FrameRefT;
+    using FrameIdT<T>::FrameIdT;
 
     N_PROPERTY(QString                 , text             , N_GETTER(text                ), N_SETTER(setText                ), N_NO_NOTIFY)
     N_PROPERTY(Qt::TextFormat          , textFormat       , N_GETTER(textFormat          ), N_SETTER(setTextFormat          ), N_NO_NOTIFY)
@@ -44,7 +44,7 @@ public:
     N_PROPERTY(QString                 , selectedText     , N_GETTER(selectedText        ), N_NO_SETTER                      , N_NO_NOTIFY)
 };
 
-using LabelRef = LabelRefT<QLabel>;
+using LabelId = LabelIdT<QLabel>;
 
 }
 

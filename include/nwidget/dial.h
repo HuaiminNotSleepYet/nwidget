@@ -27,10 +27,10 @@ N_BUILDER_IMPL(DialBuilder, QDial, Dial);
 
 
 template <typename T>
-class DialRefT : public AbstractSliderRefT<T>
+class DialIdT : public AbstractSliderIdT<T>
 {
 public:
-    using AbstractSliderRefT<T>::AbstractSliderRefT;
+    using AbstractSliderIdT<T>::AbstractSliderIdT;
 
     N_PROPERTY(bool , wrapping      , N_GETTER(wrapping      ), N_SETTER(setWrapping      ), N_NO_NOTIFY)
     N_PROPERTY(int  , notchSize     , N_GETTER(notchSize     ), N_NO_SETTER                , N_NO_NOTIFY)
@@ -38,7 +38,7 @@ public:
     N_PROPERTY(bool , notchesVisible, N_GETTER(notchesVisible), N_SETTER(setNotchesVisible), N_NO_NOTIFY)
 };
 
-using DialRef = DialRefT<QDial>;
+using DialId = DialIdT<QDial>;
 
 }
 

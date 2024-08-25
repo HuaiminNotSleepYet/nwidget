@@ -47,10 +47,10 @@ N_BUILDER_IMPL(FormLayoutBuilder, QFormLayout, FormLayout);
 
 
 template<typename T>
-class FormLayoutRefT : public LayoutRefT<T>
+class FormLayoutIdT : public LayoutIdT<T>
 {
 public:
-    using LayoutRefT<T>::LayoutRefT;
+    using LayoutIdT<T>::LayoutIdT;
 
     N_PROPERTY(QFormLayout::FieldGrowthPolicy, fieldGrowthPolicy, N_GETTER(fieldGrowthPolicy), N_SETTER(setFieldGrowthPolicy), N_NO_NOTIFY)
     N_PROPERTY(QFormLayout::RowWrapPolicy    , rowWrapPolicy    , N_GETTER(rowWrapPolicy    ), N_SETTER(setRowWrapPolicy    ), N_NO_NOTIFY)
@@ -60,7 +60,7 @@ public:
     N_PROPERTY(int                           , verticalSpacing  , N_GETTER(verticalSpacing  ), N_SETTER(setVerticalSpacing  ), N_NO_NOTIFY)
 };
 
-using FormLayoutRef = FormLayoutRefT<QFormLayout>;
+using FormLayoutId = FormLayoutIdT<QFormLayout>;
 }
 
 #endif // FORMLAYOUT_H

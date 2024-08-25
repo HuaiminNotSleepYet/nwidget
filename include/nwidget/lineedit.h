@@ -60,10 +60,10 @@ N_BUILDER_IMPL(LineEditBuilder, QLineEdit, LineEdit);
 
 
 template<typename T>
-class LineEditRefT : public WidgetRefT<T>
+class LineEditIdT : public WidgetIdT<T>
 {
 public:
-    using WidgetRefT<T>::WidgetRefT;
+    using WidgetIdT<T>::WidgetIdT;
 
     N_PROPERTY(QString            , inputMask         , N_GETTER(inputMask           ), N_SETTER(setInputMask         ), N_NO_NOTIFY)
     N_PROPERTY(QString            , text              , N_GETTER(text                ), N_SETTER(setText              ), N_NOTIFY(textChanged))
@@ -86,7 +86,7 @@ public:
     N_PROPERTY(bool               , clearButtonEnabled, N_GETTER(isClearButtonEnabled), N_SETTER(setClearButtonEnabled), N_NO_NOTIFY)
 };
 
-using LineEditRef = LineEditRefT<QLineEdit>;
+using LineEditId = LineEditIdT<QLineEdit>;
 
 }
 

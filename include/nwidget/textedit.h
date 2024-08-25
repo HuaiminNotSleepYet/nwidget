@@ -31,9 +31,10 @@ N_BUILDER_IMPL(TextEditBuilder, QTextEdit, TextEdit);
 
 
 
-template <typename T> class TextEditRefT : public AbstractScrollAreaRefT<T> {
+template <typename T> class TextEditIdT : public AbstractScrollAreaIdT<T>
+{
 public:
-    using AbstractScrollAreaRefT<T>::AbstractScrollAreaRefT;
+    using AbstractScrollAreaIdT<T>::AbstractScrollAreaIdT;
 
     N_PROPERTY(QTextEdit::AutoFormatting, autoFormatting       , N_GETTER(autoFormatting       ), N_SETTER(setAutoFormatting       ), N_NO_NOTIFY)
     N_PROPERTY(bool                     , tabChangesFocus      , N_GETTER(tabChangesFocus      ), N_SETTER(setTabChangesFocus      ), N_NO_NOTIFY)
@@ -55,7 +56,7 @@ public:
     N_PROPERTY(QString                  , placeholderText      , N_GETTER(placeholderText      ), N_SETTER(setPlaceholderText      ), N_NO_NOTIFY)
 };
 
-using TextEditRef = TextEditRefT<QTextEdit>;
+using TextEditId = TextEditIdT<QTextEdit>;
 
 }
 

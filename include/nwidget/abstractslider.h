@@ -32,10 +32,10 @@ N_BUILDER_IMPL(AbstractSliderBuilder, QAbstractSlider, AbstractSlider);
 
 
 template<typename T>
-class AbstractSliderRefT : public WidgetRefT<T>
+class AbstractSliderIdT : public WidgetIdT<T>
 {
 public:
-    using WidgetRefT<T>::WidgetRefT;
+    using WidgetIdT<T>::WidgetIdT;
 
     N_PROPERTY(int            , minimum           , N_GETTER(minimum           ), N_SETTER(setMinimum           ) , N_NO_NOTIFY)
     N_PROPERTY(int            , maximum           , N_GETTER(maximum           ), N_SETTER(setMaximum           ) , N_NO_NOTIFY)
@@ -49,7 +49,7 @@ public:
     N_PROPERTY(bool           , invertedControls  , N_GETTER(invertedControls  ), N_SETTER(setInvertedControls  ) , N_NO_NOTIFY)
 };
 
-using AbstractSliderRef = AbstractSliderRefT<QAbstractSlider>;
+using AbstractSliderId = AbstractSliderIdT<QAbstractSlider>;
 
 }
 

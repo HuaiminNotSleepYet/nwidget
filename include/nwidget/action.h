@@ -34,10 +34,10 @@ N_BUILDER_IMPL(ActionBuilder, QAction, Action);
 
 
 template <typename T>
-class ActionRefT : public ObjectRefT<T>
+class ActionIdT : public ObjectIdT<T>
 {
 public:
-    using ObjectRefT<T>::ObjectRefT;
+    using ObjectIdT<T>::ObjectIdT;
 
     N_PROPERTY(bool               , checkable        , N_GETTER(isCheckable    ), N_SETTER(setCheckable      ), N_NOTIFY(checkableChanged))
     N_PROPERTY(bool               , checked          , N_GETTER(isChecked      ), N_SETTER(setChecked        ), N_NOTIFY(toggled         ))
@@ -62,7 +62,7 @@ public:
     N_PROPERTY(QAction::Priority  , priority         , N_GETTER(priority       ), N_SETTER(setPriority       ), N_NOTIFY(changed         ))
 };
 
-using ActionRef = ActionRefT<QAction>;
+using ActionId = ActionIdT<QAction>;
 
 }
 

@@ -137,10 +137,10 @@ N_BUILDER_IMPL(WidgetBuilder, QWidget, Widget);
 
 
 template<typename T>
-class WidgetRefT : public ObjectRefT<T>
+class WidgetIdT : public ObjectIdT<T>
 {
 public:
-    using ObjectRefT<T>::ObjectRefT;
+    using ObjectIdT<T>::ObjectIdT;
 
 
     N_PROPERTY(bool                 , modal                , N_GETTER(isModal              ), N_NO_SETTER                       , N_NO_NOTIFY)
@@ -217,7 +217,7 @@ public:
     N_PROPERTY(Qt::InputMethodHints , inputMethodHints     , N_GETTER(inputMethodHints     ), N_SETTER(setInputMethodHints     ), N_NO_NOTIFY)
 };
 
-using WidgetRef = WidgetRefT<QWidget>;
+using WidgetId = WidgetIdT<QWidget>;
 
 }
 

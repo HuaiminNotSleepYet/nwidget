@@ -36,10 +36,10 @@ N_BUILDER_IMPL(AbstractSpinBoxBuilder, QAbstractSpinBox, AbstractSpinBox);
 
 
 template<typename T>
-class AbstractSpinBoxRefT : public WidgetRefT<T>
+class AbstractSpinBoxIdT : public WidgetIdT<T>
 {
 public:
-    using WidgetRefT<T>::WidgetRefT;
+    using WidgetIdT<T>::WidgetIdT;
 
     N_PROPERTY(bool                            , wrapping          , N_GETTER(wrapping             ), N_SETTER(setWrapping           ), N_NO_NOTIFY)
     N_PROPERTY(bool                            , frame             , N_GETTER(hasFrame             ), N_SETTER(setFrame              ), N_NO_NOTIFY)
@@ -55,7 +55,7 @@ public:
     N_PROPERTY(bool                            , showGroupSeparator, N_GETTER(isGroupSeparatorShown), N_SETTER(setGroupSeparatorShown), N_NO_NOTIFY)
 };
 
-using AbstractSpinBoxRef = AbstractSpinBoxRefT<QAbstractSpinBox>;
+using AbstractSpinBoxId = AbstractSpinBoxIdT<QAbstractSpinBox>;
 
 }
 

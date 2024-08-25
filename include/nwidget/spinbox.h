@@ -58,10 +58,10 @@ N_BUILDER_IMPL(DoubleSpinBoxBuilder, QDoubleSpinBox, DoubleSpinBox);
 
 
 template<typename T>
-class SpinBoxRefT : public AbstractSpinBoxRefT<T>
+class SpinBoxIdT : public AbstractSpinBoxIdT<T>
 {
 public:
-    using AbstractSpinBoxRefT<T>::AbstractSpinBoxRefT;
+    using ObjectIdT<T>::ObjectIdT;
 
     N_PROPERTY(QString           , suffix            , N_GETTER(suffix            ), N_SETTER(setSuffix            ), N_NO_NOTIFY)
     N_PROPERTY(QString           , prefix            , N_GETTER(prefix            ), N_SETTER(setPrefix            ), N_NO_NOTIFY)
@@ -74,13 +74,13 @@ public:
     N_PROPERTY(int               , displayIntegerBase, N_GETTER(displayIntegerBase), N_SETTER(setDisplayIntegerBase), N_NO_NOTIFY)
 };
 
-using SpinBoxRef = SpinBoxRefT<QSpinBox>;
+using SpinBoxId = SpinBoxIdT<QSpinBox>;
 
 template<typename T>
-class DoubleSpinBoxRefT : public AbstractSpinBoxRefT<T>
+class DoubleSpinBoxIdT : public AbstractSpinBoxIdT<T>
 {
 public:
-    using AbstractSpinBoxRefT<T>::AbstractSpinBoxRefT;
+    using AbstractSpinBoxIdT<T>::AbstractSpinBoxIdT;
 
     N_PROPERTY(QString           , suffix            , N_GETTER(suffix            ), N_SETTER(setSuffix            ), N_NO_NOTIFY)
     N_PROPERTY(QString           , prefix            , N_GETTER(prefix            ), N_SETTER(setPrefix            ), N_NO_NOTIFY)
@@ -93,7 +93,7 @@ public:
     N_PROPERTY(double            , value             , N_GETTER(value             ), N_SETTER(setValue             ), N_NOTIFY(valueChanged))
 };
 
-using DoubleSpinBoxRef = DoubleSpinBoxRefT<QDoubleSpinBox>;
+using DoubleSpinBoxId = DoubleSpinBoxIdT<QDoubleSpinBox>;
 
 }
 

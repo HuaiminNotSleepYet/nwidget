@@ -29,16 +29,16 @@ N_BUILDER_IMPL(CommandLinkButtonBuilder, QCommandLinkButton, CommandLinkButton);
 
 
 template<typename T>
-class CommandLinkButtonRefT : public PushButtonRefT<T>
+class CommandLinkButtonIdT : public PushButtonIdT<T>
 {
 public:
-    using PushButtonRefT<T>::PushButtonRefT;
+    using PushButtonIdT<T>::PushButtonIdT;
 
     N_PROPERTY(QString, description, N_GETTER(description), N_SETTER(setDescription), N_NO_NOTIFY)
     N_PROPERTY(bool   , flat       , N_GETTER(isFlat     ), N_SETTER(setFlat       ), N_NO_NOTIFY)
 };
 
-using CommandLinkButtonRef = CommandLinkButtonRefT<QCommandLinkButton>;
+using CommandLinkButtonId = CommandLinkButtonIdT<QCommandLinkButton>;
 
 }
 

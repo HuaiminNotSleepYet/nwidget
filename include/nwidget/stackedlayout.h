@@ -24,17 +24,17 @@ N_BUILDER_IMPL(StackedLayoutBuilder, QStackedLayout, StackedLayout);
 
 
 template<typename T>
-class StackedLayoutRefT : public LayoutRefT<T>
+class StackedLayoutIdT : public LayoutIdT<T>
 {
 public:
-    using LayoutRefT<T>::LayoutRefT;
+    using LayoutIdT<T>::LayoutIdT;
 
     N_PROPERTY(int                         , currentIndex, N_GETTER(currentIndex), N_SETTER(setCurrentIndex), N_NOTIFY(currentChanged))
     N_PROPERTY(QStackedLayout::StackingMode, stackingMode, N_GETTER(stackingMode), N_SETTER(setStackingMode), N_NO_NOTIFY)
     N_PROPERTY(int                         , count       , N_GETTER(count       ), N_NO_SETTER              , N_NO_NOTIFY)
 };
 
-using StackedLayoutRef = StackedLayoutRefT<QStackedLayout>;
+using StackedLayoutId = StackedLayoutIdT<QStackedLayout>;
 
 }
 
