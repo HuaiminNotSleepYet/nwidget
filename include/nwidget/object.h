@@ -1,176 +1,11 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include <functional>
-#include <optional>
-
 #include <QObject>
-
-#define N_BUILDER                       \
-protected:                              \
-    using ObjectBuilder<S, T>::t;       \
-    using ObjectBuilder<S, T>::self;    \
-    using ObjectBuilder<S, T>::addItems;
-
-#define N_BUILDER_IMPL(BUILDER, TARGET, NAME)       \
-class NAME : public BUILDER<NAME, TARGET>           \
-{                                                   \
-public:                                             \
-    using BUILDER::BUILDER;                         \
-}
-
-#if QT_VERSION <= QT_VERSION_CHECK(6, 6, 0)
-#define N_SIGNAL_RECEIVER_TYPE(F) const typename QtPrivate::FunctionPointer<F>::Object*
-#else
-#define N_SIGNAL_RECEIVER_TYPE(F) const typename QtPrivate::ContextTypeForFunctor<F>::ContextType*
-#endif
-
-
-#define N_SIGNAL(NAME, SIG)                                     \
-template <typename Func>                                        \
-S& NAME(Func&& slot,                                            \
-        Qt::ConnectionType type = Qt::AutoConnection)           \
-{ QObject::connect(t, &SIG, t, slot); return self(); }          \
-                                                                \
-template <typename Func>                                        \
-S& NAME(const QObject* receiver, Func method,                   \
-        Qt::ConnectionType type = Qt::AutoConnection)           \
-{ QObject::connect(t, &SIG, receiver, method); return self(); } \
-                                                                \
-template <typename Func>                                        \
-S& NAME(N_SIGNAL_RECEIVER_TYPE(Func) context, Func&& slot,      \
-        Qt::ConnectionType type = Qt::AutoConnection)           \
-{ QObject::connect(t, &SIG, context, slot); return self(); }
-
-
-#define N_BUILDER_PROPERTY(TYPE, NAME, SETTER)              \
-S& NAME(const TYPE& arg) { t->SETTER(arg); return self(); } \
-                                                            \
-template<typename Info>                                     \
-S& NAME(nw::Property<Info> prop)                            \
-{ return NAME(nw::makeBindingExpr<nw::NoAction>(prop)); }   \
-                                                            \
-template<typename ...TN>                                    \
-S& NAME(const nw::BindingExpr<TN...>& expr)                 \
-{                                                           \
-    using Object = typename std::decay<decltype(*t)>::type; \
-    using Type = TYPE;                                      \
-                                                            \
-    N_SETTER(SETTER)                                        \
-                                                            \
-    struct Info                                             \
-    {                                                       \
-        using Object = Object;                              \
-        using Type   = Type;                                \
-        using Getter = NoGetter;                            \
-        using Setter = Setter;                              \
-        using Notify = NoNotify;                            \
-                                                            \
-        static QString name()                               \
-        { return QStringLiteral(#NAME); }                   \
-                                                            \
-        static QString bindingName()                        \
-        { return QStringLiteral("nw_binding_on_"#NAME); }   \
-    };                                                      \
-                                                            \
-    expr.bindTo(nw::Property<Info>(t));                     \
-                                                            \
-    return self();                                          \
-}
 
 namespace nw {
 
-template<typename S, typename T>
-class ObjectBuilder
-{
-public:
-    explicit ObjectBuilder(T* target) : t(target) { Q_ASSERT(target); }
-
-    operator T*() const { return t; }
-
-    S& connect(const char* signal, const QObject* receiver, const char* member,
-               Qt::ConnectionType = Qt::AutoConnection)
-    { QObject::connect(t, signal, receiver, member); return self(); }
-
-    S& connect(const QMetaMethod& signal, const QObject* receiver, const QMetaMethod& method,
-               Qt::ConnectionType type = Qt::AutoConnection)
-    { QObject::connect(t, signal, receiver, method); return self(); }
-
-    template <typename Func1, typename Func2>
-    S& connect(Func1 signal, N_SIGNAL_RECEIVER_TYPE(Func2) context, Func2&& slot,
-               Qt::ConnectionType type = Qt::AutoConnection)
-    { QObject::connect(t, signal, context, slot); return self(); }
-
-    S& objectName(const QString& name)                       { t->setObjectName(name);     return self(); }
-    S& objectName(QAnyStringView name)                       { t->setObjectName(name);     return self(); }
-
-    S& property(const char* name, const QVariant& value)     { t->setProperty(name, value); return self(); }
-    S& property(const char* name, QVariant&& value)          { t->setProperty(name, value); return self(); }
-
-    N_SIGNAL(onDestroyed        , QObject::destroyed        )
-    N_SIGNAL(onObjectNameChanged, QObject::objectNameChanged)
-
-protected:
-    T* t;
-
-    S& self() { return static_cast<S&>(*this); }
-
-    template<typename E>
-    void addItems(std::initializer_list<E> items)
-    {
-        auto end = items.end();
-        for (auto i = items.begin(); i != end; ++i)
-            i->addTo(t);
-    }
-};
-
-
-template<typename Item>
-using ItemGenerator = std::function<std::optional<Item>()>;
-
-template<typename T>
-class BuilderItem
-{
-public:
-    template<typename F> explicit BuilderItem(F f) : addTo(f) {}
-
-    template<typename I> BuilderItem(ItemGenerator<I> g)
-    {
-        addTo = [g](T* t) {
-            auto item = g();
-            while (item) {
-                item->addTo(t);
-                item = g();
-            }
-        };
-    }
-
-    std::function<void(T*)> addTo;
-};
-
-template<typename Iterator,
-         typename Generator,
-         typename Arg = typename std::decay<decltype(*std::declval<Iterator>())>::type,
-         typename Item = typename std::invoke_result<Generator, int, Arg>::type>
-ItemGenerator<Item> ForEach(Iterator begin, Iterator end, Generator generator)
-{
-    return [index = (int)0, begin, end, generator]() mutable -> std::optional<Item> {
-        if (begin == end)
-            return std::nullopt;
-        auto item = generator(index, *begin);
-        ++index;
-        ++begin;
-        return item;
-    };
-}
-
-template<typename Container, typename Generator>
-auto ForEach(const Container& c, Generator g) { return ForEach(c.begin(), c.end(), g); }
-
-template<typename E, typename Generator>
-auto ForEach(std::initializer_list<E> l, Generator g) { return ForEach(l.begin(), l.end(), g); }
-
-
+/* ---------------------------- Property Binding ---------------------------- */
 
 struct NoGetter {};
 struct NoSetter {};
@@ -196,11 +31,11 @@ signals:
 
 struct NoAction { template<typename T> auto operator()(const T& value) { return value; } };
 
-template<typename T> struct ActionConstructor { template<typename ...Args> T operator()(const Args&... args){ return T(args...); }; };
+template<typename T> struct ActionConstructor { template<typename ...Args> T operator()(const Args&... args){ return T(args...); } };
 
-template<typename To> struct ActionCast            { template<typename From> auto operator()(const From& from){ return (To)from; };  };
-template<typename To> struct ActionStaticCast      { template<typename From> auto operator()(const From& from){ return static_cast<To>(from); };  };
-template<typename To> struct ActionReinterpretCast { template<typename From> auto operator()(const From& from){ return reinterpret_cast<To>(from); };  };
+template<typename To> struct ActionCast            { template<typename From> auto operator()(const From& from){ return (To)from;                   }  };
+template<typename To> struct ActionStaticCast      { template<typename From> auto operator()(const From& from){ return static_cast<To>(from);      }  };
+template<typename To> struct ActionReinterpretCast { template<typename From> auto operator()(const From& from){ return reinterpret_cast<To>(from); }  };
 
 struct ActionCond { template<typename A, typename B, typename C> auto operator()(const A& a, const B& b, const C& c) { return a ? b : c; } };
 
@@ -265,8 +100,7 @@ auto makeBindingExpr(const Args&... args) { return BindingExpr<Action, Args...>(
 template<typename Action, typename ...Args>
 class BindingExpr
 {
-    template<typename A, typename ...TN> friend class BindingExpr;
-    template<typename PropertyInfo> friend class Property;
+    template<typename T, typename ...TN> friend class BindingExpr;
 
 public:
     BindingExpr(const Args&... args) : args(args...) {}
@@ -375,9 +209,9 @@ class Property
 //   {
 //       using Object = ...
 //       using Type   = ...
-//       using Getter = ...
-//       using Setter = ...
-//       using Notify = ...
+//       using Getter = struct { static auto get(const Object* object)                    { ... } }
+//       using Setter = struct { static void set(      Object* object, const Type& value) { ... } }
+//       using Notify = struct { static auto signal() { return &Object::propertyChanged;  }       }
 //
 //       static QString name()        "propertyName"
 //       static QString bindingName() "nw_binding_on_propertyName"
@@ -509,7 +343,7 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
 
 #define N_GETTER(FUNC) struct Getter { static auto get(const Object* object) { return object->FUNC(); } };
 #define N_SETTER(FUNC) struct Setter { static void set(Object* object, const Type& value) { object->FUNC(value); } };
-#define N_NOTIFY(SIG)  struct Notify { static constexpr auto signal() { return &Object::SIG; } };
+#define N_NOTIFY(SIG)  struct Notify { static auto signal() { return &Object::SIG; } };
 
 #define N_NO_SETTER using Setter = nw::NoSetter;
 #define N_NO_GETTER using Getter = nw::NoGetter;
@@ -565,6 +399,173 @@ protected:
 };
 
 using ObjectId = ObjectIdT<QObject>;
+
+
+
+/* ----------------------------- Object Builder ----------------------------- */
+
+#define N_BUILDER                       \
+protected:                              \
+    using ObjectBuilder<S, T>::t;       \
+    using ObjectBuilder<S, T>::self;    \
+    using ObjectBuilder<S, T>::addItems;
+
+#define N_BUILDER_IMPL(BUILDER, TARGET, NAME)       \
+class NAME : public BUILDER<NAME, TARGET>           \
+{                                                   \
+public:                                             \
+    using BUILDER::BUILDER;                         \
+}
+
+#if QT_VERSION <= QT_VERSION_CHECK(6, 6, 0)
+#define N_SIGNAL_RECEIVER_TYPE(F) const typename QtPrivate::FunctionPointer<F>::Object*
+#else
+#define N_SIGNAL_RECEIVER_TYPE(F) const typename QtPrivate::ContextTypeForFunctor<F>::ContextType*
+#endif
+
+
+#define N_SIGNAL(NAME, SIG)                                     \
+template <typename Func>                                        \
+S& NAME(Func&& slot,                                            \
+        Qt::ConnectionType type = Qt::AutoConnection)           \
+{ QObject::connect(t, &SIG, t, slot); return self(); }          \
+                                                                \
+template <typename Func>                                        \
+S& NAME(const QObject* receiver, Func method,                   \
+        Qt::ConnectionType type = Qt::AutoConnection)           \
+{ QObject::connect(t, &SIG, receiver, method); return self(); } \
+                                                                \
+template <typename Func>                                        \
+S& NAME(N_SIGNAL_RECEIVER_TYPE(Func) context, Func&& slot,      \
+        Qt::ConnectionType type = Qt::AutoConnection)           \
+{ QObject::connect(t, &SIG, context, slot); return self(); }
+
+
+#define N_BUILDER_PROPERTY(TYPE, NAME, SETTER)              \
+S& NAME(const TYPE& arg) { t->SETTER(arg); return self(); } \
+                                                            \
+template<typename Info>                                     \
+S& NAME(nw::Property<Info> prop)                            \
+{ return NAME(nw::makeBindingExpr<nw::NoAction>(prop)); }   \
+                                                            \
+template<typename ...TN>                                    \
+S& NAME(const nw::BindingExpr<TN...>& expr)                 \
+{                                                           \
+    using Object = typename std::decay<decltype(*t)>::type; \
+    using Type = TYPE;                                      \
+                                                            \
+    N_SETTER(SETTER)                                        \
+                                                            \
+    struct Info                                             \
+    {                                                       \
+        using Object = Object;                              \
+        using Type   = Type;                                \
+        using Getter = NoGetter;                            \
+        using Setter = Setter;                              \
+        using Notify = NoNotify;                            \
+                                                            \
+        static QString name()                               \
+        { return QStringLiteral(#NAME); }                   \
+                                                            \
+        static QString bindingName()                        \
+        { return QStringLiteral("nw_binding_on_"#NAME); }   \
+    };                                                      \
+                                                            \
+    expr.bindTo(nw::Property<Info>(t));                     \
+                                                            \
+    return self();                                          \
+}
+
+
+template<typename S, typename T>
+class ObjectBuilder
+{
+public:
+    explicit ObjectBuilder(T* target) : t(target) { Q_ASSERT(target); }
+
+    operator T*() const { return t; }
+
+    S& connect(const char* signal, const QObject* receiver, const char* member,
+               Qt::ConnectionType = Qt::AutoConnection)
+    { QObject::connect(t, signal, receiver, member); return self(); }
+
+    S& connect(const QMetaMethod& signal, const QObject* receiver, const QMetaMethod& method,
+               Qt::ConnectionType type = Qt::AutoConnection)
+    { QObject::connect(t, signal, receiver, method); return self(); }
+
+    template <typename Func1, typename Func2>
+    S& connect(Func1 signal, N_SIGNAL_RECEIVER_TYPE(Func2) context, Func2&& slot,
+               Qt::ConnectionType type = Qt::AutoConnection)
+    { QObject::connect(t, signal, context, slot); return self(); }
+
+    S& objectName(const QString& name)                       { t->setObjectName(name);     return self(); }
+    S& objectName(QAnyStringView name)                       { t->setObjectName(name);     return self(); }
+
+    S& property(const char* name, const QVariant& value)     { t->setProperty(name, value); return self(); }
+    S& property(const char* name, QVariant&& value)          { t->setProperty(name, value); return self(); }
+
+    N_SIGNAL(onDestroyed        , QObject::destroyed        )
+    N_SIGNAL(onObjectNameChanged, QObject::objectNameChanged)
+
+protected:
+    T* t;
+
+    S& self() { return static_cast<S&>(*this); }
+
+    template<typename E>
+    void addItems(std::initializer_list<E> items)
+    {
+        auto end = items.end();
+        for (auto i = items.begin(); i != end; ++i)
+            i->addTo(t);
+    }
+};
+
+
+template<typename Item>
+using ItemGenerator = std::function<std::optional<Item>()>;
+
+template<typename T>
+class BuilderItem
+{
+public:
+    template<typename F> explicit BuilderItem(F f) : addTo(f) {}
+
+    template<typename I> BuilderItem(ItemGenerator<I> g)
+    {
+        addTo = [g](T* t) {
+            auto item = g();
+            while (item) {
+                item->addTo(t);
+                item = g();
+            }
+        };
+    }
+
+    std::function<void(T*)> addTo;
+};
+
+template<typename Iterator,
+         typename Generator,
+         typename Arg = typename std::decay<decltype(*std::declval<Iterator>())>::type,
+         typename Item = typename std::invoke_result<Generator, int, Arg>::type>
+ItemGenerator<Item> ForEach(Iterator begin, Iterator end, Generator generator)
+{
+    return [index = (int)0, begin, end, generator]() mutable -> std::optional<Item> {
+        if (begin == end)
+            return std::nullopt;
+        auto item = generator(index, *begin);
+        ++index;
+        ++begin;
+        return item;
+    };
+}
+
+template<typename Container, typename Generator>
+auto ForEach(const Container& c, Generator g) { return ForEach(c.begin(), c.end(), g); }
+
+template<typename E, typename Generator>
+auto ForEach(std::initializer_list<E> l, Generator g) { return ForEach(l.begin(), l.end(), g); }
 
 }
 
