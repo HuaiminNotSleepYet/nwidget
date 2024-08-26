@@ -21,11 +21,11 @@ public:
     GroupBoxBuilder(T* target, QLayout* layout)                       : WidgetBuilder<S, T>(target, layout) {}
     GroupBoxBuilder(T* target, const QString& title, QLayout* layout) : WidgetBuilder<S, T>(target, layout) { this->title(title); }
 
-    S& title(const QString& s)   { t->setTitle(s);         return self(); }
-    S& alignment(int align)      { t->setAlignment(align); return self(); }
-    S& flat(bool b)              { t->setFlat(b);          return self(); }
-    S& checkable(bool b)         { t->setCheckable(b);     return self(); }
-    S& checked(bool b)           { t->setChecked(b);       return self(); }
+    N_BUILDER_PROPERTY(QString      , title    , setTitle    )
+    N_BUILDER_PROPERTY(Qt::Alignment, alignment, setAlignment)
+    N_BUILDER_PROPERTY(bool         , flat     , setFlat     )
+    N_BUILDER_PROPERTY(bool         , checkable, setCheckable)
+    N_BUILDER_PROPERTY(bool         , checked  , setChecked  )
 };
 
 N_BUILDER_IMPL(GroupBoxBuilder, QGroupBox, GroupBox);

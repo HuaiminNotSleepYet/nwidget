@@ -16,6 +16,10 @@ public:
     TextBrowserBuilder()                   : TextEditBuilder<S, T>(new T) {}
     explicit TextBrowserBuilder(T* target) : TextEditBuilder<S, T>(target) {}
 
+    N_BUILDER_PROPERTY(QStringList, searchPaths      , setSearchPaths      )
+    N_BUILDER_PROPERTY(bool       , openExternalLinks, setOpenExternalLinks)
+    N_BUILDER_PROPERTY(bool       , openLinks        , setOpenLinks        )
+
     N_SIGNAL(onBackwardAvailable, QTextBrowser::backwardAvailable)
     N_SIGNAL(onForwardAvailable , QTextBrowser::forwardAvailable )
     N_SIGNAL(onHistoryChanged   , QTextBrowser::historyChanged   )

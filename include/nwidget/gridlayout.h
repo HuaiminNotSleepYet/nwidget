@@ -46,8 +46,9 @@ public:
     S& items(std::initializer_list<LayoutItem> items) = delete;
     S& items(std::initializer_list<GridLayoutItem> items) { addItems(items); return self(); }
 
-    S& horizontalSpacing(int spacing)                    { t->setHorizontalSpacing(spacing)      ; return self(); }
-    S& verticalSpacing(int spacing)                      { t->setVerticalSpacing(spacing)        ; return self(); }
+    N_BUILDER_PROPERTY(int, horizontalSpacing, setHorizontalSpacing)
+    N_BUILDER_PROPERTY(int, verticalSpacing  , setVerticalSpacing  )
+
     S& rowStretch(int row, int stretch)                  { t->setRowStretch(row, stretch)        ; return self(); }
     S& columnStretch(int col, int stretch)               { t->setColumnStretch(col, stretch)     ; return self(); }
     S& rowMinimumHeight(int row, int minSize)            { t->setRowMinimumHeight(row, minSize)  ; return self(); }

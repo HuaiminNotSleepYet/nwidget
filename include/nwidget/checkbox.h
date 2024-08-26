@@ -18,8 +18,8 @@ public:
     explicit CheckBoxBuilder(T* target)             : AbstractButtonBuilder<S, T>(target) {}
     CheckBoxBuilder(T* target, const QString& text) : AbstractButtonBuilder<S, T>(target) { t->setText(text); }
 
-    S& checkState(Qt::CheckState state)  { t->setCheckState(state); return self(); }
-    S& tristate(bool b = true)           { t->setTristate(b);       return self(); }
+    N_BUILDER_PROPERTY(bool          , tristate  , setTristate  )
+    N_BUILDER_PROPERTY(Qt::CheckState, checkState, setCheckState)
 
     N_SIGNAL(onStateChanged, QCheckBox::stateChanged)
 };

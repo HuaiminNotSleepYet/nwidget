@@ -20,6 +20,27 @@ public:
     ActionBuilder(T* target, const QString& text)                    : ObjectBuilder<S, T>(target) { t->setText(text); }
     ActionBuilder(T* target, const QIcon& icon, const QString& text) : ObjectBuilder<S, T>(target) { t->setIcon(icon); t->setText(text); }
 
+    N_BUILDER_PROPERTY(bool               , checkable        , setCheckable      )
+    N_BUILDER_PROPERTY(bool               , checked          , setChecked        )
+    N_BUILDER_PROPERTY(bool               , enabled          , setEnabled        )
+    N_BUILDER_PROPERTY(QIcon              , icon             , setIcon           )
+    N_BUILDER_PROPERTY(QString            , text             , setText           )
+    N_BUILDER_PROPERTY(QString            , iconText         , setIconText       )
+    N_BUILDER_PROPERTY(QString            , toolTip          , setToolTip        )
+    N_BUILDER_PROPERTY(QString            , statusTip        , setStatusTip      )
+    N_BUILDER_PROPERTY(QString            , whatsThis        , setWhatsThis      )
+    N_BUILDER_PROPERTY(QFont              , font             , setFont           )
+#if QT_CONFIG(shortcut)
+    N_BUILDER_PROPERTY(QKeySequence       , shortcut         , setShortcut       )
+    N_BUILDER_PROPERTY(Qt::ShortcutContext, shortcutContext  , setShortcutContext)
+    N_BUILDER_PROPERTY(bool               , autoRepeat       , setAutoRepeat     )
+#endif
+    N_BUILDER_PROPERTY(bool               , visible          , setVisible        )
+    N_BUILDER_PROPERTY(QAction::MenuRole  , menuRole         , setMenuRole       )
+    N_BUILDER_PROPERTY(bool               , iconVisibleInMenu, setIconVisibleInMe)
+    N_BUILDER_PROPERTY(bool               , shortcutVisibleInContextMenu, setShortcutVisibleInContextMenu)
+    N_BUILDER_PROPERTY(QAction::Priority  , priority         , setPriority       )
+
     N_SIGNAL(onChanged         , QAction::changed         )
     N_SIGNAL(onEnabledChanged  , QAction::enabledChanged  )
     N_SIGNAL(onCheckableChanged, QAction::checkableChanged)

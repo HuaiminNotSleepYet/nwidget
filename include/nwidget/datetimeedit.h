@@ -23,37 +23,28 @@ public:
     DateTimeEditBuilder(T* target, QDate date)          : AbstractSpinBoxBuilder<S, T>(target) { t->setDate(date); }
     DateTimeEditBuilder(T* target, QTime time)          : AbstractSpinBoxBuilder<S, T>(target) { t->setTime(time); }
 
-    S& calendar(QCalendar calendar)                              { t->setCalendar(calendar);         return self(); }
+    N_BUILDER_PROPERTY(QDateTime              , dateTime           , setDateTime           )
+    N_BUILDER_PROPERTY(QDate                  , date               , setDate               )
+    N_BUILDER_PROPERTY(QTime                  , time               , setTime               )
+    N_BUILDER_PROPERTY(QDateTime              , maximumDateTime    , setMaximumDateTime    )
+    N_BUILDER_PROPERTY(QDateTime              , minimumDateTime    , setMinimumDateTime    )
+    N_BUILDER_PROPERTY(QDate                  , maximumDate        , setMaximumDate        )
+    N_BUILDER_PROPERTY(QDate                  , minimumDate        , setMinimumDate        )
+    N_BUILDER_PROPERTY(QTime                  , maximumTime        , setMaximumTime        )
+    N_BUILDER_PROPERTY(QTime                  , minimumTime        , setMinimumTime        )
+    N_BUILDER_PROPERTY(QDateTimeEdit::Section , currentSection     , setCurrentSection     )
+    N_BUILDER_PROPERTY(QString                , displayFormat      , setDisplayFormat      )
+    N_BUILDER_PROPERTY(bool                   , calendarPopup      , setCalendarPopup      )
+    N_BUILDER_PROPERTY(int                    , currentSectionIndex, setCurrentSectionIndex)
+    N_BUILDER_PROPERTY(Qt::TimeSpec           , timeSpec           , setTimeSpec           )
 
-    S& minimumDateTime(const QDateTime& dt)                      { t->setMinimumDateTime(dt);        return self(); }
-    S& maximumDateTime(const QDateTime& dt)                      { t->setMaximumDateTime(dt);        return self(); }
-    S& dateTimeRange(const QDateTime& min, const QDateTime& max) { t->setDateTimeRange(min, max);    return self(); }
-
-    S& minimumDate(QDate min)                                    { t->setMinimumDate(min);           return self(); }
-    S& maximumDate(QDate max)                                    { t->setMaximumDate(max);           return self(); }
-    S& dateRange(QDate min, QDate max)                           { t->setDateRange(min, max);        return self(); }
-
-    S& minimumTime(QTime min)                                    { t->setMinimumTime(min);           return self(); }
-    S& maximumTime(QTime max)                                    { t->setMaximumTime(max);           return self(); }
-    S& timeRange(QTime min, QTime max)                           { t->setTimeRange(min, max);        return self(); }
-
-    S& currentSection(QDateTimeEdit::Section section)            { t->setCurrentSection(section);    return self(); }
-    S& currentSectionIndex(int index)                            { t->setCurrentSectionIndex(index); return self(); }
-
-    S& calendarWidget(QCalendarWidget* widget)                   { t->setCalendarWidget(widget);     return self(); }
-    S& selectedSection(QDateTimeEdit::Section section)           { t->setSelectedSection(section);   return self(); }
-    S& displayFormat(const QString& format)                      { t->setDisplayFormat(format);      return self(); }
-    S& calendarPopup(bool enable)                                { t->setCalendarPopup(enable);      return self(); }
-
-#if QT_DEPRECATED_SINCE(6, 10)
-    S& timeSpec(Qt::TimeSpec spec)                               { t->setTimeSpec(spec);             return self(); }
-#endif
-
-    S& timeZone(const QTimeZone& zone)                           { t->setTimeZone(zone);             return self(); }
-
-    S& dateTime(const QDateTime& dateTime)                       { t->setDateTime(dateTime);         return self(); }
-    S& date(QDate date)                                          { t->setDate(date);                 return self(); }
-    S& time(QTime time)                                          { t->setTime(time);                 return self(); }
+    S& calendar(QCalendar calendar)                              { t->setCalendar(calendar)      ; return self(); }
+    S& dateTimeRange(const QDateTime& min, const QDateTime& max) { t->setDateTimeRange(min, max) ; return self(); }
+    S& dateRange(QDate min, QDate max)                           { t->setDateRange(min, max)     ; return self(); }
+    S& timeRange(QTime min, QTime max)                           { t->setTimeRange(min, max)     ; return self(); }
+    S& calendarWidget(QCalendarWidget* widget)                   { t->setCalendarWidget(widget)  ; return self(); }
+    S& selectedSection(QDateTimeEdit::Section section)           { t->setSelectedSection(section); return self(); }
+    S& timeZone(const QTimeZone& zone)                           { t->setTimeZone(zone)          ; return self(); }
 
     N_SIGNAL(onDateTimeChanged, QDateTimeEdit::dateTimeChanged)
     N_SIGNAL(onTimeChanged    , QDateTimeEdit::timeChanged    )

@@ -18,6 +18,22 @@ public:
 
     explicit PlainTextEditBuilder(T* target)             : AbstractScrollAreaBuilder<S, T>(target) {}
     PlainTextEditBuilder(T* target, const QString& text) : AbstractScrollAreaBuilder<S, T>(target) { t->setPlainText(text); }
+
+    N_BUILDER_PROPERTY(bool                        , tabChangesFocus     , setTabChangesFocus     )
+    N_BUILDER_PROPERTY(QString                     , documentTitle       , setDocumentTitle       )
+    N_BUILDER_PROPERTY(bool                        , undoRedoEnabled     , setUndoRedoEnabled     )
+    N_BUILDER_PROPERTY(QPlainTextEdit::LineWrapMode, lineWrapMode        , setLineWrapMode        )
+    N_BUILDER_PROPERTY(QTextOption::WrapMode       , wordWrapMode        , setWordWrapMode        )
+    N_BUILDER_PROPERTY(bool                        , readOnly            , setReadOnly            )
+    N_BUILDER_PROPERTY(QString                     , plainText           , setPlainText           )
+    N_BUILDER_PROPERTY(bool                        , overwriteMode       , setOverwriteMode       )
+    N_BUILDER_PROPERTY(qreal                       , tabStopDistance     , setTabStopDistance     )
+    N_BUILDER_PROPERTY(int                         , cursorWidth         , setCursorWidth         )
+    N_BUILDER_PROPERTY(Qt::TextInteractionFlags    , textInteractionFlags, setTextInteractionFlags)
+    N_BUILDER_PROPERTY(int                         , maximumBlockCount   , setMaximumBlockCount   )
+    N_BUILDER_PROPERTY(bool                        , backgroundVisible   , setBackgroundVisible   )
+    N_BUILDER_PROPERTY(bool                        , centerOnScroll      , setCenterOnScroll      )
+    N_BUILDER_PROPERTY(QString                     , placeholderText     , setPlaceholderText     )
 };
 
 N_BUILDER_IMPL(PlainTextEditBuilder, QPlainTextEdit, PlainTextEdit);

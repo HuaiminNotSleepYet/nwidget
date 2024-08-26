@@ -16,17 +16,17 @@ public:
     ProgressBarBuilder()                   : WidgetBuilder<S, T>(new T) {}
     explicit ProgressBarBuilder(T* target) : WidgetBuilder<S, T>(target) {}
 
-    S& textVisible(bool b)                               { t->TextVisible(b);           return self(); }
-    S& alignment(Qt::Alignment align)                    { t->Alignment(align);         return self(); }
-    S& invertedAppearance(bool b)                        { t->InvertedAppearance(b);    return self(); }
-    S& textDirection(QProgressBar::Direction direction)  { t->TextDirection(direction); return self(); }
-    S& format(const QString &s)                          { t->Format(s);                return self(); }
+    N_BUILDER_PROPERTY(int                    , minimum           , setMinimum           )
+    N_BUILDER_PROPERTY(int                    , maximum           , setMaximum           )
+    N_BUILDER_PROPERTY(int                    , value             , setValue             )
+    N_BUILDER_PROPERTY(Qt::Alignment          , alignment         , setAlignment         )
+    N_BUILDER_PROPERTY(bool                   , textVisible       , setTextVisible       )
+    N_BUILDER_PROPERTY(Qt::Orientation        , orientation       , setOrientation       )
+    N_BUILDER_PROPERTY(bool                   , invertedAppearance, setInvertedAppearance)
+    N_BUILDER_PROPERTY(QProgressBar::Direction, textDirection     , setTextDirection     )
+    N_BUILDER_PROPERTY(QString                , format            , setFormat            )
 
-    S& range(int min, int max)                           { t->setRange(min, max);       return self(); }
-    S& minimum(int min)                                  { t->setMinimum(min);          return self(); }
-    S& maximum(int max)                                  { t->setMaximum(max);          return self(); }
-    S& value(int v)                                      { t->setValue(v);              return self(); }
-    S& orientation(Qt::Orientation o)                    { t->setOrientation(o);        return self(); }
+    S& range(int min, int max) { t->setRange(min, max); return self(); }
 
     N_SIGNAL(onValueChanged, QProgressBar::valueChanged)
 };

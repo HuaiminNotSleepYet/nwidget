@@ -18,6 +18,25 @@ public:
     explicit TextEditBuilder(T* target)  : AbstractScrollAreaBuilder<S, T>(target) {}
     TextEditBuilder(T* target, const QString& text) : AbstractScrollAreaBuilder<S, T>(target) { t->setPlainText(text); }
 
+    N_BUILDER_PROPERTY(QTextEdit::AutoFormatting, autoFormatting       , setAutoFormatting       )
+    N_BUILDER_PROPERTY(bool                     , tabChangesFocus      , setTabChangesFocus      )
+    N_BUILDER_PROPERTY(QString                  , documentTitle        , setDocumentTitle        )
+    N_BUILDER_PROPERTY(bool                     , undoRedoEnabled      , setUndoRedoEnabled      )
+    N_BUILDER_PROPERTY(QTextEdit::LineWrapMode  , lineWrapMode         , setLineWrapMode         )
+    N_BUILDER_PROPERTY(QTextOption::WrapMode    , wordWrapMode         , setWordWrapMode         )
+    N_BUILDER_PROPERTY(int                      , lineWrapColumnOrWidth, setLineWrapColumnOrWidth)
+    N_BUILDER_PROPERTY(bool                     , readOnly             , setReadOnly             )
+    N_BUILDER_PROPERTY(QString                  , markdown             , setMarkdown             )
+    N_BUILDER_PROPERTY(QString                  , html                 , setHtml                 )
+    N_BUILDER_PROPERTY(QString                  , plainText            , setPlainText            )
+    N_BUILDER_PROPERTY(bool                     , overwriteMode        , setOverwriteMode        )
+    N_BUILDER_PROPERTY(qreal                    , tabStopDistance      , setTabStopDistance      )
+    N_BUILDER_PROPERTY(bool                     , acceptRichText       , setAcceptRichText       )
+    N_BUILDER_PROPERTY(int                      , cursorWidth          , setCursorWidth          )
+    N_BUILDER_PROPERTY(Qt::TextInteractionFlags , textInteractionFlags , setTextInteractionFlags )
+    N_BUILDER_PROPERTY(QTextDocument*           , document             , setDocument             )
+    N_BUILDER_PROPERTY(QString                  , placeholderText      , setPlaceholderText      )
+
     N_SIGNAL(onTextChanged             , QTextEdit::textChanged             )
     N_SIGNAL(onUndoAvailable           , QTextEdit::undoAvailable           )
     N_SIGNAL(onRedoAvailable           , QTextEdit::redoAvailable           )

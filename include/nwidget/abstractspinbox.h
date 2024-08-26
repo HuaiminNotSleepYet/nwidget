@@ -16,17 +16,19 @@ public:
     AbstractSpinBoxBuilder()                   : WidgetBuilder<S, T>(new T) {}
     explicit AbstractSpinBoxBuilder(T* target) : WidgetBuilder<S, T>(target) {}
 
-    S& buttonSymbols(QAbstractSpinBox::ButtonSymbols bs)   { t->setButtonSymbols(bs)         ; return self(); }
-    S& correctionMode(QAbstractSpinBox::CorrectionMode cm) { t->setCorrectionMode(cm)        ; return self(); }
-    S& specialValueText(const QString &txt)                { t->setSpecialValueText(txt)     ; return self(); }
-    S& wrapping(bool w)                                    { t->setWrapping(w)               ; return self(); }
-    S& readOnly(bool r)                                    { t->setReadOnly(r)               ; return self(); }
-    S& keyboardTracking(bool kt)                           { t->setKeyboardTracking(kt)      ; return self(); }
-    S& alignment(Qt::Alignment flag)                       { t->setAlignment(flag)           ; return self(); }
-    S& frame(bool b)                                       { t->setFrame(b)                  ; return self(); }
-    S& accelerated(bool on)                                { t->setAccelerated(on)           ; return self(); }
-    S& groupSeparatorShown(bool shown)                     { t->setGroupSeparatorShown(shown); return self(); }
-    S& lineEdit(QLineEdit *edit)                           { t->setLineEdit(edit)            ; return self(); }
+    N_BUILDER_PROPERTY(bool                            , wrapping          , setWrapping           )
+    N_BUILDER_PROPERTY(bool                            , frame             , setFrame              )
+    N_BUILDER_PROPERTY(Qt::Alignment                   , alignment         , setAlignment          )
+    N_BUILDER_PROPERTY(bool                            , readOnly          , setReadOnly           )
+    N_BUILDER_PROPERTY(QAbstractSpinBox::ButtonSymbols , buttonSymbols     , setButtonSymbols      )
+    N_BUILDER_PROPERTY(QString                         , specialValueText  , setSpecialValueText   )
+    N_BUILDER_PROPERTY(bool                            , accelerated       , setAccelerated        )
+    N_BUILDER_PROPERTY(QAbstractSpinBox::CorrectionMode, correctionMode    , setCorrectionMode     )
+    N_BUILDER_PROPERTY(bool                            , keyboardTracking  , setKeyboardTracking   )
+    N_BUILDER_PROPERTY(bool                            , showGroupSeparator, setGroupSeparatorShown)
+
+    S& groupSeparatorShown(bool shown) { t->setGroupSeparatorShown(shown); return self(); }
+    S& lineEdit(QLineEdit *edit)       { t->setLineEdit(edit)            ; return self(); }
 
     N_SIGNAL(onEditingFinished, QAbstractSpinBox::editingFinished)
 };

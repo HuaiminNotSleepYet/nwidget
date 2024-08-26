@@ -17,6 +17,9 @@ public:
     SliderBuilder(Qt::Orientation o) : AbstractSliderBuilder<S, T>(new T(o)) {}
     explicit SliderBuilder(T* target)           : AbstractSliderBuilder<S, T>(target) {}
     SliderBuilder(T* target, Qt::Orientation o) : AbstractSliderBuilder<S, T>(target) { t->setOrientation(o); }
+
+    N_BUILDER_PROPERTY(QSlider::TickPosition, tickPosition, setTickPosition)
+    N_BUILDER_PROPERTY(int                  , tickInterval, setTickInterval)
 };
 
 N_BUILDER_IMPL(SliderBuilder, QSlider, Slider);

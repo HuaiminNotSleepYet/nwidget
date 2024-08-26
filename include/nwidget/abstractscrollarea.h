@@ -14,6 +14,10 @@ class AbstractScrollAreaBuilder : public FrameBuilder<S, T>
 
 public:
     using FrameBuilder<S, T>::FrameBuilder;
+
+    N_BUILDER_PROPERTY(Qt::ScrollBarPolicy                  , verticalScrollBarPolicy  , setVerticalScrollBarPolicy  )
+    N_BUILDER_PROPERTY(Qt::ScrollBarPolicy                  , horizontalScrollBarPolicy, setHorizontalScrollBarPolicy)
+    N_BUILDER_PROPERTY(QAbstractScrollArea::SizeAdjustPolicy, sizeAdjustPolicy         , setSizeAdjustPolicy         )
 };
 
 N_BUILDER_IMPL(AbstractScrollAreaBuilder, QAbstractScrollArea, AbstractScrollArea);

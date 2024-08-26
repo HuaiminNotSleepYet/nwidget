@@ -15,9 +15,18 @@ class AbstractSliderBuilder : public WidgetBuilder<S, T>
 public:
     using WidgetBuilder<S, T>::WidgetBuilder;
 
-    S& value(int v)                      { t->setValue(v);        return self(); }
-    S& orientation(Qt::Orientation o)    { t->setOrientation(o);  return self(); }
-    S& range(int min, int max)           { t->setRange(min, max); return self(); }
+    N_BUILDER_PROPERTY(int            , minimum           , setMinimum           )
+    N_BUILDER_PROPERTY(int            , maximum           , setMaximum           )
+    N_BUILDER_PROPERTY(int            , singleStep        , setSingleStep        )
+    N_BUILDER_PROPERTY(int            , pageStep          , setPageStep          )
+    N_BUILDER_PROPERTY(int            , value             , setValue             )
+    N_BUILDER_PROPERTY(int            , sliderPosition    , setSliderPosition    )
+    N_BUILDER_PROPERTY(bool           , tracking          , setTracking          )
+    N_BUILDER_PROPERTY(Qt::Orientation, orientation       , setOrientation       )
+    N_BUILDER_PROPERTY(bool           , invertedAppearance, setInvertedAppearance)
+    N_BUILDER_PROPERTY(bool           , invertedControls  , setInvertedControls  )
+
+    S& range(int min, int max) { t->setRange(min, max); return self(); }
 
     N_SIGNAL(onValueChanged   , QAbstractSlider::valueChanged   )
     N_SIGNAL(onSliderPressed  , QAbstractSlider::sliderPressed  )

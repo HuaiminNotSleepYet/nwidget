@@ -165,7 +165,7 @@ NWidgetGallery::NWidgetGallery()
                 RadioButton(tr("Radio button 1")).checked(true),
                 RadioButton(tr("Radio button 2")),
                 RadioButton(tr("Radio button 3")),
-                CheckBox(tr("Tri-state check box")).tristate().checkState(Qt::PartiallyChecked),
+                CheckBox(tr("Tri-state check box")).tristate(true).checkState(Qt::PartiallyChecked),
                 BoxLayoutItem::Stretch,
             }
         })},

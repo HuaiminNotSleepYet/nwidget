@@ -21,10 +21,11 @@ public:
     PushButtonBuilder(T* target, const QString& text)                    : AbstractButtonBuilder<S, T>(target) { t->setText(text); }
     PushButtonBuilder(T* target, const QIcon& icon, const QString& text) : AbstractButtonBuilder<S, T>(target) { t->setIcon(icon); t->setText(text); }
 
-    S& autoDefault(bool b)   { t->setAutoDefault(b); return self(); }
-    S& default_(bool b)      { t->setDefault(b);     return self(); }
-    S& flat(bool b)          { t->setFlat(b);        return self(); }
-    S& menu(QMenu* m)        { t->setMenu(m);        return self(); }
+    N_BUILDER_PROPERTY(bool, autoDefault, setAutoDefault)
+    N_BUILDER_PROPERTY(bool, default_   , setDefault    )
+    N_BUILDER_PROPERTY(bool, flat       , setFlat       )
+
+    S& menu(QMenu* m) { t->setMenu(m); return self(); }
 };
 
 N_BUILDER_IMPL(PushButtonBuilder, QPushButton, PushButton);

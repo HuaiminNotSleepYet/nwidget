@@ -18,7 +18,10 @@ public:
     explicit SplitterBuilder(T* target)                               : FrameBuilder<S, T>(target) {}
     SplitterBuilder(T* target, std::initializer_list<Widget> widgets) : FrameBuilder<S, T>(target) { applyWidgets(widgets); }
 
-    S& orientation(Qt::Orientation o) { t->setOrientation(o); return self(); }
+    N_BUILDER_PROPERTY(Qt::Orientation, orientation        , setOrientation        )
+    N_BUILDER_PROPERTY(bool           , opaqueResize       , setOpaqueResize       )
+    N_BUILDER_PROPERTY(int            , handleWidth        , setHandleWidth        )
+    N_BUILDER_PROPERTY(bool           , childrenCollapsible, setChildrenCollapsible)
 
 private:
     void applyWidgets(std::initializer_list<Widget> widgets)

@@ -18,10 +18,16 @@ public:
     explicit ToolButtonBuilder(T* target)  : AbstractButtonBuilder<S, T>(target) {}
     ToolButtonBuilder(T* target, const QString& text) : AbstractButtonBuilder<S, T>(target) { t->setText(text); }
 
-    S& arrowType(Qt::ArrowType type)                     { t->setArrowType(type); return self(); }
-    S& popupMode(QToolButton::ToolButtonPopupMode mode)  { t->setPopupMode(mode); return self(); }
-    S& autoRaise(bool b)                                 { t->setAutoRaise(b);    return self(); }
-    S& menu(QMenu* m)                                    { t->setMenu(m);         return self(); }
+#if QT_CONFIG(menu)
+    N_BUILDER_PROPERTY(QToolButton::ToolButtonPopupMode, popupMode, setPopupMode)
+#endif
+    N_BUILDER_PROPERTY(Qt::ToolButtonStyle, toolButtonStyle, setToolButtonStyle)
+    N_BUILDER_PROPERTY(bool               , autoRaise      , setAutoRaise      )
+    N_BUILDER_PROPERTY(Qt::ArrowType      , arrowType      , setArrowType      )
+
+#if QT_CONFIG(menu)
+    S& menu(QMenu* m) { t->setMenu(m); return self(); }
+#endif
 };
 
 N_BUILDER_IMPL(ToolButtonBuilder, QToolButton, ToolButton);

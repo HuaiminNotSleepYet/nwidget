@@ -15,15 +15,16 @@ class SpinBoxBuilder : public AbstractSpinBoxBuilder<S, T>
 public:
     using AbstractSpinBoxBuilder<S, T>::AbstractSpinBoxBuilder;
 
-    S& prefix(const QString &s)          { t->setPrefix(s);            return self(); }
-    S& suffix(const QString &s)          { t->setSuffix(s);            return self(); }
-    S& singleStep(int val)               { t->setSingleStep(val);      return self(); }
-    S& minimum(int min)                  { t->setMinimum(min);         return self(); }
-    S& maximum(int max)                  { t->setMaximum(max);         return self(); }
-    S& range(int min, int max)           { t->setRange(min, max);      return self(); }
-    S& stepType(QSpinBox::StepType type) { t->setStepType(type);       return self(); }
-    S& displayIntegerBase(int base)      { t->setDisplayInteger(base); return self(); }
-    S& value(int val)                    { t->setValue(val);           return self(); }
+    N_BUILDER_PROPERTY(QString           , suffix            , setSuffix            )
+    N_BUILDER_PROPERTY(QString           , prefix            , setPrefix            )
+    N_BUILDER_PROPERTY(int               , minimum           , setMinimum           )
+    N_BUILDER_PROPERTY(int               , maximum           , setMaximum           )
+    N_BUILDER_PROPERTY(int               , singleStep        , setSingleStep        )
+    N_BUILDER_PROPERTY(QSpinBox::StepType, stepType          , setStepType          )
+    N_BUILDER_PROPERTY(int               , value             , setValue             )
+    N_BUILDER_PROPERTY(int               , displayIntegerBase, setDisplayIntegerBase)
+
+    S& range(int min, int max) { t->setRange(min, max); return self(); }
 
     N_SIGNAL(onValueChanged, QSpinBox::valueChanged)
     N_SIGNAL(onTextChanged , QSpinBox::textChanged )
@@ -39,15 +40,16 @@ class DoubleSpinBoxBuilder : public AbstractSpinBoxBuilder<S, T>
 public:
     using AbstractSpinBoxBuilder<S, T>::AbstractSpinBoxBuilder;
 
-    S& prefix(const QString &s)          { t->setPrefix(s);            return self(); }
-    S& suffix(const QString &s)          { t->setSuffix(s);            return self(); }
-    S& singleStep(double val)            { t->setSingleStep(val);      return self(); }
-    S& minimum(double min)               { t->setMinimum(min);         return self(); }
-    S& maximum(double max)               { t->setMaximum(max);         return self(); }
-    S& range(double min, double max)     { t->setRange(min, max);      return self(); }
-    S& stepType(QSpinBox::StepType type) { t->setStepType(type);       return self(); }
-    S& decimals(int prec)                { t->setDecimals(prec);       return self(); }
-    S& value(double val)                 { t->setValue(val);           return self(); }
+    N_BUILDER_PROPERTY(QString           , suffix    ,  setSuffix    )
+    N_BUILDER_PROPERTY(QString           , prefix    ,  setPrefix    )
+    N_BUILDER_PROPERTY(int               , decimals  ,  setDecimals  )
+    N_BUILDER_PROPERTY(double            , minimum   ,  setMinimum   )
+    N_BUILDER_PROPERTY(double            , maximum   ,  setMaximum   )
+    N_BUILDER_PROPERTY(double            , singleStep,  setSingleStep)
+    N_BUILDER_PROPERTY(QSpinBox::StepType, stepType  ,  setStepType  )
+    N_BUILDER_PROPERTY(double            , value     ,  setValue     )
+
+    S& range(double min, double max) { t->setRange(min, max); return self(); }
 
     N_SIGNAL(onValueChanged, QDoubleSpinBox::valueChanged)
     N_SIGNAL(onTextChanged , QDoubleSpinBox::textChanged )

@@ -17,19 +17,21 @@ public:
     AbstractButtonBuilder()                   : WidgetBuilder<S, T>(new T) {}
     explicit AbstractButtonBuilder(T* target) : WidgetBuilder<S, T>(target) {}
 
-    S& text(const QString& text) { t->setText(text);            return self(); }
-    S& icon(const QIcon& ico)    { t->setIcon(ico);             return self(); }
-    S& checkable(bool b)         { t->setCheckable(b);          return self(); }
-    S& down(bool b)              { t->setDown(b);               return self(); }
-    S& autoRepeat(bool b)        { t->setAutoRepeat(b);         return self(); }
-    S& autoRepeatDelay(int b)    { t->setAutoRepeatDelay(b);    return self(); }
-    S& autoRepeatInterval(int b) { t->setAutoRepeatInterval(b); return self(); }
-    S& autoExclusive(bool b)     { t->setAutoExclusive(b);      return self(); }
+    N_BUILDER_PROPERTY(QString     , text              , setText              )
+    N_BUILDER_PROPERTY(QIcon       , icon              , setIcon              )
+    N_BUILDER_PROPERTY(QSize       , iconSize          , setIconSize          )
+#ifndef QT_NO_SHORTCUT
+    N_BUILDER_PROPERTY(QKeySequence, shortcut          , setShortcut          )
+#endif
+    N_BUILDER_PROPERTY(bool        , checkable         , setCheckable         )
+    N_BUILDER_PROPERTY(bool        , checked           , setChecked           )
+    N_BUILDER_PROPERTY(bool        , autoRepeat        , setAutoRepeat        )
+    N_BUILDER_PROPERTY(bool        , autoExclusive     , setAutoExclusive     )
+    N_BUILDER_PROPERTY(int         , autoRepeatDelay   , setAutoRepeatDelay   )
+    N_BUILDER_PROPERTY(int         , autoRepeatInterval, setAutoRepeatInterval)
+    N_BUILDER_PROPERTY(bool        , down              , setDown              )
 
-    S& checked(bool b)           { t->setChecked(b);            return self(); }
-    S& iconSize(const QSize& s)  { t->setIconSize(s);           return self(); }
-
-    S& group(QButtonGroup* g)    { g->addButton(t);             return self(); }
+    S& group(QButtonGroup* g) { g->addButton(t); return self(); }
 
     N_SIGNAL(onClicked , QAbstractButton::clicked )
     N_SIGNAL(onPressed , QAbstractButton::pressed )

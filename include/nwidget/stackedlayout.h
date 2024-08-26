@@ -15,7 +15,9 @@ class StackedLayoutBuilder : public LayoutBuilder<S, T>
 public:
     using LayoutBuilder<S, T>::LayoutBuilder;
 
-    S& currentIndex(int index)           { t->setCurrentIndex(index); return self(); }
+    N_BUILDER_PROPERTY(int                         , currentIndex, setCurrentIndex)
+    N_BUILDER_PROPERTY(QStackedLayout::StackingMode, stackingMode, setStackingMode)
+
     S& currentWidget(QWidget* widget)    { t->setCurrentWidget(widget); return self(); }
 };
 

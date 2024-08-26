@@ -39,6 +39,20 @@ public:
 
     S& item(std::initializer_list<ComboBoxItem> items) { addItems(items); return self(); }
 
+    N_BUILDER_PROPERTY(bool                       , editable             , setEditable             )
+    N_BUILDER_PROPERTY(QString                    , currentText          , setCurrentText          )
+    N_BUILDER_PROPERTY(int                        , currentIndex         , setCurrentIndex         )
+    N_BUILDER_PROPERTY(int                        , maxVisibleItems      , setMaxVisibleItems      )
+    N_BUILDER_PROPERTY(int                        , maxCount             , setMaxCount             )
+    N_BUILDER_PROPERTY(QComboBox::InsertPolicy    , insertPolicy         , setInsertPolicy         )
+    N_BUILDER_PROPERTY(QComboBox::SizeAdjustPolicy, sizeAdjustPolicy     , setSizeAdjustPolicy     )
+    N_BUILDER_PROPERTY(int                        , minimumContentsLength, setMinimumContentsLength)
+    N_BUILDER_PROPERTY(QSize                      , iconSize             , setIconSize             )
+    N_BUILDER_PROPERTY(QString                    , placeholderText      , setPlaceholderText      )
+    N_BUILDER_PROPERTY(bool                       , duplicatesEnabled    , setDuplicatesEnabled    )
+    N_BUILDER_PROPERTY(bool                       , frame                , setFrame                )
+    N_BUILDER_PROPERTY(int                        , modelColumn          , setModelColumn          )
+
     N_SIGNAL(onEditTextChanged    , QComboBox::editTextChanged    )
     N_SIGNAL(onActivated          , QComboBox::activated          )
     N_SIGNAL(onTextActivated      , QComboBox::textActivated      )

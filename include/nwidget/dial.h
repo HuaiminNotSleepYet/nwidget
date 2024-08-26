@@ -16,10 +16,9 @@ public:
     DialBuilder()                   : AbstractSliderBuilder<S, T>(new T) {}
     explicit DialBuilder(T* target) : AbstractSliderBuilder<S, T>(target) {}
 
-    S& notchTarget(double d)  { t->setNotchTarget();     return self(); }
-
-    S& notchesVisible(bool b) { t->setNotchesVisible(b); return self(); }
-    S& wrapping(bool b)       { t->setWrapping(b);       return self(); };
+    N_BUILDER_PROPERTY(bool , wrapping      , setWrapping      )
+    N_BUILDER_PROPERTY(qreal, notchTarget   , setNotchTarget   )
+    N_BUILDER_PROPERTY(bool , notchesVisible, setNotchesVisible)
 };
 
 N_BUILDER_IMPL(DialBuilder, QDial, Dial);

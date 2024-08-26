@@ -40,6 +40,13 @@ public:
 
     S& items(std::initializer_list<LayoutItem> items) = delete;
     S& items(std::initializer_list<FormLayoutItem> items) { addItems(items); return self(); }
+
+    N_BUILDER_PROPERTY(QFormLayout::FieldGrowthPolicy, fieldGrowthPolicy, setFieldGrowthPolicy)
+    N_BUILDER_PROPERTY(QFormLayout::RowWrapPolicy    , rowWrapPolicy    , setRowWrapPolicy    )
+    N_BUILDER_PROPERTY(Qt::Alignment                 , labelAlignment   , setLabelAlignment   )
+    N_BUILDER_PROPERTY(Qt::Alignment                 , formAlignment    , setFormAlignment    )
+    N_BUILDER_PROPERTY(int                           , horizontalSpacing, setHorizontalSpacing)
+    N_BUILDER_PROPERTY(int                           , verticalSpacing  , setVerticalSpacing  )
 };
 
 N_BUILDER_IMPL(FormLayoutBuilder, QFormLayout, FormLayout);

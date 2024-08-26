@@ -5,11 +5,13 @@
 
 #include "builder.h"
 
+
 #if QT_VERSION <= QT_VERSION_CHECK(6, 6, 0)
 #define N_SIGNAL_RECEIVER_TYPE(F) const typename QtPrivate::FunctionPointer<F>::Object*
 #else
 #define N_SIGNAL_RECEIVER_TYPE(F) const typename QtPrivate::ContextTypeForFunctor<F>::ContextType*
 #endif
+
 
 #define N_SIGNAL(NAME, SIG)                                     \
 template <typename Func>                                        \
@@ -26,6 +28,7 @@ template <typename Func>                                        \
 S& NAME(N_SIGNAL_RECEIVER_TYPE(Func) context, Func&& slot,      \
         Qt::ConnectionType type = Qt::AutoConnection)           \
 { QObject::connect(t, &SIG, context, slot); return self(); }
+
 
 #define N_BUILDER_PROPERTY(TYPE, NAME, SETTER)              \
 S& NAME(const TYPE& arg) { t->SETTER(arg); return self(); } \

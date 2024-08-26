@@ -21,7 +21,8 @@ public:
     explicit CommandLinkButtonBuilder(T* target, const QString& text)                      : PushButtonBuilder<S, T>(target, text) {}
     explicit CommandLinkButtonBuilder(T* target, const QString& text, const QString& desc) : PushButtonBuilder<S, T>(target, text) { t->setDescription(desc); }
 
-    S& description(const QString& s) { t->setDescription(s); return self(); }
+    N_BUILDER_PROPERTY(QString, description, setDescription)
+    N_BUILDER_PROPERTY(bool   , flat       , setFlat       )
 };
 
 N_BUILDER_IMPL(CommandLinkButtonBuilder, QCommandLinkButton, CommandLinkButton);

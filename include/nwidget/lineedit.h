@@ -19,32 +19,29 @@ public:
     explicit LineEditBuilder(T* target)             : WidgetBuilder<S, T>(target) {}
     LineEditBuilder(T* target, const QString& text) : WidgetBuilder<S, T>(target) { t->setText(text); }
 
-    S& placeholderText(const QString& s)          { t->setPlaceHolderText(s);            return self(); }
-    S& maxLength(int len)                         { t->setMaxLength(len);                return self(); }
-    S& frame(bool b)                              { t->setFrame(b);                      return self(); }
-    S& clearButtonEnabled(bool b)                 { t->setClearButtonEnabled(b);         return self(); }
-    S& echoMode(QLineEdit::EchoMode mode)         { t->setEchoMode(mode);                return self(); }
-    S& readOnly(bool b)                           { t->setReadOnly(b);                   return self(); }
+    N_BUILDER_PROPERTY(QString            , inputMask         , setInputMask         )
+    N_BUILDER_PROPERTY(QString            , text              , setText              )
+    N_BUILDER_PROPERTY(int                , maxLength         , setMaxLength         )
+    N_BUILDER_PROPERTY(bool               , frame             , setFrame             )
+    N_BUILDER_PROPERTY(QLineEdit::EchoMode, echoMode          , setEchoMode          )
+    N_BUILDER_PROPERTY(int                , cursorPosition    , setCursorPosition    )
+    N_BUILDER_PROPERTY(Qt::Alignment      , alignment         , setAlignment         )
+    N_BUILDER_PROPERTY(bool               , modified          , setModified          )
+    N_BUILDER_PROPERTY(bool               , dragEnabled       , setDragEnabled       )
+    N_BUILDER_PROPERTY(bool               , readOnly          , setReadOnly          )
+    N_BUILDER_PROPERTY(QString            , placeholderText   , setPlaceholderText   )
+    N_BUILDER_PROPERTY(Qt::CursorMoveStyle, cursorMoveStyle   , setCursorMoveStyle   )
+    N_BUILDER_PROPERTY(bool               , clearButtonEnabled, setClearButtonEnabled)
 
 #ifndef QT_NO_VALIDATOR
     S& validator(const QValidator* v)             { t->setValidator(v);                  return self(); }
 #endif
-
 #if QT_CONFIG(completer)
     S& completer(const QCompleter* c)             { t->setCompleter(c);                  return self(); }
 #endif
-
-    S& cursorPosition(int pos)                    { t->setCursorPosition(pos);           return self(); }
-    S& alignment(Qt::Alignment align)             { t->setAlignment(align);              return self(); }
-    S& modified(bool b)                           { t->setModified(b);                   return self(); }
     S& selection(int begin, int end)              { t->setSelection(begin, end);         return self(); }
-    S& dragEnabled(bool b)                        { t->setDragEnabled(b);                return self(); }
-    S& cursorMoveStyle(Qt::CursorMoveStyle style) { t->setCursorMoveStyle(style);        return self(); }
-    S& inputMask(const QString& mask)             { t->setInputMask(mask);               return self(); }
     S& textMargins(int l, int t, int r, int b)    { this->t->setTextMargins(l, t, r, b); return self(); }
     S& textMargins(const QMargins& margin)        { this->t->setTextMargins(margin);     return self(); }
-
-    S& text(const QString& s)                     { t->setText(s);                       return self(); }
 
     N_SIGNAL(onTextChanged          , QLineEdit::textChanged          )
     N_SIGNAL(onTextEdited           , QLineEdit::textEdited           )

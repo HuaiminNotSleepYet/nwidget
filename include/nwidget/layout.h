@@ -35,12 +35,12 @@ public:
 
     S& items(std::initializer_list<LayoutItem> items) { addItems(items); return self(); }
 
-    S& alignment(Qt::Alignment a)    { t->setAlignment(a); return self(); }
+    N_BUILDER_PROPERTY(int                    , spacing        , setSpacing        )
+    N_BUILDER_PROPERTY(QMargins               , contentsMargins, setContentsMargins)
+    N_BUILDER_PROPERTY(QLayout::SizeConstraint, sizeConstraint , setSizeConstraint )
 
-    S& spacing(int v) { t->setSpacing(v); return self(); }
-
-    S& contentsMargins(int l, int t, int r, int b)   { this->t->setContentsMargins(l, t, r, b); return self(); }
-    S& contentsMargins(const QMargins& margins)      { t->setContentsMargins(margins);          return self(); }
+    S& alignment(Qt::Alignment a)                  { t->setAlignment(a)                     ; return self(); }
+    S& contentsMargins(int l, int t, int r, int b) { this->t->setContentsMargins(l, t, r, b); return self(); }
 };
 
 N_BUILDER_IMPL(LayoutBuilder, QLayout, Layout);

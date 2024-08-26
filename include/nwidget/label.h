@@ -19,7 +19,16 @@ public:
     explicit LabelBuilder(T* target)             : FrameBuilder<S, T>(target) {}
     LabelBuilder(T* target, const QString& text) : FrameBuilder<S, T>(target) { t->setText(text); }
 
-    S& alignment(Qt::Alignment align) { t->setAlignment(align); return self(); }
+    N_BUILDER_PROPERTY(QString                 , text             , setText                )
+    N_BUILDER_PROPERTY(Qt::TextFormat          , textFormat       , setTextFormat          )
+    N_BUILDER_PROPERTY(QPixmap                 , pixmap           , setPixmap              )
+    N_BUILDER_PROPERTY(bool                    , scaledContents   , setScaledContents      )
+    N_BUILDER_PROPERTY(Qt::Alignment           , alignment        , setAlignment           )
+    N_BUILDER_PROPERTY(bool                    , wordWrap         , setWordWrap            )
+    N_BUILDER_PROPERTY(int                     , margin           , setMargin              )
+    N_BUILDER_PROPERTY(int                     , indent           , setIndent              )
+    N_BUILDER_PROPERTY(bool                    , openExternalLinks, setOpenExternalLinks   )
+    N_BUILDER_PROPERTY(Qt::TextInteractionFlags, InteractionFlags , setTextInteractionFlags)
 };
 
 N_BUILDER_IMPL(LabelBuilder, QLabel, Label);

@@ -26,6 +26,10 @@ public:
                                       Qt::Orientation orientation)               : WidgetBuilder<S, T>(target) { t->setOrientation(orientation);
                                                                                                                  t->setStandardButtons(buttons); }
 
+    N_BUILDER_PROPERTY(Qt::Orientation                  , orientation    , setOrientation    )
+    N_BUILDER_PROPERTY(QDialogButtonBox::StandardButtons, standardButtons, setStandardButtons)
+    N_BUILDER_PROPERTY(bool                             , centerButtons  , setCenterButtons  )
+
     N_SIGNAL(onClicked      , QDialogButtonBox::clicked      )
     N_SIGNAL(onAccepted     , QDialogButtonBox::accepted     )
     N_SIGNAL(onHelpRequested, QDialogButtonBox::helpRequested)

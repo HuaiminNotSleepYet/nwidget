@@ -30,6 +30,9 @@ public:
     explicit MenuBarBuilder(T* target)                                  : WidgetBuilder<S, T>(target) {}
     MenuBarBuilder(T* target, std::initializer_list<MenuBarItem> menus) : WidgetBuilder<S, T>(target) { addItems(menus); }
 
+    N_BUILDER_PROPERTY(bool, defaultUp    , setDefaultUp    )
+    N_BUILDER_PROPERTY(bool, nativeMenuBar, setNativeMenuBar)
+
     S& item(std::initializer_list<MenuBarItem> items) { addItems(items); return self(); }
 };
 
