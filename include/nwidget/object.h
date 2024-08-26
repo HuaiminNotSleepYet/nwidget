@@ -257,27 +257,22 @@ private:
 
 
 
-template<typename Object_,
-         typename Type_,
-         typename Getter_,
-         typename Setter_,
-         typename Notify_>
-struct PropertyInfo
-{
-    using Object = Object_;
-    using Type   = Type_;
-    using Getter = Getter_;
-    using Setter = Setter_;
-    using Notify = Notify_;
-
-    // Class that inherits from PropertyInfo should provide the following methods:
-    //   static QString name()        { return QStringLiteral("name"); }
-    //   static QString bindingName() { return QStringLiteral("nw_binding_on_propertyName"); }
-};
-
 template<typename PropertyInfo>
 class Property
 {
+// PropertyInfo should have the following members:
+//   struct Info
+//   {
+//       using Object = ...
+//       using Type   = ...
+//       using Getter = ...
+//       using Setter = ...
+//       using Notify = ...
+//
+//       static QString name()        "propertyName"
+//       static QString bindingName() "nw_binding_on_propertyName"
+//   };
+
     template<typename T0, typename ...TN> friend class BindingExpr;
 
 public:
@@ -410,25 +405,34 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
 #define N_NO_GETTER using Getter = nw::NoGetter;
 #define N_NO_NOTIFY using Notify = nw::NoNotify;
 
-#define N_PROPERTY(TYPE, NAME, GETTER, SETTER, NOTIFY)                                      \
-    auto NAME() const                                                                       \
-    {                                                                                       \
-        using Object = typename std::decay<decltype(*this->t)>::type;                       \
-        using Type = TYPE;                                                                  \
-                                                                                            \
-        GETTER                                                                              \
-        SETTER                                                                              \
-        NOTIFY                                                                              \
-                                                                                            \
-        struct Info : nw::PropertyInfo<Object, Type, Getter, Setter, Notify>                \
-        {                                                                                   \
-            static QString name()        { return QStringLiteral(#NAME); }                  \
-            static QString bindingName() { return QStringLiteral("nw_binding_on_"#NAME); }  \
-        };                                                                                  \
-                                                                                            \
-        Q_ASSERT(nw::ObjectIdT<Object>::t);                                                 \
-        return nw::Property<Info>(nw::ObjectIdT<Object>::t);                                \
-    }
+#define N_PROPERTY(TYPE, NAME, GETTER, SETTER, NOTIFY)              \
+auto NAME() const                                                   \
+{                                                                   \
+    using Object = typename std::decay<decltype(*this->t)>::type;   \
+    using Type = TYPE;                                              \
+                                                                    \
+    GETTER                                                          \
+    SETTER                                                          \
+    NOTIFY                                                          \
+                                                                    \
+    struct Info                                                     \
+    {                                                               \
+        using Notify = Notify;                                      \
+        using Object = Object;                                      \
+        using Type   = TYPE;                                        \
+        using Getter = Getter;                                      \
+        using Setter = Setter;                                      \
+                                                                    \
+        static QString name()                                       \
+        { return QStringLiteral(#NAME); }                           \
+                                                                    \
+        static QString bindingName()                                \
+        { return QStringLiteral("nw_binding_on_"#NAME); }           \
+    };                                                              \
+                                                                    \
+    Q_ASSERT(nw::ObjectIdT<Object>::t);                             \
+    return nw::Property<Info>(nw::ObjectIdT<Object>::t);            \
+}
 
 template<typename T>
 class ObjectIdT
