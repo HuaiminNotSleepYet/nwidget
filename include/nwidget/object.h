@@ -27,6 +27,41 @@ S& NAME(N_SIGNAL_RECEIVER_TYPE(Func) context, Func&& slot,      \
         Qt::ConnectionType type = Qt::AutoConnection)           \
 { QObject::connect(t, &SIG, context, slot); return self(); }
 
+#define N_BUILDER_PROPERTY(TYPE, NAME, SETTER)              \
+S& NAME(const TYPE& arg) { t->SETTER(arg); return self(); } \
+                                                            \
+template<typename Info>                                     \
+S& NAME(nw::Property<Info> prop)                            \
+{ return NAME(nw::makeBindingExpr<nw::NoAction>(prop)); }   \
+                                                            \
+template<typename ...TN>                                    \
+S& NAME(const nw::BindingExpr<TN...>& expr)                 \
+{                                                           \
+    using Object = typename std::decay<decltype(*t)>::type; \
+    using Type = TYPE;                                      \
+                                                            \
+    N_SETTER(SETTER)                                        \
+                                                            \
+    struct Info                                             \
+    {                                                       \
+        using Object = Object;                              \
+        using Type   = Type;                                \
+        using Getter = NoGetter;                            \
+        using Setter = Setter;                              \
+        using Notify = NoNotify;                            \
+                                                            \
+        static QString name()                               \
+        { return QStringLiteral(#NAME); }                   \
+                                                            \
+        static QString bindingName()                        \
+        { return QStringLiteral("nw_binding_on_"#NAME); }   \
+    };                                                      \
+                                                            \
+    expr.bindTo(nw::Property<Info>(t));                     \
+                                                            \
+    return self();                                          \
+}
+
 namespace nw {
 
 template<typename S, typename T>
