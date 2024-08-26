@@ -274,7 +274,7 @@ public:
         return makeBindingExpr<ActionInvoke>(std::mem_fn(func), *this, args...);
     }
 
-public:
+private:
     Object* object;
 };
 
