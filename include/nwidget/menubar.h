@@ -22,7 +22,7 @@ public:
 template<typename S, typename T>
 class MenuBarBuilder : public WidgetBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(WidgetBuilder, S, T)
+    N_BUILDER
 
 public:
     MenuBarBuilder()                                                    : WidgetBuilder<S, T>(new T) {}

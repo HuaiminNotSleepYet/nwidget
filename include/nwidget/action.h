@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class ActionBuilder : public ObjectBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(ObjectBuilder, S, T)
+    N_BUILDER
 
 public:
     ActionBuilder()                                                  : ObjectBuilder<S, T>(new T) {}

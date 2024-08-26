@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class AbstractItemViewBuilder : public AbstractScrollAreaBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(AbstractScrollAreaBuilder, S, T)
+    N_BUILDER
 
 public:
     AbstractItemViewBuilder()                                     : AbstractScrollAreaBuilder<S, T>(new T) {}

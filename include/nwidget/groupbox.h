@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class GroupBoxBuilder : public WidgetBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(WidgetBuilder, S, T)
+    N_BUILDER
 
 public:
     GroupBoxBuilder()                                      : WidgetBuilder<S, T>(new T) {}

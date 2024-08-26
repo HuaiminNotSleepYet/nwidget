@@ -35,7 +35,7 @@ public:
 template<typename S, typename T>
 class GridLayoutBuilder : public LayoutBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(LayoutBuilder, S, T)
+    N_BUILDER
 
 public:
     GridLayoutBuilder()                                                       : LayoutBuilder<S, T>(new T) {}

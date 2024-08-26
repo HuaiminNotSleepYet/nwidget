@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class SplitterBuilder : public FrameBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(FrameBuilder, S, T)
+    N_BUILDER
 
 public:
     SplitterBuilder()                                                 : FrameBuilder<S, T>(new T) {}

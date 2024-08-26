@@ -21,7 +21,7 @@ public:
 template<typename S, typename T>
 class ToolBoxBuilder : public FrameBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(FrameBuilder, S, T)
+    N_BUILDER
 
 public:
     ToolBoxBuilder()                                                    : FrameBuilder<S, T>(new T) {}

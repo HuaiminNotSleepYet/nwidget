@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class ToolButtonBuilder : public AbstractButtonBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(AbstractButtonBuilder, S, T)
+    N_BUILDER
 
 public:
     ToolButtonBuilder()                    : AbstractButtonBuilder<S, T>(new T) {}

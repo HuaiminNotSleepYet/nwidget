@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class ScrollBarBuilder : public AbstractSliderBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(AbstractSliderBuilder, S, T)
+    N_BUILDER
 
 public:
     ScrollBarBuilder()                  : AbstractSliderBuilder<S, T>(new T) {}

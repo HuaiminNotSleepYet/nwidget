@@ -19,7 +19,6 @@ set(NWIDGET_SOURCES
     nwidget/abstractspinbox.h
     nwidget/action.h
     nwidget/boxlayout.h
-    nwidget/builder.h
     nwidget/checkbox.h
     nwidget/combobox.h
     nwidget/commandlinkbutton.h

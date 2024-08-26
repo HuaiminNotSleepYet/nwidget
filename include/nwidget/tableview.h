@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class TableViewBuilder : public AbstractItemViewBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(AbstractItemViewBuilder, S, T)
+    N_BUILDER
 
 public:
     using AbstractItemViewBuilder<S, T>::AbstractItemViewBuilder;

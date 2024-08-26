@@ -1,10 +1,23 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
+#include <functional>
+#include <optional>
+
 #include <QObject>
 
-#include "builder.h"
+#define N_BUILDER                       \
+protected:                              \
+    using ObjectBuilder<S, T>::t;       \
+    using ObjectBuilder<S, T>::self;    \
+    using ObjectBuilder<S, T>::addItems;
 
+#define N_BUILDER_IMPL(BUILDER, TARGET, NAME)       \
+class NAME : public BUILDER<NAME, TARGET>           \
+{                                                   \
+public:                                             \
+    using BUILDER::BUILDER;                         \
+}
 
 #if QT_VERSION <= QT_VERSION_CHECK(6, 6, 0)
 #define N_SIGNAL_RECEIVER_TYPE(F) const typename QtPrivate::FunctionPointer<F>::Object*
@@ -68,12 +81,12 @@ S& NAME(const nw::BindingExpr<TN...>& expr)                 \
 namespace nw {
 
 template<typename S, typename T>
-class ObjectBuilder : public Builder<S, T>
+class ObjectBuilder
 {
-    N_USING_BUILDER_MEMBER(Builder, S, T)
-
 public:
-    using Builder<S, T>::Builder;
+    explicit ObjectBuilder(T* target) : t(target) { Q_ASSERT(target); }
+
+    operator T*() const { return t; }
 
     S& connect(const char* signal, const QObject* receiver, const char* member,
                Qt::ConnectionType = Qt::AutoConnection)
@@ -96,7 +109,66 @@ public:
 
     N_SIGNAL(onDestroyed        , QObject::destroyed        )
     N_SIGNAL(onObjectNameChanged, QObject::objectNameChanged)
+
+protected:
+    T* t;
+
+    S& self() { return static_cast<S&>(*this); }
+
+    template<typename E>
+    void addItems(std::initializer_list<E> items)
+    {
+        auto end = items.end();
+        for (auto i = items.begin(); i != end; ++i)
+            i->addTo(t);
+    }
 };
+
+
+template<typename Item>
+using ItemGenerator = std::function<std::optional<Item>()>;
+
+template<typename T>
+class BuilderItem
+{
+public:
+    template<typename F> explicit BuilderItem(F f) : addTo(f) {}
+
+    template<typename I> BuilderItem(ItemGenerator<I> g)
+    {
+        addTo = [g](T* t) {
+            auto item = g();
+            while (item) {
+                item->addTo(t);
+                item = g();
+            }
+        };
+    }
+
+    std::function<void(T*)> addTo;
+};
+
+template<typename Iterator,
+         typename Generator,
+         typename Arg = typename std::decay<decltype(*std::declval<Iterator>())>::type,
+         typename Item = typename std::invoke_result<Generator, int, Arg>::type>
+ItemGenerator<Item> ForEach(Iterator begin, Iterator end, Generator generator)
+{
+    return [index = (int)0, begin, end, generator]() mutable -> std::optional<Item> {
+        if (begin == end)
+            return std::nullopt;
+        auto item = generator(index, *begin);
+        ++index;
+        ++begin;
+        return item;
+    };
+}
+
+template<typename Container, typename Generator>
+auto ForEach(const Container& c, Generator g) { return ForEach(c.begin(), c.end(), g); }
+
+template<typename E, typename Generator>
+auto ForEach(std::initializer_list<E> l, Generator g) { return ForEach(l.begin(), l.end(), g); }
 
 
 

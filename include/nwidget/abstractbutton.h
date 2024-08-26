@@ -11,7 +11,7 @@ namespace nw {
 template<typename S, typename T>
 class AbstractButtonBuilder : public WidgetBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(WidgetBuilder, S, T)
+    N_BUILDER
 
 public:
     AbstractButtonBuilder()                   : WidgetBuilder<S, T>(new T) {}

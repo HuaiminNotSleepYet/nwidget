@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class ProgressBarBuilder : public WidgetBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(WidgetBuilder, S, T)
+    N_BUILDER
 
 public:
     ProgressBarBuilder()                   : WidgetBuilder<S, T>(new T) {}

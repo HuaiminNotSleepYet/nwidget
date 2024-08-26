@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class DialBuilder : public AbstractSliderBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(AbstractSliderBuilder, S, T)
+    N_BUILDER
 
 public:
     DialBuilder()                   : AbstractSliderBuilder<S, T>(new T) {}

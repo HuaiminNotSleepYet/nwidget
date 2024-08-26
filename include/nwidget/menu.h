@@ -30,7 +30,7 @@ public:
 template<typename S, typename T>
 class MenuBuilder : public WidgetBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(WidgetBuilder, S, T)
+    N_BUILDER
 
 public:
     MenuBuilder()                                                                       : WidgetBuilder<S, T>(new T) {}

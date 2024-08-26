@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class DialogButtonBoxBuilder : public WidgetBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(WidgetBuilder, S, T)
+    N_BUILDER
 
 public:
     DialogButtonBoxBuilder()                                                   : WidgetBuilder<S, T>(new T) {}

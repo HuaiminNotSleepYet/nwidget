@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class AbstractSpinBoxBuilder : public WidgetBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(WidgetBuilder, S, T)
+    N_BUILDER
 
 public:
     AbstractSpinBoxBuilder()                   : WidgetBuilder<S, T>(new T) {}

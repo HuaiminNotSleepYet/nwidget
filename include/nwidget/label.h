@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class LabelBuilder : public FrameBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(FrameBuilder, S, T)
+    N_BUILDER
 
 public:
     LabelBuilder()                    : FrameBuilder<S, T>(new T) {}

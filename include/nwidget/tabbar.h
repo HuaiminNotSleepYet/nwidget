@@ -21,7 +21,7 @@ public:
 template<typename S, typename T>
 class TabBarBuilder : public WidgetBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(WidgetBuilder, S, T)
+    N_BUILDER
 
 public:
     TabBarBuilder()                                        : WidgetBuilder<S, T>(new T) {}

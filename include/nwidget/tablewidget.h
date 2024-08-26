@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class TableWidgetBuilder : public TableViewBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(TableViewBuilder, S, T)
+    N_BUILDER
 
 public:
     TableWidgetBuilder()                      : TableViewBuilder<S, T>(new T) {}

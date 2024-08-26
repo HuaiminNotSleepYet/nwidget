@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class StackedLayoutBuilder : public LayoutBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(LayoutBuilder, S, T)
+    N_BUILDER
 
 public:
     using LayoutBuilder<S, T>::LayoutBuilder;

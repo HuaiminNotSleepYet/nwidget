@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class SpinBoxBuilder : public AbstractSpinBoxBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(AbstractSpinBoxBuilder, S, T)
+    N_BUILDER
 
 public:
     using AbstractSpinBoxBuilder<S, T>::AbstractSpinBoxBuilder;
@@ -35,7 +35,7 @@ N_BUILDER_IMPL(SpinBoxBuilder, QSpinBox, SpinBox);
 template<typename S, typename T>
 class DoubleSpinBoxBuilder : public AbstractSpinBoxBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(AbstractSpinBoxBuilder, S, T)
+    N_BUILDER
 
 public:
     using AbstractSpinBoxBuilder<S, T>::AbstractSpinBoxBuilder;

@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class TextBrowserBuilder : public TextEditBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(TextEditBuilder, S, T)
+    N_BUILDER
 
 public:
     TextBrowserBuilder()                   : TextEditBuilder<S, T>(new T) {}

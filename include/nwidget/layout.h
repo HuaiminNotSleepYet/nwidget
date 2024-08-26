@@ -25,7 +25,7 @@ public:
 template<typename S, typename T>
 class LayoutBuilder : public ObjectBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(ObjectBuilder, S, T)
+    N_BUILDER
 
 public:
     LayoutBuilder()                                                   : ObjectBuilder<S, T>(new T) {}

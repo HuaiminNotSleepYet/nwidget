@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class AbstractScrollAreaBuilder : public FrameBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(FrameBuilder, S, T)
+    N_BUILDER
 
 public:
     using FrameBuilder<S, T>::FrameBuilder;

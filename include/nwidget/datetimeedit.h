@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class DateTimeEditBuilder : public AbstractSpinBoxBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(AbstractSpinBoxBuilder, S, T)
+    N_BUILDER
 
 public:
     DateTimeEditBuilder()                             : AbstractSpinBoxBuilder<S, T>(new T) {}
@@ -54,7 +54,7 @@ public:
 template<typename S, typename T>
 class TimeEditBuilder : public DateTimeEditBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(DateTimeEditBuilder, S, T)
+    N_BUILDER
 
 public:
     TimeEditBuilder()                      : DateTimeEditBuilder<S, T>(new T) {}
@@ -66,7 +66,7 @@ public:
 template<typename S, typename T>
 class DateEditBuilder : public DateTimeEditBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(DateTimeEditBuilder, S, T)
+    N_BUILDER
 
 public:
     DateEditBuilder()                      : DateTimeEditBuilder<S, T>(new T) {}

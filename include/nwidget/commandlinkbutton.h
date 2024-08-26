@@ -10,7 +10,7 @@ namespace nw {
 template<typename S, typename T>
 class CommandLinkButtonBuilder : public PushButtonBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(PushButtonBuilder, S, T)
+    N_BUILDER
 
 public:
     CommandLinkButtonBuilder()                                         : PushButtonBuilder<S, T>(new T) {}

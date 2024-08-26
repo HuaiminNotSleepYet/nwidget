@@ -48,7 +48,7 @@ public:
 template<typename S, typename T>
 class BoxLayoutBuilder : public LayoutBuilder<S, T>
 {
-    N_USING_BUILDER_MEMBER(LayoutBuilder, S, T)
+    N_BUILDER
 
 public:
     explicit BoxLayoutBuilder(QBoxLayout::Direction direction)   : LayoutBuilder<S, T>(new T(direction)) {}
