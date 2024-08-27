@@ -59,12 +59,11 @@ nw::SliderId slider1 = new QSlider;
 nw::SliderId slider2 = new QSlider;
 
 QLayout* layout = nw::VBoxLayout{
-    nw::Label(label),
+    nw::Label(label)
+        .text(nw::asprintf("%d", slider1.value() + slider2.value())),
     nw::Slider(slider1, Qt::Horizontal),
     nw::Slider(slider2, Qt::Horizontal),
 };
-
-label.text() = nw::asprintf("%d", slider1.value() + slider2.value());
 ```
 
 ## 优点

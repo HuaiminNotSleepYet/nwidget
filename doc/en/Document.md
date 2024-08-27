@@ -44,16 +44,24 @@ QLayout* layout = nw::VBoxLayout{
 
 nwidget uses syntax similar to [qml property binding](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html).
 
-```cpp
-nw::SliderId slider1;
-nw::SliderId slider2;
-nw::SliderId slider3;
+You can create binding in declarative syntax:
 
-QLayout* layout = nw::VBoxLayout{
-    nw::Slider(slider1, Qt::Horizontal),
-    nw::Slider(slider2, Qt::Horizontal),
-    nw::Slider(slider3, Qt::Horizontal),
+```cpp
+LabelId label = new QLabel;
+LineEditId edit = new QLineEdit;
+
+QLayout* layout = VBoxLayout{
+    Label(label).text(edit.text()),
+    LineEdit(edit)
 };
+```
+
+or in code:
+
+```cpp
+nw::SliderId slider1 = new QSlider;
+nw::SliderId slider2 = new QSlider;
+nw::SliderId slider3 = new QSlider;
 
 slider3.value() = slider1.value() + slider2.value();
 ```
@@ -66,35 +74,11 @@ To create a Id type for custom class, refer to `MainWindowId` in [length_calcula
 
 ### Property
 
-`Property` is a template class representing a property of a QObject instance. It uses template parameters to record the property’s name, Getter, Setter, and change signal:
+`Property` is a template class representing a property of a QObject instance. It uses template parameters to record the property’s name, Getter, Setter, and change signal.
 
-```cpp
-template<typename Object_,
-         typename Type_,
-         typename Getter_,
-         typename Setter_,
-         typename Notify_>
-struct PropertyInfo
-{
-    using Object = Object_;
-    using Type   = Type_;
-    using Getter = Getter_;
-    using Setter = Setter_;
-    using Notify = Notify_;
-};
+Usually you don't need to create `Property` directly, but use the `N_ID_PROPERTY` macro to declare it in `ObjectIdT<T>`'s subclass.
 
-template<typename PropertyInfo>
-class Property
-{
-public:
-    using Info = PropertyInfo;
-    // ...
-}
-```
-
-Usually you don't need to create `Property` directly, but use the `N_ID_PROPERTY` macro to declare it.
-
-For the property without Getter/Setter/Notify, use `N_NO_GETTER`/`N_NO_SETTER`/`N_NO_NOTIFY` instend.
+For the property without Getter/Setter/Notify, use `N_NO_GETTER`/`N_NO_SETTER`/`N_NO_NOTIFY` instead:
 
 ```cpp
 class xxxId : public ObjectIdT<xxx>

@@ -40,14 +40,18 @@ MainWindow::MainWindow()
     setCentralWidget(Widget(GridLayout{
         {0, 0, GroupBox("Binding", VBoxLayout{
             Label("label.text = lineEdit.text"),
-            Label(label_0_0).alignment(Qt::AlignHCenter),
+            Label(label_0_0)
+                .alignment(Qt::AlignHCenter)
+                .text(lineEdit_0_0.text()), // create binding as a builder property
             LineEdit(lineEdit_0_0).text("hello"),
             BoxLayoutItem::Stretch,
         })},
 
         {0, 1, GroupBox("Call", VBoxLayout{
             Label("label.text = asprintf(\"%02d\", slider.value)"),
-            Label(label_0_1).alignment(Qt::AlignHCenter),
+            Label(label_0_1)
+                .alignment(Qt::AlignHCenter)
+                .text(nw::asprintf("%02d", slider_0_1.value())), // use nw::call to replace function call
             Slider(slider_0_1).value(32),
             BoxLayoutItem::Stretch,
         })},
@@ -91,9 +95,7 @@ MainWindow::MainWindow()
         })},
     }.rowStretch(3, 1)));
 
-    label_0_0.text() = lineEdit_0_0.text();
-
-    label_0_1.text() = nw::asprintf("%02d", slider_0_1.value());
+    // or create binding in code.
 
     slider_1_0_2.value() = slider_1_0_0.value();
     slider_1_0_3.value() = slider_1_0_0.value() + slider_1_0_1.value();

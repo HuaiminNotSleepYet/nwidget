@@ -42,18 +42,26 @@ QLayout* layout = nw::VBoxLayout{
 
 ## 属性绑定
 
-nwidget 使用类似 [qml 属性绑定](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html) 的语法：
+nwidget 引入了 qml 的 [属性绑定](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html) 机制，并使用类似的语法
+
+你可以在在声明式语法中创建绑定：
 
 ```cpp
-nw::SliderId slider1;
-nw::SliderId slider2;
-nw::SliderId slider3;
+LabelId label = new QLabel;
+LineEditId edit = new QLineEdit;
 
-QLayout* layout = nw::VBoxLayout{
-    nw::Slider(slider1, Qt::Horizontal),
-    nw::Slider(slider2, Qt::Horizontal),
-    nw::Slider(slider3, Qt::Horizontal),
+QLayout* layout = VBoxLayout{
+    Label(label).text(edit.text()),
+    LineEdit(edit)
 };
+```
+
+或直接在代码中创建：
+
+```cpp
+nw::SliderId slider1 = new QSlider;
+nw::SliderId slider2 = new QSlider;
+nw::SliderId slider3 = new QSlider;
 
 slider3.value() = slider1.value() + slider2.value();
 ```
@@ -67,32 +75,6 @@ slider3.value() = slider1.value() + slider2.value();
 ### Property
 
 `Property` 是一个模板类，代表 QObject 实例的一个属性。它使用模板参数记录属性的名称、Getter、Setter、变更信号
-
-通常你不需要直接创建 `Property`，而是使用 `N_PROPERTY` 宏来声明
-
-```cpp
-template<typename Object_,
-         typename Type_,
-         typename Getter_,
-         typename Setter_,
-         typename Notify_>
-struct PropertyInfo
-{
-    using Object = Object_;
-    using Type   = Type_;
-    using Getter = Getter_;
-    using Setter = Setter_;
-    using Notify = Notify_;
-};
-
-template<typename PropertyInfo>
-class Property
-{
-public:
-    using Info = PropertyInfo;
-    // ...
-}
-```
 
 有多种方法可以操作 `Property`：
 
@@ -111,7 +93,7 @@ valueProp += 10;
 ++valueProp;
 ```
 
-通常你不需要直接创建 `Property`，而是使用 `N_ID_PROPERTY` 宏声明
+通常你不需要直接创建 `Property`，而是在 `ObjectIdT<T>` 子类中使用 `N_ID_PROPERTY` 宏声明
 
 对于没有 Getter/Setter/Notify 的属性, 使用 `N_NO_GETTER`/`N_NO_SETTER`/`N_NO_NOTIFY` 代替
 
