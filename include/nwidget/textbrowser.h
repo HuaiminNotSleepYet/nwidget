@@ -20,15 +20,15 @@ public:
     N_BUILDER_PROPERTY(bool       , openExternalLinks, setOpenExternalLinks)
     N_BUILDER_PROPERTY(bool       , openLinks        , setOpenLinks        )
 
-    N_SIGNAL(onBackwardAvailable, QTextBrowser::backwardAvailable)
-    N_SIGNAL(onForwardAvailable , QTextBrowser::forwardAvailable )
-    N_SIGNAL(onHistoryChanged   , QTextBrowser::historyChanged   )
-    N_SIGNAL(onSourceChanged    , QTextBrowser::sourceChanged    )
-    N_SIGNAL(onHighlighted      , QTextBrowser::highlighted      )
-    N_SIGNAL(onAnchorClicked    , QTextBrowser::anchorClicked    )
+    N_BUILDER_SIGNAL(onBackwardAvailable, backwardAvailable)
+    N_BUILDER_SIGNAL(onForwardAvailable , forwardAvailable )
+    N_BUILDER_SIGNAL(onHistoryChanged   , historyChanged   )
+    N_BUILDER_SIGNAL(onSourceChanged    , sourceChanged    )
+    N_BUILDER_SIGNAL(onHighlighted      , highlighted      )
+    N_BUILDER_SIGNAL(onAnchorClicked    , anchorClicked    )
 };
 
-N_BUILDER_IMPL(TextBrowserBuilder, QTextBrowser, TextBrowser);
+N_DECL_BUILDER(TextBrowserBuilder, QTextBrowser, TextBrowser);
 
 
 
@@ -38,11 +38,11 @@ class TextBrowserIdT : public TextEditIdT<T>
 public:
     using TextEditIdT<T>::TextEditIdT;
 
-    N_PROPERTY(QUrl                       , source           , N_GETTER(source           ), N_NO_SETTER                   , N_NO_NOTIFY)
-    N_PROPERTY(QTextDocument::ResourceType, sourceType       , N_GETTER(sourceType       ), N_NO_SETTER                   , N_NO_NOTIFY)
-    N_PROPERTY(QStringList                , searchPaths      , N_GETTER(searchPaths      ), N_SETTER(setSearchPaths      ), N_NO_NOTIFY)
-    N_PROPERTY(bool                       , openExternalLinks, N_GETTER(openExternalLinks), N_SETTER(setOpenExternalLinks), N_NO_NOTIFY)
-    N_PROPERTY(bool                       , openLinks        , N_GETTER(openLinks        ), N_SETTER(setOpenLinks        ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QUrl                       , source           , N_GETTER(source           ), N_NO_SETTER                   , N_NO_NOTIFY)
+    N_ID_PROPERTY(QTextDocument::ResourceType, sourceType       , N_GETTER(sourceType       ), N_NO_SETTER                   , N_NO_NOTIFY)
+    N_ID_PROPERTY(QStringList                , searchPaths      , N_GETTER(searchPaths      ), N_SETTER(setSearchPaths      ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool                       , openExternalLinks, N_GETTER(openExternalLinks), N_SETTER(setOpenExternalLinks), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool                       , openLinks        , N_GETTER(openLinks        ), N_SETTER(setOpenLinks        ), N_NO_NOTIFY)
 };
 
 using TextBrowserId = TextBrowserIdT<QTextBrowser>;

@@ -19,7 +19,7 @@ public:
     TableWidgetBuilder(T* target, int row, int columns) : TableViewBuilder<S, T>(target) { t->setRowCount(row); t->setColumnCount(columns); }
 };
 
-N_BUILDER_IMPL(TableWidgetBuilder, QTableWidget, TableWidget);
+N_DECL_BUILDER(TableWidgetBuilder, QTableWidget, TableWidget);
 
 }
 

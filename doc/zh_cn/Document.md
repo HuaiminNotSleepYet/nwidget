@@ -111,7 +111,7 @@ valueProp += 10;
 ++valueProp;
 ```
 
-通常你不需要直接创建 `Property`，而是使用 `N_PROPERTY` 宏声明
+通常你不需要直接创建 `Property`，而是使用 `N_ID_PROPERTY` 宏声明
 
 对于没有 Getter/Setter/Notify 的属性, 使用 `N_NO_GETTER`/`N_NO_SETTER`/`N_NO_NOTIFY` 代替
 
@@ -119,8 +119,8 @@ valueProp += 10;
 class xxxId : public ObjectIdT<xxx>
 {
 public:
-    N_PROPERTY(int, propA, N_GETTER(propA), N_SETTER(setPropA), N_NOTIFY(propAChanged))
-    N_PROPERTY(int, propB, N_GETTER(propB), N_NO_SETTER       , N_NO_NOTIFY           )
+    N_ID_PROPERTY(int, propA, N_GETTER(propA), N_SETTER(setPropA), N_NOTIFY(propAChanged))
+    N_ID_PROPERTY(int, propB, N_GETTER(propB), N_NO_SETTER       , N_NO_NOTIFY           )
 }
 ```
 

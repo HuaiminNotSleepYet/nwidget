@@ -43,7 +43,7 @@ public:
     S& contentsMargins(int l, int t, int r, int b) { this->t->setContentsMargins(l, t, r, b); return self(); }
 };
 
-N_BUILDER_IMPL(LayoutBuilder, QLayout, Layout);
+N_DECL_BUILDER(LayoutBuilder, QLayout, Layout);
 
 
 template<typename T>
@@ -52,9 +52,9 @@ class LayoutIdT : public ObjectIdT<T>
 public:
     using ObjectIdT<T>::ObjectIdT;
 
-    N_PROPERTY(int                    , spacing        , N_GETTER(spacing        ),  N_SETTER(setSpacing        ), N_NO_NOTIFY)
-    N_PROPERTY(QMargins               , contentsMargins, N_GETTER(contentsMargins),  N_SETTER(setContentsMargins), N_NO_NOTIFY)
-    N_PROPERTY(QLayout::SizeConstraint, sizeConstraint , N_GETTER(sizeConstraint ),  N_SETTER(setSizeConstraint ), N_NO_NOTIFY)
+    N_ID_PROPERTY(int                    , spacing        , N_GETTER(spacing        ),  N_SETTER(setSpacing        ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QMargins               , contentsMargins, N_GETTER(contentsMargins),  N_SETTER(setContentsMargins), N_NO_NOTIFY)
+    N_ID_PROPERTY(QLayout::SizeConstraint, sizeConstraint , N_GETTER(sizeConstraint ),  N_SETTER(setSizeConstraint ), N_NO_NOTIFY)
 };
 
 using LayoutId = LayoutIdT<QLayout>;

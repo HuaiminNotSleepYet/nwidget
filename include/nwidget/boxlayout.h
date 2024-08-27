@@ -64,7 +64,7 @@ public:
     S& items(std::initializer_list<BoxLayoutItem> items) { addItems(items); return self(); }
 };
 
-N_BUILDER_IMPL(BoxLayoutBuilder, QBoxLayout , BoxLayout);
+N_DECL_BUILDER(BoxLayoutBuilder, QBoxLayout , BoxLayout);
 
 class HBoxLayout : public BoxLayoutBuilder<HBoxLayout, QHBoxLayout> {
 public:

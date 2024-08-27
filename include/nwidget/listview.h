@@ -31,10 +31,10 @@ public:
     S& selectionRectVisible(bool show)        { t->setSelectionRect(show);  return self(); }
     S& itemAlignment(Qt::Alignment align)     { t->setItemAlignment(align); return self(); }
 
-    N_SIGNAL(onIndexsMoved, QListView::indexesMoved)
+    N_BUILDER_SIGNAL(onIndexsMoved, indexesMoved)
 };
 
-N_BUILDER_IMPL(ListViewBuilder, QListView, ListView);
+N_DECL_BUILDER(ListViewBuilder, QListView, ListView);
 
 }
 

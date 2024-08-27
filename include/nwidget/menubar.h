@@ -36,7 +36,7 @@ public:
     S& item(std::initializer_list<MenuBarItem> items) { addItems(items); return self(); }
 };
 
-N_BUILDER_IMPL(MenuBarBuilder, QMenuBar, MenuBar);
+N_DECL_BUILDER(MenuBarBuilder, QMenuBar, MenuBar);
 
 
 
@@ -46,8 +46,8 @@ class MenuBarIdT : public WidgetIdT<T>
 public:
     using WidgetIdT<T>::WidgetIdT;
 
-    N_PROPERTY(bool, defaultUp    , N_GETTER(isDefaultUp    ), N_SETTER(setDefaultUp    ), N_NO_NOTIFY)
-    N_PROPERTY(bool, nativeMenuBar, N_GETTER(isNativeMenuBar), N_SETTER(setNativeMenuBar), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool, defaultUp    , N_GETTER(isDefaultUp    ), N_SETTER(setDefaultUp    ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool, nativeMenuBar, N_GETTER(isNativeMenuBar), N_SETTER(setNativeMenuBar), N_NO_NOTIFY)
 };
 
 using MenuBarId = MenuBarIdT<QMenuBar>;

@@ -21,10 +21,10 @@ public:
     N_BUILDER_PROPERTY(bool          , tristate  , setTristate  )
     N_BUILDER_PROPERTY(Qt::CheckState, checkState, setCheckState)
 
-    N_SIGNAL(onStateChanged, QCheckBox::stateChanged)
+    N_BUILDER_SIGNAL(onStateChanged, stateChanged)
 };
 
-N_BUILDER_IMPL(CheckBoxBuilder, QCheckBox, CheckBox);
+N_DECL_BUILDER(CheckBoxBuilder, QCheckBox, CheckBox);
 
 
 
@@ -34,8 +34,8 @@ class CheckBoxIdT : public AbstractButtonIdT<T>
 public:
     using AbstractButtonIdT<T>::AbstractButtonIdT;
 
-    N_PROPERTY(bool          , tristate  , N_GETTER(isTristate), N_SETTER(setTristate  ), N_NO_NOTIFY)
-    N_PROPERTY(Qt::CheckState, checkState, N_GETTER(checkState), N_SETTER(setCheckState), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool          , tristate  , N_GETTER(isTristate), N_SETTER(setTristate  ), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::CheckState, checkState, N_GETTER(checkState), N_SETTER(setCheckState), N_NO_NOTIFY)
 };
 
 using CheckBoxId = CheckBoxIdT<QCheckBox>;

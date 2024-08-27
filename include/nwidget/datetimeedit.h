@@ -46,9 +46,9 @@ public:
     S& selectedSection(QDateTimeEdit::Section section)           { t->setSelectedSection(section); return self(); }
     S& timeZone(const QTimeZone& zone)                           { t->setTimeZone(zone)          ; return self(); }
 
-    N_SIGNAL(onDateTimeChanged, QDateTimeEdit::dateTimeChanged)
-    N_SIGNAL(onTimeChanged    , QDateTimeEdit::timeChanged    )
-    N_SIGNAL(onDateChanged    , QDateTimeEdit::dateChanged    )
+    N_BUILDER_SIGNAL(onDateTimeChanged, dateTimeChanged)
+    N_BUILDER_SIGNAL(onTimeChanged    , timeChanged    )
+    N_BUILDER_SIGNAL(onDateChanged    , dateChanged    )
 };
 
 template<typename S, typename T>
@@ -75,9 +75,9 @@ public:
     DateEditBuilder(T* target, QDate date) : DateTimeEditBuilder<S, T>(target, date) {}
 };
 
-N_BUILDER_IMPL(DateTimeEditBuilder, QDateTimeEdit, DateTimeEdit);
-N_BUILDER_IMPL(TimeEditBuilder    , QTimeEdit    , TimeEdit    );
-N_BUILDER_IMPL(DateEditBuilder    , QDateEdit    , DateEdit    );
+N_DECL_BUILDER(DateTimeEditBuilder, QDateTimeEdit, DateTimeEdit);
+N_DECL_BUILDER(TimeEditBuilder    , QTimeEdit    , TimeEdit    );
+N_DECL_BUILDER(DateEditBuilder    , QDateEdit    , DateEdit    );
 
 
 
@@ -87,22 +87,22 @@ class DateTimeEditIdT : public AbstractSpinBoxIdT<T>
 public:
     using AbstractSpinBoxIdT<T>::AbstractSpinBoxIdT;
 
-    N_PROPERTY(QDateTime              , dateTime           , N_GETTER(dateTime           ), N_SETTER(setDateTime           ), N_NOTIFY(dateTimeChanged))
-    N_PROPERTY(QDate                  , date               , N_GETTER(date               ), N_SETTER(setDate               ), N_NOTIFY(dateChanged))
-    N_PROPERTY(QTime                  , time               , N_GETTER(time               ), N_SETTER(setTime               ), N_NOTIFY(timeChanged))
-    N_PROPERTY(QDateTime              , maximumDateTime    , N_GETTER(maximumDateTime    ), N_SETTER(setMaximumDateTime    ), N_NO_NOTIFY)
-    N_PROPERTY(QDateTime              , minimumDateTime    , N_GETTER(minimumDateTime    ), N_SETTER(setMinimumDateTime    ), N_NO_NOTIFY)
-    N_PROPERTY(QDate                  , maximumDate        , N_GETTER(maximumDate        ), N_SETTER(setMaximumDate        ), N_NO_NOTIFY)
-    N_PROPERTY(QDate                  , minimumDate        , N_GETTER(minimumDate        ), N_SETTER(setMinimumDate        ), N_NO_NOTIFY)
-    N_PROPERTY(QTime                  , maximumTime        , N_GETTER(maximumTime        ), N_SETTER(setMaximumTime        ), N_NO_NOTIFY)
-    N_PROPERTY(QTime                  , minimumTime        , N_GETTER(minimumTime        ), N_SETTER(setMinimumTime        ), N_NO_NOTIFY)
-    N_PROPERTY(QDateTimeEdit::Section , currentSection     , N_GETTER(currentSection     ), N_SETTER(setCurrentSection     ), N_NO_NOTIFY)
-    N_PROPERTY(QDateTimeEdit::Sections, displayedSections  , N_GETTER(displayedSections  ), N_NO_SETTER                     , N_NO_NOTIFY)
-    N_PROPERTY(QString                , displayFormat      , N_GETTER(displayFormat      ), N_SETTER(setDisplayFormat      ), N_NO_NOTIFY)
-    N_PROPERTY(bool                   , calendarPopup      , N_GETTER(calendarPopup      ), N_SETTER(setCalendarPopup      ), N_NO_NOTIFY)
-    N_PROPERTY(int                    , currentSectionIndex, N_GETTER(currentSectionIndex), N_SETTER(setCurrentSectionIndex), N_NO_NOTIFY)
-    N_PROPERTY(int                    , sectionCount       , N_GETTER(sectionCount       ), N_NO_SETTER                     , N_NO_NOTIFY)
-    N_PROPERTY(Qt::TimeSpec           , timeSpec           , N_GETTER(timeSpec           ), N_SETTER(setTimeSpec           ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QDateTime              , dateTime           , N_GETTER(dateTime           ), N_SETTER(setDateTime           ), N_NOTIFY(dateTimeChanged))
+    N_ID_PROPERTY(QDate                  , date               , N_GETTER(date               ), N_SETTER(setDate               ), N_NOTIFY(dateChanged))
+    N_ID_PROPERTY(QTime                  , time               , N_GETTER(time               ), N_SETTER(setTime               ), N_NOTIFY(timeChanged))
+    N_ID_PROPERTY(QDateTime              , maximumDateTime    , N_GETTER(maximumDateTime    ), N_SETTER(setMaximumDateTime    ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QDateTime              , minimumDateTime    , N_GETTER(minimumDateTime    ), N_SETTER(setMinimumDateTime    ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QDate                  , maximumDate        , N_GETTER(maximumDate        ), N_SETTER(setMaximumDate        ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QDate                  , minimumDate        , N_GETTER(minimumDate        ), N_SETTER(setMinimumDate        ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QTime                  , maximumTime        , N_GETTER(maximumTime        ), N_SETTER(setMaximumTime        ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QTime                  , minimumTime        , N_GETTER(minimumTime        ), N_SETTER(setMinimumTime        ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QDateTimeEdit::Section , currentSection     , N_GETTER(currentSection     ), N_SETTER(setCurrentSection     ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QDateTimeEdit::Sections, displayedSections  , N_GETTER(displayedSections  ), N_NO_SETTER                     , N_NO_NOTIFY)
+    N_ID_PROPERTY(QString                , displayFormat      , N_GETTER(displayFormat      ), N_SETTER(setDisplayFormat      ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool                   , calendarPopup      , N_GETTER(calendarPopup      ), N_SETTER(setCalendarPopup      ), N_NO_NOTIFY)
+    N_ID_PROPERTY(int                    , currentSectionIndex, N_GETTER(currentSectionIndex), N_SETTER(setCurrentSectionIndex), N_NO_NOTIFY)
+    N_ID_PROPERTY(int                    , sectionCount       , N_GETTER(sectionCount       ), N_NO_SETTER                     , N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::TimeSpec           , timeSpec           , N_GETTER(timeSpec           ), N_SETTER(setTimeSpec           ), N_NO_NOTIFY)
 };
 
 template <typename T>
@@ -111,7 +111,7 @@ class TimeEditIdT : public DateTimeEditIdT<T>
 public:
     using DateTimeEditIdT<T>::DateTimeEditIdT;
 
-    N_PROPERTY(QTime, time, N_GETTER(time), N_SETTER(setTime), N_NOTIFY(userTimeChanged))
+    N_ID_PROPERTY(QTime, time, N_GETTER(time), N_SETTER(setTime), N_NOTIFY(userTimeChanged))
 };
 
 
@@ -121,7 +121,7 @@ class DateEditIdT : public DateTimeEditIdT<T>
 public:
     using DateTimeEditIdT<T>::DateTimeEditIdT;
 
-    N_PROPERTY(QDate, date, N_GETTER(date), N_SETTER(setDate), N_NOTIFY(userDateChanged))
+    N_ID_PROPERTY(QDate, date, N_GETTER(date), N_SETTER(setDate), N_NOTIFY(userDateChanged))
 };
 
 using DateTimeEditId = DateTimeEditIdT<QDateTimeEdit>;

@@ -31,7 +31,7 @@ public:
     N_BUILDER_PROPERTY(Qt::TextInteractionFlags, InteractionFlags , setTextInteractionFlags)
 };
 
-N_BUILDER_IMPL(LabelBuilder, QLabel, Label);
+N_DECL_BUILDER(LabelBuilder, QLabel, Label);
 
 template<typename T>
 class LabelIdT : public FrameIdT<T>
@@ -39,18 +39,18 @@ class LabelIdT : public FrameIdT<T>
 public:
     using FrameIdT<T>::FrameIdT;
 
-    N_PROPERTY(QString                 , text             , N_GETTER(text                ), N_SETTER(setText                ), N_NO_NOTIFY)
-    N_PROPERTY(Qt::TextFormat          , textFormat       , N_GETTER(textFormat          ), N_SETTER(setTextFormat          ), N_NO_NOTIFY)
-    N_PROPERTY(QPixmap                 , pixmap           , N_GETTER(pixmap              ), N_SETTER(setPixmap              ), N_NO_NOTIFY)
-    N_PROPERTY(bool                    , scaledContents   , N_GETTER(hasScaledContents   ), N_SETTER(setScaledContents      ), N_NO_NOTIFY)
-    N_PROPERTY(Qt::Alignment           , alignment        , N_GETTER(alignment           ), N_SETTER(setAlignment           ), N_NO_NOTIFY)
-    N_PROPERTY(bool                    , wordWrap         , N_GETTER(wordWrap            ), N_SETTER(setWordWrap            ), N_NO_NOTIFY)
-    N_PROPERTY(int                     , margin           , N_GETTER(margin              ), N_SETTER(setMargin              ), N_NO_NOTIFY)
-    N_PROPERTY(int                     , indent           , N_GETTER(indent              ), N_SETTER(setIndent              ), N_NO_NOTIFY)
-    N_PROPERTY(bool                    , openExternalLinks, N_GETTER(openExternalLinks   ), N_SETTER(setOpenExternalLinks   ), N_NO_NOTIFY)
-    N_PROPERTY(Qt::TextInteractionFlags, InteractionFlags , N_GETTER(textInteractionFlags), N_SETTER(setTextInteractionFlags), N_NO_NOTIFY)
-    N_PROPERTY(bool                    , hasSelectedText  , N_GETTER(hasSelectedText     ), N_NO_SETTER                      , N_NO_NOTIFY)
-    N_PROPERTY(QString                 , selectedText     , N_GETTER(selectedText        ), N_NO_SETTER                      , N_NO_NOTIFY)
+    N_ID_PROPERTY(QString                 , text             , N_GETTER(text                ), N_SETTER(setText                ), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::TextFormat          , textFormat       , N_GETTER(textFormat          ), N_SETTER(setTextFormat          ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QPixmap                 , pixmap           , N_GETTER(pixmap              ), N_SETTER(setPixmap              ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool                    , scaledContents   , N_GETTER(hasScaledContents   ), N_SETTER(setScaledContents      ), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::Alignment           , alignment        , N_GETTER(alignment           ), N_SETTER(setAlignment           ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool                    , wordWrap         , N_GETTER(wordWrap            ), N_SETTER(setWordWrap            ), N_NO_NOTIFY)
+    N_ID_PROPERTY(int                     , margin           , N_GETTER(margin              ), N_SETTER(setMargin              ), N_NO_NOTIFY)
+    N_ID_PROPERTY(int                     , indent           , N_GETTER(indent              ), N_SETTER(setIndent              ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool                    , openExternalLinks, N_GETTER(openExternalLinks   ), N_SETTER(setOpenExternalLinks   ), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::TextInteractionFlags, InteractionFlags , N_GETTER(textInteractionFlags), N_SETTER(setTextInteractionFlags), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool                    , hasSelectedText  , N_GETTER(hasSelectedText     ), N_NO_SETTER                      , N_NO_NOTIFY)
+    N_ID_PROPERTY(QString                 , selectedText     , N_GETTER(selectedText        ), N_NO_SETTER                      , N_NO_NOTIFY)
 };
 
 using LabelId = LabelIdT<QLabel>;

@@ -28,7 +28,7 @@ public:
     N_BUILDER_PROPERTY(bool         , checked  , setChecked  )
 };
 
-N_BUILDER_IMPL(GroupBoxBuilder, QGroupBox, GroupBox);
+N_DECL_BUILDER(GroupBoxBuilder, QGroupBox, GroupBox);
 
 
 
@@ -38,11 +38,11 @@ class GroupBoxIdT : public WidgetIdT<T>
 public:
     using WidgetIdT<T>::WidgetIdT;
 
-    N_PROPERTY(QString      , title    , N_GETTER(title      ), N_SETTER(setTitle    ), N_NO_NOTIFY)
-    N_PROPERTY(Qt::Alignment, alignment, N_GETTER(alignment  ), N_SETTER(setAlignment), N_NO_NOTIFY)
-    N_PROPERTY(bool         , flat     , N_GETTER(isFlat     ), N_SETTER(setFlat     ), N_NO_NOTIFY)
-    N_PROPERTY(bool         , checkable, N_GETTER(isCheckable), N_SETTER(setCheckable), N_NO_NOTIFY)
-    N_PROPERTY(bool         , checked  , N_GETTER(isChecked  ), N_SETTER(setChecked  ), N_NOTIFY(toggled))
+    N_ID_PROPERTY(QString      , title    , N_GETTER(title      ), N_SETTER(setTitle    ), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::Alignment, alignment, N_GETTER(alignment  ), N_SETTER(setAlignment), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool         , flat     , N_GETTER(isFlat     ), N_SETTER(setFlat     ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool         , checkable, N_GETTER(isCheckable), N_SETTER(setCheckable), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool         , checked  , N_GETTER(isChecked  ), N_SETTER(setChecked  ), N_NOTIFY(toggled))
 };
 
 using GroupBoxId = GroupBoxIdT<QGroupBox>;

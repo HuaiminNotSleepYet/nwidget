@@ -22,7 +22,7 @@ public:
     N_BUILDER_PROPERTY(int                  , tickInterval, setTickInterval)
 };
 
-N_BUILDER_IMPL(SliderBuilder, QSlider, Slider);
+N_DECL_BUILDER(SliderBuilder, QSlider, Slider);
 
 
 
@@ -32,8 +32,8 @@ class SliderIdT : public AbstractSliderIdT<T>
 public:
     using AbstractSliderIdT<T>::AbstractSliderIdT;
 
-    N_PROPERTY(QSlider::TickPosition, tickPosition, N_GETTER(tickPosition), N_SETTER(setTickPosition), N_NO_NOTIFY)
-    N_PROPERTY(int                  , tickInterval, N_GETTER(tickInterval), N_SETTER(setTickInterval), N_NO_NOTIFY)
+    N_ID_PROPERTY(QSlider::TickPosition, tickPosition, N_GETTER(tickPosition), N_SETTER(setTickPosition), N_NO_NOTIFY)
+    N_ID_PROPERTY(int                  , tickInterval, N_GETTER(tickInterval), N_SETTER(setTickInterval), N_NO_NOTIFY)
 };
 
 using SliderId = SliderIdT<QSlider>;

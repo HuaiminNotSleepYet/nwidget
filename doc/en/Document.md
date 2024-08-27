@@ -92,7 +92,7 @@ public:
 }
 ```
 
-Usually you don't need to create `Property` directly, but use the `N_PROPERTY` macro to declare it.
+Usually you don't need to create `Property` directly, but use the `N_ID_PROPERTY` macro to declare it.
 
 For the property without Getter/Setter/Notify, use `N_NO_GETTER`/`N_NO_SETTER`/`N_NO_NOTIFY` instend.
 
@@ -100,8 +100,8 @@ For the property without Getter/Setter/Notify, use `N_NO_GETTER`/`N_NO_SETTER`/`
 class xxxId : public ObjectIdT<xxx>
 {
 public:
-    N_PROPERTY(int, propA, N_GETTER(propA), N_SETTER(setPropA), N_NOTIFY(propAChanged))
-    N_PROPERTY(int, propB, N_GETTER(propB), N_NO_SETTER       , N_NO_NOTIFY           )
+    N_ID_PROPERTY(int, propA, N_GETTER(propA), N_SETTER(setPropA), N_NOTIFY(propAChanged))
+    N_ID_PROPERTY(int, propB, N_GETTER(propB), N_NO_SETTER       , N_NO_NOTIFY           )
 }
 ```
 

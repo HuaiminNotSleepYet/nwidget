@@ -55,13 +55,13 @@ public:
     S& cornerWidget(QWidget * w, Qt::Corner c = Qt::TopRightCorner) { t->setCornerWidget(w, c)        ; return self(); }
     S& currentWidget(QWidget *widget)                               { t->setCurrentWidget(widget)     ; return self(); }
 
-    N_SIGNAL(onCurrentChanged     , QTabWidget::currentChanged     )
-    N_SIGNAL(onTabCloseRequested  , QTabWidget::tabCloseRequested  )
-    N_SIGNAL(onTabBarClicked      , QTabWidget::tabBarClicked      )
-    N_SIGNAL(onTabBarDoubleClicked, QTabWidget::tabBarDoubleClicked)
+    N_BUILDER_SIGNAL(onCurrentChanged     , currentChanged     )
+    N_BUILDER_SIGNAL(onTabCloseRequested  , tabCloseRequested  )
+    N_BUILDER_SIGNAL(onTabBarClicked      , tabBarClicked      )
+    N_BUILDER_SIGNAL(onTabBarDoubleClicked, tabBarDoubleClicked)
 };
 
-N_BUILDER_IMPL(TabWidgetBuilder, QTabWidget, TabWidget);
+N_DECL_BUILDER(TabWidgetBuilder, QTabWidget, TabWidget);
 
 
 
@@ -71,17 +71,17 @@ class TabWidgetIdT : public WidgetIdT<T>
 public:
     using WidgetIdT<T>::WidgetIdT;
 
-    N_PROPERTY(QTabWidget::TabPosition, tabPosition      , N_GETTER(tabPosition      ), N_SETTER(setTabPosition      ), N_NO_NOTIFY)
-    N_PROPERTY(QTabWidget::TabShape   , tabShape         , N_GETTER(tabShape         ), N_SETTER(setTabShape         ), N_NO_NOTIFY)
-    N_PROPERTY(int                    , currentIndex     , N_GETTER(currentIndex     ), N_SETTER(setCurrentIndex     ), N_NOTIFY(currentChanged))
-    N_PROPERTY(int                    , count            , N_GETTER(count            ), N_NO_SETTER                   , N_NO_NOTIFY)
-    N_PROPERTY(QSize                  , iconSize         , N_GETTER(iconSize         ), N_SETTER(setIconSize         ), N_NO_NOTIFY)
-    N_PROPERTY(Qt::TextElideMode      , elideMode        , N_GETTER(elideMode        ), N_SETTER(setElideMode        ), N_NO_NOTIFY)
-    N_PROPERTY(bool                   , usesScrollButtons, N_GETTER(usesScrollButtons), N_SETTER(setUsesScrollButtons), N_NO_NOTIFY)
-    N_PROPERTY(bool                   , documentMode     , N_GETTER(documentMode     ), N_SETTER(setDocumentMode     ), N_NO_NOTIFY)
-    N_PROPERTY(bool                   , tabsClosable     , N_GETTER(tabsClosable     ), N_SETTER(setTabsClosable     ), N_NO_NOTIFY)
-    N_PROPERTY(bool                   , movable          , N_GETTER(isMovable        ), N_SETTER(setMovable          ), N_NO_NOTIFY)
-    N_PROPERTY(bool                   , tabBarAutoHide   , N_GETTER(tabBarAutoHide   ), N_SETTER(setTabBarAutoHide   ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QTabWidget::TabPosition, tabPosition      , N_GETTER(tabPosition      ), N_SETTER(setTabPosition      ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QTabWidget::TabShape   , tabShape         , N_GETTER(tabShape         ), N_SETTER(setTabShape         ), N_NO_NOTIFY)
+    N_ID_PROPERTY(int                    , currentIndex     , N_GETTER(currentIndex     ), N_SETTER(setCurrentIndex     ), N_NOTIFY(currentChanged))
+    N_ID_PROPERTY(int                    , count            , N_GETTER(count            ), N_NO_SETTER                   , N_NO_NOTIFY)
+    N_ID_PROPERTY(QSize                  , iconSize         , N_GETTER(iconSize         ), N_SETTER(setIconSize         ), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::TextElideMode      , elideMode        , N_GETTER(elideMode        ), N_SETTER(setElideMode        ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool                   , usesScrollButtons, N_GETTER(usesScrollButtons), N_SETTER(setUsesScrollButtons), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool                   , documentMode     , N_GETTER(documentMode     ), N_SETTER(setDocumentMode     ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool                   , tabsClosable     , N_GETTER(tabsClosable     ), N_SETTER(setTabsClosable     ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool                   , movable          , N_GETTER(isMovable        ), N_SETTER(setMovable          ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool                   , tabBarAutoHide   , N_GETTER(tabBarAutoHide   ), N_SETTER(setTabBarAutoHide   ), N_NO_NOTIFY)
 };
 
 using TabWidgetId = TabWidgetIdT<QTabWidget>;

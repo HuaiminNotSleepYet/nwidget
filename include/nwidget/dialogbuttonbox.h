@@ -30,13 +30,13 @@ public:
     N_BUILDER_PROPERTY(QDialogButtonBox::StandardButtons, standardButtons, setStandardButtons)
     N_BUILDER_PROPERTY(bool                             , centerButtons  , setCenterButtons  )
 
-    N_SIGNAL(onClicked      , QDialogButtonBox::clicked      )
-    N_SIGNAL(onAccepted     , QDialogButtonBox::accepted     )
-    N_SIGNAL(onHelpRequested, QDialogButtonBox::helpRequested)
-    N_SIGNAL(onRejected     , QDialogButtonBox::rejected     )
+    N_BUILDER_SIGNAL(onClicked      , clicked      )
+    N_BUILDER_SIGNAL(onAccepted     , accepted     )
+    N_BUILDER_SIGNAL(onHelpRequested, helpRequested)
+    N_BUILDER_SIGNAL(onRejected     , rejected     )
 };
 
-N_BUILDER_IMPL(DialogButtonBoxBuilder, QDialogButtonBox, DialogButtonBox);
+N_DECL_BUILDER(DialogButtonBoxBuilder, QDialogButtonBox, DialogButtonBox);
 
 
 
@@ -46,10 +46,10 @@ class DialogButtonBoxIdT : public WidgetIdT<T>
 public:
     using WidgetIdT<T>::WidgetIdT;
 
-    N_PROPERTY(Qt::Orientation, orientation    , N_GETTER(orientation    ), N_SETTER(setOrientation    ), N_NO_NOTIFY)
-    N_PROPERTY(QDialogButtonBox::StandardButtons
+    N_ID_PROPERTY(Qt::Orientation, orientation    , N_GETTER(orientation    ), N_SETTER(setOrientation    ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QDialogButtonBox::StandardButtons
                               , standardButtons, N_GETTER(standardButtons), N_SETTER(setStandardButtons), N_NO_NOTIFY)
-    N_PROPERTY(bool           , centerButtons  , N_GETTER(centerButtons  ), N_SETTER(setCenterButtons  ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool           , centerButtons  , N_GETTER(centerButtons  ), N_SETTER(setCenterButtons  ), N_NO_NOTIFY)
 };
 
 using DialogButtonBoxId = DialogButtonBoxIdT<QDialogButtonBox>;

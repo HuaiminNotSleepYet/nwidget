@@ -28,10 +28,10 @@ public:
 
     S& range(int min, int max) { t->setRange(min, max); return self(); }
 
-    N_SIGNAL(onValueChanged, QProgressBar::valueChanged)
+    N_BUILDER_SIGNAL(onValueChanged, valueChanged)
 };
 
-N_BUILDER_IMPL(ProgressBarBuilder, QProgressBar, ProgressBar);
+N_DECL_BUILDER(ProgressBarBuilder, QProgressBar, ProgressBar);
 
 
 
@@ -41,16 +41,16 @@ class ProgressBarIdT : public WidgetIdT<T>
 public:
     using WidgetIdT<T>::WidgetIdT;
 
-    N_PROPERTY(int                    , minimum           , N_GETTER(minimum           ), N_SETTER(setMinimum           ), N_NO_NOTIFY)
-    N_PROPERTY(int                    , maximum           , N_GETTER(maximum           ), N_SETTER(setMaximum           ), N_NO_NOTIFY)
-    N_PROPERTY(QString                , text              , N_GETTER(text              ), N_NO_SETTER                    , N_NO_NOTIFY)
-    N_PROPERTY(int                    , value             , N_GETTER(value             ), N_SETTER(setValue             ), N_NOTIFY(valueChanged))
-    N_PROPERTY(Qt::Alignment          , alignment         , N_GETTER(alignment         ), N_SETTER(setAlignment         ), N_NO_NOTIFY)
-    N_PROPERTY(bool                   , textVisible       , N_GETTER(isTextVisible     ), N_SETTER(setTextVisible       ), N_NO_NOTIFY)
-    N_PROPERTY(Qt::Orientation        , orientation       , N_GETTER(orientation       ), N_SETTER(setOrientation       ), N_NO_NOTIFY)
-    N_PROPERTY(bool                   , invertedAppearance, N_GETTER(invertedAppearance), N_SETTER(setInvertedAppearance), N_NO_NOTIFY)
-    N_PROPERTY(QProgressBar::Direction, textDirection     , N_GETTER(textDirection     ), N_SETTER(setTextDirection     ), N_NO_NOTIFY)
-    N_PROPERTY(QString                , format            , N_GETTER(format            ), N_SETTER(setFormat            ), N_NO_NOTIFY)
+    N_ID_PROPERTY(int                    , minimum           , N_GETTER(minimum           ), N_SETTER(setMinimum           ), N_NO_NOTIFY)
+    N_ID_PROPERTY(int                    , maximum           , N_GETTER(maximum           ), N_SETTER(setMaximum           ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QString                , text              , N_GETTER(text              ), N_NO_SETTER                    , N_NO_NOTIFY)
+    N_ID_PROPERTY(int                    , value             , N_GETTER(value             ), N_SETTER(setValue             ), N_NOTIFY(valueChanged))
+    N_ID_PROPERTY(Qt::Alignment          , alignment         , N_GETTER(alignment         ), N_SETTER(setAlignment         ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool                   , textVisible       , N_GETTER(isTextVisible     ), N_SETTER(setTextVisible       ), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::Orientation        , orientation       , N_GETTER(orientation       ), N_SETTER(setOrientation       ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool                   , invertedAppearance, N_GETTER(invertedAppearance), N_SETTER(setInvertedAppearance), N_NO_NOTIFY)
+    N_ID_PROPERTY(QProgressBar::Direction, textDirection     , N_GETTER(textDirection     ), N_SETTER(setTextDirection     ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QString                , format            , N_GETTER(format            ), N_SETTER(setFormat            ), N_NO_NOTIFY)
 };
 
 using ProgressBarId = ProgressBarIdT<QProgressBar>;

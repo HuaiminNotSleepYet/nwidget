@@ -28,7 +28,7 @@ public:
     S& menu(QMenu* m) { t->setMenu(m); return self(); }
 };
 
-N_BUILDER_IMPL(PushButtonBuilder, QPushButton, PushButton);
+N_DECL_BUILDER(PushButtonBuilder, QPushButton, PushButton);
 
 
 
@@ -38,9 +38,9 @@ class PushButtonIdT : public AbstractButtonIdT<T>
 public:
     using AbstractButtonIdT<T>::AbstractButtonIdT;
 
-    N_PROPERTY(bool, autoDefault, N_GETTER(autoDefault), N_SETTER(setAutoDefault), N_NO_NOTIFY)
-    N_PROPERTY(bool, default_   , N_GETTER(isDefault  ), N_SETTER(setDefault    ), N_NO_NOTIFY)
-    N_PROPERTY(bool, flat       , N_GETTER(isFlat     ), N_SETTER(setFlat       ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool, autoDefault, N_GETTER(autoDefault), N_SETTER(setAutoDefault), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool, default_   , N_GETTER(isDefault  ), N_SETTER(setDefault    ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool, flat       , N_GETTER(isFlat     ), N_SETTER(setFlat       ), N_NO_NOTIFY)
 };
 
 using PushButtonId = PushButtonIdT<QPushButton>;

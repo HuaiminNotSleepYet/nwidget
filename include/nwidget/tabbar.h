@@ -59,14 +59,14 @@ public:
 #endif
     S& currentIndex(int index)                                     { t->setCurrentIndex(index)           ; return self(); }
 
-    N_SIGNAL(onCurrentChanged     , QTabBar::currentChanged     )
-    N_SIGNAL(onTabCloseRequested  , QTabBar::tabCloseRequested  )
-    N_SIGNAL(onTabMoved           , QTabBar::tabMoved           )
-    N_SIGNAL(onTabBarClicked      , QTabBar::tabBarClicked      )
-    N_SIGNAL(onTabBarDoubleClicked, QTabBar::tabBarDoubleClicked)
+    N_BUILDER_SIGNAL(onCurrentChanged     , currentChanged     )
+    N_BUILDER_SIGNAL(onTabCloseRequested  , tabCloseRequested  )
+    N_BUILDER_SIGNAL(onTabMoved           , tabMoved           )
+    N_BUILDER_SIGNAL(onTabBarClicked      , tabBarClicked      )
+    N_BUILDER_SIGNAL(onTabBarDoubleClicked, tabBarDoubleClicked)
 };
 
-N_BUILDER_IMPL(TabBarBuilder, QTabBar, TabBar);
+N_DECL_BUILDER(TabBarBuilder, QTabBar, TabBar);
 
 }
 

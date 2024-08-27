@@ -16,7 +16,7 @@ public:
     using AbstractItemViewBuilder<S, T>::AbstractItemViewBuilder;
 };
 
-N_BUILDER_IMPL(TreeViewBuilder, QTreeView, TreeView);
+N_DECL_BUILDER(TreeViewBuilder, QTreeView, TreeView);
 
 }
 

@@ -46,7 +46,7 @@ public:
     S& title(const QString& s) { t->setTitle(s); return self(); }
 };
 
-N_BUILDER_IMPL(MenuBuilder, QMenu, Menu);
+N_DECL_BUILDER(MenuBuilder, QMenu, Menu);
 
 }
 

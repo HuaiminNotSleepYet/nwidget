@@ -20,7 +20,7 @@ public:
     N_BUILDER_PROPERTY(QAbstractScrollArea::SizeAdjustPolicy, sizeAdjustPolicy         , setSizeAdjustPolicy         )
 };
 
-N_BUILDER_IMPL(AbstractScrollAreaBuilder, QAbstractScrollArea, AbstractScrollArea);
+N_DECL_BUILDER(AbstractScrollAreaBuilder, QAbstractScrollArea, AbstractScrollArea);
 
 
 
@@ -30,9 +30,9 @@ class AbstractScrollAreaIdT : public FrameIdT<T>
 public:
     using FrameIdT<T>::FrameIdT;
 
-    N_PROPERTY(Qt::ScrollBarPolicy, verticalScrollBarPolicy  , N_GETTER(verticalScrollBarPolicy  ), N_SETTER(setVerticalScrollBarPolicy  ), N_NO_NOTIFY)
-    N_PROPERTY(Qt::ScrollBarPolicy, horizontalScrollBarPolicy, N_GETTER(horizontalScrollBarPolicy), N_SETTER(setHorizontalScrollBarPolicy), N_NO_NOTIFY)
-    N_PROPERTY(QAbstractScrollArea::SizeAdjustPolicy, sizeAdjustPolicy, N_GETTER(sizeAdjustPolicy), N_SETTER(setSizeAdjustPolicy         ), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::ScrollBarPolicy, verticalScrollBarPolicy  , N_GETTER(verticalScrollBarPolicy  ), N_SETTER(setVerticalScrollBarPolicy  ), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::ScrollBarPolicy, horizontalScrollBarPolicy, N_GETTER(horizontalScrollBarPolicy), N_SETTER(setHorizontalScrollBarPolicy), N_NO_NOTIFY)
+    N_ID_PROPERTY(QAbstractScrollArea::SizeAdjustPolicy, sizeAdjustPolicy, N_GETTER(sizeAdjustPolicy), N_SETTER(setSizeAdjustPolicy         ), N_NO_NOTIFY)
 };
 
 using AbstractScrollAreaId = AbstractScrollAreaIdT<QAbstractScrollArea>;

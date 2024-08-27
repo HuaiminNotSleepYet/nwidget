@@ -25,7 +25,7 @@ public:
     N_BUILDER_PROPERTY(bool   , flat       , setFlat       )
 };
 
-N_BUILDER_IMPL(CommandLinkButtonBuilder, QCommandLinkButton, CommandLinkButton);
+N_DECL_BUILDER(CommandLinkButtonBuilder, QCommandLinkButton, CommandLinkButton);
 
 
 
@@ -35,8 +35,8 @@ class CommandLinkButtonIdT : public PushButtonIdT<T>
 public:
     using PushButtonIdT<T>::PushButtonIdT;
 
-    N_PROPERTY(QString, description, N_GETTER(description), N_SETTER(setDescription), N_NO_NOTIFY)
-    N_PROPERTY(bool   , flat       , N_GETTER(isFlat     ), N_SETTER(setFlat       ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QString, description, N_GETTER(description), N_SETTER(setDescription), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool   , flat       , N_GETTER(isFlat     ), N_SETTER(setFlat       ), N_NO_NOTIFY)
 };
 
 using CommandLinkButtonId = CommandLinkButtonIdT<QCommandLinkButton>;

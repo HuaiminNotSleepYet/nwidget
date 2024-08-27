@@ -19,7 +19,7 @@ public:
     RadioButtonBuilder(T* target, const QString& text) : AbstractButtonBuilder<S, T>(target) { t->setText(text); }
 };
 
-N_BUILDER_IMPL(RadioButtonBuilder, QRadioButton, RadioButton);
+N_DECL_BUILDER(RadioButtonBuilder, QRadioButton, RadioButton);
 
 
 

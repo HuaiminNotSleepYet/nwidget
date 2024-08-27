@@ -33,9 +33,9 @@ struct NoAction { template<typename T> auto operator()(const T& value) { return 
 
 template<typename T> struct ActionConstructor { template<typename ...Args> T operator()(const Args&... args){ return T(args...); } };
 
-template<typename To> struct ActionCast            { template<typename From> auto operator()(const From& from){ return (To)from;                   }  };
-template<typename To> struct ActionStaticCast      { template<typename From> auto operator()(const From& from){ return static_cast<To>(from);      }  };
-template<typename To> struct ActionReinterpretCast { template<typename From> auto operator()(const From& from){ return reinterpret_cast<To>(from); }  };
+template<typename To> struct ActionCast            { template<typename From> auto operator()(const From& from){ return (To)from;                   } };
+template<typename To> struct ActionStaticCast      { template<typename From> auto operator()(const From& from){ return static_cast<To>(from);      } };
+template<typename To> struct ActionReinterpretCast { template<typename From> auto operator()(const From& from){ return reinterpret_cast<To>(from); } };
 
 struct ActionCond { template<typename A, typename B, typename C> auto operator()(const A& a, const B& b, const C& c) { return a ? b : c; } };
 
@@ -349,7 +349,7 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
 #define N_NO_GETTER using Getter = nw::NoGetter;
 #define N_NO_NOTIFY using Notify = nw::NoNotify;
 
-#define N_PROPERTY(TYPE, NAME, GETTER, SETTER, NOTIFY)              \
+#define N_ID_PROPERTY(TYPE, NAME, GETTER, SETTER, NOTIFY)              \
 auto NAME() const                                                   \
 {                                                                   \
     using Object = typename std::decay<decltype(*this->t)>::type;   \
@@ -392,7 +392,7 @@ public:
 
     T& operator*() const { return *t; }
 
-    N_PROPERTY(QString, objectName, N_GETTER(objectName), N_SETTER(setObjectName), N_NOTIFY(objectNameChanged))
+    N_ID_PROPERTY(QString, objectName, N_GETTER(objectName), N_SETTER(setObjectName), N_NOTIFY(objectNameChanged))
 
 protected:
     T* t;
@@ -410,35 +410,29 @@ protected:                              \
     using ObjectBuilder<S, T>::self;    \
     using ObjectBuilder<S, T>::addItems;
 
-#define N_BUILDER_IMPL(BUILDER, TARGET, NAME)       \
-class NAME : public BUILDER<NAME, TARGET>           \
-{                                                   \
-public:                                             \
-    using BUILDER::BUILDER;                         \
-}
 
 #if QT_VERSION <= QT_VERSION_CHECK(6, 6, 0)
-#define N_SIGNAL_RECEIVER_TYPE(F) const typename QtPrivate::FunctionPointer<F>::Object*
+#define N_RECEIVER_T(F) const typename QtPrivate::FunctionPointer<F>::Object*
 #else
-#define N_SIGNAL_RECEIVER_TYPE(F) const typename QtPrivate::ContextTypeForFunctor<F>::ContextType*
+#define N_RECEIVER_T(F) const typename QtPrivate::ContextTypeForFunctor<F>::ContextType*
 #endif
 
 
-#define N_SIGNAL(NAME, SIG)                                     \
+#define N_BUILDER_SIGNAL(NAME, SIG)                             \
 template <typename Func>                                        \
 S& NAME(Func&& slot,                                            \
         Qt::ConnectionType type = Qt::AutoConnection)           \
-{ QObject::connect(t, &SIG, t, slot); return self(); }          \
+{ QObject::connect(t, &std::decay<decltype(*t)>::type::SIG, t, slot); return self(); }          \
                                                                 \
 template <typename Func>                                        \
 S& NAME(const QObject* receiver, Func method,                   \
         Qt::ConnectionType type = Qt::AutoConnection)           \
-{ QObject::connect(t, &SIG, receiver, method); return self(); } \
+{ QObject::connect(t, &std::decay<decltype(*t)>::type::SIG, receiver, method); return self(); } \
                                                                 \
 template <typename Func>                                        \
-S& NAME(N_SIGNAL_RECEIVER_TYPE(Func) context, Func&& slot,      \
+S& NAME(N_RECEIVER_T(Func) context, Func&& slot,                \
         Qt::ConnectionType type = Qt::AutoConnection)           \
-{ QObject::connect(t, &SIG, context, slot); return self(); }
+{ QObject::connect(t, &std::decay<decltype(*t)>::type::SIG, context, slot); return self(); }
 
 
 #define N_BUILDER_PROPERTY(TYPE, NAME, SETTER)              \
@@ -494,9 +488,9 @@ public:
     { QObject::connect(t, signal, receiver, method); return self(); }
 
     template <typename Func1, typename Func2>
-    S& connect(Func1 signal, N_SIGNAL_RECEIVER_TYPE(Func2) context, Func2&& slot,
+    S& connect(Func1 signal, N_RECEIVER_T(Func2) receiver, Func2&& slot,
                Qt::ConnectionType type = Qt::AutoConnection)
-    { QObject::connect(t, signal, context, slot); return self(); }
+    { QObject::connect(t, signal, receiver, slot); return self(); }
 
     S& objectName(const QString& name)                       { t->setObjectName(name);     return self(); }
     S& objectName(QAnyStringView name)                       { t->setObjectName(name);     return self(); }
@@ -504,8 +498,8 @@ public:
     S& property(const char* name, const QVariant& value)     { t->setProperty(name, value); return self(); }
     S& property(const char* name, QVariant&& value)          { t->setProperty(name, value); return self(); }
 
-    N_SIGNAL(onDestroyed        , QObject::destroyed        )
-    N_SIGNAL(onObjectNameChanged, QObject::objectNameChanged)
+    N_BUILDER_SIGNAL(onDestroyed        , destroyed        )
+    N_BUILDER_SIGNAL(onObjectNameChanged, objectNameChanged)
 
 protected:
     T* t;
@@ -520,6 +514,17 @@ protected:
             i->addTo(t);
     }
 };
+
+
+#define N_DECL_BUILDER(BUILDER, TARGET, NAME)   \
+class NAME : public BUILDER<NAME, TARGET>       \
+{                                               \
+public:                                         \
+    using BUILDER::BUILDER;                     \
+}
+
+N_DECL_BUILDER(ObjectBuilder, QObject, Object);
+
 
 
 template<typename Item>

@@ -57,7 +57,7 @@ public:
     S& defaultPositioning(int n, Qt::Orientation orient) { t->setDefaultPositioning(n, orient)   ; return self(); }
 };
 
-N_BUILDER_IMPL(GridLayoutBuilder, QGridLayout, GridLayout);
+N_DECL_BUILDER(GridLayoutBuilder, QGridLayout, GridLayout);
 
 
 
@@ -67,8 +67,8 @@ class GridLayoutIdT : public LayoutIdT<T>
 public:
     using LayoutIdT<T>::LayoutIdT;
 
-    N_PROPERTY(int, horizontalSpacing, N_GETTER(horizontalSpacing), N_SETTER(setHorizontalSpacing), N_NO_NOTIFY)
-    N_PROPERTY(int, verticalSpacing  , N_GETTER(verticalSpacing  ), N_SETTER(setVerticalSpacing  ), N_NO_NOTIFY)
+    N_ID_PROPERTY(int, horizontalSpacing, N_GETTER(horizontalSpacing), N_SETTER(setHorizontalSpacing), N_NO_NOTIFY)
+    N_ID_PROPERTY(int, verticalSpacing  , N_GETTER(verticalSpacing  ), N_SETTER(setVerticalSpacing  ), N_NO_NOTIFY)
 };
 
 using GridLayoutId = GridLayoutIdT<QGridLayout>;

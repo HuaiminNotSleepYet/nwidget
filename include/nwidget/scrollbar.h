@@ -19,7 +19,7 @@ public:
     ScrollBarBuilder(T* target, Qt::Orientation o) : AbstractSliderBuilder<S, T>(target) { t->setOrientation(o); }
 };
 
-N_BUILDER_IMPL(ScrollBarBuilder, QScrollBar, ScrollBar);
+N_DECL_BUILDER(ScrollBarBuilder, QScrollBar, ScrollBar);
 
 
 

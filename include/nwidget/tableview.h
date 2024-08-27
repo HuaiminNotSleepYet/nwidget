@@ -16,7 +16,7 @@ public:
     using AbstractItemViewBuilder<S, T>::AbstractItemViewBuilder;
 };
 
-N_BUILDER_IMPL(TableViewBuilder, QTableView, TableView);
+N_DECL_BUILDER(TableViewBuilder, QTableView, TableView);
 
 }
 

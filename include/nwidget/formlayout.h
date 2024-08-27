@@ -49,7 +49,7 @@ public:
     N_BUILDER_PROPERTY(int                           , verticalSpacing  , setVerticalSpacing  )
 };
 
-N_BUILDER_IMPL(FormLayoutBuilder, QFormLayout, FormLayout);
+N_DECL_BUILDER(FormLayoutBuilder, QFormLayout, FormLayout);
 
 
 
@@ -59,12 +59,12 @@ class FormLayoutIdT : public LayoutIdT<T>
 public:
     using LayoutIdT<T>::LayoutIdT;
 
-    N_PROPERTY(QFormLayout::FieldGrowthPolicy, fieldGrowthPolicy, N_GETTER(fieldGrowthPolicy), N_SETTER(setFieldGrowthPolicy), N_NO_NOTIFY)
-    N_PROPERTY(QFormLayout::RowWrapPolicy    , rowWrapPolicy    , N_GETTER(rowWrapPolicy    ), N_SETTER(setRowWrapPolicy    ), N_NO_NOTIFY)
-    N_PROPERTY(Qt::Alignment                 , labelAlignment   , N_GETTER(labelAlignment   ), N_SETTER(setLabelAlignment   ), N_NO_NOTIFY)
-    N_PROPERTY(Qt::Alignment                 , formAlignment    , N_GETTER(formAlignment    ), N_SETTER(setFormAlignment    ), N_NO_NOTIFY)
-    N_PROPERTY(int                           , horizontalSpacing, N_GETTER(horizontalSpacing), N_SETTER(setHorizontalSpacing), N_NO_NOTIFY)
-    N_PROPERTY(int                           , verticalSpacing  , N_GETTER(verticalSpacing  ), N_SETTER(setVerticalSpacing  ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QFormLayout::FieldGrowthPolicy, fieldGrowthPolicy, N_GETTER(fieldGrowthPolicy), N_SETTER(setFieldGrowthPolicy), N_NO_NOTIFY)
+    N_ID_PROPERTY(QFormLayout::RowWrapPolicy    , rowWrapPolicy    , N_GETTER(rowWrapPolicy    ), N_SETTER(setRowWrapPolicy    ), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::Alignment                 , labelAlignment   , N_GETTER(labelAlignment   ), N_SETTER(setLabelAlignment   ), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::Alignment                 , formAlignment    , N_GETTER(formAlignment    ), N_SETTER(setFormAlignment    ), N_NO_NOTIFY)
+    N_ID_PROPERTY(int                           , horizontalSpacing, N_GETTER(horizontalSpacing), N_SETTER(setHorizontalSpacing), N_NO_NOTIFY)
+    N_ID_PROPERTY(int                           , verticalSpacing  , N_GETTER(verticalSpacing  ), N_SETTER(setVerticalSpacing  ), N_NO_NOTIFY)
 };
 
 using FormLayoutId = FormLayoutIdT<QFormLayout>;

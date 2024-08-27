@@ -19,7 +19,7 @@ public:
     AbstractItemViewBuilder(T* target, QAbstractItemModel* model) : AbstractScrollAreaBuilder<S, T>(target) { t->setModel(model); }
 };
 
-N_BUILDER_IMPL(AbstractItemViewBuilder, QAbstractItemView, AbstractItemView);
+N_DECL_BUILDER(AbstractItemViewBuilder, QAbstractItemView, AbstractItemView);
 
 }
 

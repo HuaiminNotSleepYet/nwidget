@@ -21,7 +21,7 @@ public:
     N_BUILDER_PROPERTY(bool , notchesVisible, setNotchesVisible)
 };
 
-N_BUILDER_IMPL(DialBuilder, QDial, Dial);
+N_DECL_BUILDER(DialBuilder, QDial, Dial);
 
 
 
@@ -31,10 +31,10 @@ class DialIdT : public AbstractSliderIdT<T>
 public:
     using AbstractSliderIdT<T>::AbstractSliderIdT;
 
-    N_PROPERTY(bool , wrapping      , N_GETTER(wrapping      ), N_SETTER(setWrapping      ), N_NO_NOTIFY)
-    N_PROPERTY(int  , notchSize     , N_GETTER(notchSize     ), N_NO_SETTER                , N_NO_NOTIFY)
-    N_PROPERTY(qreal, notchTarget   , N_GETTER(notchTarget   ), N_SETTER(setNotchTarget   ), N_NO_NOTIFY)
-    N_PROPERTY(bool , notchesVisible, N_GETTER(notchesVisible), N_SETTER(setNotchesVisible), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool , wrapping      , N_GETTER(wrapping      ), N_SETTER(setWrapping      ), N_NO_NOTIFY)
+    N_ID_PROPERTY(int  , notchSize     , N_GETTER(notchSize     ), N_NO_SETTER                , N_NO_NOTIFY)
+    N_ID_PROPERTY(qreal, notchTarget   , N_GETTER(notchTarget   ), N_SETTER(setNotchTarget   ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool , notchesVisible, N_GETTER(notchesVisible), N_SETTER(setNotchesVisible), N_NO_NOTIFY)
 };
 
 using DialId = DialIdT<QDial>;

@@ -32,7 +32,7 @@ public:
     N_BUILDER_PROPERTY(int, currentIndex, setCurrentIndex)
 };
 
-N_BUILDER_IMPL(ToolBoxBuilder, QToolBox, ToolBox);
+N_DECL_BUILDER(ToolBoxBuilder, QToolBox, ToolBox);
 
 
 
@@ -42,8 +42,8 @@ class ToolBoxIdT : public FrameIdT<T>
 public:
     using FrameIdT<T>::FrameIdT;
 
-    N_PROPERTY(int, currentIndex, N_GETTER(currentIndex), N_SETTER(setCurrentIndex), N_NOTIFY(currentChanged))
-    N_PROPERTY(int, count       , N_GETTER(count       ), N_NO_SETTER              , N_NO_NOTIFY             )
+    N_ID_PROPERTY(int, currentIndex, N_GETTER(currentIndex), N_SETTER(setCurrentIndex), N_NOTIFY(currentChanged))
+    N_ID_PROPERTY(int, count       , N_GETTER(count       ), N_NO_SETTER              , N_NO_NOTIFY             )
 };
 
 using ToolBoxId = ToolBoxIdT<QToolBox>;
