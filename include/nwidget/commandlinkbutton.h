@@ -14,12 +14,11 @@ class CommandLinkButtonBuilder : public PushButtonBuilder<S, T>
 
 public:
     CommandLinkButtonBuilder()                                         : PushButtonBuilder<S, T>(new T) {}
-    explicit CommandLinkButtonBuilder(const QString& text)             : PushButtonBuilder<S, T>(new T(text)) {}
+    explicit
+    CommandLinkButtonBuilder(const QString& text)                      : PushButtonBuilder<S, T>(new T(text)) {}
     CommandLinkButtonBuilder(const QString& text, const QString& desc) : PushButtonBuilder<S, T>(new T(text, desc)) {}
-
-    explicit CommandLinkButtonBuilder(T* target)                                           : PushButtonBuilder<S, T>(target) {}
-    explicit CommandLinkButtonBuilder(T* target, const QString& text)                      : PushButtonBuilder<S, T>(target, text) {}
-    explicit CommandLinkButtonBuilder(T* target, const QString& text, const QString& desc) : PushButtonBuilder<S, T>(target, text) { t->setDescription(desc); }
+    explicit
+    CommandLinkButtonBuilder(T* target)                                : PushButtonBuilder<S, T>(target) {}
 
     N_BUILDER_PROPERTY(QString, description, setDescription)
     N_BUILDER_PROPERTY(bool   , flat       , setFlat       )

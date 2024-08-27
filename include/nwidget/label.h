@@ -14,10 +14,10 @@ class LabelBuilder : public FrameBuilder<S, T>
 
 public:
     LabelBuilder()                    : FrameBuilder<S, T>(new T) {}
+    explicit
     LabelBuilder(const QString& text) : FrameBuilder<S, T>(new T(text)) {}
-
-    explicit LabelBuilder(T* target)             : FrameBuilder<S, T>(target) {}
-    LabelBuilder(T* target, const QString& text) : FrameBuilder<S, T>(target) { t->setText(text); }
+    explicit
+    LabelBuilder(T* target)           : FrameBuilder<S, T>(target) {}
 
     N_BUILDER_PROPERTY(QString                 , text             , setText                )
     N_BUILDER_PROPERTY(Qt::TextFormat          , textFormat       , setTextFormat          )

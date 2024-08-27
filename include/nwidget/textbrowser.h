@@ -13,8 +13,10 @@ class TextBrowserBuilder : public TextEditBuilder<S, T>
     N_BUILDER
 
 public:
-    TextBrowserBuilder()                   : TextEditBuilder<S, T>(new T) {}
-    explicit TextBrowserBuilder(T* target) : TextEditBuilder<S, T>(target) {}
+    TextBrowserBuilder()          : TextEditBuilder<S, T>(new T) {}
+    explicit
+    TextBrowserBuilder(T* target) : TextEditBuilder<S, T>(target) {}
+
 
     N_BUILDER_PROPERTY(QStringList, searchPaths      , setSearchPaths      )
     N_BUILDER_PROPERTY(bool       , openExternalLinks, setOpenExternalLinks)

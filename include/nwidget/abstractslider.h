@@ -13,7 +13,9 @@ class AbstractSliderBuilder : public WidgetBuilder<S, T>
     N_BUILDER
 
 public:
-    using WidgetBuilder<S, T>::WidgetBuilder;
+    AbstractSliderBuilder()          : WidgetBuilder<S, T>(new T) {}
+    explicit
+    AbstractSliderBuilder(T* target) : WidgetBuilder<S, T>(target) {}
 
     N_BUILDER_PROPERTY(int            , minimum           , setMinimum           )
     N_BUILDER_PROPERTY(int            , maximum           , setMaximum           )

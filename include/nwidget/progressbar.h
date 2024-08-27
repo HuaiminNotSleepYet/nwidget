@@ -13,8 +13,9 @@ class ProgressBarBuilder : public WidgetBuilder<S, T>
     N_BUILDER
 
 public:
-    ProgressBarBuilder()                   : WidgetBuilder<S, T>(new T) {}
-    explicit ProgressBarBuilder(T* target) : WidgetBuilder<S, T>(target) {}
+    ProgressBarBuilder()          : WidgetBuilder<S, T>(new T) {}
+    explicit
+    ProgressBarBuilder(T* target) : WidgetBuilder<S, T>(target) {}
 
     N_BUILDER_PROPERTY(int                    , minimum           , setMinimum           )
     N_BUILDER_PROPERTY(int                    , maximum           , setMaximum           )

@@ -35,7 +35,8 @@ class FormLayoutBuilder : public LayoutBuilder<S, T>
 public:
     FormLayoutBuilder()                                                       : LayoutBuilder<S, T>(new T) {}
     FormLayoutBuilder(std::initializer_list<FormLayoutItem> items)            : LayoutBuilder<S, T>(new T) { addItems(items); }
-    explicit FormLayoutBuilder(T* target)                                     : LayoutBuilder<S, T>(target) {}
+    explicit
+    FormLayoutBuilder(T* target)                                              : LayoutBuilder<S, T>(target) {}
     FormLayoutBuilder(T* target, std::initializer_list<FormLayoutItem> items) : LayoutBuilder<S, T>(target) { addItems(items); }
 
     S& items(std::initializer_list<LayoutItem> items) = delete;

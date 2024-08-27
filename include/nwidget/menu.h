@@ -36,7 +36,8 @@ public:
     MenuBuilder()                                                                       : WidgetBuilder<S, T>(new T) {}
     MenuBuilder(std::initializer_list<MenuItem> items)                                  : WidgetBuilder<S, T>(new T) { addItems(items); }
     MenuBuilder(const QString& title, std::initializer_list<MenuItem> items)            : WidgetBuilder<S, T>(new T(title)) { addItems(items); }
-    explicit MenuBuilder(T* target)                                                     : WidgetBuilder<S, T>(target) {}
+    explicit
+    MenuBuilder(T* target)                                                              : WidgetBuilder<S, T>(target) {}
     MenuBuilder(T* target, std::initializer_list<MenuItem> items)                       : WidgetBuilder<S, T>(target) { addItems(items); }
     MenuBuilder(T* target, const QString& title, std::initializer_list<MenuItem> items) : WidgetBuilder<S, T>(target) { t->setTitle(title); addItems(items); }
 

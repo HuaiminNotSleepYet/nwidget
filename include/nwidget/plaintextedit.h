@@ -14,10 +14,10 @@ class PlainTextEditBuilder : public AbstractScrollAreaBuilder<S, T>
 
 public:
     PlainTextEditBuilder()                    : AbstractScrollAreaBuilder<S, T>(new T) {}
+    explicit
     PlainTextEditBuilder(const QString& text) : AbstractScrollAreaBuilder<S, T>(new T(text)) {}
-
-    explicit PlainTextEditBuilder(T* target)             : AbstractScrollAreaBuilder<S, T>(target) {}
-    PlainTextEditBuilder(T* target, const QString& text) : AbstractScrollAreaBuilder<S, T>(target) { t->setPlainText(text); }
+    explicit
+    PlainTextEditBuilder(T* target)           : AbstractScrollAreaBuilder<S, T>(target) {}
 
     N_BUILDER_PROPERTY(bool                        , tabChangesFocus     , setTabChangesFocus     )
     N_BUILDER_PROPERTY(QString                     , documentTitle       , setDocumentTitle       )

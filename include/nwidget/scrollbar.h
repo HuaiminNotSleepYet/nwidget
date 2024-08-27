@@ -14,9 +14,10 @@ class ScrollBarBuilder : public AbstractSliderBuilder<S, T>
 
 public:
     ScrollBarBuilder()                  : AbstractSliderBuilder<S, T>(new T) {}
+    explicit
     ScrollBarBuilder(Qt::Orientation o) : AbstractSliderBuilder<S, T>(new T(o)) {}
-    explicit ScrollBarBuilder(T* target)           : AbstractSliderBuilder<S, T>(target) {}
-    ScrollBarBuilder(T* target, Qt::Orientation o) : AbstractSliderBuilder<S, T>(target) { t->setOrientation(o); }
+    explicit
+    ScrollBarBuilder(T* target)         : AbstractSliderBuilder<S, T>(target) {}
 };
 
 N_DECL_BUILDER(ScrollBarBuilder, QScrollBar, ScrollBar);

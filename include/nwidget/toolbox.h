@@ -24,10 +24,12 @@ class ToolBoxBuilder : public FrameBuilder<S, T>
     N_BUILDER
 
 public:
-    ToolBoxBuilder()                                                    : FrameBuilder<S, T>(new T) {}
-    ToolBoxBuilder(std::initializer_list<ToolBoxItem> items)            : FrameBuilder<S, T>(new T) { addItems(items); }
-    explicit ToolBoxBuilder(T* target)                                  : FrameBuilder<S, T>(target) {}
+    ToolBoxBuilder()                                         : FrameBuilder<S, T>(new T) {}
+    ToolBoxBuilder(std::initializer_list<ToolBoxItem> items) : FrameBuilder<S, T>(new T) { addItems(items); }
+    explicit
+    ToolBoxBuilder(T* target)                                           : FrameBuilder<S, T>(target) {}
     ToolBoxBuilder(T* target, std::initializer_list<ToolBoxItem> items) : FrameBuilder<S, T>(target) { addItems(items); }
+
 
     N_BUILDER_PROPERTY(int, currentIndex, setCurrentIndex)
 };

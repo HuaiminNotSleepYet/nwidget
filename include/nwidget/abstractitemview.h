@@ -13,10 +13,11 @@ class AbstractItemViewBuilder : public AbstractScrollAreaBuilder<S, T>
     N_BUILDER
 
 public:
-    AbstractItemViewBuilder()                                     : AbstractScrollAreaBuilder<S, T>(new T) {}
-    explicit AbstractItemViewBuilder(QAbstractItemModel* model)   : AbstractScrollAreaBuilder<S, T>(new T) { t->setModel(model); }
-    explicit AbstractItemViewBuilder(T* target)                   : AbstractScrollAreaBuilder<S, T>(target) {}
-    AbstractItemViewBuilder(T* target, QAbstractItemModel* model) : AbstractScrollAreaBuilder<S, T>(target) { t->setModel(model); }
+    AbstractItemViewBuilder()                          : AbstractScrollAreaBuilder<S, T>(new T) {}
+    explicit
+    AbstractItemViewBuilder(QAbstractItemModel* model) : AbstractScrollAreaBuilder<S, T>(new T) { t->setModel(model); }
+    explicit
+    AbstractItemViewBuilder(T* target)                 : AbstractScrollAreaBuilder<S, T>(target) {}
 };
 
 N_DECL_BUILDER(AbstractItemViewBuilder, QAbstractItemView, AbstractItemView);

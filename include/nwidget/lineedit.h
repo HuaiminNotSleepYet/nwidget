@@ -14,10 +14,10 @@ class LineEditBuilder : public WidgetBuilder<S, T>
 
 public:
     LineEditBuilder()                    : WidgetBuilder<S, T>(new T) {}
+    explicit
     LineEditBuilder(const QString& text) : WidgetBuilder<S, T>(new T(text)) {}
-
-    explicit LineEditBuilder(T* target)             : WidgetBuilder<S, T>(target) {}
-    LineEditBuilder(T* target, const QString& text) : WidgetBuilder<S, T>(target) { t->setText(text); }
+    explicit
+    LineEditBuilder(T* target)           : WidgetBuilder<S, T>(target) {}
 
     N_BUILDER_PROPERTY(QString            , inputMask         , setInputMask         )
     N_BUILDER_PROPERTY(QString            , text              , setText              )

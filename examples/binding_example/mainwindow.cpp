@@ -19,19 +19,19 @@ MainWindow::MainWindow()
     LineEditId lineEdit_0_0 = new QLineEdit;
 
     LabelId label_0_1 = new QLabel;
-    SliderId slider_0_1 = new QSlider;
+    SliderId slider_0_1 = new QSlider(Qt::Horizontal);
 
-    SliderId slider_1_0_0 = new QSlider;
-    SliderId slider_1_0_1 = new QSlider;
-    SliderId slider_1_0_2 = new QSlider;
-    SliderId slider_1_0_3 = new QSlider;
+    SliderId slider_1_0_0 = new QSlider(Qt::Horizontal);
+    SliderId slider_1_0_1 = new QSlider(Qt::Horizontal);
+    SliderId slider_1_0_2 = new QSlider(Qt::Horizontal);
+    SliderId slider_1_0_3 = new QSlider(Qt::Horizontal);
 
     DateEditId dateEdit_1_1_0 = new QDateEdit;
     DateEditId dateEdit_1_1_1 = new QDateEdit;
     LabelId label_1_1 = new QLabel;
 
     LabelId label_2_0 = new QLabel;
-    SliderId slider_2_0 = new QSlider;
+    SliderId slider_2_0 = new QSlider(Qt::Horizontal);
 
     DateTimeEditId dateTimeEdit_2_1 = new QDateTimeEdit;
     DateEditId dateEdit_2_1 = new QDateEdit;
@@ -48,18 +48,18 @@ MainWindow::MainWindow()
         {0, 1, GroupBox("Call", VBoxLayout{
             Label("label.text = asprintf(\"%02d\", slider.value)"),
             Label(label_0_1).alignment(Qt::AlignHCenter),
-            Slider(slider_0_1, Qt::Horizontal).value(32),
+            Slider(slider_0_1).value(32),
             BoxLayoutItem::Stretch,
         })},
 
         {1, 0, GroupBox("Expression", VBoxLayout{
             Label("slider2.value = slider0.value\nslider3.value = slider0.value + slider1.value\n"),
             HBoxLayout{
-                Slider(slider_1_0_0, Qt::Horizontal).range(0, 50).value(16),
-                Slider(slider_1_0_1, Qt::Horizontal).range(0, 50).value(28),
+                Slider(slider_1_0_0).range(0, 50).value(16),
+                Slider(slider_1_0_1).range(0, 50).value(28),
             },
-            Slider(slider_1_0_2, Qt::Horizontal),
-            Slider(slider_1_0_3, Qt::Horizontal),
+            Slider(slider_1_0_2),
+            Slider(slider_1_0_3),
             BoxLayoutItem::Stretch,
         })},
 
@@ -76,7 +76,7 @@ MainWindow::MainWindow()
         {2, 0, GroupBox("Conditional", VBoxLayout{
             Label("label.text = slider.value > 50 ? \">\" : \"<\" "),
             Label(label_2_0).alignment(Qt::AlignHCenter),
-            Slider(slider_2_0, Qt::Horizontal).range(0, 100).value(72),
+            Slider(slider_2_0).range(0, 100).value(72),
             BoxLayoutItem::Stretch,
         })},
 

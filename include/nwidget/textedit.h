@@ -15,8 +15,9 @@ class TextEditBuilder : public AbstractScrollAreaBuilder<S, T>
 public:
     TextEditBuilder()                    : AbstractScrollAreaBuilder<S, T>(new T) {}
     TextEditBuilder(const QString& text) : AbstractScrollAreaBuilder<S, T>(new T(text)) {}
-    explicit TextEditBuilder(T* target)  : AbstractScrollAreaBuilder<S, T>(target) {}
-    TextEditBuilder(T* target, const QString& text) : AbstractScrollAreaBuilder<S, T>(target) { t->setPlainText(text); }
+    explicit
+    TextEditBuilder(T* target)           : AbstractScrollAreaBuilder<S, T>(target) {}
+
 
     N_BUILDER_PROPERTY(QTextEdit::AutoFormatting, autoFormatting       , setAutoFormatting       )
     N_BUILDER_PROPERTY(bool                     , tabChangesFocus      , setTabChangesFocus      )

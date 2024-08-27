@@ -13,8 +13,9 @@ class DialBuilder : public AbstractSliderBuilder<S, T>
     N_BUILDER
 
 public:
-    DialBuilder()                   : AbstractSliderBuilder<S, T>(new T) {}
-    explicit DialBuilder(T* target) : AbstractSliderBuilder<S, T>(target) {}
+    DialBuilder()          : AbstractSliderBuilder<S, T>(new T) {}
+    explicit
+    DialBuilder(T* target) : AbstractSliderBuilder<S, T>(target) {}
 
     N_BUILDER_PROPERTY(bool , wrapping      , setWrapping      )
     N_BUILDER_PROPERTY(qreal, notchTarget   , setNotchTarget   )

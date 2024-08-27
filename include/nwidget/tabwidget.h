@@ -26,8 +26,10 @@ class TabWidgetBuilder : public WidgetBuilder<S, T>
 public:
     TabWidgetBuilder()                                                      : WidgetBuilder<S, T>(new T) {}
     TabWidgetBuilder(std::initializer_list<TabWidgetItem> pages)            : WidgetBuilder<S, T>(new T) { addItems(pages); }
-    explicit TabWidgetBuilder(T* target)                                    : WidgetBuilder<S, T>(target) {}
+    explicit
+    TabWidgetBuilder(T* target)                                             : WidgetBuilder<S, T>(target) {}
     TabWidgetBuilder(T* target, std::initializer_list<TabWidgetItem> pages) : WidgetBuilder<S, T>(target) { addItems(pages); }
+
 
     S& items(std::initializer_list<TabWidgetItem> pages)            { addItems(pages)                    ; return self(); }
 

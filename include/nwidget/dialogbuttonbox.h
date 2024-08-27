@@ -13,18 +13,15 @@ class DialogButtonBoxBuilder : public WidgetBuilder<S, T>
     N_BUILDER
 
 public:
-    DialogButtonBoxBuilder()                                                   : WidgetBuilder<S, T>(new T) {}
-    explicit DialogButtonBoxBuilder(Qt::Orientation orientation)               : WidgetBuilder<S, T>(new T(orientation)) {}
-    explicit DialogButtonBoxBuilder(QDialogButtonBox::StandardButtons buttons) : WidgetBuilder<S, T>(new T(buttons)) {}
+    DialogButtonBoxBuilder()                                          : WidgetBuilder<S, T>(new T) {}
+    explicit
+    DialogButtonBoxBuilder(Qt::Orientation orientation)               : WidgetBuilder<S, T>(new T(orientation)) {}
+    explicit
+    DialogButtonBoxBuilder(QDialogButtonBox::StandardButtons buttons) : WidgetBuilder<S, T>(new T(buttons)) {}
     DialogButtonBoxBuilder(QDialogButtonBox::StandardButtons buttons,
-                           Qt::Orientation orientation)                        : WidgetBuilder<S, T>(new T(buttons, orientation)) {}
-
-    explicit DialogButtonBoxBuilder(T* target)                                   : WidgetBuilder<S, T>(target) {}
-    DialogButtonBoxBuilder(T* target, Qt::Orientation orientation)               : WidgetBuilder<S, T>(target) { t->setOrientation(orientation); }
-    DialogButtonBoxBuilder(T* target, QDialogButtonBox::StandardButtons buttons) : WidgetBuilder<S, T>(target) { t->setStandardButtons(buttons); }
-    DialogButtonBoxBuilder(T* target, QDialogButtonBox::StandardButtons buttons,
-                                      Qt::Orientation orientation)               : WidgetBuilder<S, T>(target) { t->setOrientation(orientation);
-                                                                                                                 t->setStandardButtons(buttons); }
+                           Qt::Orientation orientation)               : WidgetBuilder<S, T>(new T(buttons, orientation)) {}
+    explicit
+    DialogButtonBoxBuilder(T* target)                                 : WidgetBuilder<S, T>(target) {}
 
     N_BUILDER_PROPERTY(Qt::Orientation                  , orientation    , setOrientation    )
     N_BUILDER_PROPERTY(QDialogButtonBox::StandardButtons, standardButtons, setStandardButtons)

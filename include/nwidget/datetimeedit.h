@@ -17,11 +17,8 @@ public:
     explicit DateTimeEditBuilder(const QDateTime& dt) : AbstractSpinBoxBuilder<S, T>(new T(dt)) {}
     explicit DateTimeEditBuilder(QDate date)          : AbstractSpinBoxBuilder<S, T>(new T(date)) {}
     explicit DateTimeEditBuilder(QTime time)          : AbstractSpinBoxBuilder<S, T>(new T(time)) {}
-
-    explicit DateTimeEditBuilder(T* target)             : AbstractSpinBoxBuilder<S, T>(target) {}
-    DateTimeEditBuilder(T* target, const QDateTime& dt) : AbstractSpinBoxBuilder<S, T>(target) { t->setDateTime(dt); }
-    DateTimeEditBuilder(T* target, QDate date)          : AbstractSpinBoxBuilder<S, T>(target) { t->setDate(date); }
-    DateTimeEditBuilder(T* target, QTime time)          : AbstractSpinBoxBuilder<S, T>(target) { t->setTime(time); }
+    explicit
+    DateTimeEditBuilder(T* target)                    : AbstractSpinBoxBuilder<S, T>(target) {}
 
     N_BUILDER_PROPERTY(QDateTime              , dateTime           , setDateTime           )
     N_BUILDER_PROPERTY(QDate                  , date               , setDate               )

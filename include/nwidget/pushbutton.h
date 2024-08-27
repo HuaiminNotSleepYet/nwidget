@@ -14,12 +14,11 @@ class PushButtonBuilder : public AbstractButtonBuilder<S, T>
 
 public:
     PushButtonBuilder()                                       : AbstractButtonBuilder<S, T>(new T) {}
+    explicit
     PushButtonBuilder(const QString& text)                    : AbstractButtonBuilder<S, T>(new T(text)) {}
     PushButtonBuilder(const QIcon& icon, const QString& text) : AbstractButtonBuilder<S, T>(new T(icon, text)) {}
-
-    explicit PushButtonBuilder(T* target)                                : AbstractButtonBuilder<S, T>(target) {}
-    PushButtonBuilder(T* target, const QString& text)                    : AbstractButtonBuilder<S, T>(target) { t->setText(text); }
-    PushButtonBuilder(T* target, const QIcon& icon, const QString& text) : AbstractButtonBuilder<S, T>(target) { t->setIcon(icon); t->setText(text); }
+    explicit
+    PushButtonBuilder(T* target)                              : AbstractButtonBuilder<S, T>(target) {}
 
     N_BUILDER_PROPERTY(bool, autoDefault, setAutoDefault)
     N_BUILDER_PROPERTY(bool, default_   , setDefault    )

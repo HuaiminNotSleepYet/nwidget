@@ -40,7 +40,8 @@ class GridLayoutBuilder : public LayoutBuilder<S, T>
 public:
     GridLayoutBuilder()                                                       : LayoutBuilder<S, T>(new T) {}
     GridLayoutBuilder(std::initializer_list<GridLayoutItem> items)            : LayoutBuilder<S, T>(new T) { addItems(items); }
-    explicit GridLayoutBuilder(T* target)                                     : LayoutBuilder<S, T>(target) {}
+    explicit
+    GridLayoutBuilder(T* target)                                              : LayoutBuilder<S, T>(target) {}
     GridLayoutBuilder(T* target, std::initializer_list<GridLayoutItem> items) : LayoutBuilder<S, T>(target) { addItems(items); }
 
     S& items(std::initializer_list<LayoutItem> items) = delete;

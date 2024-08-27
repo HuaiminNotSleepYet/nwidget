@@ -13,12 +13,13 @@ class ActionBuilder : public ObjectBuilder<S, T>
     N_BUILDER
 
 public:
-    ActionBuilder()                                                  : ObjectBuilder<S, T>(new T) {}
-    explicit ActionBuilder(const QString& text)                      : ObjectBuilder<S, T>(new T(text)) {}
-    ActionBuilder(const QIcon& icon, const QString& text)            : ObjectBuilder<S, T>(new T(icon, text)) {}
-    explicit ActionBuilder(T* target)                                : ObjectBuilder<S, T>(target) {}
-    ActionBuilder(T* target, const QString& text)                    : ObjectBuilder<S, T>(target) { t->setText(text); }
-    ActionBuilder(T* target, const QIcon& icon, const QString& text) : ObjectBuilder<S, T>(target) { t->setIcon(icon); t->setText(text); }
+    ActionBuilder()                                       : ObjectBuilder<S, T>(new T) {}
+    explicit
+    ActionBuilder(const QString& text)                    : ObjectBuilder<S, T>(new T(text)) {}
+    ActionBuilder(const QIcon& icon, const QString& text) : ObjectBuilder<S, T>(new T(icon, text)) {}
+    explicit
+    ActionBuilder(T* target)                              : ObjectBuilder<S, T>(target) {}
+
 
     N_BUILDER_PROPERTY(bool               , checkable        , setCheckable      )
     N_BUILDER_PROPERTY(bool               , checked          , setChecked        )

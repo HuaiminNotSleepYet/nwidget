@@ -14,8 +14,9 @@ class AbstractButtonBuilder : public WidgetBuilder<S, T>
     N_BUILDER
 
 public:
-    AbstractButtonBuilder()                   : WidgetBuilder<S, T>(new T) {}
-    explicit AbstractButtonBuilder(T* target) : WidgetBuilder<S, T>(target) {}
+    AbstractButtonBuilder()          : WidgetBuilder<S, T>(new T) {}
+    explicit
+    AbstractButtonBuilder(T* target) : WidgetBuilder<S, T>(target) {}
 
     N_BUILDER_PROPERTY(QString     , text              , setText              )
     N_BUILDER_PROPERTY(QIcon       , icon              , setIcon              )

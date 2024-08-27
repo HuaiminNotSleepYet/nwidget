@@ -29,14 +29,14 @@ class ComboBoxBuilder : public WidgetBuilder<S, T>
     N_BUILDER
 
 public:
-    ComboBoxBuilder()                                                     : WidgetBuilder<S, T>(new T) {}
-    explicit ComboBoxBuilder(const QStringList& items)                    : WidgetBuilder<S, T>(new T) { t->addItems(items); }
-    ComboBoxBuilder(std::initializer_list<ComboBoxItem> items)            : WidgetBuilder<S, T>(new T) { addItems(items); }
+    ComboBoxBuilder()                                          : WidgetBuilder<S, T>(new T) {}
+    explicit
+    ComboBoxBuilder(const QStringList& items)                  : WidgetBuilder<S, T>(new T) { t->addItems(items); }
+    ComboBoxBuilder(std::initializer_list<ComboBoxItem> items) : WidgetBuilder<S, T>(new T) { addItems(items); }
+    explicit
+    ComboBoxBuilder(T* target)                                 : WidgetBuilder<S, T>(target) {}
 
-    explicit ComboBoxBuilder(T* target)                                   : WidgetBuilder<S, T>(target) {}
-    ComboBoxBuilder(T* target, const QStringList& items)                  : WidgetBuilder<S, T>(target) { t->addItems(items); }
-    ComboBoxBuilder(T* target, std::initializer_list<ComboBoxItem> items) : WidgetBuilder<S, T>(target) { addItems(items); }
-
+    S& item(const QStringList& items)                  { t->addItems(items); return self(); }
     S& item(std::initializer_list<ComboBoxItem> items) { addItems(items); return self(); }
 
     N_BUILDER_PROPERTY(bool                       , editable             , setEditable             )

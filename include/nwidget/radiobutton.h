@@ -14,9 +14,10 @@ class RadioButtonBuilder : public AbstractButtonBuilder<S, T>
 
 public:
     RadioButtonBuilder()                    : AbstractButtonBuilder<S, T>(new T) {}
+    explicit
     RadioButtonBuilder(const QString& text) : AbstractButtonBuilder<S, T>(new T(text)) {}
-    explicit RadioButtonBuilder(T* target)             : AbstractButtonBuilder<S, T>(target) {}
-    RadioButtonBuilder(T* target, const QString& text) : AbstractButtonBuilder<S, T>(target) { t->setText(text); }
+    explicit
+    RadioButtonBuilder(T* target)           : AbstractButtonBuilder<S, T>(target) {}
 };
 
 N_DECL_BUILDER(RadioButtonBuilder, QRadioButton, RadioButton);

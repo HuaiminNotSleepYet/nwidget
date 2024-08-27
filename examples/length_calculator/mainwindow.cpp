@@ -71,7 +71,8 @@ MainWindow::MainWindow()
         [=](int index, length_unit unit) -> GridLayoutItem {
             CheckBoxId box = new QCheckBox;
             box.checked() = window.length1().invoke(&length::unit) == unit;
-            return {index, 1, CheckBox(box, lengthUnitNames[unit])
+            return {index, 1, CheckBox(box)
+                    .text(lengthUnitNames[unit])
                     .group(group1)
                     .onClicked([=](){
                         setLength1(length1().convert_to(unit));
@@ -94,7 +95,8 @@ MainWindow::MainWindow()
         [=](int index, length_unit unit) -> GridLayoutItem {
             CheckBoxId box = new QCheckBox;
             box.checked() = window.length2().invoke(&length::unit) == unit;
-            return {index, 4, CheckBox(box, lengthUnitNames[unit])
+            return {index, 4, CheckBox(box)
+                    .text(lengthUnitNames[unit])
                     .group(group2)
                     .onClicked([=](){
                         setLength2(length2().convert_to(unit));

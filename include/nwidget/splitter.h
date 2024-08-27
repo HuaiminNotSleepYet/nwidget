@@ -15,7 +15,8 @@ class SplitterBuilder : public FrameBuilder<S, T>
 public:
     SplitterBuilder()                                                 : FrameBuilder<S, T>(new T) {}
     SplitterBuilder(std::initializer_list<Widget> widgets)            : FrameBuilder<S, T>(new T) { applyWidgets(widgets); }
-    explicit SplitterBuilder(T* target)                               : FrameBuilder<S, T>(target) {}
+    explicit
+    SplitterBuilder(T* target)                                        : FrameBuilder<S, T>(target) {}
     SplitterBuilder(T* target, std::initializer_list<Widget> widgets) : FrameBuilder<S, T>(target) { applyWidgets(widgets); }
 
     N_BUILDER_PROPERTY(Qt::Orientation, orientation        , setOrientation        )

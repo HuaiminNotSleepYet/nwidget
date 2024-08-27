@@ -15,7 +15,8 @@ class WidgetBuilder : public ObjectBuilder<S, T>
 public:
     WidgetBuilder()                           : ObjectBuilder<S, T>(new T) {}
     WidgetBuilder(QLayout* layout)            : ObjectBuilder<S, T>(new T) { t->setLayout(layout); }
-    explicit WidgetBuilder(T* target)         : ObjectBuilder<S, T>(target) {}
+    explicit
+    WidgetBuilder(T* target)                  : ObjectBuilder<S, T>(target) {}
     WidgetBuilder(T* target, QLayout* layout) : ObjectBuilder<S, T>(target) { t->setLayout(layout); }
 
 

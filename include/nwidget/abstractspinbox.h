@@ -13,8 +13,9 @@ class AbstractSpinBoxBuilder : public WidgetBuilder<S, T>
     N_BUILDER
 
 public:
-    AbstractSpinBoxBuilder()                   : WidgetBuilder<S, T>(new T) {}
-    explicit AbstractSpinBoxBuilder(T* target) : WidgetBuilder<S, T>(target) {}
+    AbstractSpinBoxBuilder()          : WidgetBuilder<S, T>(new T) {}
+    explicit
+    AbstractSpinBoxBuilder(T* target) : WidgetBuilder<S, T>(target) {}
 
     N_BUILDER_PROPERTY(bool                            , wrapping          , setWrapping           )
     N_BUILDER_PROPERTY(bool                            , frame             , setFrame              )

@@ -30,7 +30,8 @@ class LayoutBuilder : public ObjectBuilder<S, T>
 public:
     LayoutBuilder()                                                   : ObjectBuilder<S, T>(new T) {}
     LayoutBuilder(std::initializer_list<LayoutItem> items)            : ObjectBuilder<S, T>(new T) { addItems(items); }
-    explicit LayoutBuilder(T* target)                                 : ObjectBuilder<S, T>(target) {}
+    explicit
+    LayoutBuilder(T* target)                                          : ObjectBuilder<S, T>(target) {}
     LayoutBuilder(T* target, std::initializer_list<LayoutItem> items) : ObjectBuilder<S, T>(target) { addItems(items); }
 
     S& items(std::initializer_list<LayoutItem> items) { addItems(items); return self(); }

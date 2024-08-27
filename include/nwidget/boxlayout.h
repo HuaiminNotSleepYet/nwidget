@@ -51,14 +51,12 @@ class BoxLayoutBuilder : public LayoutBuilder<S, T>
     N_BUILDER
 
 public:
-    explicit BoxLayoutBuilder(QBoxLayout::Direction direction)   : LayoutBuilder<S, T>(new T(direction)) {}
-    BoxLayoutBuilder(QBoxLayout::Direction direction,
-                     std::initializer_list<BoxLayoutItem> items) : LayoutBuilder<S, T>(new T(direction)) { addItems(items); }
-
-    explicit BoxLayoutBuilder(T* target)                         : LayoutBuilder<S, T>(target) {}
-    BoxLayoutBuilder(T* target, QBoxLayout::Direction direction) : LayoutBuilder<S, T>(target) { t->setDirection(direction); }
-    BoxLayoutBuilder(T* target, QBoxLayout::Direction direction,
-                     std::initializer_list<BoxLayoutItem> items) : LayoutBuilder<S, T>(target) { t->setDirection(direction); addItems(items); }
+    explicit
+    BoxLayoutBuilder(QBoxLayout::Direction direction)                                             : LayoutBuilder<S, T>(new T(direction)) {}
+    BoxLayoutBuilder(QBoxLayout::Direction direction, std::initializer_list<BoxLayoutItem> items) : LayoutBuilder<S, T>(new T(direction)) { addItems(items); }
+    explicit
+    BoxLayoutBuilder(T* target)                                             : LayoutBuilder<S, T>(target) {}
+    BoxLayoutBuilder(T* target, std::initializer_list<BoxLayoutItem> items) : LayoutBuilder<S, T>(target) { addItems(items); }
 
     S& items(std::initializer_list<LayoutItem> items) = delete;
     S& items(std::initializer_list<BoxLayoutItem> items) { addItems(items); return self(); }
@@ -66,25 +64,31 @@ public:
 
 N_DECL_BUILDER(BoxLayoutBuilder, QBoxLayout , BoxLayout);
 
-class HBoxLayout : public BoxLayoutBuilder<HBoxLayout, QHBoxLayout> {
+class HBoxLayout : public BoxLayoutBuilder<HBoxLayout, QHBoxLayout>
+{
 public:
     using Layout = QHBoxLayout;
 
     HBoxLayout()                                                           : BoxLayoutBuilder<HBoxLayout, Layout>(new Layout) {}
     HBoxLayout(std::initializer_list<BoxLayoutItem> items)                 : BoxLayoutBuilder<HBoxLayout, Layout>(new Layout) { addItems(items); }
-    explicit HBoxLayout(Layout* target)                                    : BoxLayoutBuilder<HBoxLayout, Layout>(target) {}
+    explicit
+    HBoxLayout(Layout* target)                                             : BoxLayoutBuilder<HBoxLayout, Layout>(target) {}
     HBoxLayout(Layout* target, std::initializer_list<BoxLayoutItem> items) : BoxLayoutBuilder<HBoxLayout, Layout>(target) { addItems(items); }
 };
 
-class VBoxLayout : public BoxLayoutBuilder<VBoxLayout, QVBoxLayout> {
+class VBoxLayout : public BoxLayoutBuilder<VBoxLayout, QVBoxLayout>
+{
 public:
     using Layout = QVBoxLayout;
 
     VBoxLayout()                                                           : BoxLayoutBuilder<VBoxLayout, Layout>(new Layout) {}
     VBoxLayout(std::initializer_list<BoxLayoutItem> items)                 : BoxLayoutBuilder<VBoxLayout, Layout>(new Layout) { addItems(items); }
-    explicit VBoxLayout(Layout* target)                                    : BoxLayoutBuilder<VBoxLayout, Layout>(target) {}
+    explicit
+    VBoxLayout(Layout* target)                                             : BoxLayoutBuilder<VBoxLayout, Layout>(target) {}
     VBoxLayout(Layout* target, std::initializer_list<BoxLayoutItem> items) : BoxLayoutBuilder<VBoxLayout, Layout>(target) { addItems(items); }
 };
+
+
 
 using BoxLayoutId  = LayoutIdT<QBoxLayout>;
 using HBoxLayoutId = LayoutIdT<QHBoxLayout>;

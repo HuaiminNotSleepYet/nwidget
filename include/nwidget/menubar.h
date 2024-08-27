@@ -27,7 +27,8 @@ class MenuBarBuilder : public WidgetBuilder<S, T>
 public:
     MenuBarBuilder()                                                    : WidgetBuilder<S, T>(new T) {}
     MenuBarBuilder(std::initializer_list<MenuBarItem> menus)            : WidgetBuilder<S, T>(new T) { addItems(menus); }
-    explicit MenuBarBuilder(T* target)                                  : WidgetBuilder<S, T>(target) {}
+    explicit
+    MenuBarBuilder(T* target)                                           : WidgetBuilder<S, T>(target) {}
     MenuBarBuilder(T* target, std::initializer_list<MenuBarItem> menus) : WidgetBuilder<S, T>(target) { addItems(menus); }
 
     N_BUILDER_PROPERTY(bool, defaultUp    , setDefaultUp    )

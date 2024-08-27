@@ -24,10 +24,12 @@ class TabBarBuilder : public WidgetBuilder<S, T>
     N_BUILDER
 
 public:
-    TabBarBuilder()                                        : WidgetBuilder<S, T>(new T) {}
-    TabBarBuilder(std::initializer_list<TabBarItem> items) : WidgetBuilder<S, T>(new T) { addItems(items); }
-    explicit TabBarBuilder(T* target)                                 : WidgetBuilder<S, T>(target) {}
+    TabBarBuilder()                                                   : WidgetBuilder<S, T>(new T) {}
+    TabBarBuilder(std::initializer_list<TabBarItem> items)            : WidgetBuilder<S, T>(new T) { addItems(items); }
+    explicit
+    TabBarBuilder(T* target)                                          : WidgetBuilder<S, T>(target) {}
     TabBarBuilder(T* target, std::initializer_list<TabBarItem> items) : WidgetBuilder<S, T>(target) { addItems(items); }
+
 
     S& item(std::initializer_list<TabBarItem> items)               { addItems(items)                     ; return self(); }
 
