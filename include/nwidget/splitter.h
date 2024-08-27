@@ -7,30 +7,35 @@
 
 namespace nw {
 
+class SplitterItem : public BuilderItem<QSplitter>
+{
+public:
+    SplitterItem(QWidget* widget) : BuilderItem([widget](QSplitter* s){ s->addWidget(widget); }) {}
+
+    template<typename S, typename T>
+    SplitterItem(const WidgetBuilder<S, T>& widget) : SplitterItem((T*)widget) {}
+
+    SplitterItem(ItemGenerator<SplitterItem> generator) : BuilderItem(generator) {}
+};
+
 template<typename S, typename T>
 class SplitterBuilder : public FrameBuilder<S, T>
 {
     N_BUILDER
 
 public:
-    SplitterBuilder()                                                 : FrameBuilder<S, T>(new T) {}
-    SplitterBuilder(std::initializer_list<Widget> widgets)            : FrameBuilder<S, T>(new T) { applyWidgets(widgets); }
+    SplitterBuilder()                                                       : FrameBuilder<S, T>(new T) {}
+    SplitterBuilder(std::initializer_list<SplitterItem> widgets)            : FrameBuilder<S, T>(new T) { addItems(widgets); }
     explicit
-    SplitterBuilder(T* target)                                        : FrameBuilder<S, T>(target) {}
-    SplitterBuilder(T* target, std::initializer_list<Widget> widgets) : FrameBuilder<S, T>(target) { applyWidgets(widgets); }
+    SplitterBuilder(T* target)                                              : FrameBuilder<S, T>(target) {}
+    SplitterBuilder(T* target, std::initializer_list<SplitterItem> widgets) : FrameBuilder<S, T>(target) { addItems(widgets); }
+
+    S& items(std::initializer_list<SplitterItem> widgets) { addItems(widgets); return self(); }
 
     N_BUILDER_PROPERTY(Qt::Orientation, orientation        , setOrientation        )
     N_BUILDER_PROPERTY(bool           , opaqueResize       , setOpaqueResize       )
     N_BUILDER_PROPERTY(int            , handleWidth        , setHandleWidth        )
     N_BUILDER_PROPERTY(bool           , childrenCollapsible, setChildrenCollapsible)
-
-private:
-    void applyWidgets(std::initializer_list<Widget> widgets)
-    {
-        auto end = widgets.end();
-        for (auto i = widgets.begin(); i != end; ++i)
-            t->addWidget(*i);
-    }
 };
 
 N_DECL_BUILDER(SplitterBuilder, QSplitter, Splitter);
