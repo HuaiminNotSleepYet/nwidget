@@ -31,7 +31,7 @@ public:
     TabBarBuilder(T* target, std::initializer_list<TabBarItem> items) : WidgetBuilder<S, T>(target) { addItems(items); }
 
 
-    S& item(std::initializer_list<TabBarItem> items)               { addItems(items)                     ; return self(); }
+    S& items(std::initializer_list<TabBarItem> items)               { addItems(items)                     ; return self(); }
 
     S& shape(QTabBar::Shape shape)                                 { t->setShape(shape)                  ; return self(); }
     S& tabEnabled(int index, bool enabled)                         { t->setTabEnabled(index, enabled)    ; return self(); }
