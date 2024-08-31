@@ -7,10 +7,7 @@ namespace nw {
 
 /* ---------------------------- Property Binding ---------------------------- */
 
-struct NoGetter {};
-struct NoSetter {};
-struct NoNotify {};
-
+template<typename Action, typename ...Args> class BindingExpr;
 template<typename PropertyInfo> class Property;
 
 
@@ -92,7 +89,12 @@ N_ACTION_UE(ContentOf, *)
 
 
 
-template<typename Action, typename ...Args> class BindingExpr;
+template<typename T, typename ...TN> struct is_observable
+{ static constexpr bool value = is_observable<T>::value || is_observable<TN...>::value; };
+
+template<typename T> struct is_observable<T>
+{ static constexpr bool value = false; };
+
 
 template<typename Action, typename ...Args>
 auto makeBindingExpr(const Args&... args) { return BindingExpr<Action, Args...>(args...); }
@@ -126,13 +128,13 @@ public:
         if (bind)
             bind->deleteLater();
 
-        if constexpr (!isObservable<Args...>())
+        if constexpr (!is_observable<Args...>::value)
             bind = nullptr;
         else {
             bind = new Binding(object);
             bind->setObjectName(Info::bindingName());
             bindTo(prop, bind);
-            QObject::connect(bind  , &Binding::update   , bind, [object, expr = *this](){
+            QObject::connect(bind, &Binding::update, bind, [object, expr = *this]() {
                 Info::Setter::set(object, expr());
             });
         }
@@ -153,30 +155,12 @@ private:
     { return std::tuple_cat(calc(arg0), calc(argn...)); }
 
 
-    template<typename T> struct is_observable { static constexpr bool value = false; };
-
-    template<typename T0, typename ...TN>
-    static constexpr bool isObservable() {
-        if constexpr (is_observable<T0>::value)
-            return true;
-        if constexpr (sizeof...(TN) > 0)
-            return isObservable<TN...>();
-        return false;
-    }
-
-    template<typename T> struct is_observable<Property<T>>
-    { static constexpr bool value = !std::is_same<typename T::Notify, NoNotify>::value; };
-
-    template<typename A, typename ...TN> struct is_observable<BindingExpr<A, TN...>>
-    { static constexpr bool value = isObservable<TN...>(); };
-
-
     template<typename Info, typename    T> static void bindTo(Property<Info>, Binding*, const T&) {}
     template<typename Info, typename ...T> static void bindTo(Property<Info> prop, Binding* bind, const BindingExpr<T...>& expr) { return expr.bindTo(prop, bind); }
     template<typename InfoA, typename InfoB>
     static void bindTo(Property<InfoA> to, Binding* bind, Property<InfoB> from)
     {
-        if constexpr (!std::is_same<typename InfoB::Notify, NoNotify>::value) {
+        if constexpr (is_observable<Property<InfoB>>::value) {
             if constexpr (!std::is_same<Property<InfoA>, Property<InfoB>>::value) {
                 QObject::connect(from.object, &QObject::destroyed    , bind, &Binding::deleteLater, Qt::UniqueConnection);
                 QObject::connect(from.object, InfoB::Notify::signal(), bind, &Binding::update     , Qt::UniqueConnection);
@@ -199,7 +183,14 @@ private:
     { std::apply([prop, bind](auto&&... args){ bindTo(prop, bind, args...); }, args); }
 };
 
+template<typename A, typename ...TN> struct is_observable<BindingExpr<A, TN...>>
+{ static constexpr bool value = is_observable<TN...>::value; };
 
+
+
+struct NoGetter {};
+struct NoSetter {};
+struct NoNotify {};
 
 template<typename PropertyInfo>
 class Property
@@ -209,9 +200,9 @@ class Property
 //   {
 //       using Object = ...
 //       using Type   = ...
-//       using Getter = struct { static auto get(const Object* object)                    { ... } }
-//       using Setter = struct { static void set(      Object* object, const Type& value) { ... } }
-//       using Notify = struct { static auto signal() { return &Object::propertyChanged;  }       }
+//       using Getter = NoGetter or struct { static auto get(const Object* object)                    { ... } }
+//       using Setter = NoSetter or struct { static void set(      Object* object, const Type& value) { ... } }
+//       using Notify = NoNotify or struct { static auto signal() { return &Object::propertyChanged;  }       }
 //
 //       static QString name()        "propertyName"
 //       static QString bindingName() "nw_binding_on_propertyName"
@@ -277,6 +268,9 @@ public:
 private:
     Object* object;
 };
+
+template<typename T> struct is_observable<Property<T>>
+{ static constexpr bool value = !std::is_same<typename T::Notify, NoNotify>::value; };
 
 
 

@@ -189,8 +189,16 @@ When creating a binding, you can get a `Binding` instance:
 Binding* bind = label.text() = lineEdit.text();
 ```
 
-> If there are no observable values in the binding expression, `nullptr` is returned.
+`Binding` automatically connects to the `destroyed` signal of the `QObject` corresponding to `Property` in the binding expression, so you don’t need to manage its lifecycle. It has an `update` signal emitted when the binding expression recalculated.
 
-`Binding` has an `update` signal triggered when the binding expression is recalculated.
+If there are no observable property in the binding expression, you would get a `nullptr`.
 
-`Binding` automatically connects to the `destroyed` signal of the `QObject` corresponding to `Property` in the binding expression, so you don’t need to manage its lifecycle.
+`nw::is_observable<T>` is a trait to check if a property/expr is observable:
+
+```cpp
+auto expr1 = slider.value() + 10;
+constexpr bool is_observable1 = nw::is_observable<decltype(expr1)>::value // true
+
+auto expr2 = slider.maximum() + 10;
+constexpr bool is_observable2 = nw::is_observable<decltype(expr2)>::value // false
+```

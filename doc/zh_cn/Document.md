@@ -189,8 +189,14 @@ button.iconSize()
 Binding* bind = label.text() = lineEdit.text();
 ```
 
-> 若绑定表达式中无可观察的值，则会返回一个 `nullptr`
+`Binding` 自动连接绑定表达式中 `Property` 对应 QObject 的 `destroyed` 信号，你不需要自己管理它的生命周期。它拥有一个 `update` 信号，在绑定表达式重新计算时触发
 
-`Binding` 拥有一个 `update` 信号，在绑定表达式重新计算时触发
+若绑定表达式中无可观察的值，则返回值为 `nullptr`。可以通过 `nw::is_observable<T>` 判断属性/表达式是否可观察：
 
-`Binding` 自动连接绑定表达式中 `Property` 对应 QObject 的 `destroyed` 信号，你不需要自己管理它的生命周期
+```cpp
+auto expr1 = slider.value() + 10;
+constexpr bool is_observable1 = nw::is_observable<decltype(expr1)>::value // true
+
+auto expr2 = slider.maximum() + 10;
+constexpr bool is_observable2 = nw::is_observable<decltype(expr2)>::value // false
+```
