@@ -7,8 +7,26 @@
 
 namespace nw {
 
+template<typename T> class ActionIdT;
 template<typename S, typename T> class ActionBuilder;
 template<typename S, typename T> class MenuBuilder;
+
+template<typename T>
+class MenuIdT : public WidgetIdT<T>
+{
+public:
+    using WidgetIdT<T>::WidgetIdT;
+
+    N_ID_PROPERTY(bool   , tearOffEnabled       , N_GETTER(isTearOffEnabled     ), N_SETTER(setTearOffEnabled       ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QString, title                , N_GETTER(title                ), N_SETTER(setTitle                ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QIcon  , icon                 , N_GETTER(icon                 ), N_SETTER(setIcon                 ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool   , separatorsCollapsible, N_GETTER(separatorsCollapsible), N_SETTER(setSeparatorsCollapsible), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool   , toolTipsVisible      , N_GETTER(toolTipsVisible      ), N_SETTER(setToolTipsVisible      ), N_NO_NOTIFY)
+};
+
+using MenuId = MenuIdT<QMenu>;
+
+
 
 class MenuItem : public BuilderItem<QMenu>
 {
@@ -18,6 +36,9 @@ public:
     MenuItem(SpearatorType)   : BuilderItem([      ](QMenu* m){ m->addSeparator();    }) {}
     MenuItem(QAction* action) : BuilderItem([action](QMenu* m){ m->addAction(action); }) {}
     MenuItem(QMenu* menu)     : BuilderItem([menu  ](QMenu* m){ m->addMenu(menu);     }) {}
+
+    template<typename T> MenuItem(const ActionIdT<T>& action) : MenuItem((T*)action) {}
+    template<typename T> MenuItem(const MenuIdT  <T>& menu  ) : MenuItem((T*)menu  ) {}
 
     template<typename S, typename T> MenuItem(const ActionBuilder<S, T>& action) : MenuItem((T*)action) {}
     template<typename S, typename T> MenuItem(const MenuBuilder  <S, T>& menu  ) : MenuItem((T*)menu  ) {}

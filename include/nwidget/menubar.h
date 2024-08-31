@@ -12,6 +12,8 @@ class MenuBarItem : public BuilderItem<QMenuBar>
 public:
     MenuBarItem(QMenu* menu) : BuilderItem([menu](QMenuBar* bar){ bar->addMenu(menu); }) {}
 
+    template<typename T> MenuBarItem(const MenuIdT<T>& menu): MenuBarItem((T*)menu) {}
+
     template<typename S, typename T> MenuBarItem(const MenuBuilder<S, T>& menu) : MenuBarItem((T*)menu) {}
 
     MenuBarItem(ItemGenerator<MenuBarItem> generator)

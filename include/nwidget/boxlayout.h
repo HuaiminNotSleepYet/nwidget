@@ -26,6 +26,16 @@ public:
         : BuilderItem([item](QBoxLayout* l){l->addItem(item); })
     {}
 
+    template<typename T>
+    BoxLayoutItem(const WidgetIdT<T>& widget, int stretch = 0, Qt::Alignment align = Qt::Alignment())
+        : BoxLayoutItem((T*)widget, stretch, align)
+    {}
+
+    template<typename T>
+    BoxLayoutItem(const LayoutIdT<T>& layout, int stretch = 0, Qt::Alignment align = Qt::Alignment())
+        : BoxLayoutItem((T*)layout, stretch, align)
+    {}
+
     template<typename S, typename T>
     BoxLayoutItem(const WidgetBuilder<S, T>& widget, int stretch = 0, Qt::Alignment align = Qt::Alignment())
         : BoxLayoutItem((T*)widget, stretch, align)

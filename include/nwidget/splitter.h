@@ -12,6 +12,9 @@ class SplitterItem : public BuilderItem<QSplitter>
 public:
     SplitterItem(QWidget* widget) : BuilderItem([widget](QSplitter* s){ s->addWidget(widget); }) {}
 
+    template<typename T>
+    SplitterItem(const WidgetIdT<T>& widget) : SplitterItem((T*)widget) {}
+
     template<typename S, typename T>
     SplitterItem(const WidgetBuilder<S, T>& widget) : SplitterItem((T*)widget) {}
 

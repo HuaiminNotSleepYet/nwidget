@@ -19,8 +19,11 @@ public:
     FormLayoutItem(QLayout* layout)   : BuilderItem([layout](QFormLayout* l){ l->addRow(layout); }) {}
     FormLayoutItem(QLayoutItem* item) : BuilderItem([item  ](QFormLayout* l){ l->addItem(item) ; }) {}
 
-    template<typename S, typename T> FormLayoutItem(const WidgetBuilder<S, T>& widget)   : FormLayoutItem((T*)widget) {}
-    template<typename S, typename T> FormLayoutItem(const LayoutBuilder<S, T>& layout)   : FormLayoutItem((T*)layout) {}
+    template<typename T> FormLayoutItem(const WidgetIdT<T>& widget) : FormLayoutItem((T*)widget) {}
+    template<typename T> FormLayoutItem(const LayoutIdT<T>& layout) : FormLayoutItem((T*)layout) {}
+
+    template<typename S, typename T> FormLayoutItem(const WidgetBuilder<S, T>& widget) : FormLayoutItem((T*)widget) {}
+    template<typename S, typename T> FormLayoutItem(const LayoutBuilder<S, T>& layout) : FormLayoutItem((T*)layout) {}
 
     FormLayoutItem(ItemGenerator<FormLayoutItem> generator)
         : BuilderItem(generator)
