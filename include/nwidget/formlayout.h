@@ -25,9 +25,7 @@ public:
     template<typename S, typename T> FormLayoutItem(const WidgetBuilder<S, T>& widget) : FormLayoutItem((T*)widget) {}
     template<typename S, typename T> FormLayoutItem(const LayoutBuilder<S, T>& layout) : FormLayoutItem((T*)layout) {}
 
-    FormLayoutItem(ItemGenerator<FormLayoutItem> generator)
-        : BuilderItem(generator)
-    {}
+    FormLayoutItem(ItemGenerator<FormLayoutItem> generator) : BuilderItem(generator) {}
 };
 
 template<typename S, typename T>
@@ -72,6 +70,7 @@ public:
 };
 
 using FormLayoutId = FormLayoutIdT<QFormLayout>;
+
 }
 
 #endif // FORMLAYOUT_H

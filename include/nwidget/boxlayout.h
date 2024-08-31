@@ -14,45 +14,26 @@ public:
     enum StretchType { Stretch };
     enum StrutType   { Strut   };
 
-    BoxLayoutItem(QWidget* widget, int stretch = 0, Qt::Alignment align = Qt::Alignment())
-        : BuilderItem([widget, stretch, align](QBoxLayout* l){l->addWidget(widget, stretch, align); })
-    {}
+    BoxLayoutItem(                                  QWidget* widget) : BoxLayoutItem(0      , {}, widget) {}
+    BoxLayoutItem(int stretch,                      QWidget* widget) : BoxLayoutItem(stretch, {}, widget) {}
+    BoxLayoutItem(int stretch, Qt::Alignment align, QWidget* widget) : BuilderItem([stretch, align, widget](QBoxLayout* l){l->addWidget(widget, stretch, align); }) {}
 
-    BoxLayoutItem(QLayout* layout, int stretch = 0)
-        : BuilderItem([layout, stretch](QBoxLayout* l){l->addLayout(layout, stretch); })
-    {}
+    BoxLayoutItem(             QLayout* layout) : BoxLayoutItem(0, layout) {}
+    BoxLayoutItem(int stretch, QLayout* layout) : BuilderItem([stretch, layout](QBoxLayout* l){l->addLayout(layout, stretch); }) {}
 
-    BoxLayoutItem(QLayoutItem* item)
-        : BuilderItem([item](QBoxLayout* l){l->addItem(item); })
-    {}
+    BoxLayoutItem(QLayoutItem* item) : BuilderItem([item](QBoxLayout* l){l->addItem(item); }) {}
 
-    template<typename T>
-    BoxLayoutItem(const WidgetIdT<T>& widget, int stretch = 0, Qt::Alignment align = Qt::Alignment())
-        : BoxLayoutItem((T*)widget, stretch, align)
-    {}
+    template<typename T> BoxLayoutItem(const WidgetIdT<T>& widget) : BoxLayoutItem((T*)widget) {}
+    template<typename T> BoxLayoutItem(const LayoutIdT<T>& layout) : BoxLayoutItem((T*)layout) {}
 
-    template<typename T>
-    BoxLayoutItem(const LayoutIdT<T>& layout, int stretch = 0, Qt::Alignment align = Qt::Alignment())
-        : BoxLayoutItem((T*)layout, stretch, align)
-    {}
-
-    template<typename S, typename T>
-    BoxLayoutItem(const WidgetBuilder<S, T>& widget, int stretch = 0, Qt::Alignment align = Qt::Alignment())
-        : BoxLayoutItem((T*)widget, stretch, align)
-    {}
-
-    template<typename S, typename T>
-    BoxLayoutItem(const LayoutBuilder<S, T>& layout, int stretch = 0)
-        : BoxLayoutItem((T*)layout, stretch)
-    {}
+    template<typename S, typename T> BoxLayoutItem(const WidgetBuilder<S, T>& widget) : BoxLayoutItem((T*)widget) {}
+    template<typename S, typename T> BoxLayoutItem(const LayoutBuilder<S, T>& layout) : BoxLayoutItem((T*)layout) {}
 
     BoxLayoutItem(SpacingType, int size)        : BuilderItem([size   ](QBoxLayout* l) { l->addSpacing(size);    }) {}
     BoxLayoutItem(StretchType, int stretch = 0) : BuilderItem([stretch](QBoxLayout* l) { l->addStretch(stretch); }) {}
     BoxLayoutItem(StrutType  , int size)        : BuilderItem([size   ](QBoxLayout* l) { l->addStrut(size);      }) {}
 
-    BoxLayoutItem(ItemGenerator<BoxLayoutItem> generator)
-        : BuilderItem(generator)
-    {}
+    BoxLayoutItem(ItemGenerator<BoxLayoutItem> generator) : BuilderItem(generator) {}
 };
 
 template<typename S, typename T>
