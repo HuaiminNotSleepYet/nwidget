@@ -1,11 +1,11 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#ifndef NWIDGET_WIDGET_H
+#define NWIDGET_WIDGET_H
 
 #include <QWidget>
 
 #include "object.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class WidgetBuilder : public ObjectBuilder<S, T>
@@ -203,4 +203,4 @@ using WidgetId = WidgetIdT<QWidget>;
 
 }
 
-#endif // WIDGET_H
+#endif // NWIDGET_WIDGET_H

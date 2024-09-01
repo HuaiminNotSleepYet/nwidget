@@ -1,11 +1,11 @@
-#ifndef SPLITTER_H
-#define SPLITTER_H
+#ifndef NWIDGET_SPLITTER_H
+#define NWIDGET_SPLITTER_H
 
 #include <QSplitter>
 
 #include "frame.h"
 
-namespace nw {
+namespace nwidget {
 
 class SplitterItem : public BuilderItem<QSplitter>
 {
@@ -62,4 +62,4 @@ using SplitterId = SplitterIdT<QSplitter>;
 }
 
 
-#endif // SPLITTER_H
+#endif // NWIDGET_SPLITTER_H

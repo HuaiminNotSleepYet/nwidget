@@ -1,11 +1,11 @@
-#ifndef MENU_H
-#define MENU_H
+#ifndef NWIDGET_MENU_H
+#define NWIDGET_MENU_H
 
 #include <QMenu>
 
 #include "widget.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename T> class ActionIdT;
 template<typename S, typename T> class ActionBuilder;
@@ -72,4 +72,4 @@ N_DECL_BUILDER(MenuBuilder, QMenu, Menu);
 
 }
 
-#endif // MENU_H
+#endif // NWIDGET_MENU_H

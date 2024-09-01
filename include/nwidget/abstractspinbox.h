@@ -1,11 +1,11 @@
-#ifndef ABSTRACTSPINBOX_H
-#define ABSTRACTSPINBOX_H
+#ifndef NWIDGET_ABSTRACTSPINBOX_H
+#define NWIDGET_ABSTRACTSPINBOX_H
 
 #include <QAbstractSpinBox>
 
 #include "widget.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class AbstractSpinBoxBuilder : public WidgetBuilder<S, T>
@@ -62,4 +62,4 @@ using AbstractSpinBoxId = AbstractSpinBoxIdT<QAbstractSpinBox>;
 
 }
 
-#endif // ABSTRACTSPINBOX_H
+#endif // NWIDGET_ABSTRACTSPINBOX_H

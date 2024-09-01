@@ -1,11 +1,11 @@
-#ifndef PROGRESSBAR_H
-#define PROGRESSBAR_H
+#ifndef NWIDGET_PROGRESSBAR_H
+#define NWIDGET_PROGRESSBAR_H
 
 #include <QProgressBar>
 
 #include "widget.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class ProgressBarBuilder : public WidgetBuilder<S, T>
@@ -58,4 +58,4 @@ using ProgressBarId = ProgressBarIdT<QProgressBar>;
 
 }
 
-#endif // PROGRESSBAR_H
+#endif // NWIDGET_PROGRESSBAR_H

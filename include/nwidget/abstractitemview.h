@@ -1,11 +1,11 @@
-#ifndef ABSTRACTITEMVIEW_H
-#define ABSTRACTITEMVIEW_H
+#ifndef NWIDGET_ABSTRACTITEMVIEW_H
+#define NWIDGET_ABSTRACTITEMVIEW_H
 
 #include <QAbstractItemView>
 
 #include "abstractscrollarea.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class AbstractItemViewBuilder : public AbstractScrollAreaBuilder<S, T>
@@ -24,4 +24,4 @@ N_DECL_BUILDER(AbstractItemViewBuilder, QAbstractItemView, AbstractItemView);
 
 }
 
-#endif // ABSTRACTITEMVIEW_H
+#endif // NWIDGET_ABSTRACTITEMVIEW_H

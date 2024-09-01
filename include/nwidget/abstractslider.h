@@ -1,11 +1,11 @@
-#ifndef ABSTRACTSLIDER_H
-#define ABSTRACTSLIDER_H
+#ifndef NWIDGET_ABSTRACTSLIDER_H
+#define NWIDGET_ABSTRACTSLIDER_H
 
 #include <QAbstractSlider>
 
 #include "widget.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class AbstractSliderBuilder : public WidgetBuilder<S, T>
@@ -64,4 +64,4 @@ using AbstractSliderId = AbstractSliderIdT<QAbstractSlider>;
 
 }
 
-#endif // ABSTRACTSLIDER_H
+#endif // NWIDGET_ABSTRACTSLIDER_H

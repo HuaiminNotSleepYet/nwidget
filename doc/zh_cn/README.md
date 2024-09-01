@@ -38,6 +38,8 @@ formLayout->addRow(gridLayout);
 
 声明式：
 ```cpp
+namespace nw = nwidget;
+
 QLayout* layout = nw::FormLayout{
     {"Lable 0", nw::LineEdit().text("Hello")},
     {"Lable 1", nw::Slider(Qt::Horizontal).range(0, 100).value(25)},
@@ -54,6 +56,8 @@ QLayout* layout = nw::FormLayout{
 ![](../img/binding.gif)
 
 ```cpp
+namespace nw = nwidget;
+
 nw::LabelId  label   = new QLabel;
 nw::SliderId slider1 = new QSlider;
 nw::SliderId slider2 = new QSlider;

@@ -1,11 +1,11 @@
-#ifndef TOOLBUTTON_H
-#define TOOLBUTTON_H
+#ifndef NWIDGET_TOOLBUTTON_H
+#define NWIDGET_TOOLBUTTON_H
 
 #include <QToolButton>
 
 #include "abstractbutton.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class ToolButtonBuilder : public AbstractButtonBuilder<S, T>
@@ -54,4 +54,4 @@ using ToolButtonId = AbstractButtonIdT<QToolButton>;
 
 }
 
-#endif // TOOLBUTTON_H
+#endif // NWIDGET_TOOLBUTTON_H

@@ -1,11 +1,11 @@
-#ifndef MENUBAR_H
-#define MENUBAR_H
+#ifndef NWIDGET_MENUBAR_H
+#define NWIDGET_MENUBAR_H
 
 #include <QMenuBar>
 
 #include "menu.h"
 
-namespace nw {
+namespace nwidget {
 
 class MenuBarItem : public BuilderItem<QMenuBar>
 {
@@ -57,4 +57,4 @@ using MenuBarId = MenuBarIdT<QMenuBar>;
 
 }
 
-#endif // MENUBAR_H
+#endif // NWIDGET_MENUBAR_H

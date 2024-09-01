@@ -6,7 +6,7 @@
 #include "nwidget/label.h"
 #include "nwidget/spinbox.h"
 
-using namespace nw;
+using namespace nwidget;
 
 class MainWindowId : public WidgetIdT<MainWindow>
 {

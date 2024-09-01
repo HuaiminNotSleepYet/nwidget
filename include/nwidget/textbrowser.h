@@ -1,11 +1,11 @@
-#ifndef TEXTBROWSER_H
-#define TEXTBROWSER_H
+#ifndef NWIDGET_TEXTBROWSER_H
+#define NWIDGET_TEXTBROWSER_H
 
 #include <QTextBrowser>
 
 #include "textedit.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class TextBrowserBuilder : public TextEditBuilder<S, T>
@@ -51,4 +51,4 @@ using TextBrowserId = TextBrowserIdT<QTextBrowser>;
 
 }
 
-#endif // TEXTBROWSER_H
+#endif // NWIDGET_TEXTBROWSER_H

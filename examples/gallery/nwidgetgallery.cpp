@@ -39,7 +39,7 @@
 #include "nwidget/toolbutton.h"
 #include "nwidget/treeview.h"
 
-using namespace nw;
+using namespace nwidget;
 
 static QString className(const QObject *o)
 {

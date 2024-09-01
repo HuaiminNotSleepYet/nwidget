@@ -1,12 +1,12 @@
-#ifndef ABSTRACTBUTTON_H
-#define ABSTRACTBUTTON_H
+#ifndef NWIDGET_ABSTRACTBUTTON_H
+#define NWIDGET_ABSTRACTBUTTON_H
 
 #include <QAbstractButton>
 #include <QButtonGroup>
 
 #include "widget.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class AbstractButtonBuilder : public WidgetBuilder<S, T>
@@ -69,4 +69,4 @@ using AbstractButtonId = AbstractButtonIdT<QAbstractButton>;
 
 }
 
-#endif // ABSTRACTBUTTON_H
+#endif // NWIDGET_ABSTRACTBUTTON_H

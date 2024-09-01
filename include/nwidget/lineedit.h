@@ -1,11 +1,11 @@
-#ifndef LINEEDIT_H
-#define LINEEDIT_H
+#ifndef NWIDGET_LINEEDIT_H
+#define NWIDGET_LINEEDIT_H
 
 #include <QLineEdit>
 
 #include "widget.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class LineEditBuilder : public WidgetBuilder<S, T>
@@ -87,4 +87,4 @@ using LineEditId = LineEditIdT<QLineEdit>;
 
 }
 
-#endif // LINEEDIT_H
+#endif // NWIDGET_LINEEDIT_H

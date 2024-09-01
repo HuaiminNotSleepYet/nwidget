@@ -1,11 +1,11 @@
-#ifndef BOXLAYOUT_H
-#define BOXLAYOUT_H
+#ifndef NWIDGET_BOXLAYOUT_H
+#define NWIDGET_BOXLAYOUT_H
 
 #include <QBoxLayout>
 
 #include "layout.h"
 
-namespace nw {
+namespace nwidget {
 
 class BoxLayoutItem : public BuilderItem<QBoxLayout>
 {
@@ -87,4 +87,4 @@ using VBoxLayoutId = LayoutIdT<QVBoxLayout>;
 
 }
 
-#endif // BOXLAYOUT_H
+#endif // NWIDGET_BOXLAYOUT_H

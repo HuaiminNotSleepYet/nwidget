@@ -1,11 +1,11 @@
-#ifndef RADIOBUTTON_H
-#define RADIOBUTTON_H
+#ifndef NWIDGET_RADIOBUTTON_H
+#define NWIDGET_RADIOBUTTON_H
 
 #include <QRadioButton>
 
 #include "abstractbutton.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class RadioButtonBuilder : public AbstractButtonBuilder<S, T>
@@ -28,4 +28,4 @@ using RadioButtonId = AbstractButtonIdT<QRadioButton>;
 
 }
 
-#endif // RADIOBUTTON_H
+#endif // NWIDGET_RADIOBUTTON_H

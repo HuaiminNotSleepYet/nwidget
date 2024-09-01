@@ -1,11 +1,11 @@
-#ifndef STACKEDLAYOUT_H
-#define STACKEDLAYOUT_H
+#ifndef NWIDGET_STACKEDLAYOUT_H
+#define NWIDGET_STACKEDLAYOUT_H
 
 #include <QStackedLayout>
 
 #include "layout.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class StackedLayoutBuilder : public LayoutBuilder<S, T>
@@ -40,4 +40,4 @@ using StackedLayoutId = StackedLayoutIdT<QStackedLayout>;
 
 }
 
-#endif // STACKEDLAYOUT_H
+#endif // NWIDGET_STACKEDLAYOUT_H

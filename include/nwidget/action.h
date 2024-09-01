@@ -1,11 +1,11 @@
-#ifndef ACTION_H
-#define ACTION_H
+#ifndef NWIDGET_ACTION_H
+#define NWIDGET_ACTION_H
 
 #include <QAction>
 
 #include "object.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class ActionBuilder : public ObjectBuilder<S, T>
@@ -88,4 +88,4 @@ using ActionId = ActionIdT<QAction>;
 
 }
 
-#endif // ACTION_H
+#endif // NWIDGET_ACTION_H

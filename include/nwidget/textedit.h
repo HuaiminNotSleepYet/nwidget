@@ -1,11 +1,11 @@
-#ifndef TEXTEDIT_H
-#define TEXTEDIT_H
+#ifndef NWIDGET_TEXTEDIT_H
+#define NWIDGET_TEXTEDIT_H
 
 #include <QTextEdit>
 
 #include "abstractscrollarea.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class TextEditBuilder : public AbstractScrollAreaBuilder<S, T>
@@ -80,4 +80,4 @@ using TextEditId = TextEditIdT<QTextEdit>;
 
 }
 
-#endif // TEXTEDIT_H
+#endif // NWIDGET_TEXTEDIT_H

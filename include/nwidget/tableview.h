@@ -1,11 +1,11 @@
-#ifndef TABLEVIEW_H
-#define TABLEVIEW_H
+#ifndef NWIDGET_TABLEVIEW_H
+#define NWIDGET_TABLEVIEW_H
 
 #include <QTableView>
 
 #include "abstractitemview.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class TableViewBuilder : public AbstractItemViewBuilder<S, T>
@@ -20,4 +20,4 @@ N_DECL_BUILDER(TableViewBuilder, QTableView, TableView);
 
 }
 
-#endif // TABLEVIEW_H
+#endif // NWIDGET_TABLEVIEW_H

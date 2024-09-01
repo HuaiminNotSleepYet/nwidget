@@ -1,11 +1,11 @@
-#ifndef TREEVIEW_H
-#define TREEVIEW_H
+#ifndef NWIDGET_TREEVIEW_H
+#define NWIDGET_TREEVIEW_H
 
 #include <QTreeView>
 
 #include "abstractitemview.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class TreeViewBuilder : public AbstractItemViewBuilder<S, T>
@@ -20,4 +20,4 @@ N_DECL_BUILDER(TreeViewBuilder, QTreeView, TreeView);
 
 }
 
-#endif // TREEVIEW_H
+#endif // NWIDGET_TREEVIEW_H

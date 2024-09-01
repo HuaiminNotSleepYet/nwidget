@@ -1,11 +1,11 @@
-#ifndef TABWIDGET_H
-#define TABWIDGET_H
+#ifndef NWIDGET_TABWIDGET_H
+#define NWIDGET_TABWIDGET_H
 
 #include <QTabWidget>
 
 #include "widget.h"
 
-namespace nw {
+namespace nwidget {
 
 class TabWidgetItem : public BuilderItem<QTabWidget>
 {
@@ -90,4 +90,4 @@ using TabWidgetId = TabWidgetIdT<QTabWidget>;
 
 }
 
-#endif // TABWIDGET_H
+#endif // NWIDGET_TABWIDGET_H

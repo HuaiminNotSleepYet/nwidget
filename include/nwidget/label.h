@@ -1,11 +1,11 @@
-#ifndef LABEL_H
-#define LABEL_H
+#ifndef NWIDGET_LABEL_H
+#define NWIDGET_LABEL_H
 
 #include <QLabel>
 
 #include "frame.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class LabelBuilder : public FrameBuilder<S, T>
@@ -57,4 +57,4 @@ using LabelId = LabelIdT<QLabel>;
 
 }
 
-#endif // LABEL_H
+#endif // NWIDGET_LABEL_H

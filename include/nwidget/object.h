@@ -1,9 +1,9 @@
-#ifndef OBJECT_H
-#define OBJECT_H
+#ifndef NWIDGET_OBJECT_H
+#define NWIDGET_OBJECT_H
 
 #include <QObject>
 
-namespace nw {
+namespace nwidget {
 
 /* ---------------------------- Property Binding ---------------------------- */
 
@@ -205,7 +205,7 @@ class Property
 //       using Notify = NoNotify or struct { static auto signal() { return &Object::propertyChanged;  }       }
 //
 //       static QString name()        "propertyName"
-//       static QString bindingName() "nw_binding_on_propertyName"
+//       static QString bindingName() "nwidget_binding_on_propertyName"
 //   };
 
     template<typename T0, typename ...TN> friend class BindingExpr;
@@ -339,11 +339,11 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
 #define N_SETTER(FUNC) struct Setter { static void set(Object* object, const Type& value) { object->FUNC(value); } };
 #define N_NOTIFY(SIG)  struct Notify { static auto signal() { return &Object::SIG; } };
 
-#define N_NO_SETTER using Setter = nw::NoSetter;
-#define N_NO_GETTER using Getter = nw::NoGetter;
-#define N_NO_NOTIFY using Notify = nw::NoNotify;
+#define N_NO_SETTER using Setter = nwidget::NoSetter;
+#define N_NO_GETTER using Getter = nwidget::NoGetter;
+#define N_NO_NOTIFY using Notify = nwidget::NoNotify;
 
-#define N_ID_PROPERTY(TYPE, NAME, GETTER, SETTER, NOTIFY)              \
+#define N_ID_PROPERTY(TYPE, NAME, GETTER, SETTER, NOTIFY)           \
 auto NAME() const                                                   \
 {                                                                   \
     using Object = typename std::decay<decltype(*this->t)>::type;   \
@@ -365,11 +365,11 @@ auto NAME() const                                                   \
         { return QStringLiteral(#NAME); }                           \
                                                                     \
         static QString bindingName()                                \
-        { return QStringLiteral("nw_binding_on_"#NAME); }           \
+        { return QStringLiteral("nwidget_binding_on_"#NAME); }      \
     };                                                              \
                                                                     \
-    Q_ASSERT(nw::ObjectIdT<Object>::t);                             \
-    return nw::Property<Info>(nw::ObjectIdT<Object>::t);            \
+    Q_ASSERT(nwidget::ObjectIdT<Object>::t);                        \
+    return nwidget::Property<Info>(nwidget::ObjectIdT<Object>::t);  \
 }
 
 template<typename T>
@@ -398,11 +398,11 @@ using ObjectId = ObjectIdT<QObject>;
 
 /* ----------------------------- Object Builder ----------------------------- */
 
-#define N_BUILDER                       \
-protected:                              \
-    using ObjectBuilder<S, T>::t;       \
-    using ObjectBuilder<S, T>::self;    \
-    using ObjectBuilder<S, T>::addItems;
+#define N_BUILDER                               \
+protected:                                      \
+    using nwidget::ObjectBuilder<S, T>::t;      \
+    using nwidget::ObjectBuilder<S, T>::self;   \
+    using nwidget::ObjectBuilder<S, T>::addItems;
 
 
 #if QT_VERSION <= QT_VERSION_CHECK(6, 6, 0)
@@ -429,39 +429,39 @@ S& NAME(N_RECEIVER_T(Func) context, Func&& slot,                \
 { QObject::connect(t, &std::decay<decltype(*t)>::type::SIG, context, slot); return self(); }
 
 
-#define N_BUILDER_PROPERTY(TYPE, NAME, SETTER)              \
-S& NAME(const TYPE& arg) { t->SETTER(arg); return self(); } \
-                                                            \
-template<typename Info>                                     \
-S& NAME(nw::Property<Info> prop)                            \
-{ return NAME(nw::makeBindingExpr<nw::NoAction>(prop)); }   \
-                                                            \
-template<typename ...TN>                                    \
-S& NAME(const nw::BindingExpr<TN...>& expr)                 \
-{                                                           \
-    using Object = typename std::decay<decltype(*t)>::type; \
-    using Type = TYPE;                                      \
-                                                            \
-    N_SETTER(SETTER)                                        \
-                                                            \
-    struct Info                                             \
-    {                                                       \
-        using Object = Object;                              \
-        using Type   = Type;                                \
-        using Getter = NoGetter;                            \
-        using Setter = Setter;                              \
-        using Notify = NoNotify;                            \
-                                                            \
-        static QString name()                               \
-        { return QStringLiteral(#NAME); }                   \
-                                                            \
-        static QString bindingName()                        \
-        { return QStringLiteral("nw_binding_on_"#NAME); }   \
-    };                                                      \
-                                                            \
-    expr.bindTo(nw::Property<Info>(t));                     \
-                                                            \
-    return self();                                          \
+#define N_BUILDER_PROPERTY(TYPE, NAME, SETTER)                      \
+S& NAME(const TYPE& arg) { t->SETTER(arg); return self(); }         \
+                                                                    \
+template<typename Info>                                             \
+S& NAME(nwidget::Property<Info> prop)                               \
+{ return NAME(nwidget::makeBindingExpr<nwidget::NoAction>(prop)); } \
+                                                                    \
+template<typename ...TN>                                            \
+S& NAME(const nwidget::BindingExpr<TN...>& expr)                    \
+{                                                                   \
+    using Object = typename std::decay<decltype(*t)>::type;         \
+    using Type = TYPE;                                              \
+                                                                    \
+    N_SETTER(SETTER)                                                \
+                                                                    \
+    struct Info                                                     \
+    {                                                               \
+        using Object = Object;                                      \
+        using Type   = Type;                                        \
+        using Getter = NoGetter;                                    \
+        using Setter = Setter;                                      \
+        using Notify = NoNotify;                                    \
+                                                                    \
+        static QString name()                                       \
+        { return QStringLiteral(#NAME); }                           \
+                                                                    \
+        static QString bindingName()                                \
+        { return QStringLiteral("nwidget_binding_on_"#NAME); }      \
+    };                                                              \
+                                                                    \
+    expr.bindTo(nwidget::Property<Info>(t));                        \
+                                                                    \
+    return self();                                                  \
 }
 
 
@@ -568,4 +568,4 @@ auto ForEach(std::initializer_list<E> l, Generator g) { return ForEach(l.begin()
 
 }
 
-#endif // OBJECT_H
+#endif // NWIDGET_OBJECT_H

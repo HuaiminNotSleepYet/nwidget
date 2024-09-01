@@ -1,11 +1,11 @@
-#ifndef DATETIMEEDIT_H
-#define DATETIMEEDIT_H
+#ifndef NWIDGET_DATETIMEEDIT_H
+#define NWIDGET_DATETIMEEDIT_H
 
 #include <QDateTimeEdit>
 
 #include "abstractspinbox.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class DateTimeEditBuilder : public AbstractSpinBoxBuilder<S, T>
@@ -127,4 +127,4 @@ using DateEditId = DateEditIdT<QDateEdit>;
 
 }
 
-#endif // DATETIMEEDIT_H
+#endif // NWIDGET_DATETIMEEDIT_H

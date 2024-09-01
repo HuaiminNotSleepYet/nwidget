@@ -1,11 +1,11 @@
-#ifndef FRAME_H
-#define FRAME_H
+#ifndef NWIDGET_FRAME_H
+#define NWIDGET_FRAME_H
 
 #include <QFrame>
 
 #include "widget.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class FrameBuilder : public WidgetBuilder<S, T>
@@ -46,4 +46,4 @@ using FrameId = FrameIdT<QFrame>;
 
 }
 
-#endif // FRAME_H
+#endif // NWIDGET_FRAME_H

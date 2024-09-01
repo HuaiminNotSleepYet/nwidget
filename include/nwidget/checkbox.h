@@ -1,11 +1,11 @@
-#ifndef CHECKBOX_H
-#define CHECKBOX_H
+#ifndef NWIDGET_CHECKBOX_H
+#define NWIDGET_CHECKBOX_H
 
 #include <QCheckBox>
 
 #include "abstractbutton.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class CheckBoxBuilder : public AbstractButtonBuilder<S, T>
@@ -43,4 +43,4 @@ using CheckBoxId = CheckBoxIdT<QCheckBox>;
 
 }
 
-#endif // CHECKBOX_H
+#endif // NWIDGET_CHECKBOX_H

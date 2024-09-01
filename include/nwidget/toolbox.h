@@ -1,11 +1,11 @@
-#ifndef TOOLBOX_H
-#define TOOLBOX_H
+#ifndef NWIDGET_TOOLBOX_H
+#define NWIDGET_TOOLBOX_H
 
 #include <QToolBox>
 
 #include "frame.h"
 
-namespace nw {
+namespace nwidget {
 
 class ToolBoxItem : public BuilderItem<QToolBox>
 {
@@ -52,4 +52,4 @@ using ToolBoxId = ToolBoxIdT<QToolBox>;
 
 }
 
-#endif // TOOLBOX_H
+#endif // NWIDGET_TOOLBOX_H

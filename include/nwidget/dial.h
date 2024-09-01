@@ -1,11 +1,11 @@
-#ifndef DIAL_H
-#define DIAL_H
+#ifndef NWIDGET_DIAL_H
+#define NWIDGET_DIAL_H
 
 #include <QDial>
 
 #include "abstractslider.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class DialBuilder : public AbstractSliderBuilder<S, T>
@@ -42,4 +42,4 @@ using DialId = DialIdT<QDial>;
 
 }
 
-#endif // DIAL_H
+#endif // NWIDGET_DIAL_H

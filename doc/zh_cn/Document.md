@@ -17,11 +17,11 @@ auto* button1 = new QPushButton;
 auto* button2 = new QPushButton;
 button1.setText("Button");
 
-QLayout* layout = nw::VBoxLayout{
+QLayout* layout = nwidget::VBoxLayout{
     button1,                                // 使用已有实例
     new QPushButton,
-    nw::PushButton(),
-    nw::PushButton(button2).text("Button"), // 在已有实例上设置
+    nwidget::PushButton(),
+    nwidget::PushButton(button2).text("Button"), // 在已有实例上设置
 };
 ```
 
@@ -30,9 +30,9 @@ QLayout* layout = nw::VBoxLayout{
 ```cpp
 std::vector<int> nums = {1, 2, 3, 4, 5};
 
-QLayout* layout = nw::VBoxLayout{
-    nw::Label("Label"),
-    nw::ForEach(nums, [](int index, int value) -> nw::BoxLayoutItem {
+QLayout* layout = nwidget::VBoxLayout{
+    nwidget::Label("Label"),
+    nwidget::ForEach(nums, [](int index, int value) -> nwidget::BoxLayoutItem {
         return new QPushButton(QString::number(value));
     })
 };
@@ -59,9 +59,9 @@ QLayout* layout = VBoxLayout{
 或直接在代码中创建：
 
 ```cpp
-nw::SliderId slider1 = new QSlider;
-nw::SliderId slider2 = new QSlider;
-nw::SliderId slider3 = new QSlider;
+nwidget::SliderId slider1 = new QSlider;
+nwidget::SliderId slider2 = new QSlider;
+nwidget::SliderId slider3 = new QSlider;
 
 slider3.value() = slider1.value() + slider2.value();
 ```
@@ -128,28 +128,28 @@ checkBox.checked() = !((spinBox.value() > 25) && (slider.value() < 75));
 
 对于一些运算符和 c++ 功能，需要使用专门方法：
 
-三目运算符：`nw::cond`
+三目运算符：`nwidget::cond`
 
 ```cpp
-label.text() = nw::cond(slider.value() > 50, QString(">"), QString("<"));
+label.text() = nwidget::cond(slider.value() > 50, QString(">"), QString("<"));
 ```
 
-函数调用：`nw::call`
+函数调用：`nwidget::call`
 
 ```cpp
 int add(int a, int b) { return a + b; }
 
-slider1.value() = nw::call(add, slider2.value(), slider3.value())
+slider1.value() = nwidget::call(add, slider2.value(), slider3.value())
 
-slider1.value() = nw::call([](int a, int b){ return a + b; },
+slider1.value() = nwidget::call([](int a, int b){ return a + b; },
                            slider2.value(),
                            slider3.value())
 ```
 
-构造函数调用：`nw::constructor<T>`
+构造函数调用：`nwidget::constructor<T>`
 
 ```cpp
-dateTimeEdit.dateTime() = nw::constructor<QDateTime>(dateEdit.date(), timeEdit.time());
+dateTimeEdit.dateTime() = nwidget::constructor<QDateTime>(dateEdit.date(), timeEdit.time());
 ```
 
 成员函数调用：`invoke`
@@ -158,25 +158,25 @@ dateTimeEdit.dateTime() = nw::constructor<QDateTime>(dateEdit.date(), timeEdit.t
 spinBox.value() = lineEdit.text().invoke(&QString::length)
 ```
 
-类型转换：`nw::cast<T>`、`nw::static_cast_<T>`、`nw::reinterpret_cast_<T>`
+类型转换：`nwidget::cast<T>`、`nwidget::static_cast_<T>`、`nwidget::reinterpret_cast_<T>`
 
 ```cpp
-doubleSpinBox.value() = nw::cast<double>(spinBox.value());
+doubleSpinBox.value() = nwidget::cast<double>(spinBox.value());
 
-doubleSpinBox.value() = nw::static_cast_<double>(spinBox.value());
+doubleSpinBox.value() = nwidget::static_cast_<double>(spinBox.value());
 ```
 
-nwidget 也提供了字符串格式化方法 `nw::asprintf`，其内部调用 `QString::asprintf`：
+nwidget 也提供了字符串格式化方法 `nwidget::asprintf`，其内部调用 `QString::asprintf`：
 
 ```cpp
-label.text() = nw::asprintf("%d, %d", sldier1.value(), sldier2.value());
+label.text() = nwidget::asprintf("%d, %d", sldier1.value(), sldier2.value());
 ```
 
 你可以在表达式中使用相同实例的相同属性，但应避免循环和在表达式中更新表达式的值：
 
 ```cpp
 button.iconSize()
-= nw::constructor<QSize>(slider.value(),   // < 此处变更信号被订阅
+= nwidget::constructor<QSize>(slider.value(),   // < 此处变更信号被订阅
                          button.iconSize() // < 此处变更信号被忽略
                          .invoke(&QSize::height));
 ```
@@ -191,12 +191,12 @@ Binding* bind = label.text() = lineEdit.text();
 
 `Binding` 自动连接绑定表达式中 `Property` 对应 QObject 的 `destroyed` 信号，你不需要自己管理它的生命周期。它拥有一个 `update` 信号，在绑定表达式重新计算时触发
 
-若绑定表达式中无可观察的值，则返回值为 `nullptr`。可以通过 `nw::is_observable<T>` 判断属性/表达式是否可观察：
+若绑定表达式中无可观察的值，则返回值为 `nullptr`。可以通过 `nwidget::is_observable<T>` 判断属性/表达式是否可观察：
 
 ```cpp
 auto expr1 = slider.value() + 10;
-constexpr bool is_observable1 = nw::is_observable<decltype(expr1)>::value // true
+constexpr bool is_observable1 = nwidget::is_observable<decltype(expr1)>::value // true
 
 auto expr2 = slider.maximum() + 10;
-constexpr bool is_observable2 = nw::is_observable<decltype(expr2)>::value // false
+constexpr bool is_observable2 = nwidget::is_observable<decltype(expr2)>::value // false
 ```

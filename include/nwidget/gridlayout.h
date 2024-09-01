@@ -1,11 +1,11 @@
-#ifndef GRIDLAYOUT_H
-#define GRIDLAYOUT_H
+#ifndef NWIDGET_GRIDLAYOUT_H
+#define NWIDGET_GRIDLAYOUT_H
 
 #include <QGridLayout>
 
 #include "layout.h"
 
-namespace nw {
+namespace nwidget {
 
 class GridLayoutItem : public BuilderItem<QGridLayout>
 {
@@ -70,4 +70,4 @@ using GridLayoutId = GridLayoutIdT<QGridLayout>;
 
 }
 
-#endif // GRIDLAYOUT_H
+#endif // NWIDGET_GRIDLAYOUT_H

@@ -1,11 +1,11 @@
-#ifndef PLAINTEXTEDIT_H
-#define PLAINTEXTEDIT_H
+#ifndef NWIDGET_PLAINTEXTEDIT_H
+#define NWIDGET_PLAINTEXTEDIT_H
 
 #include <QPlainTextEdit>
 
 #include "abstractscrollarea.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class PlainTextEditBuilder : public AbstractScrollAreaBuilder<S, T>
@@ -68,4 +68,4 @@ using PlainTextEditId = PlainTextEditIdT<QPlainTextEdit>;
 
 }
 
-#endif // PLAINTEXTEDIT_H
+#endif // NWIDGET_PLAINTEXTEDIT_H

@@ -1,11 +1,11 @@
-#ifndef COMMANDLINKBUTTON_H
-#define COMMANDLINKBUTTON_H
+#ifndef NWIDGET_COMMANDLINKBUTTON_H
+#define NWIDGET_COMMANDLINKBUTTON_H
 
 #include <QCommandLinkButton>
 
 #include "pushbutton.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class CommandLinkButtonBuilder : public PushButtonBuilder<S, T>
@@ -42,4 +42,4 @@ using CommandLinkButtonId = CommandLinkButtonIdT<QCommandLinkButton>;
 
 }
 
-#endif // COMMANDLINKBUTTON_H
+#endif // NWIDGET_COMMANDLINKBUTTON_H

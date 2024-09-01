@@ -17,11 +17,11 @@ auto* button1 = new QPushButton;
 auto* button2 = new QPushButton;
 button1.setText("Button");
 
-QLayout* layout = nw::VBoxLayout{
+QLayout* layout = nwidget::VBoxLayout{
     button1,                                // Use existing instance
     new QPushButton,
-    nw::PushButton(),
-    nw::PushButton(button2).text("Button"), // Set on existing instance
+    nwidget::PushButton(),
+    nwidget::PushButton(button2).text("Button"), // Set on existing instance
 };
 ```
 
@@ -30,9 +30,9 @@ QLayout* layout = nw::VBoxLayout{
 ```cpp
 std::vector<int> nums = {1, 2, 3, 4, 5};
 
-QLayout* layout = nw::VBoxLayout{
-    nw::Label("Label"),
-    nw::ForEach(nums, [](int index, int value) -> nw::BoxLayoutItem {
+QLayout* layout = nwidget::VBoxLayout{
+    nwidget::Label("Label"),
+    nwidget::ForEach(nums, [](int index, int value) -> nwidget::BoxLayoutItem {
         return new QPushButton(QString::number(value));
     })
 };
@@ -59,9 +59,9 @@ QLayout* layout = VBoxLayout{
 or in code:
 
 ```cpp
-nw::SliderId slider1 = new QSlider;
-nw::SliderId slider2 = new QSlider;
-nw::SliderId slider3 = new QSlider;
+nwidget::SliderId slider1 = new QSlider;
+nwidget::SliderId slider2 = new QSlider;
+nwidget::SliderId slider3 = new QSlider;
 
 slider3.value() = slider1.value() + slider2.value();
 ```
@@ -128,28 +128,28 @@ checkBox.checked() = !((spinBox.value() > 25) && (slider.value() < 75));
 
 For some operators and C++ features, specific methods are required:
 
-Ternary operator: `nw::cond`
+Ternary operator: `nwidget::cond`
 
 ```cpp
-label.text() = nw::cond(slider.value() > 50, QString(">"), QString("<"));
+label.text() = nwidget::cond(slider.value() > 50, QString(">"), QString("<"));
 ```
 
-Function calls: `nw::call`
+Function calls: `nwidget::call`
 
 ```cpp
 int add(int a, int b) { return a + b; }
 
-slider1.value() = nw::call(add, slider2.value(), slider3.value())
+slider1.value() = nwidget::call(add, slider2.value(), slider3.value())
 
-slider1.value() = nw::call([](int a, int b){ return a + b; },
+slider1.value() = nwidget::call([](int a, int b){ return a + b; },
                            slider2.value(),
                            slider3.value())
 ```
 
-Constructor calls: `nw::constructor<T>`
+Constructor calls: `nwidget::constructor<T>`
 
 ```cpp
-dateTimeEdit.dateTime() = nw::constructor<QDateTime>(dateEdit.date(), timeEdit.time());
+dateTimeEdit.dateTime() = nwidget::constructor<QDateTime>(dateEdit.date(), timeEdit.time());
 ```
 
 Member function calls: `invoke`
@@ -158,25 +158,25 @@ Member function calls: `invoke`
 spinBox.value() = lineEdit.text().invoke(&QString::length)
 ```
 
-Cast: `nw::cast<T>`, `nw::static_cast_<T>`, `nw::reinterpret_cast_<T>`
+Cast: `nwidget::cast<T>`, `nwidget::static_cast_<T>`, `nwidget::reinterpret_cast_<T>`
 
 ```cpp
-doubleSpinBox.value() = nw::cast<double>(spinBox.value());
+doubleSpinBox.value() = nwidget::cast<double>(spinBox.value());
 
-doubleSpinBox.value() = nw::static_cast_<double>(spinBox.value());
+doubleSpinBox.value() = nwidget::static_cast_<double>(spinBox.value());
 ```
 
-nwidget also provides a string formatting method `nw::asprintf`, internally calling `QString::asprintf`:
+nwidget also provides a string formatting method `nwidget::asprintf`, internally calling `QString::asprintf`:
 
 ```cpp
-label.text() = nw::asprintf("%d, %d", slider1.value(), slider2.value());
+label.text() = nwidget::asprintf("%d, %d", slider1.value(), slider2.value());
 ```
 
 You can use the same instance’s properties in expressions, but need to avoid loops and updating the value of an expression within the expression:
 
 ```cpp
 button.iconSize()
-= nw::constructor<QSize>(slider.value(),   // < Signal change here is subscribed
+= nwidget::constructor<QSize>(slider.value(),   // < Signal change here is subscribed
                          button.iconSize() // < Signal change here is ignored
                          .invoke(&QSize::height));
 ```
@@ -193,12 +193,12 @@ Binding* bind = label.text() = lineEdit.text();
 
 If there are no observable property in the binding expression, you would get a `nullptr`.
 
-`nw::is_observable<T>` is a trait to check if a property/expr is observable:
+`nwidget::is_observable<T>` is a trait to check if a property/expr is observable:
 
 ```cpp
 auto expr1 = slider.value() + 10;
-constexpr bool is_observable1 = nw::is_observable<decltype(expr1)>::value // true
+constexpr bool is_observable1 = nwidget::is_observable<decltype(expr1)>::value // true
 
 auto expr2 = slider.maximum() + 10;
-constexpr bool is_observable2 = nw::is_observable<decltype(expr2)>::value // false
+constexpr bool is_observable2 = nwidget::is_observable<decltype(expr2)>::value // false
 ```

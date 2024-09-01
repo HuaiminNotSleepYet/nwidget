@@ -1,11 +1,11 @@
-#ifndef SCROLLBAR_H
-#define SCROLLBAR_H
+#ifndef NWIDGET_SCROLLBAR_H
+#define NWIDGET_SCROLLBAR_H
 
 #include <QScrollBar>
 
 #include "abstractslider.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class ScrollBarBuilder : public AbstractSliderBuilder<S, T>
@@ -28,4 +28,4 @@ using ScrollBarId = AbstractSliderIdT<QAbstractSlider>;
 
 }
 
-#endif // SCROLLBAR_H
+#endif // NWIDGET_SCROLLBAR_H

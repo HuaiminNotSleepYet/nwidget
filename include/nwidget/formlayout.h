@@ -1,11 +1,11 @@
-#ifndef FORMLAYOUT_H
-#define FORMLAYOUT_H
+#ifndef NWIDGET_FORMLAYOUT_H
+#define NWIDGET_FORMLAYOUT_H
 
 #include <QFormLayout>
 
 #include "layout.h"
 
-namespace nw {
+namespace nwidget {
 
 class FormLayoutItem : public BuilderItem<QFormLayout>
 {
@@ -73,4 +73,4 @@ using FormLayoutId = FormLayoutIdT<QFormLayout>;
 
 }
 
-#endif // FORMLAYOUT_H
+#endif // NWIDGET_FORMLAYOUT_H

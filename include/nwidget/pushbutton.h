@@ -1,11 +1,11 @@
-#ifndef PUSHBUTTON_H
-#define PUSHBUTTON_H
+#ifndef NWIDGET_PUSHBUTTON_H
+#define NWIDGET_PUSHBUTTON_H
 
 #include <QPushButton>
 
 #include "abstractbutton.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class PushButtonBuilder : public AbstractButtonBuilder<S, T>
@@ -46,4 +46,4 @@ using PushButtonId = PushButtonIdT<QPushButton>;
 
 }
 
-#endif // PUSHBUTTON_H
+#endif // NWIDGET_PUSHBUTTON_H

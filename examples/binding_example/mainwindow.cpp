@@ -13,7 +13,7 @@ MainWindow::MainWindow()
 {
     setWindowTitle("nwidget");
 
-    using namespace nw;
+    using namespace nwidget;
 
     LabelId label_0_0 = new QLabel;
     LineEditId lineEdit_0_0 = new QLineEdit;
@@ -51,7 +51,7 @@ MainWindow::MainWindow()
             Label("label.text = asprintf(\"%02d\", slider.value)"),
             Label(label_0_1)
                 .alignment(Qt::AlignHCenter)
-                .text(nw::asprintf("%02d", slider_0_1.value())), // use nw::call to replace function call
+                .text(nwidget::asprintf("%02d", slider_0_1.value())), // use nw::call to replace function call
             Slider(slider_0_1).value(32),
             BoxLayoutItem::Stretch,
         })},
@@ -100,9 +100,9 @@ MainWindow::MainWindow()
     slider_1_0_2.value() = slider_1_0_0.value();
     slider_1_0_3.value() = slider_1_0_0.value() + slider_1_0_1.value();
 
-    label_1_1.text() = nw::asprintf("%d", dateEdit_1_1_0.date().invoke(&QDate::daysTo, dateEdit_1_1_1.date()));
+    label_1_1.text() = nwidget::asprintf("%d", dateEdit_1_1_0.date().invoke(&QDate::daysTo, dateEdit_1_1_1.date()));
 
-    label_2_0.text() = nw::cond(slider_2_0.value() > 50, QString(">"), QString("<"));
+    label_2_0.text() = nwidget::cond(slider_2_0.value() > 50, QString(">"), QString("<"));
 
-    dateTimeEdit_2_1.dateTime() = nw::constructor<QDateTime>(dateEdit_2_1.date(), timeEdit_2_1.time());
+    dateTimeEdit_2_1.dateTime() = nwidget::constructor<QDateTime>(dateEdit_2_1.date(), timeEdit_2_1.time());
 }

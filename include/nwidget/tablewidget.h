@@ -1,11 +1,11 @@
-#ifndef TABLEWIDGET_H
-#define TABLEWIDGET_H
+#ifndef NWIDGET_TABLEWIDGET_H
+#define NWIDGET_TABLEWIDGET_H
 
 #include <QTableWidget>
 
 #include "tableview.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class TableWidgetBuilder : public TableViewBuilder<S, T>
@@ -23,4 +23,4 @@ N_DECL_BUILDER(TableWidgetBuilder, QTableWidget, TableWidget);
 
 }
 
-#endif // TABLEWIDGET_H
+#endif // NWIDGET_TABLEWIDGET_H

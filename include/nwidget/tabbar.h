@@ -1,11 +1,11 @@
-#ifndef TABBAR_H
-#define TABBAR_H
+#ifndef NWIDGET_TABBAR_H
+#define NWIDGET_TABBAR_H
 
 #include <QTabBar>
 
 #include "widget.h"
 
-namespace nw {
+namespace nwidget {
 
 class TabBarItem : public BuilderItem<QTabBar>
 {
@@ -72,4 +72,4 @@ N_DECL_BUILDER(TabBarBuilder, QTabBar, TabBar);
 
 }
 
-#endif // TABBAR_H
+#endif // NWIDGET_TABBAR_H

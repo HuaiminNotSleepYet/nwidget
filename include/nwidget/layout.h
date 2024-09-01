@@ -1,11 +1,11 @@
-#ifndef LAYOUT_H
-#define LAYOUT_H
+#ifndef NWIDGET_LAYOUT_H
+#define NWIDGET_LAYOUT_H
 
 #include <QLayout>
 
 #include "object.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename T> class WidgetIdT;
 template<typename S, typename T> class LayoutBuilder;
@@ -66,4 +66,4 @@ N_DECL_BUILDER(LayoutBuilder, QLayout, Layout);
 
 }
 
-#endif // LAYOUT_H
+#endif // NWIDGET_LAYOUT_H

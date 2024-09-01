@@ -1,11 +1,11 @@
-#ifndef ABSTRACTSCROLLAREABUILDER_H
-#define ABSTRACTSCROLLAREABUILDER_H
+#ifndef NWIDGET_ABSTRACTSCROLLAREABUILDER_H
+#define NWIDGET_ABSTRACTSCROLLAREABUILDER_H
 
 #include <QAbstractScrollArea>
 
 #include "frame.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class AbstractScrollAreaBuilder : public FrameBuilder<S, T>
@@ -39,4 +39,4 @@ using AbstractScrollAreaId = AbstractScrollAreaIdT<QAbstractScrollArea>;
 
 }
 
-#endif // ABSTRACTSCROLLAREABUILDER_H
+#endif // NWIDGET_ABSTRACTSCROLLAREABUILDER_H

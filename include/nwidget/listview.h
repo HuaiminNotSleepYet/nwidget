@@ -1,11 +1,11 @@
-#ifndef LISTVIEW_H
-#define LISTVIEW_H
+#ifndef NWIDGET_LISTVIEW_H
+#define NWIDGET_LISTVIEW_H
 
 #include <QListView>
 
 #include "abstractitemview.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class ListViewBuilder : public AbstractItemViewBuilder<S, T>
@@ -38,4 +38,4 @@ N_DECL_BUILDER(ListViewBuilder, QListView, ListView);
 
 }
 
-#endif // LISTVIEW_H
+#endif // NWIDGET_LISTVIEW_H

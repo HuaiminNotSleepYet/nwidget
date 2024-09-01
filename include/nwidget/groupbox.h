@@ -1,11 +1,11 @@
-#ifndef GROUPBOX_H
-#define GROUPBOX_H
+#ifndef NWIDGET_GROUPBOX_H
+#define NWIDGET_GROUPBOX_H
 
 #include <QGroupBox>
 
 #include "widget.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class GroupBoxBuilder : public WidgetBuilder<S, T>
@@ -50,4 +50,4 @@ using GroupBoxId = GroupBoxIdT<QGroupBox>;
 
 }
 
-#endif // GROUPBOX_H
+#endif // NWIDGET_GROUPBOX_H

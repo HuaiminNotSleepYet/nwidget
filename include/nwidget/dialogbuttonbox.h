@@ -1,11 +1,11 @@
-#ifndef DIALOGBUTTONBOX_H
-#define DIALOGBUTTONBOX_H
+#ifndef NWIDGET_DIALOGBUTTONBOX_H
+#define NWIDGET_DIALOGBUTTONBOX_H
 
 #include <QDialogButtonBox>
 
 #include "widget.h"
 
-namespace nw {
+namespace nwidget {
 
 template<typename S, typename T>
 class DialogButtonBoxBuilder : public WidgetBuilder<S, T>
@@ -53,4 +53,4 @@ using DialogButtonBoxId = DialogButtonBoxIdT<QDialogButtonBox>;
 
 }
 
-#endif // DIALOGBUTTONBOX_H
+#endif // NWIDGET_DIALOGBUTTONBOX_H

@@ -1,11 +1,11 @@
-#ifndef COMBOBOX_H
-#define COMBOBOX_H
+#ifndef NWIDGET_COMBOBOX_H
+#define NWIDGET_COMBOBOX_H
 
 #include <QComboBox>
 
 #include "widget.h"
 
-namespace nw {
+namespace nwidget {
 
 class ComboBoxItem : public BuilderItem<QComboBox>
 {
@@ -93,4 +93,4 @@ using ComboBoxId = ComboBoxIdT<QComboBox>;
 
 }
 
-#endif // COMBOBOX_H
+#endif // NWIDGET_COMBOBOX_H
