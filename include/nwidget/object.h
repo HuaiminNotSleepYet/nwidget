@@ -10,6 +10,9 @@ namespace nwidget {
 template<typename Action, typename ...Args> class BindingExpr;
 template<typename PropertyInfo> class Property;
 
+template<typename T, typename ...TN> struct is_observable;
+template<typename A, typename B> struct is_same_property;
+
 
 
 class Binding : public QObject
@@ -161,7 +164,7 @@ private:
     static void bindTo(Property<InfoA> to, Binding* bind, Property<InfoB> from)
     {
         if constexpr (is_observable<Property<InfoB>>::value) {
-            if constexpr (!std::is_same<Property<InfoA>, Property<InfoB>>::value) {
+            if constexpr (!is_same_property<Property<InfoA>, Property<InfoB>>::value) {
                 QObject::connect(from.object, &QObject::destroyed    , bind, &Binding::deleteLater, Qt::UniqueConnection);
                 QObject::connect(from.object, InfoB::Notify::signal(), bind, &Binding::update     , Qt::UniqueConnection);
             } else if (from.object != to.object) {
@@ -204,8 +207,8 @@ class Property
 //       using Setter = NoSetter or struct { static void set(      Object* object, const Type& value) { ... } }
 //       using Notify = NoNotify or struct { static auto signal() { return &Object::propertyChanged;  }       }
 //
-//       static QString name()        "propertyName"
-//       static QString bindingName() "nwidget_binding_on_propertyName"
+//       static constexpr const char* name() { return "propertyName";  }
+//       static QString bindingName() { return "nwidget_binding_on_propertyName"; }
 //   };
 
     template<typename T0, typename ...TN> friend class BindingExpr;
@@ -267,6 +270,18 @@ public:
 
 private:
     Object* object;
+};
+
+template<typename A, typename B>
+struct is_same_property
+{
+private:
+    static constexpr bool is_same_name(const char* a, const char* b)
+    { return *a == *b && (*a == '\0' || is_same_name(a + 1, b + 1)); }
+
+public:
+    static constexpr bool value = std::is_same<typename A::Object, typename B::Object>::value
+                               && is_same_name(A::Info::name(), B::Info::name());
 };
 
 template<typename T> struct is_observable<Property<T>>
@@ -361,8 +376,7 @@ auto NAME() const                                                   \
         using Getter = Getter;                                      \
         using Setter = Setter;                                      \
                                                                     \
-        static QString name()                                       \
-        { return QStringLiteral(#NAME); }                           \
+        static constexpr const char* name() { return #NAME;  }      \
                                                                     \
         static QString bindingName()                                \
         { return QStringLiteral("nwidget_binding_on_"#NAME); }      \
@@ -452,8 +466,7 @@ S& NAME(const nwidget::BindingExpr<TN...>& expr)                    \
         using Setter = Setter;                                      \
         using Notify = NoNotify;                                    \
                                                                     \
-        static QString name()                                       \
-        { return QStringLiteral(#NAME); }                           \
+        static constexpr const char* name() { return #NAME;  }      \
                                                                     \
         static QString bindingName()                                \
         { return QStringLiteral("nwidget_binding_on_"#NAME); }      \
