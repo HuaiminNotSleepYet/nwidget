@@ -211,6 +211,7 @@ class Property
 //   };
 
     template<typename T0, typename ...TN> friend class BindingExpr;
+    template<typename T> friend class Property;
 
 public:
     using Info = PropertyInfo;
@@ -252,10 +253,19 @@ public:
     template<typename T> void operator<<=(const T& r) { set(get() << r); }
     template<typename T> void operator>>=(const T& r) { set(get() >> r); }
 
-    void operator=(Property<Info> prop) { makeBindingExpr<NoAction>(prop).bindTo(*this); }
+    void operator=(Property<Info> prop) { prop.bindTo(*this); }
 
     template<typename T>
-    void operator=(Property<T>    prop) { makeBindingExpr<NoAction>(prop).bindTo(*this); }
+    void operator=(Property<T> prop) { prop.bindTo(*this); }
+
+    template<typename T>
+    void bindTo(Property<T> prop) const
+    {
+        if (is_same_property<Property<T>, Property<Info>>::value && prop.object == object)
+            Q_ASSERT_X(false, "Property<T>.bindTo", "can't binding a property to itself.");
+        else
+            makeBindingExpr<NoAction>(*this).bindTo(prop);
+    }
 
     template<typename Action, typename ...Args>
     void operator=(const BindingExpr<Action, Args...>& expr) { expr.bindTo(*this); }
