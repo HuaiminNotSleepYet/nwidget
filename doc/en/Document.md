@@ -6,7 +6,7 @@
   - [xxxId](#xxxid)
   - [Property](#property)
   - [Property Binding](#property-binding-1)
-  - [Binding Object](#binding-object)
+  - [is\_observable\<T\>](#is_observablet)
 
 ## Layout Syntax
 
@@ -181,24 +181,16 @@ button.iconSize()
                          .invoke(&QSize::height));
 ```
 
-### Binding Object
-
-When creating a binding, you can get a `Binding` instance:
-
-```cpp
-Binding* bind = label.text() = lineEdit.text();
-```
-
-`Binding` automatically connects to the `destroyed` signal of the `QObject` corresponding to `Property` in the binding expression, so you don’t need to manage its lifecycle. It has an `update` signal emitted when the binding expression recalculated.
-
-If there are no observable property in the binding expression, you would get a `nullptr`.
+### is_observable\<T>
 
 `nwidget::is_observable<T>` is a trait to check if a property/expr is observable:
 
 ```cpp
 auto expr1 = slider.value() + 10;
-constexpr bool is_observable1 = nwidget::is_observable<decltype(expr1)>::value // true
+nwidget::is_observable<decltype(slider.value())>::value; // true
+nwidget::is_observable<decltype(expr1)>::value; // true
 
 auto expr2 = slider.maximum() + 10;
-constexpr bool is_observable2 = nwidget::is_observable<decltype(expr2)>::value // false
+nwidget::is_observable<decltype(slider.maximum())>::value // false
+nwidget::is_observable<decltype(expr2)>::value; // false
 ```

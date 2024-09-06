@@ -6,7 +6,7 @@
   - [xxxId](#xxxid)
   - [Property](#property)
   - [属性绑定](#属性绑定-1)
-  - [Binding 对象](#binding-对象)
+  - [is\_observable\<T\>](#is_observablet)
 
 ## 布局语法
 
@@ -181,22 +181,16 @@ button.iconSize()
                          .invoke(&QSize::height));
 ```
 
-### Binding 对象
+### is_observable\<T>
 
-在创建绑定的同时可以得到一个 `Binding` 对象：
-
-```cpp
-Binding* bind = label.text() = lineEdit.text();
-```
-
-`Binding` 自动连接绑定表达式中 `Property` 对应 QObject 的 `destroyed` 信号，你不需要自己管理它的生命周期。它拥有一个 `update` 信号，在绑定表达式重新计算时触发
-
-若绑定表达式中无可观察的值，则返回值为 `nullptr`。可以通过 `nwidget::is_observable<T>` 判断属性/表达式是否可观察：
+`nwidget::is_observable<T>` 可用于判断一个属性/表达式是否可观察：
 
 ```cpp
 auto expr1 = slider.value() + 10;
-constexpr bool is_observable1 = nwidget::is_observable<decltype(expr1)>::value // true
+nwidget::is_observable<decltype(slider.value())>::value; // true
+nwidget::is_observable<decltype(expr1)>::value; // true
 
 auto expr2 = slider.maximum() + 10;
-constexpr bool is_observable2 = nwidget::is_observable<decltype(expr2)>::value // false
+nwidget::is_observable<decltype(slider.maximum())>::value // false
+nwidget::is_observable<decltype(expr2)>::value; // false
 ```

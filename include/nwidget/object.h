@@ -123,11 +123,11 @@ public:
     { return std::apply(Action{}, std::apply([](auto&&... args){ return calc(args...); }, args)); }
 
     template<typename Info>
-    Binding* bindTo(Property<Info> prop) const
+    void bindTo(Property<Info> prop) const
     {
         typename Info::Object* object = prop.object;
 
-        Binding* bind = static_cast<QObject*>(object)->findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
+        Binding* bind = object->template findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
         if (bind)
             bind->deleteLater();
 
@@ -143,7 +143,6 @@ public:
         }
 
         Info::Setter::set(object, (*this)());
-        return bind;
     }
 
 private:
@@ -227,7 +226,7 @@ public:
 
     void set(const Type& value)
     {
-        Binding* bind = static_cast<QObject*>(object)->findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
+        Binding* bind = object->template findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
         if (bind)
             bind->deleteLater();
         return Setter::set(object, value);
@@ -253,13 +252,13 @@ public:
     template<typename T> void operator<<=(const T& r) { set(get() << r); }
     template<typename T> void operator>>=(const T& r) { set(get() >> r); }
 
-    Binding* operator=(Property<Info> prop) { return makeBindingExpr<NoAction>(prop).bindTo(*this); }
+    void operator=(Property<Info> prop) { makeBindingExpr<NoAction>(prop).bindTo(*this); }
 
     template<typename T>
-    Binding* operator=(Property<T>    prop) { return makeBindingExpr<NoAction>(prop).bindTo(*this); }
+    void operator=(Property<T>    prop) { makeBindingExpr<NoAction>(prop).bindTo(*this); }
 
     template<typename Action, typename ...Args>
-    Binding* operator=(const BindingExpr<Action, Args...>& expr) { return expr.bindTo(*this); }
+    void operator=(const BindingExpr<Action, Args...>& expr) { expr.bindTo(*this); }
 
     template<typename Func, typename ...Args>
     auto invoke(Func func, const Args&... args) const
