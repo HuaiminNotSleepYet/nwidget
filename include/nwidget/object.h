@@ -163,7 +163,7 @@ private:
     static void bindTo(Property<InfoA> to, Binding* bind, Property<InfoB> from)
     {
         if constexpr (is_observable<Property<InfoB>>::value) {
-            if constexpr (!is_same_property<Property<InfoA>, Property<InfoB>>::value) {
+            if constexpr (!is_same_property<InfoA, InfoB>::value) {
                 QObject::connect(from.object, &QObject::destroyed    , bind, &Binding::deleteLater, Qt::UniqueConnection);
                 QObject::connect(from.object, InfoB::Notify::signal(), bind, &Binding::update     , Qt::UniqueConnection);
             } else if (from.object != to.object) {
@@ -261,7 +261,7 @@ public:
     template<typename T>
     void bindTo(Property<T> prop) const
     {
-        if (is_same_property<Property<T>, Property<Info>>::value && prop.object == object)
+        if (is_same_property<T, Info>::value && prop.object == object)
             Q_ASSERT_X(false, "Property<T>.bindTo", "can't binding a property to itself.");
         else
             makeBindingExpr<NoAction>(*this).bindTo(prop);
@@ -281,7 +281,8 @@ private:
     Object* object;
 };
 
-template<typename A, typename B>
+
+template<typename InfoA, typename InfoB>
 struct is_same_property
 {
 private:
@@ -289,9 +290,18 @@ private:
     { return *a == *b && (*a == '\0' || is_same_name(a + 1, b + 1)); }
 
 public:
-    static constexpr bool value = std::is_same<typename A::Object, typename B::Object>::value
-                               && is_same_name(A::Info::name(), B::Info::name());
+    static constexpr bool value =
+            std::is_same<typename InfoA::Object, typename InfoB::Object>::value
+         && is_same_name(InfoA::name(), InfoB::name());
 };
+
+template<typename InfoA, typename InfoB>
+struct is_same_property<Property<InfoA>, Property<InfoB>>
+{
+public:
+    static constexpr bool value = is_same_property<InfoA, InfoB>::value;
+};
+
 
 template<typename T> struct is_observable<Property<T>>
 { static constexpr bool value = !std::is_same<typename T::Notify, NoNotify>::value; };
