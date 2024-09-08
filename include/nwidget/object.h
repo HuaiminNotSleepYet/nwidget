@@ -13,6 +13,17 @@ template<typename PropertyInfo> class Property;
 template<typename T, typename = void> struct is_observable : std::false_type {};
 template<typename A, typename B> struct is_same_property;
 
+// usage:
+//   is_observable_v<PropertyInfo>
+//   is_observable_v<Property<Info>>
+//   is_observable_v<BindingExpr<...>>
+template<typename T> constexpr bool is_observable_v = is_observable<T>::value;
+
+// usage:
+//   is_same_property_v<PropertyInfo>
+//   is_same_property_v<Property<Info>>
+template<typename A, typename B> constexpr bool is_same_property_v = is_same_property<A, B>::value;
+
 
 
 class Binding : public QObject
@@ -46,7 +57,7 @@ struct ActionInvoke
     template<typename Func, class Object, typename ...Args>
     auto operator()(Func func, const Object& obj, const Args&... args)
     {
-        if constexpr (std::is_pointer<Object>::value) {
+        if constexpr (std::is_pointer_v<Object>) {
             Q_ASSERT(obj);
             return func(obj, args...);
         } else {
@@ -106,7 +117,7 @@ public:
     template<typename Func, typename ...Args_>
     auto invoke(Func func, const Args_&... args) const
     {
-        static_assert(std::is_member_function_pointer<Func>::value, "The arg func must be a member function.");
+        static_assert(std::is_member_function_pointer_v<Func>, "The arg func must be a member function.");
         return makeBindingExpr<ActionInvoke>(std::mem_fn(func), *this, args...);
     }
 
@@ -124,7 +135,7 @@ public:
         if (bind)
             bind->deleteLater();
 
-        if constexpr (!is_observable<typename std::decay<decltype(*this)>::type>::value)
+        if constexpr (!is_observable_v<typename std::decay_t<decltype(*this)>>)
             bind = nullptr;
         else {
             bind = new Binding(object);
@@ -155,8 +166,8 @@ private:
     template<typename InfoA, typename InfoB>
     static void bindTo(Property<InfoA> to, Binding* bind, Property<InfoB> from)
     {
-        if constexpr (is_observable<InfoB>::value) {
-            if constexpr (!is_same_property<InfoA, InfoB>::value) {
+        if constexpr (is_observable_v<InfoB>) {
+            if constexpr (!is_same_property_v<InfoA, InfoB>) {
                 QObject::connect(from.object, &QObject::destroyed    , bind, &Binding::deleteLater, Qt::UniqueConnection);
                 QObject::connect(from.object, InfoB::Notify::signal(), bind, &Binding::update     , Qt::UniqueConnection);
             } else if (from.object != to.object) {
@@ -180,9 +191,7 @@ private:
 
 template<typename A, typename T0, typename ...TN>
 struct is_observable<BindingExpr<A, T0, TN...>>
-    : std::conditional<is_observable<T0>::value || is_observable<BindingExpr<A, TN...>>::value,
-                       std::true_type,
-                       std::false_type>::type
+    : std::bool_constant<is_observable_v<T0> || is_observable_v<BindingExpr<A, TN...>>>
 {};
 
 
@@ -258,7 +267,7 @@ public:
     template<typename T>
     void bindTo(Property<T> prop) const
     {
-        if (is_same_property<T, Info>::value && prop.object == object)
+        if (is_same_property_v<T, Info> && prop.object == object)
             Q_ASSERT_X(false, "Property<T>.bindTo", "can't binding a property to itself.");
         else
             makeBindingExpr<NoAction>(*this).bindTo(prop);
@@ -270,7 +279,7 @@ public:
     template<typename Func, typename ...Args>
     auto invoke(Func func, const Args&... args) const
     {
-        static_assert(std::is_member_function_pointer<Func>::value, "The arg func must be a member function.");
+        static_assert(std::is_member_function_pointer_v<Func>, "The arg func must be a member function.");
         return makeBindingExpr<ActionInvoke>(std::mem_fn(func), *this, args...);
     }
 
@@ -281,31 +290,19 @@ private:
 
 template<typename InfoA, typename InfoB>
 struct is_same_property
-{
-private:
-    static constexpr bool is_same_name(const char* a, const char* b)
-    { return *a == *b && (*a == '\0' || is_same_name(a + 1, b + 1)); }
-
-public:
-    static constexpr bool value =
-            std::is_same<typename InfoA::Object, typename InfoB::Object>::value
-         && is_same_name(InfoA::name(), InfoB::name());
-};
+    : std::bool_constant<std::is_same_v<typename InfoA::Object, typename InfoB::Object>
+        && (std::string_view(InfoA::name()) == std::string_view(InfoB::name()))>
+{};
 
 template<typename InfoA, typename InfoB>
 struct is_same_property<Property<InfoA>, Property<InfoB>>
-{
-public:
-    static constexpr bool value = is_same_property<InfoA, InfoB>::value;
-};
+    : std::bool_constant<is_same_property_v<InfoA, InfoB>>
+{};
 
 
-// usage: is_observable<Property<Info>> or is_observable<PropertyInfo>
 template<typename T>
 struct is_observable<T, std::void_t<typename T::Notify>>
-    : std::conditional<std::is_same<typename T::Notify, NoNotify>::value,
-                       std::false_type,
-                       std::true_type>::type
+    : std::bool_constant<!std::is_same_v<typename T::Notify, NoNotify>>
 {};
 
 
@@ -382,7 +379,7 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
 #define N_ID_PROPERTY(TYPE, NAME, GETTER, SETTER, NOTIFY)           \
 auto NAME() const                                                   \
 {                                                                   \
-    using Object = typename std::decay<decltype(*this->t)>::type;   \
+    using Object = typename std::decay_t<decltype(*this->t)>;       \
     using Type = TYPE;                                              \
                                                                     \
     GETTER                                                          \
@@ -451,17 +448,17 @@ protected:                                      \
 template <typename Func>                                        \
 S& NAME(Func&& slot,                                            \
         Qt::ConnectionType type = Qt::AutoConnection)           \
-{ QObject::connect(t, &std::decay<decltype(*t)>::type::SIG, t, slot); return self(); }          \
+{ QObject::connect(t, &std::decay_t<decltype(*t)>::SIG, t, slot); return self(); }          \
                                                                 \
 template <typename Func>                                        \
 S& NAME(const QObject* receiver, Func method,                   \
         Qt::ConnectionType type = Qt::AutoConnection)           \
-{ QObject::connect(t, &std::decay<decltype(*t)>::type::SIG, receiver, method); return self(); } \
+{ QObject::connect(t, &std::decay_t<decltype(*t)>::SIG, receiver, method); return self(); } \
                                                                 \
 template <typename Func>                                        \
 S& NAME(N_RECEIVER_T(Func) context, Func&& slot,                \
         Qt::ConnectionType type = Qt::AutoConnection)           \
-{ QObject::connect(t, &std::decay<decltype(*t)>::type::SIG, context, slot); return self(); }
+{ QObject::connect(t, &std::decay_t<decltype(*t)>::SIG, context, slot); return self(); }
 
 
 #define N_BUILDER_PROPERTY(TYPE, NAME, SETTER)                      \
@@ -474,7 +471,7 @@ S& NAME(nwidget::Property<Info> prop)                               \
 template<typename ...TN>                                            \
 S& NAME(const nwidget::BindingExpr<TN...>& expr)                    \
 {                                                                   \
-    using Object = typename std::decay<decltype(*t)>::type;         \
+    using Object = typename std::decay_t<decltype(*t)>;             \
     using Type = TYPE;                                              \
                                                                     \
     N_SETTER(SETTER)                                                \
@@ -580,8 +577,8 @@ public:
 
 template<typename Iterator,
          typename Generator,
-         typename Arg = typename std::decay<decltype(*std::declval<Iterator>())>::type,
-         typename Item = typename std::invoke_result<Generator, int, Arg>::type>
+         typename Arg = typename std::decay_t<decltype(*std::declval<Iterator>())>,
+         typename Item = typename std::invoke_result_t<Generator, int, Arg>>
 ItemGenerator<Item> ForEach(Iterator begin, Iterator end, Generator generator)
 {
     return [index = (int)0, begin, end, generator]() mutable -> std::optional<Item> {
