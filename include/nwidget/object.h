@@ -10,7 +10,7 @@ namespace nwidget {
 template<typename Action, typename ...Args> class BindingExpr;
 template<typename PropertyInfo> class Property;
 
-template<typename T, typename ...TN> struct is_observable;
+template<typename T, typename = void> struct is_observable : std::false_type {};
 template<typename A, typename B> struct is_same_property;
 
 
@@ -92,13 +92,6 @@ N_ACTION_UE(ContentOf, *)
 
 
 
-template<typename T, typename ...TN> struct is_observable
-{ static constexpr bool value = is_observable<T>::value || is_observable<TN...>::value; };
-
-template<typename T> struct is_observable<T>
-{ static constexpr bool value = false; };
-
-
 template<typename Action, typename ...Args>
 auto makeBindingExpr(const Args&... args) { return BindingExpr<Action, Args...>(args...); }
 
@@ -131,7 +124,7 @@ public:
         if (bind)
             bind->deleteLater();
 
-        if constexpr (!is_observable<Args...>::value)
+        if constexpr (!is_observable<typename std::decay<decltype(*this)>::type>::value)
             bind = nullptr;
         else {
             bind = new Binding(object);
@@ -162,7 +155,7 @@ private:
     template<typename InfoA, typename InfoB>
     static void bindTo(Property<InfoA> to, Binding* bind, Property<InfoB> from)
     {
-        if constexpr (is_observable<Property<InfoB>>::value) {
+        if constexpr (is_observable<InfoB>::value) {
             if constexpr (!is_same_property<InfoA, InfoB>::value) {
                 QObject::connect(from.object, &QObject::destroyed    , bind, &Binding::deleteLater, Qt::UniqueConnection);
                 QObject::connect(from.object, InfoB::Notify::signal(), bind, &Binding::update     , Qt::UniqueConnection);
@@ -185,8 +178,12 @@ private:
     { std::apply([prop, bind](auto&&... args){ bindTo(prop, bind, args...); }, args); }
 };
 
-template<typename A, typename ...TN> struct is_observable<BindingExpr<A, TN...>>
-{ static constexpr bool value = is_observable<TN...>::value; };
+template<typename A, typename T0, typename ...TN>
+struct is_observable<BindingExpr<A, T0, TN...>>
+    : std::conditional<is_observable<T0>::value || is_observable<BindingExpr<A, TN...>>::value,
+                       std::true_type,
+                       std::false_type>::type
+{};
 
 
 
@@ -303,8 +300,13 @@ public:
 };
 
 
-template<typename T> struct is_observable<Property<T>>
-{ static constexpr bool value = !std::is_same<typename T::Notify, NoNotify>::value; };
+// usage: is_observable<Property<Info>> or is_observable<PropertyInfo>
+template<typename T>
+struct is_observable<T, std::void_t<typename T::Notify>>
+    : std::conditional<std::is_same<typename T::Notify, NoNotify>::value,
+                       std::false_type,
+                       std::true_type>::type
+{};
 
 
 
