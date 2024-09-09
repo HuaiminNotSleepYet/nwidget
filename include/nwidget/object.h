@@ -42,6 +42,8 @@ signals:
 
 struct NoAction { template<typename T> auto operator()(const T& value) { return value; } };
 
+template<typename T> struct ActionGetProperty { auto operator()(typename T::Object* obj) { return T::Getter::get(obj); } };
+
 template<typename T> struct ActionConstructor { template<typename ...Args> T operator()(const Args&... args){ return T(args...); } };
 
 template<typename To> struct ActionCast            { template<typename From> auto operator()(const From& from){ return (To)from;                   } };
@@ -109,7 +111,7 @@ auto makeBindingExpr(const Args&... args) { return BindingExpr<Action, Args...>(
 template<typename Action, typename ...Args>
 class BindingExpr
 {
-    template<typename T, typename ...TN> friend class BindingExpr;
+    template<typename A, typename ...TN> friend class BindingExpr;
 
 public:
     BindingExpr(const Args&... args) : args(args...) {}
@@ -129,19 +131,19 @@ public:
     template<typename Info>
     void bindTo(Property<Info> prop) const
     {
-        typename Info::Object* object = prop.object;
+        auto object = prop.object();
 
-        Binding* bind = object->template findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
-        if (bind)
-            bind->deleteLater();
+        Binding* binding = object->template findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
+        if (binding)
+            binding->deleteLater();
 
         if constexpr (!is_observable_v<typename std::decay_t<decltype(*this)>>)
-            bind = nullptr;
+                bind = nullptr;
         else {
-            bind = new Binding(object);
-            bind->setObjectName(Info::bindingName());
-            bindTo(prop, bind);
-            QObject::connect(bind, &Binding::update, bind, [object, expr = *this]() {
+            binding = new Binding(object);
+            binding->setObjectName(Info::bindingName());
+            bind(binding, *this, prop);
+            QObject::connect(binding, &Binding::update, binding, [object, expr = *this]() {
                 Info::Setter::set(object, expr());
             });
         }
@@ -149,9 +151,10 @@ public:
         Info::Setter::set(object, (*this)());
     }
 
-private:
+protected:
     std::tuple<Args...> args;
 
+private:
     template<typename    T> static auto calc(const T& value)                { return std::make_tuple(value);      }
     template<typename    T> static auto calc(Property<T> prop)              { return std::make_tuple(prop.get()); }
     template<typename ...T> static auto calc(const BindingExpr<T...>& expr) { return std::make_tuple(expr());     }
@@ -161,32 +164,38 @@ private:
     { return std::tuple_cat(calc(arg0), calc(argn...)); }
 
 
-    template<typename Info, typename    T> static void bindTo(Property<Info>, Binding*, const T&) {}
-    template<typename Info, typename ...T> static void bindTo(Property<Info> prop, Binding* bind, const BindingExpr<T...>& expr) { return expr.bindTo(prop, bind); }
-    template<typename InfoA, typename InfoB>
-    static void bindTo(Property<InfoA> to, Binding* bind, Property<InfoB> from)
+    template<typename Info, typename T> static void bind(Binding*, const T&, Property<Info>) {}
+
+    template<typename InfoFrom, typename InfoTo>
+    static void bind(Binding* binding, Property<InfoFrom> source, Property<InfoTo> target)
+    { bind(binding, (BindingExpr<ActionGetProperty<InfoFrom>, typename InfoFrom::Object*>)source, target); }
+
+    // Call BindingExpr::invoke on Property<Info> would get a BindingExpr,
+    // so we create a specialized template for it.
+    template<typename InfoFrom, typename InfoTo>
+    static void bind(Binding* binding, BindingExpr<ActionGetProperty<InfoFrom>, typename InfoFrom::Object*> source, Property<InfoTo> target)
     {
-        if constexpr (is_observable_v<InfoB>) {
-            if constexpr (!is_same_property_v<InfoA, InfoB>) {
-                QObject::connect(from.object, &QObject::destroyed    , bind, &Binding::deleteLater, Qt::UniqueConnection);
-                QObject::connect(from.object, InfoB::Notify::signal(), bind, &Binding::update     , Qt::UniqueConnection);
-            } else if (from.object != to.object) {
-                QObject::connect(from.object, &QObject::destroyed    , bind, &Binding::deleteLater, Qt::UniqueConnection);
-                QObject::connect(from.object, InfoB::Notify::signal(), bind, &Binding::update     , Qt::UniqueConnection);
+        if constexpr (is_observable_v<InfoFrom>) {
+            // if (!(is_same_property_v<InfoA, InfoB> && from.object() == to.object()))
+            //                                                ^              ^
+            //                                                error when two types are different
+            if constexpr (!is_same_property_v<InfoFrom, InfoTo>) {
+                QObject::connect(std::get<0>(source.args), &QObject::destroyed       , binding, &Binding::deleteLater, Qt::UniqueConnection);
+                QObject::connect(std::get<0>(source.args), InfoFrom::Notify::signal(), binding, &Binding::update     , Qt::UniqueConnection);
+            } else if (std::get<0>(source.args) != target.object()) {
+                QObject::connect(std::get<0>(source.args), &QObject::destroyed       , binding, &Binding::deleteLater, Qt::UniqueConnection);
+                QObject::connect(std::get<0>(source.args), InfoFrom::Notify::signal(), binding, &Binding::update     , Qt::UniqueConnection);
             }
         }
     }
 
-    template<typename Info, typename Arg0, typename ...ArgN>
-    static void bindTo(Property<Info> prop, Binding* bind, Arg0 arg0, ArgN... argn)
+    template<typename Info, typename A, typename ...T>
+    static void bind(Binding* binding, const BindingExpr<A, T...>& source, Property<Info> target)
     {
-        bindTo(prop, bind, arg0);
-        bindTo(prop, bind, argn...);
+        std::apply([binding, target](auto&&... arg) {
+            (..., bind(binding, arg, target));
+        }, source.args);
     }
-
-    template<typename Info>
-    void bindTo(Property<Info> prop, Binding* bind) const
-    { std::apply([prop, bind](auto&&... args){ bindTo(prop, bind, args...); }, args); }
 };
 
 template<typename A, typename T0, typename ...TN>
@@ -201,7 +210,7 @@ struct NoSetter {};
 struct NoNotify {};
 
 template<typename PropertyInfo>
-class Property
+class Property : public BindingExpr<ActionGetProperty<PropertyInfo>, typename PropertyInfo::Object*>
 {
 // PropertyInfo should have the following members:
 //   struct Info
@@ -217,7 +226,6 @@ class Property
 //   };
 
     template<typename T0, typename ...TN> friend class BindingExpr;
-    template<typename T> friend class Property;
 
 public:
     using Info = PropertyInfo;
@@ -227,21 +235,27 @@ public:
     using Setter = typename Info::Setter;
     using Notify = typename Info::Notify;
 
-    explicit Property(Object* object) : object(object) {}
+    explicit Property(Object* object) : BindingExpr<ActionGetProperty<Info>, typename Info::Object*>(object) {}
 
-    typename Info::Type get() const { return Getter::get(object); }
+    typename Info::Type get() const { return Getter::get(object()); }
 
+    // TODO: setter_arg_t<T> traits to retain the original parameter types.
+    // CppCoreGuidelines F.16
+    //   For "in" parameters, pass cheaply-copied types by value and others by reference to const.
     void set(const Type& value)
     {
-        Binding* bind = object->template findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
-        if (bind)
-            bind->deleteLater();
-        return Setter::set(object, value);
+        Binding* binding = object()->template findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
+        if (binding)
+            binding->deleteLater();
+        return Setter::set(object(), value);
     }
 
     operator Type() const { return get(); }
 
     void operator=(const Type& value) { set(value); }
+
+    // Call operator() on a property may led to ambiguity, so we met it deleted.
+    Type operator()() const = delete;
 
     auto operator++()    { Type val = get(); set(++val);   return val; }
     auto operator++(int) { Type val = get(); set(++get()); return val; }
@@ -261,30 +275,11 @@ public:
 
     void operator=(Property<Info> prop) { prop.bindTo(*this); }
 
-    template<typename T>
-    void operator=(Property<T> prop) { prop.bindTo(*this); }
-
-    template<typename T>
-    void bindTo(Property<T> prop) const
-    {
-        if (is_same_property_v<T, Info> && prop.object == object)
-            Q_ASSERT_X(false, "Property<T>.bindTo", "can't binding a property to itself.");
-        else
-            makeBindingExpr<NoAction>(*this).bindTo(prop);
-    }
-
     template<typename Action, typename ...Args>
     void operator=(const BindingExpr<Action, Args...>& expr) { expr.bindTo(*this); }
 
-    template<typename Func, typename ...Args>
-    auto invoke(Func func, const Args&... args) const
-    {
-        static_assert(std::is_member_function_pointer_v<Func>, "The arg func must be a member function.");
-        return makeBindingExpr<ActionInvoke>(std::mem_fn(func), *this, args...);
-    }
-
 private:
-    Object* object;
+    Object* object() const { return std::get<0>(this->args); }
 };
 
 
@@ -299,6 +294,11 @@ struct is_same_property<Property<InfoA>, Property<InfoB>>
     : std::bool_constant<is_same_property_v<InfoA, InfoB>>
 {};
 
+
+template<typename Info>
+struct is_observable<BindingExpr<ActionGetProperty<Info>, typename Info::Object*>>
+    : std::bool_constant<is_observable_v<Info>>
+{};
 
 template<typename T>
 struct is_observable<T, std::void_t<typename T::Notify>>
@@ -375,6 +375,18 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
 #define N_NO_SETTER using Setter = nwidget::NoSetter;
 #define N_NO_GETTER using Getter = nwidget::NoGetter;
 #define N_NO_NOTIFY using Notify = nwidget::NoNotify;
+
+// TODO: Extract property type from getter/setter.
+//
+// In most cases, the property type is already contained in the getter/setter,
+// to accommodate overloaded methods, a xx_T variant is provided to explicitly
+// specify the property type.
+//
+// The corresponding macro will be changed to:
+//   N_ID_PROPERTY       (      NAME, GETTER, SETTER, NOTIFY)
+//   N_ID_PROPERTY_T     (TYPE, NAME, GETTER, SETTER, NOTIFY)
+//   N_BUILDER_PROPERTY  (      NAME, SETTER)
+//   N_BUILDER_PROPERTY_T(TYPE, NAME, SETTER)
 
 #define N_ID_PROPERTY(TYPE, NAME, GETTER, SETTER, NOTIFY)           \
 auto NAME() const                                                   \
@@ -463,10 +475,6 @@ S& NAME(N_RECEIVER_T(Func) context, Func&& slot,                \
 
 #define N_BUILDER_PROPERTY(TYPE, NAME, SETTER)                      \
 S& NAME(const TYPE& arg) { t->SETTER(arg); return self(); }         \
-                                                                    \
-template<typename Info>                                             \
-S& NAME(nwidget::Property<Info> prop)                               \
-{ return NAME(nwidget::makeBindingExpr<nwidget::NoAction>(prop)); } \
                                                                     \
 template<typename ...TN>                                            \
 S& NAME(const nwidget::BindingExpr<TN...>& expr)                    \
