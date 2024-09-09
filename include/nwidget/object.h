@@ -131,24 +131,27 @@ public:
     template<typename Info>
     void bindTo(Property<Info> prop) const
     {
-        auto object = prop.object();
+        auto obj = prop.object();
 
-        Binding* binding = object->template findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
-        if (binding)
-            binding->deleteLater();
+        Binding* binding = obj->template findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
 
-        if constexpr (!is_observable_v<typename std::decay_t<decltype(*this)>>)
-                bind = nullptr;
-        else {
-            binding = new Binding(object);
-            binding->setObjectName(Info::bindingName());
+        if constexpr (!is_observable_v<typename std::decay_t<decltype(*this)>>) {
+            if (binding)
+                binding->deleteLater();
+        } else {
+            if (binding)
+                binding->disconnect();
+            else {
+                binding = new Binding(obj);
+                binding->setObjectName(Info::bindingName());
+            }
             bind(binding, *this, prop);
-            QObject::connect(binding, &Binding::update, binding, [object, expr = *this]() {
-                Info::Setter::set(object, expr());
+            QObject::connect(binding, &Binding::update, binding, [obj, expr = *this]() {
+                Info::Setter::set(obj, expr());
             });
         }
 
-        Info::Setter::set(object, (*this)());
+        Info::Setter::set(obj, (*this)());
     }
 
 protected:
