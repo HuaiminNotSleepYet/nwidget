@@ -99,6 +99,12 @@ MainWindow::MainWindow()
 
     slider_1_0_2.value() = slider_1_0_0.value();
     slider_1_0_3.value() = slider_1_0_0.value() + slider_1_0_1.value();
+    // equivalent to
+    //   (slider_1_0_0.value() + slider_1_0_1.value())
+    //       .bindTo(slider_1_0_3, &QSlider::setValue);
+    // and
+    //   (slider_1_0_0.value() + slider_1_0_1.value())
+    //       .bindTo(slider_1_0_3, [slider_1_0_3](int v) mutable { slider_1_0_3->setValue(v); });
 
     label_1_1.text() = nwidget::asprintf("%d", dateEdit_1_1_0.date().invoke(&QDate::daysTo, dateEdit_1_1_1.date()));
 

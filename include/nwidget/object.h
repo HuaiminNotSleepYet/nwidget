@@ -3,6 +3,12 @@
 
 #include <QObject>
 
+#if QT_VERSION <= QT_VERSION_CHECK(6, 6, 0)
+#define N_RECEIVER_T(F) typename QtPrivate::FunctionPointer<F>::Object*
+#else
+#define N_RECEIVER_T(F) typename QtPrivate::ContextTypeForFunctor<F>::ContextType*
+#endif
+
 namespace nwidget {
 
 /* ---------------------------- Property Binding ---------------------------- */
@@ -129,7 +135,7 @@ public:
     { return std::apply(Action{}, std::apply([](auto&&... args){ return calc(args...); }, args)); }
 
     template<typename Info>
-    void bindTo(Property<Info> prop) const
+    auto bindTo(Property<Info> prop) const
     {
         auto obj = prop.object();
 
@@ -152,6 +158,34 @@ public:
         }
 
         Info::Setter::set(obj, (*this)());
+
+        return *this;
+    }
+
+    // TODO: Parameters "func" and "slot" can have a empty parameter list.
+    // NOTE: Bind to a func or slot does not detect whether the binding is reasonable (e.g., binding a property to itself)
+    template<typename Func>
+    auto bindTo(QObject* receiver, Func func, Qt::ConnectionType type = Qt::AutoConnection) const
+    {
+        Binding* binding = findOrCreateBinding(receiver);
+        bind(binding, *this);
+        QObject::connect(binding, &Binding::update,
+                         binding, [func, expr = *this]() mutable { func(expr()); },
+                         type);
+        func((*this)());
+        return *this;
+    }
+
+    template<typename Slot>
+    auto bindTo(N_RECEIVER_T(Slot) receiver, Slot slot, Qt::ConnectionType type = Qt::AutoConnection) const
+    {
+        Binding* binding = findOrCreateBinding(receiver);
+        bind(binding, *this);
+        QObject::connect(binding, &Binding::update,
+                         binding, [receiver, slot, expr = *this]() mutable { (receiver->*slot)(expr()); },
+                         type);
+        (receiver->*slot)((*this)());
+        return *this;
     }
 
 protected:
@@ -167,7 +201,12 @@ private:
     { return std::tuple_cat(calc(arg0), calc(argn...)); }
 
 
-    template<typename Info, typename T> static void bind(Binding*, const T&, Property<Info>) {}
+    template<typename T>                static void bind(Binding*, const T&) {}
+    template<typename T, typename Info> static void bind(Binding*, const T&, Property<Info>) {}
+
+    template<typename InfoFrom>
+    static void bind(Binding* binding, Property<InfoFrom> source)
+    { bind(binding, (BindingExpr<ActionGetProperty<InfoFrom>, typename InfoFrom::Object*>)source); }
 
     template<typename InfoFrom, typename InfoTo>
     static void bind(Binding* binding, Property<InfoFrom> source, Property<InfoTo> target)
@@ -175,6 +214,13 @@ private:
 
     // Call BindingExpr::invoke on Property<Info> would get a BindingExpr,
     // so we create a specialized template for it.
+    template<typename InfoFrom>
+    static void bind(Binding* binding, BindingExpr<ActionGetProperty<InfoFrom>, typename InfoFrom::Object*> source)
+    {
+        QObject::connect(std::get<0>(source.args), &QObject::destroyed       , binding, &Binding::deleteLater, Qt::UniqueConnection);
+        QObject::connect(std::get<0>(source.args), InfoFrom::Notify::signal(), binding, &Binding::update     , Qt::UniqueConnection);
+    }
+
     template<typename InfoFrom, typename InfoTo>
     static void bind(Binding* binding, BindingExpr<ActionGetProperty<InfoFrom>, typename InfoFrom::Object*> source, Property<InfoTo> target)
     {
@@ -182,22 +228,38 @@ private:
             // if (!(is_same_property_v<InfoA, InfoB> && from.object() == to.object()))
             //                                                ^              ^
             //                                                error when two types are different
-            if constexpr (!is_same_property_v<InfoFrom, InfoTo>) {
-                QObject::connect(std::get<0>(source.args), &QObject::destroyed       , binding, &Binding::deleteLater, Qt::UniqueConnection);
-                QObject::connect(std::get<0>(source.args), InfoFrom::Notify::signal(), binding, &Binding::update     , Qt::UniqueConnection);
-            } else if (std::get<0>(source.args) != target.object()) {
-                QObject::connect(std::get<0>(source.args), &QObject::destroyed       , binding, &Binding::deleteLater, Qt::UniqueConnection);
-                QObject::connect(std::get<0>(source.args), InfoFrom::Notify::signal(), binding, &Binding::update     , Qt::UniqueConnection);
-            }
+            if constexpr (!is_same_property_v<InfoFrom, InfoTo>)
+                bind(binding, source);
+            else if (std::get<0>(source.args) != target.object())
+                bind(binding, source);
         }
     }
 
-    template<typename Info, typename A, typename ...T>
+    template<typename A, typename ...T>
+    static void bind(Binding* binding, const BindingExpr<A, T...>& source)
+    {
+        std::apply([binding](auto&&... arg) {
+            (..., bind(binding, arg));
+        }, source.args); }
+
+    template<typename A, typename ...T, typename Info>
     static void bind(Binding* binding, const BindingExpr<A, T...>& source, Property<Info> target)
     {
         std::apply([binding, target](auto&&... arg) {
             (..., bind(binding, arg, target));
         }, source.args);
+    }
+
+
+    static Binding* findOrCreateBinding(QObject* object)
+    {
+        static QString bindingName = QStringLiteral("nwidget_binding");
+        Binding* binding = object->findChild<Binding*>(bindingName);
+        if (!binding) {
+            binding = new Binding(object);
+            binding->setObjectName(bindingName);
+        }
+        return binding;
     }
 };
 
@@ -452,16 +514,9 @@ protected:                                      \
     using nwidget::ObjectBuilder<S, T>::addItems;
 
 
-#if QT_VERSION <= QT_VERSION_CHECK(6, 6, 0)
-#define N_RECEIVER_T(F) const typename QtPrivate::FunctionPointer<F>::Object*
-#else
-#define N_RECEIVER_T(F) const typename QtPrivate::ContextTypeForFunctor<F>::ContextType*
-#endif
-
-
 #define N_BUILDER_SIGNAL(NAME, SIG)                             \
 template <typename Func>                                        \
-S& NAME(Func&& slot,                                            \
+S& NAME(Func slot,                                              \
         Qt::ConnectionType type = Qt::AutoConnection)           \
 { QObject::connect(t, &std::decay_t<decltype(*t)>::SIG, t, slot); return self(); }          \
                                                                 \
@@ -471,7 +526,7 @@ S& NAME(const QObject* receiver, Func method,                   \
 { QObject::connect(t, &std::decay_t<decltype(*t)>::SIG, receiver, method); return self(); } \
                                                                 \
 template <typename Func>                                        \
-S& NAME(N_RECEIVER_T(Func) context, Func&& slot,                \
+S& NAME(const N_RECEIVER_T(Func) context, Func slot,            \
         Qt::ConnectionType type = Qt::AutoConnection)           \
 { QObject::connect(t, &std::decay_t<decltype(*t)>::SIG, context, slot); return self(); }
 
@@ -524,7 +579,7 @@ public:
     { QObject::connect(t, signal, receiver, method); return self(); }
 
     template <typename Func1, typename Func2>
-    S& connect(Func1 signal, N_RECEIVER_T(Func2) receiver, Func2&& slot,
+    S& connect(Func1 signal, const N_RECEIVER_T(Func2) receiver, Func2 slot,
                Qt::ConnectionType type = Qt::AutoConnection)
     { QObject::connect(t, signal, receiver, slot); return self(); }
 
