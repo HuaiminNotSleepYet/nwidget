@@ -293,18 +293,22 @@ struct NoNotify {};
 template<typename PropertyInfo>
 class Property : public BindingExpr<ActionGetProperty<PropertyInfo>, typename PropertyInfo::Object*>
 {
-// PropertyInfo should have the following members:
-//   struct Info
-//   {
-//       using Object = ...
-//       using Type   = ...
-//       using Getter = NoGetter or struct { static auto get(const Object* object)                    { ... } }
-//       using Setter = NoSetter or struct { static void set(      Object* object, const Type& value) { ... } }
-//       using Notify = NoNotify or struct { static auto signal() { return &Object::propertyChanged;  }       }
+
+// NOTE: Do not create your own PropertyInfo, use N_ID_PROPERTY or N_BUILDER_PROPERTY to declare a property.
 //
-//       static constexpr const char* name() { return "propertyName";  }
-//       static QString bindingName() { return "nwidget_binding_on_propertyName"; }
-//   };
+// The basic member of PropertyInfo is as follows:
+// struct Info
+// {
+//     using Object = ...
+//     using Type   = ...
+//
+//     using Getter = NoGetter or struct { static Type get(const Object* object)                    { ... } }
+//     using Setter = NoSetter or struct { static void set(      Object* object, const Type& value) { ... } }
+//     using Notify = NoNotify or struct { static auto signal() { return &Object::propertyChanged; } }
+//
+//     static constexpr const char* name() { return "propertyName";  }
+//     static QString bindingName() { return "nwidget_binding_on_propertyName"; }
+// };
 
     template<typename T0, typename ...TN> friend class BindingExpr;
 
