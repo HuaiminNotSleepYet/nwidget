@@ -162,17 +162,24 @@ public:
         return *this;
     }
 
-    // TODO: Parameters "func" and "slot" can have a empty parameter list.
     // NOTE: Bind to a func or slot does not detect whether the binding is reasonable (e.g., binding a property to itself)
     template<typename Func>
     auto bindTo(QObject* receiver, Func func, Qt::ConnectionType type = Qt::AutoConnection) const
     {
         Binding* binding = findOrCreateBinding(receiver);
         bind(binding, *this);
-        QObject::connect(binding, &Binding::update,
-                         binding, [func, expr = *this]() mutable { func(expr()); },
-                         type);
-        func((*this)());
+
+        if constexpr (std::is_invocable_v<Func>) {
+            QObject::connect(binding, &Binding::update,
+                             binding, func,
+                             type);
+            func();
+        } else {
+            QObject::connect(binding, &Binding::update,
+                             binding, [func, expr = *this]() mutable { func(expr()); },
+                             type);
+            func((*this)());
+        }
         return *this;
     }
 
@@ -181,10 +188,19 @@ public:
     {
         Binding* binding = findOrCreateBinding(receiver);
         bind(binding, *this);
-        QObject::connect(binding, &Binding::update,
-                         binding, [receiver, slot, expr = *this]() mutable { (receiver->*slot)(expr()); },
-                         type);
-        (receiver->*slot)((*this)());
+
+        if constexpr (std::is_invocable_v<Slot, std::decay_t<decltype(receiver)>>) {
+            QObject::connect(binding, &Binding::update,
+                             receiver, slot,
+                             type);
+            (receiver->*slot)();
+        } else {
+            QObject::connect(binding, &Binding::update,
+                             binding, [receiver, slot, expr = *this]() mutable { (receiver->*slot)(expr()); },
+                             type);
+            (receiver->*slot)((*this)());
+        }
+
         return *this;
     }
 
