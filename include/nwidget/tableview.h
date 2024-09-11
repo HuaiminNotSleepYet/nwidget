@@ -22,7 +22,7 @@ public:
 #endif
 };
 
-using TableViewId = TableViewIdT<QTableView>;
+N_DECLARE_ID(TableView, TableViewIdT, QTableView)
 
 
 
@@ -51,7 +51,7 @@ public:
     S& span(int row, int column, int rowSpan, int colSpan) { t->setSpan(row, column, rowSpan, colSpan); return self(); }
 };
 
-N_DECL_BUILDER(TableViewBuilder, QTableView, TableView);
+N_DECLARE_BUILDER(TableView, TableViewBuilder, QTableView);
 
 }
 

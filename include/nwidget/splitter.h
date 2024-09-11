@@ -41,7 +41,7 @@ public:
     N_BUILDER_PROPERTY(bool           , childrenCollapsible, setChildrenCollapsible)
 };
 
-N_DECL_BUILDER(SplitterBuilder, QSplitter, Splitter);
+N_DECLARE_BUILDER(Splitter, SplitterBuilder, QSplitter)
 
 
 
@@ -57,7 +57,7 @@ public:
     N_ID_PROPERTY(bool           , childrenCollapsible, N_GETTER(childrenCollapsible), N_SETTER(setChildrenCollapsible), N_NO_NOTIFY)
 };
 
-using SplitterId = SplitterIdT<QSplitter>;
+N_DECLARE_ID(QSplitter, SplitterIdT, QSplitter)
 
 }
 

@@ -51,7 +51,7 @@ public:
     N_BUILDER_PROPERTY(int                           , verticalSpacing  , setVerticalSpacing  )
 };
 
-N_DECL_BUILDER(FormLayoutBuilder, QFormLayout, FormLayout);
+N_DECLARE_BUILDER(FormLayout, FormLayoutBuilder, QFormLayout)
 
 
 
@@ -69,7 +69,7 @@ public:
     N_ID_PROPERTY(int                           , verticalSpacing  , N_GETTER(verticalSpacing  ), N_SETTER(setVerticalSpacing  ), N_NO_NOTIFY)
 };
 
-using FormLayoutId = FormLayoutIdT<QFormLayout>;
+N_DECLARE_ID(FormLayout, FormLayoutIdT, QFormLayout)
 
 }
 

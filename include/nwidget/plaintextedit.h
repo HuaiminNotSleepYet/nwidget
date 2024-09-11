@@ -36,7 +36,7 @@ public:
     N_BUILDER_PROPERTY(QString                     , placeholderText     , setPlaceholderText     )
 };
 
-N_DECL_BUILDER(PlainTextEditBuilder, QPlainTextEdit, PlainTextEdit);
+N_DECLARE_BUILDER(PlainTextEdit, PlainTextEditBuilder, QPlainTextEdit)
 
 
 
@@ -64,7 +64,7 @@ public:
     N_ID_PROPERTY(QString                     , placeholderText     , N_GETTER(placeholderText     ), N_SETTER(setPlaceholderText     ), N_NO_NOTIFY)
 };
 
-using PlainTextEditId = PlainTextEditIdT<QPlainTextEdit>;
+N_DECLARE_ID(QPlainTextEdit, PlainTextEditIdT, QPlainTextEdit)
 
 }
 

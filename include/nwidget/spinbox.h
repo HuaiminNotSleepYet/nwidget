@@ -30,7 +30,7 @@ public:
     N_BUILDER_SIGNAL(onTextChanged , textChanged )
 };
 
-N_DECL_BUILDER(SpinBoxBuilder, QSpinBox, SpinBox);
+N_DECLARE_BUILDER(SpinBox, SpinBoxBuilder, QSpinBox);
 
 template<typename S, typename T>
 class DoubleSpinBoxBuilder : public AbstractSpinBoxBuilder<S, T>
@@ -55,7 +55,7 @@ public:
     N_BUILDER_SIGNAL(onTextChanged , textChanged )
 };
 
-N_DECL_BUILDER(DoubleSpinBoxBuilder, QDoubleSpinBox, DoubleSpinBox);
+N_DECLARE_BUILDER(DoubleSpinBox, DoubleSpinBoxBuilder, QDoubleSpinBox)
 
 
 
@@ -76,8 +76,6 @@ public:
     N_ID_PROPERTY(int               , displayIntegerBase, N_GETTER(displayIntegerBase), N_SETTER(setDisplayIntegerBase), N_NO_NOTIFY)
 };
 
-using SpinBoxId = SpinBoxIdT<QSpinBox>;
-
 template<typename T>
 class DoubleSpinBoxIdT : public AbstractSpinBoxIdT<T>
 {
@@ -95,7 +93,8 @@ public:
     N_ID_PROPERTY(double            , value             , N_GETTER(value             ), N_SETTER(setValue             ), N_NOTIFY(valueChanged))
 };
 
-using DoubleSpinBoxId = DoubleSpinBoxIdT<QDoubleSpinBox>;
+N_DECLARE_ID(SpinBox, SpinBoxIdT, QSpinBox)
+N_DECLARE_ID(DoubleSpinBox, DoubleSpinBoxIdT, QDoubleSpinBox)
 
 }
 

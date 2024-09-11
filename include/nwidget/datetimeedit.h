@@ -72,9 +72,9 @@ public:
     DateEditBuilder(T* target, QDate date) : DateTimeEditBuilder<S, T>(target, date) {}
 };
 
-N_DECL_BUILDER(DateTimeEditBuilder, QDateTimeEdit, DateTimeEdit);
-N_DECL_BUILDER(TimeEditBuilder    , QTimeEdit    , TimeEdit    );
-N_DECL_BUILDER(DateEditBuilder    , QDateEdit    , DateEdit    );
+N_DECLARE_BUILDER(DateTimeEdit, DateTimeEditBuilder, QDateTimeEdit)
+N_DECLARE_BUILDER(TimeEdit    , TimeEditBuilder    , QTimeEdit    )
+N_DECLARE_BUILDER(DateEdit    , DateEditBuilder    , QDateEdit    )
 
 
 
@@ -121,9 +121,9 @@ public:
     N_ID_PROPERTY(QDate, date, N_GETTER(date), N_SETTER(setDate), N_NOTIFY(userDateChanged))
 };
 
-using DateTimeEditId = DateTimeEditIdT<QDateTimeEdit>;
-using TimeEditId = TimeEditIdT<QTimeEdit>;
-using DateEditId = DateEditIdT<QDateEdit>;
+N_DECLARE_ID(DateTimeEdit, DateTimeEditIdT, QDateTimeEdit)
+N_DECLARE_ID(TimeEdit, TimeEditIdT, QTimeEdit)
+N_DECLARE_ID(DateEdit, DateEditIdT, QDateEdit)
 
 }
 

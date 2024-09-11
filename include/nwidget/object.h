@@ -522,7 +522,9 @@ protected:
     T* t;
 };
 
-using ObjectId = ObjectIdT<QObject>;
+#define N_DECLARE_ID(NAME, IDT, OBJECT) using NAME##Id = IDT<OBJECT>;
+
+N_DECLARE_ID(Object, ObjectIdT, QObject)
 
 
 
@@ -628,14 +630,14 @@ protected:
 };
 
 
-#define N_DECL_BUILDER(BUILDER, TARGET, NAME)   \
+#define N_DECLARE_BUILDER(NAME, BUILDER, TARGET)\
 class NAME : public BUILDER<NAME, TARGET>       \
 {                                               \
 public:                                         \
     using BUILDER::BUILDER;                     \
-}
+};
 
-N_DECL_BUILDER(ObjectBuilder, QObject, Object);
+N_DECLARE_BUILDER(Object, ObjectBuilder, QObject);
 
 
 

@@ -47,7 +47,7 @@ public:
     N_BUILDER_SIGNAL(onCursorPositionChanged   , cursorPositionChanged   )
 };
 
-N_DECL_BUILDER(TextEditBuilder, QTextEdit, TextEdit);
+N_DECLARE_BUILDER(TextEdit, TextEditBuilder, QTextEdit);
 
 
 
@@ -76,7 +76,7 @@ public:
     N_ID_PROPERTY(QString                  , placeholderText      , N_GETTER(placeholderText      ), N_SETTER(setPlaceholderText      ), N_NO_NOTIFY)
 };
 
-using TextEditId = TextEditIdT<QTextEdit>;
+N_DECLARE_ID(TextEdit, TextEditIdT, QTextEdit)
 
 }
 

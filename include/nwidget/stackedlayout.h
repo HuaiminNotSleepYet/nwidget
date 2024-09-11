@@ -21,7 +21,7 @@ public:
     S& currentWidget(QWidget* widget)    { t->setCurrentWidget(widget); return self(); }
 };
 
-N_DECL_BUILDER(StackedLayoutBuilder, QStackedLayout, StackedLayout);
+N_DECLARE_BUILDER(StackedLayout, StackedLayoutBuilder, QStackedLayout)
 
 
 
@@ -36,7 +36,7 @@ public:
     N_ID_PROPERTY(int                         , count       , N_GETTER(count       ), N_NO_SETTER              , N_NO_NOTIFY)
 };
 
-using StackedLayoutId = StackedLayoutIdT<QStackedLayout>;
+N_DECLARE_ID(StackedLayout, StackedLayoutIdT, QStackedLayout)
 
 }
 

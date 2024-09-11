@@ -24,7 +24,7 @@ public:
     S& frameStyle(int style) { t->setFrameStyle(style); return self(); }
 };
 
-N_DECL_BUILDER(FrameBuilder, QFrame, Frame);
+N_DECLARE_BUILDER(Frame, FrameBuilder, QFrame)
 
 
 
@@ -42,7 +42,7 @@ public:
     N_ID_PROPERTY(QRect         , frameRect   , N_GETTER(frameRect   ), N_SETTER(setFrameRect   ), N_NO_NOTIFY)
 };
 
-using FrameId = FrameIdT<QFrame>;
+N_DECLARE_ID(Frame, FrameIdT, QFrame)
 
 }
 

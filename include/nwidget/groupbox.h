@@ -29,7 +29,7 @@ public:
     N_BUILDER_PROPERTY(bool         , checked  , setChecked  )
 };
 
-N_DECL_BUILDER(GroupBoxBuilder, QGroupBox, GroupBox);
+N_DECLARE_BUILDER(GroupBox, GroupBoxBuilder, QGroupBox)
 
 
 
@@ -46,7 +46,7 @@ public:
     N_ID_PROPERTY(bool         , checked  , N_GETTER(isChecked  ), N_SETTER(setChecked  ), N_NOTIFY(toggled))
 };
 
-using GroupBoxId = GroupBoxIdT<QGroupBox>;
+N_DECLARE_ID(GroupBox, GroupBoxIdT, QGroupBox)
 
 }
 

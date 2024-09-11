@@ -31,7 +31,7 @@ public:
     N_BUILDER_PROPERTY(Qt::TextInteractionFlags, InteractionFlags , setTextInteractionFlags)
 };
 
-N_DECL_BUILDER(LabelBuilder, QLabel, Label);
+N_DECLARE_BUILDER(Label, LabelBuilder, QLabel)
 
 template<typename T>
 class LabelIdT : public FrameIdT<T>
@@ -53,7 +53,7 @@ public:
     N_ID_PROPERTY(QString                 , selectedText     , N_GETTER(selectedText        ), N_NO_SETTER                      , N_NO_NOTIFY)
 };
 
-using LabelId = LabelIdT<QLabel>;
+N_DECLARE_ID(Label, LabelIdT, QLabel)
 
 }
 

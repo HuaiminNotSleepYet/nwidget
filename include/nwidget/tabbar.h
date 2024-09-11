@@ -33,7 +33,7 @@ public:
     N_ID_PROPERTY(bool             , changeCurrentOnDrag      , N_GETTER(changeCurrentOnDrag      ), N_SETTER(setChangeCurrentOnDrag      ), N_NO_NOTIFY)
 };
 
-using TabBarId = TabBarIdT<QTabBar>;
+N_DECLARE_ID(TabBar, TabBarIdT, QTabBar)
 
 
 
@@ -104,7 +104,7 @@ public:
     N_BUILDER_SIGNAL(onTabBarDoubleClicked, tabBarDoubleClicked)
 };
 
-N_DECL_BUILDER(TabBarBuilder, QTabBar, TabBar);
+N_DECLARE_BUILDER(TabBar, TabBarBuilder, QTabBar);
 
 }
 

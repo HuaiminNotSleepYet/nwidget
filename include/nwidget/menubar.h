@@ -39,7 +39,7 @@ public:
     S& items(std::initializer_list<MenuBarItem> items) { addItems(items); return self(); }
 };
 
-N_DECL_BUILDER(MenuBarBuilder, QMenuBar, MenuBar);
+N_DECLARE_BUILDER(MenuBar, MenuBarBuilder, QMenuBar)
 
 
 
@@ -53,7 +53,7 @@ public:
     N_ID_PROPERTY(bool, nativeMenuBar, N_GETTER(isNativeMenuBar), N_SETTER(setNativeMenuBar), N_NO_NOTIFY)
 };
 
-using MenuBarId = MenuBarIdT<QMenuBar>;
+N_DECLARE_ID(QMenuBar, MenuBarIdT, QMenuBar)
 
 }
 

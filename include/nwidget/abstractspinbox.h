@@ -34,7 +34,7 @@ public:
     N_BUILDER_SIGNAL(onEditingFinished, editingFinished)
 };
 
-N_DECL_BUILDER(AbstractSpinBoxBuilder, QAbstractSpinBox, AbstractSpinBox);
+N_DECLARE_BUILDER(AbstractSpinBox, AbstractSpinBoxBuilder, QAbstractSpinBox);
 
 
 
@@ -58,7 +58,7 @@ public:
     N_ID_PROPERTY(bool                            , showGroupSeparator, N_GETTER(isGroupSeparatorShown), N_SETTER(setGroupSeparatorShown), N_NO_NOTIFY)
 };
 
-using AbstractSpinBoxId = AbstractSpinBoxIdT<QAbstractSpinBox>;
+N_DECLARE_ID(AbstractSpinBox, AbstractSpinBoxIdT, QAbstractSpinBox)
 
 }
 

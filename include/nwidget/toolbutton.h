@@ -32,7 +32,7 @@ public:
 #endif
 };
 
-N_DECL_BUILDER(ToolButtonBuilder, QToolButton, ToolButton);
+N_DECLARE_BUILDER(ToolButton, ToolButtonBuilder, QToolButton);
 
 
 
@@ -50,7 +50,7 @@ public:
     N_ID_PROPERTY(Qt::ArrowType      , arrowType      , N_GETTER(arrowType      ), N_SETTER(setArrowType      ), N_NO_NOTIFY)
 };
 
-using ToolButtonId = AbstractButtonIdT<QToolButton>;
+N_DECLARE_ID(ToolButton, ToolButtonIdT, QToolButton)
 
 }
 

@@ -23,7 +23,7 @@ public:
     N_BUILDER_PROPERTY(int                  , tickInterval, setTickInterval)
 };
 
-N_DECL_BUILDER(SliderBuilder, QSlider, Slider);
+N_DECLARE_BUILDER(Slider, SliderBuilder, QSlider)
 
 
 
@@ -37,7 +37,7 @@ public:
     N_ID_PROPERTY(int                  , tickInterval, N_GETTER(tickInterval), N_SETTER(setTickInterval), N_NO_NOTIFY)
 };
 
-using SliderId = SliderIdT<QSlider>;
+N_DECLARE_ID(Slider, SliderIdT, QSlider)
 
 }
 

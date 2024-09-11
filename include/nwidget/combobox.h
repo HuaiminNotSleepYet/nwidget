@@ -62,7 +62,7 @@ public:
     N_BUILDER_SIGNAL(onCurrentTextChanged , currentTextChanged )
 };
 
-N_DECL_BUILDER(ComboBoxBuilder, QComboBox, ComboBox);
+N_DECLARE_BUILDER(ComboBox, ComboBoxBuilder, QComboBox)
 
 
 
@@ -89,7 +89,7 @@ public:
     N_ID_PROPERTY(int                        , modelColumn          , N_GETTER(modelColumn          ), N_SETTER(setModelColumn          ), N_NO_NOTIFY)
 };
 
-using ComboBoxId = ComboBoxIdT<QComboBox>;
+N_DECLARE_ID(ComboBox, ComboBoxIdT, QComboBox)
 
 }
 

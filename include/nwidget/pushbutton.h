@@ -27,7 +27,7 @@ public:
     S& menu(QMenu* m) { t->setMenu(m); return self(); }
 };
 
-N_DECL_BUILDER(PushButtonBuilder, QPushButton, PushButton);
+N_DECLARE_BUILDER(PushButton, PushButtonBuilder, QPushButton)
 
 
 
@@ -42,7 +42,7 @@ public:
     N_ID_PROPERTY(bool, flat       , N_GETTER(isFlat     ), N_SETTER(setFlat       ), N_NO_NOTIFY)
 };
 
-using PushButtonId = PushButtonIdT<QPushButton>;
+N_DECLARE_ID(PushButton, PushButtonIdT, QPushButton)
 
 }
 

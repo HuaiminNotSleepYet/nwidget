@@ -22,7 +22,7 @@ public:
     N_BUILDER_PROPERTY(bool , notchesVisible, setNotchesVisible)
 };
 
-N_DECL_BUILDER(DialBuilder, QDial, Dial);
+N_DECLARE_BUILDER(Dial, DialBuilder, QDial)
 
 
 
@@ -38,7 +38,7 @@ public:
     N_ID_PROPERTY(bool , notchesVisible, N_GETTER(notchesVisible), N_SETTER(setNotchesVisible), N_NO_NOTIFY)
 };
 
-using DialId = DialIdT<QDial>;
+N_DECLARE_ID(Dial, DialIdT, QDial)
 
 }
 

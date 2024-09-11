@@ -112,7 +112,7 @@ public:
     N_BUILDER_SIGNAL(onCustomContextMenuRequested, customContextMenuRequested)
 };
 
-N_DECL_BUILDER(WidgetBuilder, QWidget, Widget);
+N_DECLARE_BUILDER(Widget, WidgetBuilder, QWidget);
 
 
 
@@ -196,7 +196,7 @@ public:
     N_ID_PROPERTY(Qt::InputMethodHints , inputMethodHints     , N_GETTER(inputMethodHints     ), N_SETTER(setInputMethodHints     ), N_NO_NOTIFY)
 };
 
-using WidgetId = WidgetIdT<QWidget>;
+N_DECLARE_ID(Widget, WidgetIdT, QWidget)
 
 }
 

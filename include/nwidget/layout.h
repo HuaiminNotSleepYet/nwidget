@@ -22,7 +22,7 @@ public:
     N_ID_PROPERTY(QLayout::SizeConstraint, sizeConstraint , N_GETTER(sizeConstraint ),  N_SETTER(setSizeConstraint ), N_NO_NOTIFY)
 };
 
-using LayoutId = LayoutIdT<QLayout>;
+N_DECLARE_ID(Layout, LayoutIdT, QLayout)
 
 
 
@@ -62,7 +62,7 @@ public:
     S& contentsMargins(int l, int t, int r, int b) { this->t->setContentsMargins(l, t, r, b); return self(); }
 };
 
-N_DECL_BUILDER(LayoutBuilder, QLayout, Layout);
+N_DECLARE_BUILDER(Layout, LayoutBuilder, QLayout)
 
 }
 

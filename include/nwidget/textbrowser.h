@@ -30,7 +30,7 @@ public:
     N_BUILDER_SIGNAL(onAnchorClicked    , anchorClicked    )
 };
 
-N_DECL_BUILDER(TextBrowserBuilder, QTextBrowser, TextBrowser);
+N_DECLARE_BUILDER(TextBrowser, TextBrowserBuilder, QTextBrowser);
 
 
 
@@ -47,7 +47,7 @@ public:
     N_ID_PROPERTY(bool                       , openLinks        , N_GETTER(openLinks        ), N_SETTER(setOpenLinks        ), N_NO_NOTIFY)
 };
 
-using TextBrowserId = TextBrowserIdT<QTextBrowser>;
+N_DECLARE_ID(TextBrowser, TextBrowserIdT, QTextBrowser)
 
 }
 

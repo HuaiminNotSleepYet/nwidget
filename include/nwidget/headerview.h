@@ -25,7 +25,7 @@ public:
     N_ID_PROPERTY(bool         , sortIndicatorClearable , N_GETTER(isSortIndicatorClearable), N_SETTER(setSortIndicatorClearable), N_NOTIFY(sortIndicatorClearableChanged))
 };
 
-using HeaderViewId = HeaderViewIdT<QHeaderView>;
+N_DECLARE_ID(HeaderView, HeaderViewIdT, QHeaderView)
 
 
 
@@ -79,7 +79,7 @@ public:
     N_BUILDER_SIGNAL(onSortIndicatorClearableChanged, sortIndicatorClearableChanged)
 };
 
-N_DECL_BUILDER(HeaderViewBuilder, QHeaderView, HeaderView);
+N_DECLARE_BUILDER(HeaderView, HeaderViewBuilder, QHeaderView)
 
 }
 

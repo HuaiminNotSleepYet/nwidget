@@ -40,7 +40,7 @@ public:
     N_BUILDER_SIGNAL(onToggled , toggled )
 };
 
-N_DECL_BUILDER(AbstractButtonBuilder, QAbstractButton, AbstractButton);
+N_DECLARE_BUILDER(AbstractButton, AbstractButtonBuilder, QAbstractButton);
 
 
 
@@ -65,7 +65,7 @@ public:
     N_ID_PROPERTY(bool        , down              , N_GETTER(isDown            ), N_SETTER(setDown              ), N_NO_NOTIFY)
 };
 
-using AbstractButtonId = AbstractButtonIdT<QAbstractButton>;
+N_DECLARE_ID(AbstractButton, AbstractButtonIdT, QAbstractButton)
 
 }
 

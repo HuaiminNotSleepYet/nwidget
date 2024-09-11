@@ -32,7 +32,7 @@ public:
     N_BUILDER_SIGNAL(onValueChanged, valueChanged)
 };
 
-N_DECL_BUILDER(ProgressBarBuilder, QProgressBar, ProgressBar);
+N_DECLARE_BUILDER(ProgressBar, ProgressBarBuilder, QProgressBar)
 
 
 
@@ -54,7 +54,7 @@ public:
     N_ID_PROPERTY(QString                , format            , N_GETTER(format            ), N_SETTER(setFormat            ), N_NO_NOTIFY)
 };
 
-using ProgressBarId = ProgressBarIdT<QProgressBar>;
+N_DECLARE_ID(QProgressBar, ProgressBarIdT, QProgressBar)
 
 }
 

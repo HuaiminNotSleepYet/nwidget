@@ -24,7 +24,7 @@ public:
     N_ID_PROPERTY(bool   , toolTipsVisible      , N_GETTER(toolTipsVisible      ), N_SETTER(setToolTipsVisible      ), N_NO_NOTIFY)
 };
 
-using MenuId = MenuIdT<QMenu>;
+N_DECLARE_ID(QMenu, MenuIdT, QMenu)
 
 
 
@@ -68,7 +68,7 @@ public:
     S& title(const QString& s) { t->setTitle(s); return self(); }
 };
 
-N_DECL_BUILDER(MenuBuilder, QMenu, Menu);
+N_DECLARE_BUILDER(Menu, MenuBuilder, QMenu)
 
 }
 

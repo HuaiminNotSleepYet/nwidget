@@ -38,7 +38,7 @@ public:
     N_BUILDER_SIGNAL(onActionTriggered, actionTriggered)
 };
 
-N_DECL_BUILDER(AbstractSliderBuilder, QAbstractSlider, AbstractSlider);
+N_DECLARE_BUILDER(AbstractSlider, AbstractSliderBuilder, QAbstractSlider);
 
 
 
@@ -60,7 +60,7 @@ public:
     N_ID_PROPERTY(bool           , invertedControls  , N_GETTER(invertedControls  ), N_SETTER(setInvertedControls  ) , N_NO_NOTIFY)
 };
 
-using AbstractSliderId = AbstractSliderIdT<QAbstractSlider>;
+N_DECLARE_ID(AbstractSlider, AbstractSliderIdT, QAbstractSlider)
 
 }
 

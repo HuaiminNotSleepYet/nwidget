@@ -51,7 +51,7 @@ public:
     N_BUILDER_SIGNAL(onToggled         , toggled         )
 };
 
-N_DECL_BUILDER(ActionBuilder, QAction, Action);
+N_DECLARE_BUILDER(Action, ActionBuilder, QAction);
 
 
 
@@ -84,7 +84,7 @@ public:
     N_ID_PROPERTY(QAction::Priority  , priority         , N_GETTER(priority       ), N_SETTER(setPriority       ), N_NOTIFY(changed         ))
 };
 
-using ActionId = ActionIdT<QAction>;
+N_DECLARE_ID(Action, ActionIdT, QAction)
 
 }
 
