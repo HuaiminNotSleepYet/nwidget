@@ -75,9 +75,6 @@ public:
     N_BUILDER_PROPERTY(QString              , windowFilePath       ,setWindowFilePath       )
     N_BUILDER_PROPERTY(Qt::InputMethodHints , inputMethodHints     ,setInputMethodHints     )
 
-
-    // TODO: Determine a criterion of “whether to use N_BUILDER_PROPERTY”.
-    //   Some methods are formally the same as a property (e.g., setWindowRole), even though they do not declare with Q_PROPERTY.
     S& layout(QLayout* l)                                        { t->setLayout(l);                         return self(); }
     S& minimumSize(int w, int h)                                 { t->setMinimumSize(w, h);                 return self(); }
     S& maximumSize(int w, int h)                                 { t->setMaximumSize(w, h);                 return self(); }
@@ -92,7 +89,7 @@ public:
     S& mask(const QBitmap& m)                                    { t->setMask(m);                           return self(); }
     S& mask(const QRegion& m)                                    { t->setMask(m);                           return self(); }
 #if QT_CONFIG(graphicseffect)
-    S& graphicsEffect(QGraphicsEffect* effect)                   { t->setGraphicsEffect(effect);            return self(); };
+    S& graphicsEffect(QGraphicsEffect* effect)                   { t->setGraphicsEffect(effect);            return self(); }
 #endif
     S& windowRole(const QString& s)                              { t->setWindowRole(s);                     return self(); }
 #if QT_CONFIG(accessibility)

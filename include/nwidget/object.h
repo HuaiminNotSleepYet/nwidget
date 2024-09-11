@@ -515,6 +515,7 @@ public:
 
     T& operator*() const { return *t; }
 
+    // NOTE: We currently only use N_ID_PROPERTY and N_BUILDER_PROPERTY on properties declared using Q_PROPERTY.
     N_ID_PROPERTY(QString, objectName, N_GETTER(objectName), N_SETTER(setObjectName), N_NOTIFY(objectNameChanged))
 
 protected:
@@ -603,8 +604,8 @@ public:
                Qt::ConnectionType type = Qt::AutoConnection)
     { QObject::connect(t, signal, receiver, slot); return self(); }
 
-    S& objectName(const QString& name)                       { t->setObjectName(name);     return self(); }
-    S& objectName(QAnyStringView name)                       { t->setObjectName(name);     return self(); }
+
+    N_BUILDER_PROPERTY(QString, objectName, setObjectName)
 
     S& property(const char* name, const QVariant& value)     { t->setProperty(name, value); return self(); }
     S& property(const char* name, QVariant&& value)          { t->setProperty(name, value); return self(); }
