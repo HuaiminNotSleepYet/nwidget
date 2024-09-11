@@ -134,6 +134,12 @@ public:
     auto operator()() const
     { return std::apply(Action{}, std::apply([](auto&&... args){ return calc(args...); }, args)); }
 
+    // NOTE: Each binding would evaluates the expression once at update time.
+    // For example, for the following code, the expression will be evaluated 3 times when updated:
+    // (slider1.value() + slider2.value())
+    //     .bindTo(Property<>)
+    //     .bindTo(receiver, slot...)
+    //     .bindTo(receiver, lambda...);
     template<typename Info>
     auto bindTo(Property<Info> prop) const
     {

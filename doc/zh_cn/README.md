@@ -1,7 +1,5 @@
 # nwidget
 
-> 注意：该库当前仍在开发中
-
 QWidget 的 `声明式语法` 和 `属性绑定` 拓展
 
 [文档](Document.md)
@@ -65,9 +63,19 @@ nw::SliderId slider2 = new QSlider;
 QLayout* layout = nw::VBoxLayout{
     nw::Label(label)
         .text(nw::asprintf("%d", slider1.value() + slider2.value())),
-    nw::Slider(slider1, Qt::Horizontal),
-    nw::Slider(slider2, Qt::Horizontal),
+    nw::Slider(slider1).orientation(Qt::Horizontal),
+    nw::Slider(slider2).orientation(Qt::Horizontal),
 };
+
+// 也等价于以下3种写法：
+label.text() = nw::asprintf("%d", slider1.value() + slider2.value());
+
+nw::asprintf("%d", slider1.value() + slider2.value())
+    .bindTo(label, &QLabel::setText);
+
+nw::asprintf("%d", slider1.value() + slider2.value())
+    .bindTo(label, [label](const QString& s) {label.text() = s;});
+
 ```
 
 ## 优点

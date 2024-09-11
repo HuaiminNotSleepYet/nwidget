@@ -2,8 +2,6 @@
 
 [中文](./doc/zh_cn/README.md)
 
-> Note: This library is still under development.
-
 `declarative syntax` and `property binding` extension for QWidget.
 
 [Document](./doc/en/Document.md)
@@ -67,9 +65,19 @@ nw::SliderId slider2 = new QSlider;
 QLayout* layout = nw::VBoxLayout{
     nw::Label(label)
         .text(nw::asprintf("%d", slider1.value() + slider2.value())),
-    nw::Slider(slider1, Qt::Horizontal),
-    nw::Slider(slider2, Qt::Horizontal),
+    nw::Slider(slider1).orientation(Qt::Horizontal),
+    nw::Slider(slider2).orientation(Qt::Horizontal),
 };
+
+// It also equivalent to the following 3 ways:
+label.text() = nw::asprintf("%d", slider1.value() + slider2.value());
+
+nw::asprintf("%d", slider1.value() + slider2.value())
+    .bindTo(label, &QLabel::setText);
+
+nw::asprintf("%d", slider1.value() + slider2.value())
+    .bindTo(label, [label](const QString& s) {label.text() = s;});
+
 ```
 
 ## Advantages

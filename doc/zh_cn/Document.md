@@ -7,6 +7,7 @@
   - [Property](#property)
   - [属性绑定](#属性绑定-1)
   - [is\_observable\<T\>](#is_observablet)
+  - [is\_same\_property\<A, B\>](#is_same_propertya-b)
 
 ## 布局语法
 
@@ -93,19 +94,6 @@ valueProp += 10;
 ++valueProp;
 ```
 
-通常你不需要直接创建 `Property`，而是在 `ObjectIdT<T>` 子类中使用 `N_ID_PROPERTY` 宏声明
-
-对于没有 Getter/Setter/Notify 的属性, 使用 `N_NO_GETTER`/`N_NO_SETTER`/`N_NO_NOTIFY` 代替
-
-```cpp
-class xxxId : public ObjectIdT<xxx>
-{
-public:
-    N_ID_PROPERTY(int, propA, N_GETTER(propA), N_SETTER(setPropA), N_NOTIFY(propAChanged))
-    N_ID_PROPERTY(int, propB, N_GETTER(propB), N_NO_SETTER       , N_NO_NOTIFY           )
-}
-```
-
 ### 属性绑定
 
 与 qml 类似，当你将一个 `Property` 的表达式赋给一个 `Property` 时便可创建绑定。当为 `Property` 设置新值或新绑定时，旧绑定被删除
@@ -126,7 +114,19 @@ checkBox.checked() = slider.value() > 50;
 checkBox.checked() = !((spinBox.value() > 25) && (slider.value() < 75));
 ```
 
-对于一些运算符和 c++ 功能，需要使用专门方法：
+除了绑定到属性，表达式还可以绑定到槽或lambda：
+
+```cpp
+(slider1.value() + slider2.value())
+    .bindTo(slider3, &QSlider::setValue)
+    .bindTo(slider3, [](int v){ qDebug() << v; });
+```
+
+> 注意：每个绑定都会单独计算表达式的值，对于以上代码，表达式将在更新后被计算两次
+
+---
+
+若要在表达式中使用一些特殊运算符和 c++ 功能，请使用专门方法：
 
 三目运算符：`nwidget::cond`
 
@@ -187,10 +187,22 @@ button.iconSize()
 
 ```cpp
 auto expr1 = slider.value() + 10;
-nwidget::is_observable<decltype(slider.value())>::value; // true
-nwidget::is_observable<decltype(expr1)>::value; // true
+nwidget::is_observable_v<decltype(slider.value())>; // true
+nwidget::is_observable_v<decltype(expr1)>; // true
 
 auto expr2 = slider.maximum() + 10;
-nwidget::is_observable<decltype(slider.maximum())>::value // false
-nwidget::is_observable<decltype(expr2)>::value; // false
+nwidget::is_observable_v<decltype(slider.maximum())>; // false
+nwidget::is_observable_v<decltype(expr2)>; // false
+```
+
+### is_same_property<A, B>
+
+```cpp
+using prop1 = decltype(slider1.value());
+using prop2 = decltype(slider2.value());
+using prop3 = decltype(slider1.maximum());
+
+nwidget::is_same_property_v<prop1, prop2>; // true
+nwidget::is_same_property_v<prop1, prop3>; // false
+
 ```

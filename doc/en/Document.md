@@ -7,6 +7,7 @@
   - [Property](#property)
   - [Property Binding](#property-binding-1)
   - [is\_observable\<T\>](#is_observablet)
+  - [is\_same\_property\<A, B\>](#is_same_propertya-b)
 
 ## Layout Syntax
 
@@ -76,19 +77,6 @@ To create a Id type for custom class, refer to `MainWindowId` in [length_calcula
 
 `Property` is a template class representing a property of a QObject instance. It uses template parameters to record the property’s name, Getter, Setter, and change signal.
 
-Usually you don't need to create `Property` directly, but use the `N_ID_PROPERTY` macro to declare it in `ObjectIdT<T>`'s subclass.
-
-For the property without Getter/Setter/Notify, use `N_NO_GETTER`/`N_NO_SETTER`/`N_NO_NOTIFY` instead:
-
-```cpp
-class xxxId : public ObjectIdT<xxx>
-{
-public:
-    N_ID_PROPERTY(int, propA, N_GETTER(propA), N_SETTER(setPropA), N_NOTIFY(propAChanged))
-    N_ID_PROPERTY(int, propB, N_GETTER(propB), N_NO_SETTER       , N_NO_NOTIFY           )
-}
-```
-
 There are several ways to manipulate `Property`:
 
 ```cpp
@@ -125,6 +113,18 @@ checkBox.checked() = slider.value() > 50;
 
 checkBox.checked() = !((spinBox.value() > 25) && (slider.value() < 75));
 ```
+
+In addition to properties, expressions can also be bind to a slots or lambda:
+
+```cpp
+(slider1.value() + slider2.value())
+    .bindTo(slider3, &QSlider::setValue)
+    .bindTo(slider3, [](int v){ qDebug() << v; });
+```
+
+> Note: Each binding would evaluates the expression once at update time,  for the code above, the expression will be evaluated 2 times when updated.
+
+---
 
 For some operators and C++ features, specific methods are required:
 
@@ -187,10 +187,36 @@ button.iconSize()
 
 ```cpp
 auto expr1 = slider.value() + 10;
-nwidget::is_observable<decltype(slider.value())>::value; // true
-nwidget::is_observable<decltype(expr1)>::value; // true
+nwidget::is_observable_v<decltype(slider.value())>; // true
+nwidget::is_observable_v<decltype(expr1)>; // true
 
 auto expr2 = slider.maximum() + 10;
-nwidget::is_observable<decltype(slider.maximum())>::value // false
-nwidget::is_observable<decltype(expr2)>::value; // false
+nwidget::is_observable_v<decltype(slider.maximum())>; // false
+nwidget::is_observable_v<decltype(expr2)>; // false
+```
+
+### is_observable\<T>
+
+`nwidget::is_observable<T>` 可用于判断一个属性/表达式是否可观察：
+
+```cpp
+auto expr1 = slider.value() + 10;
+nwidget::is_observable_v<decltype(slider.value())>; // true
+nwidget::is_observable_v<decltype(expr1)>; // true
+
+auto expr2 = slider.maximum() + 10;
+nwidget::is_observable_v<decltype(slider.maximum())>; // false
+nwidget::is_observable_v<decltype(expr2)>; // false
+```
+
+### is_same_property<A, B>
+
+```cpp
+using prop1 = decltype(slider1.value());
+using prop2 = decltype(slider2.value());
+using prop3 = decltype(slider1.maximum());
+
+nwidget::is_same_property_v<prop1, prop2>; // true
+nwidget::is_same_property_v<prop1, prop3>; // false
+
 ```
