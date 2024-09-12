@@ -101,5 +101,5 @@ nw::asprintf("%d", slider1.value() + slider2.value())
 
 ## 特别感谢
 
-- [@QuadnucYard](https://github.com/QuadnucYard) 对 C++ 的解疑
+- [@QuadnucYard](https://github.com/QuadnucYard) 在 C++ 方面的指导
 - [@Niwik](https://github.com/niwik-dev) 对属性绑定机制的建议

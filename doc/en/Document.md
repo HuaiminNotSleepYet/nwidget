@@ -1,13 +1,33 @@
 # Document
 
+- [Inclusion](#inclusion)
 - [Layout Syntax](#layout-syntax)
   - [ForEach](#foreach)
 - [Property Binding](#property-binding)
   - [xxxId](#xxxid)
   - [Property](#property)
-  - [Property Binding](#property-binding-1)
+  - [Property Binding](#property-binding)
   - [is\_observable\<T\>](#is_observablet)
   - [is\_same\_property\<A, B\>](#is_same_propertya-b)
+
+## Inclusion
+
+Include each control individually:
+
+```cpp
+#include <nwidget/pushbutton.h>
+#include <nwidget/slider.h>
+#include <nwidget/...>
+```
+
+Or use `nwidget.h` after QT header files:
+
+```cpp
+#include <QPushButton>
+#include <QSlider>
+#include <Q...>
+#include <nwidget/nwidget.h>
+```
 
 ## Layout Syntax
 
@@ -184,20 +204,6 @@ button.iconSize()
 ### is_observable\<T>
 
 `nwidget::is_observable<T>` is a trait to check if a property/expr is observable:
-
-```cpp
-auto expr1 = slider.value() + 10;
-nwidget::is_observable_v<decltype(slider.value())>; // true
-nwidget::is_observable_v<decltype(expr1)>; // true
-
-auto expr2 = slider.maximum() + 10;
-nwidget::is_observable_v<decltype(slider.maximum())>; // false
-nwidget::is_observable_v<decltype(expr2)>; // false
-```
-
-### is_observable\<T>
-
-`nwidget::is_observable<T>` 可用于判断一个属性/表达式是否可观察：
 
 ```cpp
 auto expr1 = slider.value() + 10;

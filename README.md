@@ -103,5 +103,5 @@ nw::asprintf("%d", slider1.value() + slider2.value())
 
 ## Special Thanks
 
-- [@QuadnucYard](https://github.com/QuadnucYard) for clarifying doubts about C++.
+- [@QuadnucYard](https://github.com/QuadnucYard) for guidance on C++.
 - [@Niwik](https://github.com/niwik-dev) for suggestions on the property binding.

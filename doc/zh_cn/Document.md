@@ -1,13 +1,33 @@
 # 文档
 
+-[引入](#引入)
 - [布局语法](#布局语法)
   - [ForEach](#foreach)
 - [属性绑定](#属性绑定)
   - [xxxId](#xxxid)
   - [Property](#property)
-  - [属性绑定](#属性绑定-1)
+  - [属性绑定](#属性绑定)
   - [is\_observable\<T\>](#is_observablet)
   - [is\_same\_property\<A, B\>](#is_same_propertya-b)
+
+## 引入
+
+单独引入每个控件：
+
+```cpp
+#include <nwidget/pushbutton.h>
+#include <nwidget/slider.h>
+#include <nwidget/...>
+```
+
+或在 QT 头文件之后使用 `nwidget.h` ：
+
+```cpp
+#include <QPushButton>
+#include <QSlider>
+#include <Q...>
+#include <nwidget/nwidget.h>
+```
 
 ## 布局语法
 
