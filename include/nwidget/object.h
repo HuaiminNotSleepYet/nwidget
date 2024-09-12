@@ -2,6 +2,7 @@
 #define NWIDGET_OBJECT_H
 
 #include <QObject>
+#include <QSignalMapper>
 
 #if QT_VERSION <= QT_VERSION_CHECK(6, 6, 0)
 #define N_RECEIVER_T(F) typename QtPrivate::FunctionPointer<F>::Object*
@@ -29,20 +30,6 @@ template<typename T> constexpr bool is_observable_v = is_observable<T>::value;
 //   is_same_property_v<PropertyInfo>
 //   is_same_property_v<Property<Info>>
 template<typename A, typename B> constexpr bool is_same_property_v = is_same_property<A, B>::value;
-
-
-
-class Binding : public QObject
-{
-    Q_OBJECT
-
-    template<typename Action, typename ...Args> friend class BindingExpr;
-
-    Binding(QObject* parent = nullptr) : QObject(parent) {}
-
-signals:
-    void update();
-};
 
 
 
@@ -134,18 +121,32 @@ public:
     auto operator()() const
     { return std::apply(Action{}, std::apply([](auto&&... args){ return calc(args...); }, args)); }
 
-    // NOTE: Each binding would evaluates the expression once at update time.
-    // For example, for the following code, the expression will be evaluated 3 times when updated:
-    // (slider1.value() + slider2.value())
-    //     .bindTo(Property<>)
-    //     .bindTo(receiver, slot...)
-    //     .bindTo(receiver, lambda...);
+    // NOTE: The expression is evaluated separately in each binding.
+    // For the following code, the expression will be evaluated 3 times when updated:
+    //
+    //   (slider1.value() + slider2.value())
+    //       .bindTo(Property<>)
+    //       .bindTo(receiver, slot...)
+    //       .bindTo(receiver, lambda...);
+    //
     template<typename Info>
-    auto bindTo(Property<Info> prop) const
+    auto bindTo(Property<Info> prop, Qt::ConnectionType type = Qt::AutoConnection) const
     {
         auto obj = prop.object();
 
-        Binding* binding = obj->template findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
+        // In the previous implementation, we used a Binding class with an update signal:
+        //
+        //   class Binding : public QObject
+        //   {
+        //       Q_OBJECT
+        //   signals:
+        //       void update();
+        //   };
+        //
+        // But this required MOC processing.
+        // By switching to QSignalMapper, nwidget can be distributed as a header only library.
+
+        QSignalMapper* binding = obj->template findChild<QSignalMapper*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
 
         if constexpr (!is_observable_v<typename std::decay_t<decltype(*this)>>) {
             if (binding)
@@ -154,13 +155,13 @@ public:
             if (binding)
                 binding->disconnect();
             else {
-                binding = new Binding(obj);
+                binding = new QSignalMapper(obj);
                 binding->setObjectName(Info::bindingName());
             }
             bind(binding, *this, prop);
-            QObject::connect(binding, &Binding::update, binding, [obj, expr = *this]() {
-                Info::Setter::set(obj, expr());
-            });
+            QObject::connect(binding, &QSignalMapper::mappedInt,
+                             binding, [obj, expr = *this]() { Info::Setter::set(obj, expr()); },
+                             type);
         }
 
         Info::Setter::set(obj, (*this)());
@@ -172,16 +173,16 @@ public:
     template<typename Func>
     auto bindTo(QObject* receiver, Func func, Qt::ConnectionType type = Qt::AutoConnection) const
     {
-        Binding* binding = findOrCreateBinding(receiver);
+        QSignalMapper* binding = findOrCreateBinding(receiver);
         bind(binding, *this);
 
         if constexpr (std::is_invocable_v<Func>) {
-            QObject::connect(binding, &Binding::update,
+            QObject::connect(binding, &QSignalMapper::mappedInt,
                              binding, func,
                              type);
             func();
         } else {
-            QObject::connect(binding, &Binding::update,
+            QObject::connect(binding, &QSignalMapper::mappedInt,
                              binding, [func, expr = *this]() mutable { func(expr()); },
                              type);
             func((*this)());
@@ -192,16 +193,16 @@ public:
     template<typename Slot>
     auto bindTo(N_RECEIVER_T(Slot) receiver, Slot slot, Qt::ConnectionType type = Qt::AutoConnection) const
     {
-        Binding* binding = findOrCreateBinding(receiver);
+        QSignalMapper* binding = findOrCreateBinding(receiver);
         bind(binding, *this);
 
         if constexpr (std::is_invocable_v<Slot, std::decay_t<decltype(receiver)>>) {
-            QObject::connect(binding, &Binding::update,
+            QObject::connect(binding, &QSignalMapper::mappedInt,
                              receiver, slot,
                              type);
             (receiver->*slot)();
         } else {
-            QObject::connect(binding, &Binding::update,
+            QObject::connect(binding, &QSignalMapper::mappedInt,
                              binding, [receiver, slot, expr = *this]() mutable { (receiver->*slot)(expr()); },
                              type);
             (receiver->*slot)((*this)());
@@ -223,28 +224,30 @@ private:
     { return std::tuple_cat(calc(arg0), calc(argn...)); }
 
 
-    template<typename T>                static void bind(Binding*, const T&) {}
-    template<typename T, typename Info> static void bind(Binding*, const T&, Property<Info>) {}
+    template<typename T>                static void bind(QSignalMapper*, const T&) {}
+    template<typename T, typename Info> static void bind(QSignalMapper*, const T&, Property<Info>) {}
 
     template<typename InfoFrom>
-    static void bind(Binding* binding, Property<InfoFrom> source)
+    static void bind(QSignalMapper* binding, Property<InfoFrom> source)
     { bind(binding, (BindingExpr<ActionGetProperty<InfoFrom>, typename InfoFrom::Object*>)source); }
 
     template<typename InfoFrom, typename InfoTo>
-    static void bind(Binding* binding, Property<InfoFrom> source, Property<InfoTo> target)
+    static void bind(QSignalMapper* binding, Property<InfoFrom> source, Property<InfoTo> target)
     { bind(binding, (BindingExpr<ActionGetProperty<InfoFrom>, typename InfoFrom::Object*>)source, target); }
 
     // Call BindingExpr::invoke on Property<Info> would get a BindingExpr,
     // so we create a specialized template for it.
     template<typename InfoFrom>
-    static void bind(Binding* binding, BindingExpr<ActionGetProperty<InfoFrom>, typename InfoFrom::Object*> source)
+    static void bind(QSignalMapper* binding, BindingExpr<ActionGetProperty<InfoFrom>, typename InfoFrom::Object*> source)
     {
-        QObject::connect(std::get<0>(source.args), &QObject::destroyed       , binding, &Binding::deleteLater, Qt::UniqueConnection);
-        QObject::connect(std::get<0>(source.args), InfoFrom::Notify::signal(), binding, &Binding::update     , Qt::UniqueConnection);
+        auto obj = std::get<0>(source.args);
+        QObject::connect(obj, &QObject::destroyed       , binding, &QObject::deleteLater           , Qt::UniqueConnection);
+        QObject::connect(obj, InfoFrom::Notify::signal(), binding, qOverload<>(&QSignalMapper::map), Qt::UniqueConnection);
+        binding->setMapping(obj, 0);
     }
 
     template<typename InfoFrom, typename InfoTo>
-    static void bind(Binding* binding, BindingExpr<ActionGetProperty<InfoFrom>, typename InfoFrom::Object*> source, Property<InfoTo> target)
+    static void bind(QSignalMapper* binding, BindingExpr<ActionGetProperty<InfoFrom>, typename InfoFrom::Object*> source, Property<InfoTo> target)
     {
         if constexpr (is_observable_v<InfoFrom>) {
             // if (!(is_same_property_v<InfoA, InfoB> && from.object() == to.object()))
@@ -258,14 +261,14 @@ private:
     }
 
     template<typename A, typename ...T>
-    static void bind(Binding* binding, const BindingExpr<A, T...>& source)
+    static void bind(QSignalMapper* binding, const BindingExpr<A, T...>& source)
     {
         std::apply([binding](auto&&... arg) {
             (..., bind(binding, arg));
         }, source.args); }
 
     template<typename A, typename ...T, typename Info>
-    static void bind(Binding* binding, const BindingExpr<A, T...>& source, Property<Info> target)
+    static void bind(QSignalMapper* binding, const BindingExpr<A, T...>& source, Property<Info> target)
     {
         std::apply([binding, target](auto&&... arg) {
             (..., bind(binding, arg, target));
@@ -273,12 +276,12 @@ private:
     }
 
 
-    static Binding* findOrCreateBinding(QObject* object)
+    static QSignalMapper* findOrCreateBinding(QObject* object)
     {
         static QString bindingName = QStringLiteral("nwidget_binding");
-        Binding* binding = object->findChild<Binding*>(bindingName);
+        QSignalMapper* binding = object->findChild<QSignalMapper*>(bindingName);
         if (!binding) {
-            binding = new Binding(object);
+            binding = new QSignalMapper(object);
             binding->setObjectName(bindingName);
         }
         return binding;
@@ -335,7 +338,7 @@ public:
     //   For "in" parameters, pass cheaply-copied types by value and others by reference to const.
     void set(const Type& value)
     {
-        Binding* binding = object()->template findChild<Binding*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
+        QSignalMapper* binding = object()->template findChild<QSignalMapper*>(Info::bindingName(), Qt::FindDirectChildrenOnly);
         if (binding)
             binding->deleteLater();
         return Setter::set(object(), value);
