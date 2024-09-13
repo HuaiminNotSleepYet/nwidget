@@ -54,7 +54,7 @@ public:
     N_ID_PROPERTY(QString                , format            , N_GETTER(format            ), N_SETTER(setFormat            ), N_NO_NOTIFY)
 };
 
-N_DECLARE_ID(QProgressBar, ProgressBarIdT, QProgressBar)
+N_DECLARE_ID(ProgressBar, ProgressBarIdT, QProgressBar)
 
 }
 

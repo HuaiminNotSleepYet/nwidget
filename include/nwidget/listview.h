@@ -35,7 +35,7 @@ public:
     N_ID_PROPERTY(Qt::Alignment, itemAlignment       , N_GETTER(itemAlignment         ), N_SETTER(setItemAlignment       ), N_NO_NOTIFY)
 };
 
-N_DECLARE_ID(QListView, ListViewIdT, QListView)
+N_DECLARE_ID(ListView, ListViewIdT, QListView)
 
 
 

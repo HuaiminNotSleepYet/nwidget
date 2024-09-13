@@ -53,7 +53,7 @@ public:
     N_ID_PROPERTY(bool, nativeMenuBar, N_GETTER(isNativeMenuBar), N_SETTER(setNativeMenuBar), N_NO_NOTIFY)
 };
 
-N_DECLARE_ID(QMenuBar, MenuBarIdT, QMenuBar)
+N_DECLARE_ID(MenuBar, MenuBarIdT, QMenuBar)
 
 }
 

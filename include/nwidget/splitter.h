@@ -57,7 +57,7 @@ public:
     N_ID_PROPERTY(bool           , childrenCollapsible, N_GETTER(childrenCollapsible), N_SETTER(setChildrenCollapsible), N_NO_NOTIFY)
 };
 
-N_DECLARE_ID(QSplitter, SplitterIdT, QSplitter)
+N_DECLARE_ID(Splitter, SplitterIdT, QSplitter)
 
 }
 

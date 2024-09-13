@@ -8,7 +8,7 @@
 namespace nwidget {
 
 template<typename T>
-class HeaderViewIdT : AbstractItemViewIdT<T>
+class HeaderViewIdT : public AbstractItemViewIdT<T>
 {
 public:
     using AbstractItemViewIdT<T>::AbstractItemViewIdT;
@@ -30,15 +30,15 @@ N_DECLARE_ID(HeaderView, HeaderViewIdT, QHeaderView)
 
 
 template<typename S, typename T>
-class HeaderViewBuilder : AbstractItemViewBuilder<S, T>
+class HeaderViewBuilder : public AbstractItemViewBuilder<S, T>
 {
     N_BUILDER
 
     using ResizeMode = QHeaderView::ResizeMode;
 
 public:
-    explicit HeaderViewBuilder(Qt::Orientation o) : AbstractItemViewBuilder<S, T>(new T(o)) {};
-    explicit HeaderViewBuilder(T* target)         : AbstractItemViewBuilder<S, T>(new T(target)) {};
+    explicit HeaderViewBuilder(Qt::Orientation o) : AbstractItemViewBuilder<S, T>(new T(o)) {}
+    explicit HeaderViewBuilder(T* target)         : AbstractItemViewBuilder<S, T>(target) {}
 
     N_BUILDER_PROPERTY(bool         , firstSectionMovable    , setFirstSectionMovable   )
     N_BUILDER_PROPERTY(bool         , showSortIndicator      , setSortIndicatorShown    )

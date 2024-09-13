@@ -63,7 +63,7 @@ template<typename T>
 class SpinBoxIdT : public AbstractSpinBoxIdT<T>
 {
 public:
-    using ObjectIdT<T>::ObjectIdT;
+    using AbstractSpinBoxIdT<T>::AbstractSpinBoxIdT;
 
     N_ID_PROPERTY(QString           , suffix            , N_GETTER(suffix            ), N_SETTER(setSuffix            ), N_NO_NOTIFY)
     N_ID_PROPERTY(QString           , prefix            , N_GETTER(prefix            ), N_SETTER(setPrefix            ), N_NO_NOTIFY)

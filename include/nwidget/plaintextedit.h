@@ -64,7 +64,7 @@ public:
     N_ID_PROPERTY(QString                     , placeholderText     , N_GETTER(placeholderText     ), N_SETTER(setPlaceholderText     ), N_NO_NOTIFY)
 };
 
-N_DECLARE_ID(QPlainTextEdit, PlainTextEditIdT, QPlainTextEdit)
+N_DECLARE_ID(PlainTextEdit, PlainTextEditIdT, QPlainTextEdit)
 
 }
 

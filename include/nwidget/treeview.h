@@ -11,7 +11,7 @@ template<typename T>
 class TreeViewIdT : public AbstractItemViewIdT<T>
 {
 public:
-    using AbstractItemViewIdT<T>::AbstractScrollAreaIdT;
+    using AbstractItemViewIdT<T>::AbstractItemViewIdT;
 
     N_ID_PROPERTY(int , autoExpandDelay     , N_GETTER(autoExpandDelay     ), N_SETTER(setAutoExpandDelay     ), N_NO_NOTIFY)
     N_ID_PROPERTY(int , indentation         , N_GETTER(indentation         ), N_SETTER(setIndentation         ), N_NO_NOTIFY)
@@ -47,7 +47,6 @@ public:
     N_BUILDER_PROPERTY(bool, animated            , setAnimated            )
     N_BUILDER_PROPERTY(bool, allColumnsShowFocus , setAllColumnsShowFocus )
     N_BUILDER_PROPERTY(bool, wordWrap            , setWordWrap            )
-    N_BUILDER_PROPERTY(bool, headerHidden        , setHeaderHidden        )
     N_BUILDER_PROPERTY(bool, expandsOnDoubleClick, setExpandsOnDoubleClick)
 
     S& header(QHeaderView* header)                                       { t->setHeader(header)                       ; return self(); }
@@ -57,8 +56,6 @@ public:
     S& rowHidden(int row, const QModelIndex& parent, bool hide)          { t->setRowHidden(row, parent, hide)         ; return self(); }
     S& firstColumnSpanned(int row, const QModelIndex& parent, bool span) { t->setFirstColumnSpanned(row, parent, span); return self(); }
     S& expanded(const QModelIndex& index, bool expand)                   { t->setExpanded(index, expand)              ; return self(); }
-    S& sortingEnabled(bool enable)                                       { t->setSortingEnabled(enable)               ; return self(); }
-    S& animated(bool enable)                                             { t->setAnimated(enable)                     ; return self(); }
     S& treePosition(int logicalIndex)                                    { t->setTreePosition(logicalIndex)           ; return self(); }
 
     N_BUILDER_SIGNAL(onExpanded , expanded )

@@ -38,7 +38,7 @@ public:
 #endif
     N_BUILDER_PROPERTY(bool               , visible          , setVisible        )
     N_BUILDER_PROPERTY(QAction::MenuRole  , menuRole         , setMenuRole       )
-    N_BUILDER_PROPERTY(bool               , iconVisibleInMenu, setIconVisibleInMe)
+    N_BUILDER_PROPERTY(bool               , iconVisibleInMenu, setIconVisibleInMenu)
     N_BUILDER_PROPERTY(bool               , shortcutVisibleInContextMenu, setShortcutVisibleInContextMenu)
     N_BUILDER_PROPERTY(QAction::Priority  , priority         , setPriority       )
 
@@ -78,9 +78,12 @@ public:
 #endif
     N_ID_PROPERTY(bool               , visible          , N_GETTER(isVisible      ), N_SETTER(setVisible        ), N_NOTIFY(visibleChanged  ))
     N_ID_PROPERTY(QAction::MenuRole  , menuRole         , N_GETTER(menuRole       ), N_SETTER(setMenuRole       ), N_NOTIFY(changed         ))
-    N_ID_PROPERTY(bool               , iconVisibleInMenu, N_GETTER(isIconVisibleIn), N_SETTER(setIconVisibleInMe), N_NOTIFY(changed         ))
-    N_ID_PROPERTY(bool               , shortcutVisibleInContextMenu,
-               N_GETTER(isShortcutVisibleInContextMenu), N_SETTER(setShortcutVisibleInContextMenu), N_NOTIFY(changed))
+    N_ID_PROPERTY(bool               , iconVisibleInMenu, N_GETTER(isIconVisibleInMenu)
+                                                        , N_SETTER(setIconVisibleInMenu)
+                                                        , N_NOTIFY(changed))
+    N_ID_PROPERTY(bool    , shortcutVisibleInContextMenu, N_GETTER(isShortcutVisibleInContextMenu)
+                                                        , N_SETTER(setShortcutVisibleInContextMenu)
+                                                        , N_NOTIFY(changed))
     N_ID_PROPERTY(QAction::Priority  , priority         , N_GETTER(priority       ), N_SETTER(setPriority       ), N_NOTIFY(changed         ))
 };
 

@@ -11,7 +11,7 @@ template<typename T>
 class TableViewIdT : public AbstractItemViewIdT<T>
 {
 public:
-    using AbstractItemViewIdT<T>::AbstractScrollAreaIdT;
+    using AbstractItemViewIdT<T>::AbstractItemViewIdT;
 
     N_ID_PROPERTY(bool        , showGrid           , N_GETTER(showGrid             ), N_SETTER(setShowGrid           ), N_NO_NOTIFY)
     N_ID_PROPERTY(Qt::PenStyle, gridStyle          , N_GETTER(gridStyle            ), N_SETTER(setGridStyle          ), N_NO_NOTIFY)

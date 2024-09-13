@@ -24,7 +24,7 @@ public:
     N_ID_PROPERTY(bool   , toolTipsVisible      , N_GETTER(toolTipsVisible      ), N_SETTER(setToolTipsVisible      ), N_NO_NOTIFY)
 };
 
-N_DECLARE_ID(QMenu, MenuIdT, QMenu)
+N_DECLARE_ID(Menu, MenuIdT, QMenu)
 
 
 
