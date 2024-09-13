@@ -87,6 +87,20 @@ nw::asprintf("%d", slider1.value() + slider2.value())
 - Easy to maintain
 - Fun
 
+## Installing
+
+```shell
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/installation/path
+cmake --build . --config Release --target install
+```
+
+```cmake
+find_package(nwidget CONFIG REQUIRED)
+target_link_libraries(main PRIVATE nwidget::nwidget)
+```
+
 ## Examples
 
 [NWidget Gallery](./examples/gallery) : [Widget Gallery](https://doc.qt.io/qt-6/qtwidgets-gallery-example.html) written with nwidget.
