@@ -466,9 +466,9 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
 #define N_SETTER(FUNC) struct Setter { static void set(Object* object, const Type& value) { object->FUNC(value); } };
 #define N_NOTIFY(SIG)  struct Notify { static auto signal() { return &Object::SIG; } };
 
-#define N_NO_SETTER using Setter = nwidget::NoSetter;
-#define N_NO_GETTER using Getter = nwidget::NoGetter;
-#define N_NO_NOTIFY using Notify = nwidget::NoNotify;
+#define N_NO_SETTER using Setter = ::nwidget::NoSetter;
+#define N_NO_GETTER using Getter = ::nwidget::NoGetter;
+#define N_NO_NOTIFY using Notify = ::nwidget::NoNotify;
 
 // TODO: Extract property type from getter/setter.
 //
@@ -506,8 +506,8 @@ auto NAME() const                                                   \
         { return QStringLiteral("nwidget_binding_on_"#NAME); }      \
     };                                                              \
                                                                     \
-    Q_ASSERT(nwidget::ObjectIdT<Object>::t);                        \
-    return nwidget::Property<Info>(nwidget::ObjectIdT<Object>::t);  \
+    Q_ASSERT(::nwidget::ObjectIdT<Object>::t);                      \
+    return ::nwidget::Property<Info>(::nwidget::ObjectIdT<Object>::t);\
 }
 
 template<typename T>
@@ -541,9 +541,9 @@ N_DECLARE_ID(Object, ObjectIdT, QObject)
 
 #define N_BUILDER                               \
 protected:                                      \
-    using nwidget::ObjectBuilder<S, T>::t;      \
-    using nwidget::ObjectBuilder<S, T>::self;   \
-    using nwidget::ObjectBuilder<S, T>::addItems;
+    using ::nwidget::ObjectBuilder<S, T>::t;    \
+    using ::nwidget::ObjectBuilder<S, T>::self; \
+    using ::nwidget::ObjectBuilder<S, T>::addItems;
 
 
 #define N_BUILDER_SIGNAL(NAME, SIG)                             \
@@ -567,7 +567,7 @@ S& NAME(const N_RECEIVER_T(Func) context, Func slot,            \
 S& NAME(const TYPE& arg) { t->SETTER(arg); return self(); }         \
                                                                     \
 template<typename ...TN>                                            \
-S& NAME(const nwidget::BindingExpr<TN...>& expr)                    \
+S& NAME(const ::nwidget::BindingExpr<TN...>& expr)                  \
 {                                                                   \
     using Object = typename std::decay_t<decltype(*t)>;             \
     using Type = TYPE;                                              \
@@ -588,7 +588,7 @@ S& NAME(const nwidget::BindingExpr<TN...>& expr)                    \
         { return QStringLiteral("nwidget_binding_on_"#NAME); }      \
     };                                                              \
                                                                     \
-    expr.bindTo(nwidget::Property<Info>(t));                        \
+    expr.bindTo(::nwidget::Property<Info>(t));                      \
                                                                     \
     return self();                                                  \
 }
