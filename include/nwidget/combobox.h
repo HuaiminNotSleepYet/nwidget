@@ -69,24 +69,27 @@ N_DECLARE_BUILDER(ComboBox, ComboBoxBuilder, QComboBox)
 template <typename T>
 class ComboBoxIdT : public WidgetIdT<T>
 {
+    using InsertPolicy     = QComboBox::InsertPolicy;
+    using SizeAdjustPolicy = QComboBox::SizeAdjustPolicy;
+
 public:
     using WidgetIdT<T>::WidgetIdT;
 
-    N_ID_PROPERTY(bool                       , editable             , N_GETTER(isEditable           ), N_SETTER(setEditable             ), N_NO_NOTIFY)
-    N_ID_PROPERTY(int                        , count                , N_GETTER(count                ), N_NO_SETTER                       , N_NO_NOTIFY)
-    N_ID_PROPERTY(QString                    , currentText          , N_GETTER(currentText          ), N_SETTER(setCurrentText          ), N_NOTIFY(currentTextChanged))
-    N_ID_PROPERTY(int                        , currentIndex         , N_GETTER(currentIndex         ), N_SETTER(setCurrentIndex         ), N_NOTIFY(currentIndexChanged))
-    N_ID_PROPERTY(QVariant                   , currentData          , N_GETTER(currentData          ), N_NO_SETTER                       , N_NO_NOTIFY)
-    N_ID_PROPERTY(int                        , maxVisibleItems      , N_GETTER(maxVisibleItems      ), N_SETTER(setMaxVisibleItems      ), N_NO_NOTIFY)
-    N_ID_PROPERTY(int                        , maxCount             , N_GETTER(maxCount             ), N_SETTER(setMaxCount             ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QComboBox::InsertPolicy    , insertPolicy         , N_GETTER(insertPolicy         ), N_SETTER(setInsertPolicy         ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QComboBox::SizeAdjustPolicy, sizeAdjustPolicy     , N_GETTER(sizeAdjustPolicy     ), N_SETTER(setSizeAdjustPolicy     ), N_NO_NOTIFY)
-    N_ID_PROPERTY(int                        , minimumContentsLength, N_GETTER(minimumContentsLength), N_SETTER(setMinimumContentsLength), N_NO_NOTIFY)
-    N_ID_PROPERTY(QSize                      , iconSize             , N_GETTER(iconSize             ), N_SETTER(setIconSize             ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QString                    , placeholderText      , N_GETTER(placeholderText      ), N_SETTER(setPlaceholderText      ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                       , duplicatesEnabled    , N_GETTER(duplicatesEnabled    ), N_SETTER(setDuplicatesEnabled    ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                       , frame                , N_GETTER(hasFrame             ), N_SETTER(setFrame                ), N_NO_NOTIFY)
-    N_ID_PROPERTY(int                        , modelColumn          , N_GETTER(modelColumn          ), N_SETTER(setModelColumn          ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool            , editable             , N_READ isEditable            N_WRITE setEditable             )
+    N_ID_PROPERTY(int             , count                , N_READ count                                                 )
+    N_ID_PROPERTY(QString         , currentText          , N_READ currentText           N_WRITE setCurrentText          N_NOTIFY currentTextChanged)
+    N_ID_PROPERTY(int             , currentIndex         , N_READ currentIndex          N_WRITE setCurrentIndex         N_NOTIFY currentIndexChanged)
+    N_ID_PROPERTY(QVariant        , currentData          , N_READ currentData                                           )
+    N_ID_PROPERTY(int             , maxVisibleItems      , N_READ maxVisibleItems       N_WRITE setMaxVisibleItems      )
+    N_ID_PROPERTY(int             , maxCount             , N_READ maxCount              N_WRITE setMaxCount             )
+    N_ID_PROPERTY(InsertPolicy    , insertPolicy         , N_READ insertPolicy          N_WRITE setInsertPolicy         )
+    N_ID_PROPERTY(SizeAdjustPolicy, sizeAdjustPolicy     , N_READ sizeAdjustPolicy      N_WRITE setSizeAdjustPolicy     )
+    N_ID_PROPERTY(int             , minimumContentsLength, N_READ minimumContentsLength N_WRITE setMinimumContentsLength)
+    N_ID_PROPERTY(QSize           , iconSize             , N_READ iconSize              N_WRITE setIconSize             )
+    N_ID_PROPERTY(QString         , placeholderText      , N_READ placeholderText       N_WRITE setPlaceholderText      )
+    N_ID_PROPERTY(bool            , duplicatesEnabled    , N_READ duplicatesEnabled     N_WRITE setDuplicatesEnabled    )
+    N_ID_PROPERTY(bool            , frame                , N_READ hasFrame              N_WRITE setFrame                )
+    N_ID_PROPERTY(int             , modelColumn          , N_READ modelColumn           N_WRITE setModelColumn          )
 };
 
 N_DECLARE_ID(ComboBox, ComboBoxIdT, QComboBox)

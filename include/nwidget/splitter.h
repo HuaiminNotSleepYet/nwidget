@@ -51,10 +51,10 @@ class SplitterIdT : public FrameIdT<T>
 public:
     using FrameIdT<T>::FrameIdT;
 
-    N_ID_PROPERTY(Qt::Orientation, orientation        , N_GETTER(orientation        ), N_SETTER(setOrientation        ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool           , opaqueResize       , N_GETTER(opaqueResize       ), N_SETTER(setOpaqueResize       ), N_NO_NOTIFY)
-    N_ID_PROPERTY(int            , handleWidth        , N_GETTER(handleWidth        ), N_SETTER(setHandleWidth        ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool           , childrenCollapsible, N_GETTER(childrenCollapsible), N_SETTER(setChildrenCollapsible), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::Orientation, orientation        , N_READ orientation         N_WRITE setOrientation        )
+    N_ID_PROPERTY(bool           , opaqueResize       , N_READ opaqueResize        N_WRITE setOpaqueResize       )
+    N_ID_PROPERTY(int            , handleWidth        , N_READ handleWidth         N_WRITE setHandleWidth        )
+    N_ID_PROPERTY(bool           , childrenCollapsible, N_READ childrenCollapsible N_WRITE setChildrenCollapsible)
 };
 
 N_DECLARE_ID(Splitter, SplitterIdT, QSplitter)

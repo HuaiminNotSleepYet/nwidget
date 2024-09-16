@@ -10,6 +10,7 @@
 #define N_RECEIVER_T(F) typename QtPrivate::ContextTypeForFunctor<F>::ContextType*
 #endif
 
+// NOTE: All namespaces within ::nwidget are for internal use only.
 namespace nwidget {
 
 /* ---------------------------- Property Binding ---------------------------- */
@@ -295,25 +296,21 @@ struct is_observable<BindingExpr<A, T0, TN...>>
 
 
 
-struct NoGetter {};
-struct NoSetter {};
-struct NoNotify {};
-
 template<typename PropertyInfo>
 class Property : public BindingExpr<ActionGetProperty<PropertyInfo>, typename PropertyInfo::Object*>
 {
 
 // NOTE: Do not create your own PropertyInfo, use N_ID_PROPERTY or N_BUILDER_PROPERTY to declare a property.
 //
-// The basic member of PropertyInfo is as follows:
+// The follows is the basic member of a PropertyInfo:
 // struct Info
 // {
 //     using Object = ...
 //     using Type   = ...
 //
-//     using Getter = NoGetter or struct { static Type get(const Object* object)                    { ... } }
-//     using Setter = NoSetter or struct { static void set(      Object* object, const Type& value) { ... } }
-//     using Notify = NoNotify or struct { static auto signal() { return &Object::propertyChanged; } }
+//     using Getter = void or struct { static Type get(const Object* object)                    { ... } }
+//     using Setter = void or struct { static void set(      Object* object, const Type& value) { ... } }
+//     using Notify = void or struct { static auto signal() { return &Object::propertyChanged; } }
 //
 //     static constexpr const char* name() { return "propertyName";  }
 //     static QString bindingName() { return "nwidget_binding_on_propertyName"; }
@@ -396,7 +393,7 @@ struct is_observable<BindingExpr<ActionGetProperty<Info>, typename Info::Object*
 
 template<typename T>
 struct is_observable<T, std::void_t<typename T::Notify>>
-    : std::bool_constant<!std::is_same_v<typename T::Notify, NoNotify>>
+    : std::bool_constant<!std::is_same_v<typename T::Notify, void>>
 {};
 
 
@@ -462,53 +459,63 @@ N_BINDING_EXPR_UE(operator*, ActionContentOf)
 
 
 
-#define N_GETTER(FUNC) struct Getter { static auto get(const Object* object) { return object->FUNC(); } };
-#define N_SETTER(FUNC) struct Setter { static void set(Object* object, const Type& value) { object->FUNC(value); } };
-#define N_NOTIFY(SIG)  struct Notify { static auto signal() { return &Object::SIG; } };
+namespace property {
+using Getter = void;
+using Setter = void;
+using Notify = void;
+}
 
-#define N_NO_SETTER using Setter = ::nwidget::NoSetter;
-#define N_NO_GETTER using Getter = ::nwidget::NoGetter;
-#define N_NO_NOTIFY using Notify = ::nwidget::NoNotify;
+#define N_READ_IMPL(FUNC)   struct Getter { static Type get(const Object* o)          { return o->FUNC(); }     };
+#define N_WRITE_IMPL(FUNC)  struct Setter { static void set(Object* o, const Type& v) { o->FUNC(v);  }          };
+#define N_NOTIFY_IMPL(FUNC) struct Notify { static auto signal()                      { return &Object::FUNC; } };
 
-// TODO: Extract property type from getter/setter.
+// NOTE: The following reason is speculative, but it works.
 //
-// In most cases, the property type is already contained in the getter/setter,
-// to accommodate overloaded methods, a xx_T variant is provided to explicitly
-// specify the property type.
+// #define N_WRITE  ); N_WRITE_IMPL (
+//   N_ID_PROPERTY(int, value, N_READ value)
+//   -> N_ID_PROPERTY(int, value, N_READ_IMPL (value)
+//                                            ^ ERROR!!!
 //
-// The corresponding macro will be changed to:
-//   N_ID_PROPERTY       (      NAME, GETTER, SETTER, NOTIFY)
-//   N_ID_PROPERTY_T     (TYPE, NAME, GETTER, SETTER, NOTIFY)
-//   N_BUILDER_PROPERTY  (      NAME, SETTER)
-//   N_BUILDER_PROPERTY_T(TYPE, NAME, SETTER)
+// #define N_WRITE  ); N_WRITE_IMPL N_LEFT_PAREN
+//   N_ID_PROPERTY(int, value, N_READ value)
+//   -> N_ID_PROPERTY(int, value, N_READ_IMPL N_LEFT_PAREN value)
+//                                            ^ now it is a token
 
-#define N_ID_PROPERTY(TYPE, NAME, GETTER, SETTER, NOTIFY)           \
-auto NAME() const                                                   \
-{                                                                   \
-    using Object = typename std::decay_t<decltype(*this->t)>;       \
-    using Type = TYPE;                                              \
-                                                                    \
-    GETTER                                                          \
-    SETTER                                                          \
-    NOTIFY                                                          \
-                                                                    \
-    struct Info                                                     \
-    {                                                               \
-        using Notify = Notify;                                      \
-        using Object = Object;                                      \
-        using Type   = TYPE;                                        \
-        using Getter = Getter;                                      \
-        using Setter = Setter;                                      \
-                                                                    \
-        static constexpr const char* name() { return #NAME;  }      \
-                                                                    \
-        static QString bindingName()                                \
-        { return QStringLiteral("nwidget_binding_on_"#NAME); }      \
-    };                                                              \
-                                                                    \
-    Q_ASSERT(::nwidget::ObjectIdT<Object>::t);                      \
+#define N_LEFT_PAREN (
+
+#define N_READ   ); N_READ_IMPL   N_LEFT_PAREN
+#define N_WRITE  ); N_WRITE_IMPL  N_LEFT_PAREN
+#define N_NOTIFY ); N_NOTIFY_IMPL N_LEFT_PAREN
+
+#define N_ID_PROPERTY(TYPE, NAME, ...)                          \
+auto NAME()                                                     \
+{                                                               \
+    using namespace ::nwidget::property;                        \
+                                                                \
+    using Object                                                \
+        = std::decay_t<decltype(*this->t)>;                     \
+    using Type = TYPE;                                          \
+                                                                \
+    void ( __VA_ARGS__ )                                        \
+                                                                \
+    struct Info                                                 \
+    {                                                           \
+        using Type   = Type;                                    \
+        using Object = Object;                                  \
+        using Getter = Getter;                                  \
+        using Setter = Setter;                                  \
+        using Notify = Notify;                                  \
+                                                                \
+        static constexpr const char* name() { return #NAME;  }  \
+                                                                \
+        static QString bindingName()                            \
+        { return QStringLiteral("nwidget_binding_on_"#NAME); }  \
+    };                                                          \
+                                                                \
     return ::nwidget::Property<Info>(::nwidget::ObjectIdT<Object>::t);\
 }
+
+
 
 template<typename T>
 class ObjectIdT
@@ -524,8 +531,10 @@ public:
 
     T& operator*() const { return *t; }
 
-    // NOTE: We currently only use N_ID_PROPERTY and N_BUILDER_PROPERTY on properties declared using Q_PROPERTY.
-    N_ID_PROPERTY(QString, objectName, N_GETTER(objectName), N_SETTER(setObjectName), N_NOTIFY(objectNameChanged))
+    // NOTE: Property binding doesn't rely on Q_PROPERTY declarations,
+    // but we currently only use N_ID_PROPERTY and N_BUILDER_PROPERTY
+    // on properties declared using Q_PROPERTY.
+    N_ID_PROPERTY(QString, objectName, N_READ objectName)
 
 protected:
     T* t;
@@ -572,15 +581,15 @@ S& NAME(const ::nwidget::BindingExpr<TN...>& expr)                  \
     using Object = typename std::decay_t<decltype(*t)>;             \
     using Type = TYPE;                                              \
                                                                     \
-    N_SETTER(SETTER)                                                \
+    struct Setter { static auto func() {return &Object::SETTER;} }; \
                                                                     \
     struct Info                                                     \
     {                                                               \
         using Object = Object;                                      \
         using Type   = Type;                                        \
-        using Getter = NoGetter;                                    \
+        using Getter = void;                                        \
         using Setter = Setter;                                      \
-        using Notify = NoNotify;                                    \
+        using Notify = void;                                        \
                                                                     \
         static constexpr const char* name() { return #NAME;  }      \
                                                                     \

@@ -17,11 +17,11 @@ class MenuIdT : public WidgetIdT<T>
 public:
     using WidgetIdT<T>::WidgetIdT;
 
-    N_ID_PROPERTY(bool   , tearOffEnabled       , N_GETTER(isTearOffEnabled     ), N_SETTER(setTearOffEnabled       ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QString, title                , N_GETTER(title                ), N_SETTER(setTitle                ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QIcon  , icon                 , N_GETTER(icon                 ), N_SETTER(setIcon                 ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool   , separatorsCollapsible, N_GETTER(separatorsCollapsible), N_SETTER(setSeparatorsCollapsible), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool   , toolTipsVisible      , N_GETTER(toolTipsVisible      ), N_SETTER(setToolTipsVisible      ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool   , tearOffEnabled       , N_READ isTearOffEnabled      N_WRITE setTearOffEnabled       )
+    N_ID_PROPERTY(QString, title                , N_READ title                 N_WRITE setTitle                )
+    N_ID_PROPERTY(QIcon  , icon                 , N_READ icon                  N_WRITE setIcon                 )
+    N_ID_PROPERTY(bool   , separatorsCollapsible, N_READ separatorsCollapsible N_WRITE setSeparatorsCollapsible)
+    N_ID_PROPERTY(bool   , toolTipsVisible      , N_READ toolTipsVisible       N_WRITE setToolTipsVisible      )
 };
 
 N_DECLARE_ID(Menu, MenuIdT, QMenu)

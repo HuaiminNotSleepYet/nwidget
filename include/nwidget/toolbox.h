@@ -44,8 +44,8 @@ class ToolBoxIdT : public FrameIdT<T>
 public:
     using FrameIdT<T>::FrameIdT;
 
-    N_ID_PROPERTY(int, currentIndex, N_GETTER(currentIndex), N_SETTER(setCurrentIndex), N_NOTIFY(currentChanged))
-    N_ID_PROPERTY(int, count       , N_GETTER(count       ), N_NO_SETTER              , N_NO_NOTIFY             )
+    N_ID_PROPERTY(int, currentIndex, N_READ currentIndex N_WRITE setCurrentIndex N_NOTIFY currentChanged)
+    N_ID_PROPERTY(int, count       , N_READ count)
 };
 
 N_DECLARE_ID(ToolBox, ToolBoxIdT, QToolBox)

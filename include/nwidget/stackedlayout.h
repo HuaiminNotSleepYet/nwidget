@@ -28,12 +28,14 @@ N_DECLARE_BUILDER(StackedLayout, StackedLayoutBuilder, QStackedLayout)
 template<typename T>
 class StackedLayoutIdT : public LayoutIdT<T>
 {
+    using StackingMode = QStackedLayout::StackingMode;
+
 public:
     using LayoutIdT<T>::LayoutIdT;
 
-    N_ID_PROPERTY(int                         , currentIndex, N_GETTER(currentIndex), N_SETTER(setCurrentIndex), N_NOTIFY(currentChanged))
-    N_ID_PROPERTY(QStackedLayout::StackingMode, stackingMode, N_GETTER(stackingMode), N_SETTER(setStackingMode), N_NO_NOTIFY)
-    N_ID_PROPERTY(int                         , count       , N_GETTER(count       ), N_NO_SETTER              , N_NO_NOTIFY)
+    N_ID_PROPERTY(int         , currentIndex, N_READ currentIndex N_WRITE setCurrentIndex N_NOTIFY currentChanged)
+    N_ID_PROPERTY(StackingMode, stackingMode, N_READ stackingMode N_WRITE setStackingMode)
+    N_ID_PROPERTY(int         , count       , N_READ count)
 };
 
 N_DECLARE_ID(StackedLayout, StackedLayoutIdT, QStackedLayout)

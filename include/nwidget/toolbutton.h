@@ -43,11 +43,11 @@ public:
     using AbstractButtonIdT<T>::AbstractButtonIdT;
 
 #if QT_CONFIG(menu)
-    N_ID_PROPERTY(QToolButton::ToolButtonPopupMode, popupMode, N_GETTER(popupMode), N_SETTER(setPopupMode), N_NO_NOTIFY)
+    N_ID_PROPERTY(QToolButton::ToolButtonPopupMode, popupMode, N_READ popupMode N_WRITE setPopupMode)
 #endif
-    N_ID_PROPERTY(Qt::ToolButtonStyle, toolButtonStyle, N_GETTER(toolButtonStyle), N_SETTER(setToolButtonStyle), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool               , autoRaise      , N_GETTER(autoRaise      ), N_SETTER(setAutoRaise      ), N_NO_NOTIFY)
-    N_ID_PROPERTY(Qt::ArrowType      , arrowType      , N_GETTER(arrowType      ), N_SETTER(setArrowType      ), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::ToolButtonStyle, toolButtonStyle, N_READ toolButtonStyle N_WRITE setToolButtonStyle)
+    N_ID_PROPERTY(bool               , autoRaise      , N_READ autoRaise       N_WRITE setAutoRaise      )
+    N_ID_PROPERTY(Qt::ArrowType      , arrowType      , N_READ arrowType       N_WRITE setArrowType      )
 };
 
 N_DECLARE_ID(ToolButton, ToolButtonIdT, QToolButton)

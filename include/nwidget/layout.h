@@ -14,12 +14,13 @@ template<typename S, typename T> class WidgetBuilder;
 template<typename T>
 class LayoutIdT : public ObjectIdT<T>
 {
+    using SizeConstraint = QLayout::SizeConstraint;
 public:
     using ObjectIdT<T>::ObjectIdT;
 
-    N_ID_PROPERTY(int                    , spacing        , N_GETTER(spacing        ),  N_SETTER(setSpacing        ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QMargins               , contentsMargins, N_GETTER(contentsMargins),  N_SETTER(setContentsMargins), N_NO_NOTIFY)
-    N_ID_PROPERTY(QLayout::SizeConstraint, sizeConstraint , N_GETTER(sizeConstraint ),  N_SETTER(setSizeConstraint ), N_NO_NOTIFY)
+    N_ID_PROPERTY(int           , spacing        , N_READ spacing         N_WRITE setSpacing        )
+    N_ID_PROPERTY(QMargins      , contentsMargins, N_READ contentsMargins N_WRITE setContentsMargins)
+    N_ID_PROPERTY(SizeConstraint, sizeConstraint , N_READ sizeConstraint  N_WRITE setSizeConstraint )
 };
 
 N_DECLARE_ID(Layout, LayoutIdT, QLayout)

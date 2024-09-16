@@ -70,20 +70,23 @@ N_DECLARE_BUILDER(TabWidget, TabWidgetBuilder, QTabWidget);
 template <typename T>
 class TabWidgetIdT : public WidgetIdT<T>
 {
+    using TabPosition = QTabWidget::TabPosition;
+    using TabShape = QTabWidget::TabShape;
+
 public:
     using WidgetIdT<T>::WidgetIdT;
 
-    N_ID_PROPERTY(QTabWidget::TabPosition, tabPosition      , N_GETTER(tabPosition      ), N_SETTER(setTabPosition      ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QTabWidget::TabShape   , tabShape         , N_GETTER(tabShape         ), N_SETTER(setTabShape         ), N_NO_NOTIFY)
-    N_ID_PROPERTY(int                    , currentIndex     , N_GETTER(currentIndex     ), N_SETTER(setCurrentIndex     ), N_NOTIFY(currentChanged))
-    N_ID_PROPERTY(int                    , count            , N_GETTER(count            ), N_NO_SETTER                   , N_NO_NOTIFY)
-    N_ID_PROPERTY(QSize                  , iconSize         , N_GETTER(iconSize         ), N_SETTER(setIconSize         ), N_NO_NOTIFY)
-    N_ID_PROPERTY(Qt::TextElideMode      , elideMode        , N_GETTER(elideMode        ), N_SETTER(setElideMode        ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                   , usesScrollButtons, N_GETTER(usesScrollButtons), N_SETTER(setUsesScrollButtons), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                   , documentMode     , N_GETTER(documentMode     ), N_SETTER(setDocumentMode     ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                   , tabsClosable     , N_GETTER(tabsClosable     ), N_SETTER(setTabsClosable     ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                   , movable          , N_GETTER(isMovable        ), N_SETTER(setMovable          ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                   , tabBarAutoHide   , N_GETTER(tabBarAutoHide   ), N_SETTER(setTabBarAutoHide   ), N_NO_NOTIFY)
+    N_ID_PROPERTY(TabPosition      , tabPosition      , N_READ tabPosition       N_WRITE setTabPosition      )
+    N_ID_PROPERTY(TabShape         , tabShape         , N_READ tabShape          N_WRITE setTabShape         )
+    N_ID_PROPERTY(int              , currentIndex     , N_READ currentIndex      N_WRITE setCurrentIndex     N_NOTIFY currentChanged)
+    N_ID_PROPERTY(int              , count            , N_READ count                                         )
+    N_ID_PROPERTY(QSize            , iconSize         , N_READ iconSize          N_WRITE setIconSize         )
+    N_ID_PROPERTY(Qt::TextElideMode, elideMode        , N_READ elideMode         N_WRITE setElideMode        )
+    N_ID_PROPERTY(bool             , usesScrollButtons, N_READ usesScrollButtons N_WRITE setUsesScrollButtons)
+    N_ID_PROPERTY(bool             , documentMode     , N_READ documentMode      N_WRITE setDocumentMode     )
+    N_ID_PROPERTY(bool             , tabsClosable     , N_READ tabsClosable      N_WRITE setTabsClosable     )
+    N_ID_PROPERTY(bool             , movable          , N_READ isMovable         N_WRITE setMovable          )
+    N_ID_PROPERTY(bool             , tabBarAutoHide   , N_READ tabBarAutoHide    N_WRITE setTabBarAutoHide   )
 };
 
 N_DECLARE_ID(TabWidget, TabWidgetIdT, QTabWidget)

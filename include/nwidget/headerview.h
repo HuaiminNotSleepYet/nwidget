@@ -13,16 +13,16 @@ class HeaderViewIdT : public AbstractItemViewIdT<T>
 public:
     using AbstractItemViewIdT<T>::AbstractItemViewIdT;
 
-    N_ID_PROPERTY(bool         , firstSectionMovable    , N_GETTER(isFirstSectionMovable   ), N_SETTER(setFirstSectionMovable   ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool         , showSortIndicator      , N_GETTER(isSortIndicatorShown    ), N_SETTER(setSortIndicatorShown    ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool         , highlightSections      , N_GETTER(highlightSections       ), N_SETTER(setHighlightSections     ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool         , stretchLastSection     , N_GETTER(stretchLastSection      ), N_SETTER(setStretchLastSection    ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool         , cascadingSectionResizes, N_GETTER(cascadingSectionResizes ), N_NO_SETTER                        , N_NO_NOTIFY)
-    N_ID_PROPERTY(int          , defaultSectionSize     , N_GETTER(defaultSectionSize      ), N_SETTER(setDefaultSectionSize    ), N_NO_NOTIFY)
-    N_ID_PROPERTY(int          , minimumSectionSize     , N_GETTER(minimumSectionSize      ), N_SETTER(setMinimumSectionSize    ), N_NO_NOTIFY)
-    N_ID_PROPERTY(int          , maximumSectionSize     , N_GETTER(maximumSectionSize      ), N_SETTER(setMaximumSectionSize    ), N_NO_NOTIFY)
-    N_ID_PROPERTY(Qt::Alignment, defaultAlignment       , N_GETTER(defaultAlignment        ), N_SETTER(setDefaultAlignment      ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool         , sortIndicatorClearable , N_GETTER(isSortIndicatorClearable), N_SETTER(setSortIndicatorClearable), N_NOTIFY(sortIndicatorClearableChanged))
+    N_ID_PROPERTY(bool         , firstSectionMovable    , N_READ isFirstSectionMovable    N_WRITE setFirstSectionMovable)
+    N_ID_PROPERTY(bool         , showSortIndicator      , N_READ isSortIndicatorShown     N_WRITE setSortIndicatorShown )
+    N_ID_PROPERTY(bool         , highlightSections      , N_READ highlightSections        N_WRITE setHighlightSections  )
+    N_ID_PROPERTY(bool         , stretchLastSection     , N_READ stretchLastSection       N_WRITE setStretchLastSection )
+    N_ID_PROPERTY(bool         , cascadingSectionResizes, N_READ cascadingSectionResizes                                )
+    N_ID_PROPERTY(int          , defaultSectionSize     , N_READ defaultSectionSize       N_WRITE setDefaultSectionSize )
+    N_ID_PROPERTY(int          , minimumSectionSize     , N_READ minimumSectionSize       N_WRITE setMinimumSectionSize )
+    N_ID_PROPERTY(int          , maximumSectionSize     , N_READ maximumSectionSize       N_WRITE setMaximumSectionSize )
+    N_ID_PROPERTY(Qt::Alignment, defaultAlignment       , N_READ defaultAlignment         N_WRITE setDefaultAlignment   )
+    N_ID_PROPERTY(bool         , sortIndicatorClearable , N_READ isSortIndicatorClearable N_WRITE setSortIndicatorClearable N_NOTIFY sortIndicatorClearableChanged)
 };
 
 N_DECLARE_ID(HeaderView, HeaderViewIdT, QHeaderView)

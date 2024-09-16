@@ -50,19 +50,19 @@ class AbstractButtonIdT : public WidgetIdT<T>
 public:
     using WidgetIdT<T>::WidgetIdT;
 
-    N_ID_PROPERTY(QString     , text              , N_GETTER(text              ), N_SETTER(setText              ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QIcon       , icon              , N_GETTER(icon              ), N_SETTER(setIcon              ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QSize       , iconSize          , N_GETTER(iconSize          ), N_SETTER(setIconSize          ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QString     , text              , N_READ text               N_WRITE setText              )
+    N_ID_PROPERTY(QIcon       , icon              , N_READ icon               N_WRITE setIcon              )
+    N_ID_PROPERTY(QSize       , iconSize          , N_READ iconSize           N_WRITE setIconSize          )
 #ifndef QT_NO_SHORTCUT
-    N_ID_PROPERTY(QKeySequence, shortcut          , N_GETTER(shortcut          ), N_SETTER(setShortcut          ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QKeySequence, shortcut          , N_READ shortcut           N_WRITE setShortcut          )
 #endif
-    N_ID_PROPERTY(bool        , checkable         , N_GETTER(isCheckable       ), N_SETTER(setCheckable         ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool        , checked           , N_GETTER(isChecked         ), N_SETTER(setChecked           ), N_NOTIFY(toggled))
-    N_ID_PROPERTY(bool        , autoRepeat        , N_GETTER(autoRepeat        ), N_SETTER(setAutoRepeat        ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool        , autoExclusive     , N_GETTER(autoExclusive     ), N_SETTER(setAutoExclusive     ), N_NO_NOTIFY)
-    N_ID_PROPERTY(int         , autoRepeatDelay   , N_GETTER(autoRepeatDelay   ), N_SETTER(setAutoRepeatDelay   ), N_NO_NOTIFY)
-    N_ID_PROPERTY(int         , autoRepeatInterval, N_GETTER(autoRepeatInterval), N_SETTER(setAutoRepeatInterval), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool        , down              , N_GETTER(isDown            ), N_SETTER(setDown              ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool        , checkable         , N_READ isCheckable        N_WRITE setCheckable         )
+    N_ID_PROPERTY(bool        , checked           , N_READ isChecked          N_WRITE setChecked           N_NOTIFY toggled)
+    N_ID_PROPERTY(bool        , autoRepeat        , N_READ autoRepeat         N_WRITE setAutoRepeat        )
+    N_ID_PROPERTY(bool        , autoExclusive     , N_READ autoExclusive      N_WRITE setAutoExclusive     )
+    N_ID_PROPERTY(int         , autoRepeatDelay   , N_READ autoRepeatDelay    N_WRITE setAutoRepeatDelay   )
+    N_ID_PROPERTY(int         , autoRepeatInterval, N_READ autoRepeatInterval N_WRITE setAutoRepeatInterval)
+    N_ID_PROPERTY(bool        , down              , N_READ isDown             N_WRITE setDown              )
 };
 
 N_DECLARE_ID(AbstractButton, AbstractButtonIdT, QAbstractButton)

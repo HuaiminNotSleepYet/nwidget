@@ -49,8 +49,8 @@ class MenuBarIdT : public WidgetIdT<T>
 public:
     using WidgetIdT<T>::WidgetIdT;
 
-    N_ID_PROPERTY(bool, defaultUp    , N_GETTER(isDefaultUp    ), N_SETTER(setDefaultUp    ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool, nativeMenuBar, N_GETTER(isNativeMenuBar), N_SETTER(setNativeMenuBar), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool, defaultUp    , N_READ isDefaultUp     N_WRITE setDefaultUp    )
+    N_ID_PROPERTY(bool, nativeMenuBar, N_READ isNativeMenuBar N_WRITE setNativeMenuBar)
 };
 
 N_DECLARE_ID(MenuBar, MenuBarIdT, QMenuBar)

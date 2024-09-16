@@ -35,8 +35,8 @@ class CheckBoxIdT : public AbstractButtonIdT<T>
 public:
     using AbstractButtonIdT<T>::AbstractButtonIdT;
 
-    N_ID_PROPERTY(bool          , tristate  , N_GETTER(isTristate), N_SETTER(setTristate  ), N_NO_NOTIFY)
-    N_ID_PROPERTY(Qt::CheckState, checkState, N_GETTER(checkState), N_SETTER(setCheckState), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool          , tristate  , N_READ isTristate N_WRITE setTristate  )
+    N_ID_PROPERTY(Qt::CheckState, checkState, N_READ checkState N_WRITE setCheckState)
 };
 
 N_DECLARE_ID(CheckBox, CheckBoxIdT, QCheckBox)

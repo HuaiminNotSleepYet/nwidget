@@ -40,13 +40,14 @@ N_DECLARE_BUILDER(DialogButtonBox, DialogButtonBoxBuilder, QDialogButtonBox)
 template <typename T>
 class DialogButtonBoxIdT : public WidgetIdT<T>
 {
+    using StandardButtons = QDialogButtonBox::StandardButtons;
+
 public:
     using WidgetIdT<T>::WidgetIdT;
 
-    N_ID_PROPERTY(Qt::Orientation, orientation    , N_GETTER(orientation    ), N_SETTER(setOrientation    ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QDialogButtonBox::StandardButtons
-                              , standardButtons, N_GETTER(standardButtons), N_SETTER(setStandardButtons), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool           , centerButtons  , N_GETTER(centerButtons  ), N_SETTER(setCenterButtons  ), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::Orientation, orientation    , N_READ orientation     N_WRITE setOrientation    )
+    N_ID_PROPERTY(StandardButtons, standardButtons, N_READ standardButtons N_WRITE setStandardButtons)
+    N_ID_PROPERTY(bool           , centerButtons  , N_READ centerButtons   N_WRITE setCenterButtons  )
 };
 
 N_DECLARE_ID(DialogButtonBox, DialogButtonBoxIdT, QDialogButtonBox)

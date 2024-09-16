@@ -34,8 +34,8 @@ class CommandLinkButtonIdT : public PushButtonIdT<T>
 public:
     using PushButtonIdT<T>::PushButtonIdT;
 
-    N_ID_PROPERTY(QString, description, N_GETTER(description), N_SETTER(setDescription), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool   , flat       , N_GETTER(isFlat     ), N_SETTER(setFlat       ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QString, description, N_READ description N_WRITE setDescription)
+    N_ID_PROPERTY(bool   , flat       , N_READ isFlat      N_WRITE setFlat       )
 };
 
 N_DECLARE_ID(CommandLinkButton, CommandLinkButtonIdT, QCommandLinkButton)

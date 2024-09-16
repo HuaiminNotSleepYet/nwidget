@@ -33,8 +33,8 @@ class SliderIdT : public AbstractSliderIdT<T>
 public:
     using AbstractSliderIdT<T>::AbstractSliderIdT;
 
-    N_ID_PROPERTY(QSlider::TickPosition, tickPosition, N_GETTER(tickPosition), N_SETTER(setTickPosition), N_NO_NOTIFY)
-    N_ID_PROPERTY(int                  , tickInterval, N_GETTER(tickInterval), N_SETTER(setTickInterval), N_NO_NOTIFY)
+    N_ID_PROPERTY(QSlider::TickPosition, tickPosition, N_READ tickPosition N_WRITE setTickPosition)
+    N_ID_PROPERTY(int                  , tickInterval, N_READ tickInterval N_WRITE setTickInterval)
 };
 
 N_DECLARE_ID(Slider, SliderIdT, QSlider)

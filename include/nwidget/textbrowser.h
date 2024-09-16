@@ -40,11 +40,11 @@ class TextBrowserIdT : public TextEditIdT<T>
 public:
     using TextEditIdT<T>::TextEditIdT;
 
-    N_ID_PROPERTY(QUrl                       , source           , N_GETTER(source           ), N_NO_SETTER                   , N_NO_NOTIFY)
-    N_ID_PROPERTY(QTextDocument::ResourceType, sourceType       , N_GETTER(sourceType       ), N_NO_SETTER                   , N_NO_NOTIFY)
-    N_ID_PROPERTY(QStringList                , searchPaths      , N_GETTER(searchPaths      ), N_SETTER(setSearchPaths      ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                       , openExternalLinks, N_GETTER(openExternalLinks), N_SETTER(setOpenExternalLinks), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                       , openLinks        , N_GETTER(openLinks        ), N_SETTER(setOpenLinks        ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QUrl                       , source           , N_READ source                                        )
+    N_ID_PROPERTY(QTextDocument::ResourceType, sourceType       , N_READ sourceType                                    )
+    N_ID_PROPERTY(QStringList                , searchPaths      , N_READ searchPaths       N_WRITE setSearchPaths      )
+    N_ID_PROPERTY(bool                       , openExternalLinks, N_READ openExternalLinks N_WRITE setOpenExternalLinks)
+    N_ID_PROPERTY(bool                       , openLinks        , N_READ openLinks         N_WRITE setOpenLinks        )
 };
 
 N_DECLARE_ID(TextBrowser, TextBrowserIdT, QTextBrowser)

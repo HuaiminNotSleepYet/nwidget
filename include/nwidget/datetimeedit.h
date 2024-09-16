@@ -84,22 +84,22 @@ class DateTimeEditIdT : public AbstractSpinBoxIdT<T>
 public:
     using AbstractSpinBoxIdT<T>::AbstractSpinBoxIdT;
 
-    N_ID_PROPERTY(QDateTime              , dateTime           , N_GETTER(dateTime           ), N_SETTER(setDateTime           ), N_NOTIFY(dateTimeChanged))
-    N_ID_PROPERTY(QDate                  , date               , N_GETTER(date               ), N_SETTER(setDate               ), N_NOTIFY(dateChanged))
-    N_ID_PROPERTY(QTime                  , time               , N_GETTER(time               ), N_SETTER(setTime               ), N_NOTIFY(timeChanged))
-    N_ID_PROPERTY(QDateTime              , maximumDateTime    , N_GETTER(maximumDateTime    ), N_SETTER(setMaximumDateTime    ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QDateTime              , minimumDateTime    , N_GETTER(minimumDateTime    ), N_SETTER(setMinimumDateTime    ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QDate                  , maximumDate        , N_GETTER(maximumDate        ), N_SETTER(setMaximumDate        ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QDate                  , minimumDate        , N_GETTER(minimumDate        ), N_SETTER(setMinimumDate        ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QTime                  , maximumTime        , N_GETTER(maximumTime        ), N_SETTER(setMaximumTime        ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QTime                  , minimumTime        , N_GETTER(minimumTime        ), N_SETTER(setMinimumTime        ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QDateTimeEdit::Section , currentSection     , N_GETTER(currentSection     ), N_SETTER(setCurrentSection     ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QDateTimeEdit::Sections, displayedSections  , N_GETTER(displayedSections  ), N_NO_SETTER                     , N_NO_NOTIFY)
-    N_ID_PROPERTY(QString                , displayFormat      , N_GETTER(displayFormat      ), N_SETTER(setDisplayFormat      ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                   , calendarPopup      , N_GETTER(calendarPopup      ), N_SETTER(setCalendarPopup      ), N_NO_NOTIFY)
-    N_ID_PROPERTY(int                    , currentSectionIndex, N_GETTER(currentSectionIndex), N_SETTER(setCurrentSectionIndex), N_NO_NOTIFY)
-    N_ID_PROPERTY(int                    , sectionCount       , N_GETTER(sectionCount       ), N_NO_SETTER                     , N_NO_NOTIFY)
-    N_ID_PROPERTY(Qt::TimeSpec           , timeSpec           , N_GETTER(timeSpec           ), N_SETTER(setTimeSpec           ), N_NO_NOTIFY)
+    N_ID_PROPERTY(QDateTime              , dateTime           , N_READ dateTime            N_WRITE setDateTime           N_NOTIFY dateTimeChanged)
+    N_ID_PROPERTY(QDate                  , date               , N_READ date                N_WRITE setDate               N_NOTIFY dateChanged)
+    N_ID_PROPERTY(QTime                  , time               , N_READ time                N_WRITE setTime               N_NOTIFY timeChanged)
+    N_ID_PROPERTY(QDateTime              , maximumDateTime    , N_READ maximumDateTime     N_WRITE setMaximumDateTime    )
+    N_ID_PROPERTY(QDateTime              , minimumDateTime    , N_READ minimumDateTime     N_WRITE setMinimumDateTime    )
+    N_ID_PROPERTY(QDate                  , maximumDate        , N_READ maximumDate         N_WRITE setMaximumDate        )
+    N_ID_PROPERTY(QDate                  , minimumDate        , N_READ minimumDate         N_WRITE setMinimumDate        )
+    N_ID_PROPERTY(QTime                  , maximumTime        , N_READ maximumTime         N_WRITE setMaximumTime        )
+    N_ID_PROPERTY(QTime                  , minimumTime        , N_READ minimumTime         N_WRITE setMinimumTime        )
+    N_ID_PROPERTY(QDateTimeEdit::Section , currentSection     , N_READ currentSection      N_WRITE setCurrentSection     )
+    N_ID_PROPERTY(QDateTimeEdit::Sections, displayedSections  , N_READ displayedSections                                 )
+    N_ID_PROPERTY(QString                , displayFormat      , N_READ displayFormat       N_WRITE setDisplayFormat      )
+    N_ID_PROPERTY(bool                   , calendarPopup      , N_READ calendarPopup       N_WRITE setCalendarPopup      )
+    N_ID_PROPERTY(int                    , currentSectionIndex, N_READ currentSectionIndex N_WRITE setCurrentSectionIndex)
+    N_ID_PROPERTY(int                    , sectionCount       , N_READ sectionCount                                      )
+    N_ID_PROPERTY(Qt::TimeSpec           , timeSpec           , N_READ timeSpec            N_WRITE setTimeSpec           )
 };
 
 template <typename T>
@@ -108,7 +108,7 @@ class TimeEditIdT : public DateTimeEditIdT<T>
 public:
     using DateTimeEditIdT<T>::DateTimeEditIdT;
 
-    N_ID_PROPERTY(QTime, time, N_GETTER(time), N_SETTER(setTime), N_NOTIFY(userTimeChanged))
+    N_ID_PROPERTY(QTime, time, N_READ time N_WRITE setTime N_NOTIFY userTimeChanged)
 };
 
 
@@ -118,7 +118,7 @@ class DateEditIdT : public DateTimeEditIdT<T>
 public:
     using DateTimeEditIdT<T>::DateTimeEditIdT;
 
-    N_ID_PROPERTY(QDate, date, N_GETTER(date), N_SETTER(setDate), N_NOTIFY(userDateChanged))
+    N_ID_PROPERTY(QDate, date, N_READ date N_WRITE setDate N_NOTIFY userDateChanged)
 };
 
 N_DECLARE_ID(DateTimeEdit, DateTimeEditIdT, QDateTimeEdit)

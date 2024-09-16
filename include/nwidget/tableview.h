@@ -13,12 +13,12 @@ class TableViewIdT : public AbstractItemViewIdT<T>
 public:
     using AbstractItemViewIdT<T>::AbstractItemViewIdT;
 
-    N_ID_PROPERTY(bool        , showGrid           , N_GETTER(showGrid             ), N_SETTER(setShowGrid           ), N_NO_NOTIFY)
-    N_ID_PROPERTY(Qt::PenStyle, gridStyle          , N_GETTER(gridStyle            ), N_SETTER(setGridStyle          ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool        , sortingEnabled     , N_GETTER(isSortingEnabled     ), N_SETTER(setSortingEnabled     ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool        , wordWrap           , N_GETTER(wordWrap             ), N_SETTER(setWordWrap           ), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool        , showGrid           , N_READ showGrid              N_WRITE setShowGrid           )
+    N_ID_PROPERTY(Qt::PenStyle, gridStyle          , N_READ gridStyle             N_WRITE setGridStyle          )
+    N_ID_PROPERTY(bool        , sortingEnabled     , N_READ isSortingEnabled      N_WRITE setSortingEnabled     )
+    N_ID_PROPERTY(bool        , wordWrap           , N_READ wordWrap              N_WRITE setWordWrap           )
 #if QT_CONFIG(abstractbutton)
-    N_ID_PROPERTY(bool        , cornerButtonEnabled, N_GETTER(isCornerButtonEnabled), N_SETTER(setCornerButtonEnabled), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool        , cornerButtonEnabled, N_READ isCornerButtonEnabled N_WRITE setCornerButtonEnabled)
 #endif
 };
 

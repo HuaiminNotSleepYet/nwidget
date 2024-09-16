@@ -58,15 +58,17 @@ N_DECLARE_BUILDER(FormLayout, FormLayoutBuilder, QFormLayout)
 template<typename T>
 class FormLayoutIdT : public LayoutIdT<T>
 {
+    using FieldGrowthPolicy = QFormLayout::FieldGrowthPolicy;
+    using RowWrapPolicy     = QFormLayout::RowWrapPolicy;
 public:
     using LayoutIdT<T>::LayoutIdT;
 
-    N_ID_PROPERTY(QFormLayout::FieldGrowthPolicy, fieldGrowthPolicy, N_GETTER(fieldGrowthPolicy), N_SETTER(setFieldGrowthPolicy), N_NO_NOTIFY)
-    N_ID_PROPERTY(QFormLayout::RowWrapPolicy    , rowWrapPolicy    , N_GETTER(rowWrapPolicy    ), N_SETTER(setRowWrapPolicy    ), N_NO_NOTIFY)
-    N_ID_PROPERTY(Qt::Alignment                 , labelAlignment   , N_GETTER(labelAlignment   ), N_SETTER(setLabelAlignment   ), N_NO_NOTIFY)
-    N_ID_PROPERTY(Qt::Alignment                 , formAlignment    , N_GETTER(formAlignment    ), N_SETTER(setFormAlignment    ), N_NO_NOTIFY)
-    N_ID_PROPERTY(int                           , horizontalSpacing, N_GETTER(horizontalSpacing), N_SETTER(setHorizontalSpacing), N_NO_NOTIFY)
-    N_ID_PROPERTY(int                           , verticalSpacing  , N_GETTER(verticalSpacing  ), N_SETTER(setVerticalSpacing  ), N_NO_NOTIFY)
+    N_ID_PROPERTY(FieldGrowthPolicy, fieldGrowthPolicy, N_READ fieldGrowthPolicy N_WRITE setFieldGrowthPolicy)
+    N_ID_PROPERTY(RowWrapPolicy    , rowWrapPolicy    , N_READ rowWrapPolicy     N_WRITE setRowWrapPolicy    )
+    N_ID_PROPERTY(Qt::Alignment    , labelAlignment   , N_READ labelAlignment    N_WRITE setLabelAlignment   )
+    N_ID_PROPERTY(Qt::Alignment    , formAlignment    , N_READ formAlignment     N_WRITE setFormAlignment    )
+    N_ID_PROPERTY(int              , horizontalSpacing, N_READ horizontalSpacing N_WRITE setHorizontalSpacing)
+    N_ID_PROPERTY(int              , verticalSpacing  , N_READ verticalSpacing   N_WRITE setVerticalSpacing  )
 };
 
 N_DECLARE_ID(FormLayout, FormLayoutIdT, QFormLayout)

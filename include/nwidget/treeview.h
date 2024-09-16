@@ -13,17 +13,17 @@ class TreeViewIdT : public AbstractItemViewIdT<T>
 public:
     using AbstractItemViewIdT<T>::AbstractItemViewIdT;
 
-    N_ID_PROPERTY(int , autoExpandDelay     , N_GETTER(autoExpandDelay     ), N_SETTER(setAutoExpandDelay     ), N_NO_NOTIFY)
-    N_ID_PROPERTY(int , indentation         , N_GETTER(indentation         ), N_SETTER(setIndentation         ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool, rootIsDecorated     , N_GETTER(rootIsDecorated     ), N_SETTER(setRootIsDecorated     ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool, uniformRowHeights   , N_GETTER(uniformRowHeights   ), N_SETTER(setUniformRowHeights   ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool, itemsExpandable     , N_GETTER(itemsExpandable     ), N_SETTER(setItemsExpandable     ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool, sortingEnabled      , N_GETTER(isSortingEnabled    ), N_SETTER(setSortingEnabled      ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool, animated            , N_GETTER(isAnimated          ), N_SETTER(setAnimated            ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool, allColumnsShowFocus , N_GETTER(allColumnsShowFocus ), N_SETTER(setAllColumnsShowFocus ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool, wordWrap            , N_GETTER(wordWrap            ), N_SETTER(setWordWrap            ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool, headerHidden        , N_GETTER(isHeaderHidden      ), N_SETTER(setHeaderHidden        ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool, expandsOnDoubleClick, N_GETTER(expandsOnDoubleClick), N_SETTER(setExpandsOnDoubleClick), N_NO_NOTIFY)
+    N_ID_PROPERTY(int , autoExpandDelay     , N_READ autoExpandDelay      N_WRITE setAutoExpandDelay     )
+    N_ID_PROPERTY(int , indentation         , N_READ indentation          N_WRITE setIndentation         )
+    N_ID_PROPERTY(bool, rootIsDecorated     , N_READ rootIsDecorated      N_WRITE setRootIsDecorated     )
+    N_ID_PROPERTY(bool, uniformRowHeights   , N_READ uniformRowHeights    N_WRITE setUniformRowHeights   )
+    N_ID_PROPERTY(bool, itemsExpandable     , N_READ itemsExpandable      N_WRITE setItemsExpandable     )
+    N_ID_PROPERTY(bool, sortingEnabled      , N_READ isSortingEnabled     N_WRITE setSortingEnabled      )
+    N_ID_PROPERTY(bool, animated            , N_READ isAnimated           N_WRITE setAnimated            )
+    N_ID_PROPERTY(bool, allColumnsShowFocus , N_READ allColumnsShowFocus  N_WRITE setAllColumnsShowFocus )
+    N_ID_PROPERTY(bool, wordWrap            , N_READ wordWrap             N_WRITE setWordWrap            )
+    N_ID_PROPERTY(bool, headerHidden        , N_READ isHeaderHidden       N_WRITE setHeaderHidden        )
+    N_ID_PROPERTY(bool, expandsOnDoubleClick, N_READ expandsOnDoubleClick N_WRITE setExpandsOnDoubleClick)
 };
 
 N_DECLARE_ID(TreeView, TreeViewIdT, QTreeView)

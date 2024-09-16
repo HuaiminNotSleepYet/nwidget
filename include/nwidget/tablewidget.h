@@ -13,8 +13,8 @@ class TableWidgetIdT : public TableViewIdT<T>
 public:
     using TableViewIdT<T>::TableViewIdT;
 
-    N_ID_PROPERTY(int, rowCount   , N_GETTER(rowCount   ), N_SETTER(setRowCount   ), N_NO_NOTIFY)
-    N_ID_PROPERTY(int, columnCount, N_GETTER(columnCount), N_SETTER(setColumnCount), N_NO_NOTIFY)
+    N_ID_PROPERTY(int, rowCount   , N_READ rowCount    N_WRITE setRowCount   )
+    N_ID_PROPERTY(int, columnCount, N_READ columnCount N_WRITE setColumnCount)
 };
 
 N_DECLARE_ID(TableWidget, TableWidgetIdT, QTableWidget)

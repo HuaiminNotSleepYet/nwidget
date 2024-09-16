@@ -27,12 +27,14 @@ N_DECLARE_BUILDER(AbstractScrollArea, AbstractScrollAreaBuilder, QAbstractScroll
 template<typename T>
 class AbstractScrollAreaIdT : public FrameIdT<T>
 {
+    using SizeAdjustPolicy = QAbstractScrollArea::SizeAdjustPolicy;
+
 public:
     using FrameIdT<T>::FrameIdT;
 
-    N_ID_PROPERTY(Qt::ScrollBarPolicy, verticalScrollBarPolicy  , N_GETTER(verticalScrollBarPolicy  ), N_SETTER(setVerticalScrollBarPolicy  ), N_NO_NOTIFY)
-    N_ID_PROPERTY(Qt::ScrollBarPolicy, horizontalScrollBarPolicy, N_GETTER(horizontalScrollBarPolicy), N_SETTER(setHorizontalScrollBarPolicy), N_NO_NOTIFY)
-    N_ID_PROPERTY(QAbstractScrollArea::SizeAdjustPolicy, sizeAdjustPolicy, N_GETTER(sizeAdjustPolicy), N_SETTER(setSizeAdjustPolicy         ), N_NO_NOTIFY)
+    N_ID_PROPERTY(Qt::ScrollBarPolicy, verticalScrollBarPolicy  , N_READ verticalScrollBarPolicy   N_WRITE setVerticalScrollBarPolicy  )
+    N_ID_PROPERTY(Qt::ScrollBarPolicy, horizontalScrollBarPolicy, N_READ horizontalScrollBarPolicy N_WRITE setHorizontalScrollBarPolicy)
+    N_ID_PROPERTY(SizeAdjustPolicy   , sizeAdjustPolicy         , N_READ sizeAdjustPolicy          N_WRITE setSizeAdjustPolicy         )
 };
 
 N_DECLARE_ID(AbstractScrollArea, AbstractScrollAreaIdT, QAbstractScrollArea)

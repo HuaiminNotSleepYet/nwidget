@@ -41,21 +41,24 @@ N_DECLARE_BUILDER(AbstractSpinBox, AbstractSpinBoxBuilder, QAbstractSpinBox);
 template<typename T>
 class AbstractSpinBoxIdT : public WidgetIdT<T>
 {
+    using ButtonSymbols = QAbstractSpinBox::ButtonSymbols;
+    using CorrectionMode = QAbstractSpinBox::CorrectionMode;
+
 public:
     using WidgetIdT<T>::WidgetIdT;
 
-    N_ID_PROPERTY(bool                            , wrapping          , N_GETTER(wrapping             ), N_SETTER(setWrapping           ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                            , frame             , N_GETTER(hasFrame             ), N_SETTER(setFrame              ), N_NO_NOTIFY)
-    N_ID_PROPERTY(Qt::Alignment                   , alignment         , N_GETTER(alignment            ), N_SETTER(setAlignment          ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                            , readOnly          , N_GETTER(isReadOnly           ), N_SETTER(setReadOnly           ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QAbstractSpinBox::ButtonSymbols , buttonSymbols     , N_GETTER(buttonSymbols        ), N_SETTER(setButtonSymbols      ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QString                         , specialValueText  , N_GETTER(specialValueText     ), N_SETTER(setSpecialValueText   ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QString                         , text              , N_GETTER(text                 ), N_NO_SETTER                     , N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                            , accelerated       , N_GETTER(isAccelerated        ), N_SETTER(setAccelerated        ), N_NO_NOTIFY)
-    N_ID_PROPERTY(QAbstractSpinBox::CorrectionMode, correctionMode    , N_GETTER(correctionMode       ), N_SETTER(setCorrectionMode     ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                            , acceptableInput   , N_GETTER(hasAcceptableInput   ), N_NO_SETTER                     , N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                            , keyboardTracking  , N_GETTER(keyboardTracking     ), N_SETTER(setKeyboardTracking   ), N_NO_NOTIFY)
-    N_ID_PROPERTY(bool                            , showGroupSeparator, N_GETTER(isGroupSeparatorShown), N_SETTER(setGroupSeparatorShown), N_NO_NOTIFY)
+    N_ID_PROPERTY(bool          , wrapping          , N_READ wrapping              N_WRITE setWrapping           )
+    N_ID_PROPERTY(bool          , frame             , N_READ hasFrame              N_WRITE setFrame              )
+    N_ID_PROPERTY(Qt::Alignment , alignment         , N_READ alignment             N_WRITE setAlignment          )
+    N_ID_PROPERTY(bool          , readOnly          , N_READ isReadOnly            N_WRITE setReadOnly           )
+    N_ID_PROPERTY(ButtonSymbols , buttonSymbols     , N_READ buttonSymbols         N_WRITE setButtonSymbols      )
+    N_ID_PROPERTY(QString       , specialValueText  , N_READ specialValueText      N_WRITE setSpecialValueText   )
+    N_ID_PROPERTY(QString       , text              , N_READ text                                                )
+    N_ID_PROPERTY(bool          , accelerated       , N_READ isAccelerated         N_WRITE setAccelerated        )
+    N_ID_PROPERTY(CorrectionMode, correctionMode    , N_READ correctionMode        N_WRITE setCorrectionMode     )
+    N_ID_PROPERTY(bool          , acceptableInput   , N_READ hasAcceptableInput                                  )
+    N_ID_PROPERTY(bool          , keyboardTracking  , N_READ keyboardTracking      N_WRITE setKeyboardTracking   )
+    N_ID_PROPERTY(bool          , showGroupSeparator, N_READ isGroupSeparatorShown N_WRITE setGroupSeparatorShown)
 };
 
 N_DECLARE_ID(AbstractSpinBox, AbstractSpinBoxIdT, QAbstractSpinBox)
