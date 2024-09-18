@@ -35,13 +35,12 @@ public:
     N_BUILDER_PROPERTY(int                    , currentSectionIndex, setCurrentSectionIndex)
     N_BUILDER_PROPERTY(Qt::TimeSpec           , timeSpec           , setTimeSpec           )
 
-    S& calendar(QCalendar calendar)                              { t->setCalendar(calendar)      ; return self(); }
-    S& dateTimeRange(const QDateTime& min, const QDateTime& max) { t->setDateTimeRange(min, max) ; return self(); }
-    S& dateRange(QDate min, QDate max)                           { t->setDateRange(min, max)     ; return self(); }
-    S& timeRange(QTime min, QTime max)                           { t->setTimeRange(min, max)     ; return self(); }
-    S& calendarWidget(QCalendarWidget* widget)                   { t->setCalendarWidget(widget)  ; return self(); }
-    S& selectedSection(QDateTimeEdit::Section section)           { t->setSelectedSection(section); return self(); }
-    S& timeZone(const QTimeZone& zone)                           { t->setTimeZone(zone)          ; return self(); }
+    N_BUILDER_SETTER1(calendar       , setCalendar       )
+    N_BUILDER_SETTER2(dateTimeRange  , setDateTimeRange  )
+    N_BUILDER_SETTER2(dateRange      , setDateRange      )
+    N_BUILDER_SETTER2(timeRange      , setTimeRange      )
+    N_BUILDER_SETTER1(calendarWidget , setCalendarWidget )
+    N_BUILDER_SETTER1(selectedSection, setSelectedSection)
 
     N_BUILDER_SIGNAL(onDateTimeChanged, dateTimeChanged)
     N_BUILDER_SIGNAL(onTimeChanged    , timeChanged    )

@@ -28,7 +28,7 @@ public:
     N_BUILDER_PROPERTY(Qt::ArrowType      , arrowType      , setArrowType      )
 
 #if QT_CONFIG(menu)
-    S& menu(QMenu* m) { t->setMenu(m); return self(); }
+    N_BUILDER_SETTER1(menu, setMenu)
 #endif
 };
 

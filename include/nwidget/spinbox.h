@@ -24,7 +24,7 @@ public:
     N_BUILDER_PROPERTY(int               , value             , setValue             )
     N_BUILDER_PROPERTY(int               , displayIntegerBase, setDisplayIntegerBase)
 
-    S& range(int min, int max) { t->setRange(min, max); return self(); }
+    N_BUILDER_SETTER2(range, setRange)
 
     N_BUILDER_SIGNAL(onValueChanged, valueChanged)
     N_BUILDER_SIGNAL(onTextChanged , textChanged )
@@ -49,7 +49,7 @@ public:
     N_BUILDER_PROPERTY(QSpinBox::StepType, stepType  ,  setStepType  )
     N_BUILDER_PROPERTY(double            , value     ,  setValue     )
 
-    S& range(double min, double max) { t->setRange(min, max); return self(); }
+    N_BUILDER_SETTER2(range, setRange)
 
     N_BUILDER_SIGNAL(onValueChanged, valueChanged)
     N_BUILDER_SIGNAL(onTextChanged , textChanged )

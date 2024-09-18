@@ -50,7 +50,7 @@ public:
     BoxLayoutBuilder(T* target, std::initializer_list<BoxLayoutItem> items) : LayoutBuilder<S, T>(target) { addItems(items); }
 
     S& items(std::initializer_list<LayoutItem> items) = delete;
-    S& items(std::initializer_list<BoxLayoutItem> items) { addItems(items); return self(); }
+    N_BUILDER_SETTER S& items(std::initializer_list<BoxLayoutItem> items) { addItems(items); return self(); }
 };
 
 N_DECLARE_BUILDER(BoxLayout, BoxLayoutBuilder, QBoxLayout)

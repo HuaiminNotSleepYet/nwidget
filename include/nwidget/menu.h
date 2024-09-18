@@ -62,10 +62,9 @@ public:
     MenuBuilder(T* target, std::initializer_list<MenuItem> items)                       : WidgetBuilder<S, T>(target) { addItems(items); }
     MenuBuilder(T* target, const QString& title, std::initializer_list<MenuItem> items) : WidgetBuilder<S, T>(target) { t->setTitle(title); addItems(items); }
 
-    S& items(std::initializer_list<MenuItem> items) { addItems(items); return self(); }
-
-    S& icon(const QIcon& ico)  { t->setIcon(ico); return self(); }
-    S& title(const QString& s) { t->setTitle(s); return self(); }
+    N_BUILDER_SETTER S& items(std::initializer_list<MenuItem> items) { addItems(items); return self(); }
+    N_BUILDER_SETTER1(icon , setIcon )
+    N_BUILDER_SETTER1(title, setTitle)
 };
 
 N_DECLARE_BUILDER(Menu, MenuBuilder, QMenu)

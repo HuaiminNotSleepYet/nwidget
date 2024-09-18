@@ -31,8 +31,6 @@ public:
     TabWidgetBuilder(T* target, std::initializer_list<TabWidgetItem> pages) : WidgetBuilder<S, T>(target) { addItems(pages); }
 
 
-    S& items(std::initializer_list<TabWidgetItem> pages)            { addItems(pages)                    ; return self(); }
-
     N_BUILDER_PROPERTY(QTabWidget::TabPosition, tabPosition      , setTabPosition      )
     N_BUILDER_PROPERTY(QTabWidget::TabShape   , tabShape         , setTabShape         )
     N_BUILDER_PROPERTY(int                    , currentIndex     , setCurrentIndex     )
@@ -44,18 +42,24 @@ public:
     N_BUILDER_PROPERTY(bool                   , movable          , setMovable          )
     N_BUILDER_PROPERTY(bool                   , tabBarAutoHide   , setTabBarAutoHide   )
 
-    S& tabEnabled(int index, bool enabled)                          { t->setTabEnabled(index, enabled); return self(); }
-    S& tabVisible(int index, bool visible)                          { t->setTabVisible(index, visible); return self(); }
-    S& tabText(int index, const QString &text)                      { t->setTabText(index, text)      ; return self(); }
-    S& tabIcon(int index, const QIcon & icon)                       { t->setTabIcon(index, icon)      ; return self(); }
+
+    N_BUILDER_SETTER S& items(std::initializer_list<TabWidgetItem> pages) { addItems(pages); return self(); }
+
+    N_BUILDER_SETTER2(tabEnabled   , setTabEnabled   )
+    N_BUILDER_SETTER2(tabVisible   , setTabVisible   )
+    N_BUILDER_SETTER2(tabText      , setTabText      )
+    N_BUILDER_SETTER2(tabIcon      , setTabIcon      )
+    N_BUILDER_SETTER1(currentWidget, setCurrentWidget)
+
+    N_BUILDER_SETTER S& cornerWidget(QWidget * w, Qt::Corner c = Qt::TopRightCorner)  { t->setCornerWidget(w, c); return self(); }
+
 #if QT_CONFIG(tooltip)
-    S& tabToolTip(int index, const QString & tip)                   { t->setTabToolTip(index, tip)    ; return self(); }
+    N_BUILDER_SETTER2(tabToolTip   , setTabToolTip  )
 #endif
 #if QT_CONFIG(whatsthis)
-    S& tabWhatsThis(int index, const QString &text)                 { t->setTabWhatsThis(index, text) ; return self(); }
+    N_BUILDER_SETTER2(tabWhatsThis , setTabWhatsThis)
 #endif
-    S& cornerWidget(QWidget * w, Qt::Corner c = Qt::TopRightCorner) { t->setCornerWidget(w, c)        ; return self(); }
-    S& currentWidget(QWidget *widget)                               { t->setCurrentWidget(widget)     ; return self(); }
+
 
     N_BUILDER_SIGNAL(onCurrentChanged     , currentChanged     )
     N_BUILDER_SIGNAL(onTabCloseRequested  , tabCloseRequested  )

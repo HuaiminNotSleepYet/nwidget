@@ -41,7 +41,7 @@ public:
     FormLayoutBuilder(T* target, std::initializer_list<FormLayoutItem> items) : LayoutBuilder<S, T>(target) { addItems(items); }
 
     S& items(std::initializer_list<LayoutItem> items) = delete;
-    S& items(std::initializer_list<FormLayoutItem> items) { addItems(items); return self(); }
+    N_BUILDER_SETTER S& items(std::initializer_list<FormLayoutItem> items) { addItems(items); return self(); }
 
     N_BUILDER_PROPERTY(QFormLayout::FieldGrowthPolicy, fieldGrowthPolicy, setFieldGrowthPolicy)
     N_BUILDER_PROPERTY(QFormLayout::RowWrapPolicy    , rowWrapPolicy    , setRowWrapPolicy    )

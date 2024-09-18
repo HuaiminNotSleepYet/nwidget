@@ -33,15 +33,15 @@ public:
     N_BUILDER_PROPERTY(Qt::CursorMoveStyle, cursorMoveStyle   , setCursorMoveStyle   )
     N_BUILDER_PROPERTY(bool               , clearButtonEnabled, setClearButtonEnabled)
 
+    N_BUILDER_SETTER2(selection  , setSelection  )
+    N_BUILDER_SETTER1(textMargins, setTextMargins)
+    N_BUILDER_SETTER4(textMargins, setTextMargins)
 #ifndef QT_NO_VALIDATOR
-    S& validator(const QValidator* v)             { t->setValidator(v);                  return self(); }
+    N_BUILDER_SETTER1(validator  , setValidator  )
 #endif
 #if QT_CONFIG(completer)
-    S& completer(const QCompleter* c)             { t->setCompleter(c);                  return self(); }
+    N_BUILDER_SETTER1(completer  , setCompleter  )
 #endif
-    S& selection(int begin, int end)              { t->setSelection(begin, end);         return self(); }
-    S& textMargins(int l, int t, int r, int b)    { this->t->setTextMargins(l, t, r, b); return self(); }
-    S& textMargins(const QMargins& margin)        { this->t->setTextMargins(margin);     return self(); }
 
     N_BUILDER_SIGNAL(onTextChanged          , textChanged          )
     N_BUILDER_SIGNAL(onTextEdited           , textEdited           )

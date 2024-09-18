@@ -36,7 +36,7 @@ public:
     N_BUILDER_PROPERTY(bool, defaultUp    , setDefaultUp    )
     N_BUILDER_PROPERTY(bool, nativeMenuBar, setNativeMenuBar)
 
-    S& items(std::initializer_list<MenuBarItem> items) { addItems(items); return self(); }
+    N_BUILDER_SETTER S& items(std::initializer_list<MenuBarItem> items) { addItems(items); return self(); }
 };
 
 N_DECLARE_BUILDER(MenuBar, MenuBarBuilder, QMenuBar)

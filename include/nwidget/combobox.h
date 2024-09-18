@@ -36,8 +36,8 @@ public:
     explicit
     ComboBoxBuilder(T* target)                                 : WidgetBuilder<S, T>(target) {}
 
-    S& items(const QStringList& items)                  { t->addItems(items); return self(); }
-    S& items(std::initializer_list<ComboBoxItem> items) { addItems(items); return self(); }
+    N_BUILDER_SETTER  S& items(const QStringList& items)                  { t->addItems(items); return self(); }
+    N_BUILDER_SETTER  S& items(std::initializer_list<ComboBoxItem> items) { addItems(items)   ; return self(); }
 
     N_BUILDER_PROPERTY(bool                       , editable             , setEditable             )
     N_BUILDER_PROPERTY(QString                    , currentText          , setCurrentText          )

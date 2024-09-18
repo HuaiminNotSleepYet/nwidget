@@ -33,7 +33,7 @@ public:
     SplitterBuilder(T* target)                                              : FrameBuilder<S, T>(target) {}
     SplitterBuilder(T* target, std::initializer_list<SplitterItem> widgets) : FrameBuilder<S, T>(target) { addItems(widgets); }
 
-    S& items(std::initializer_list<SplitterItem> widgets) { addItems(widgets); return self(); }
+    N_BUILDER_SETTER S& items(std::initializer_list<SplitterItem> widgets) { addItems(widgets); return self(); }
 
     N_BUILDER_PROPERTY(Qt::Orientation, orientation        , setOrientation        )
     N_BUILDER_PROPERTY(bool           , opaqueResize       , setOpaqueResize       )

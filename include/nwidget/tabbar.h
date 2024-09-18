@@ -79,22 +79,22 @@ public:
     N_BUILDER_PROPERTY(bool             , autoHide                 , setAutoHide                 )
     N_BUILDER_PROPERTY(bool             , changeCurrentOnDrag      , setChangeCurrentOnDrag      )
 
-    S& items(std::initializer_list<TabBarItem> items)              { addItems(items)                     ; return self(); }
+    N_BUILDER_SETTER S& items(std::initializer_list<TabBarItem> items) { addItems(items); return self(); }
 
-    S& tabEnabled(int index, bool enabled)                         { t->setTabEnabled(index, enabled)    ; return self(); }
-    S& tabVisible(int index, bool visible)                         { t->setTabVisible(index, visible)    ; return self(); }
-    S& tabTextColor(int index, const QColor &color)                { t->setTabTextColor(index, color)    ; return self(); }
-    S& ElideMode(Qt::TextElideMode mode)                           { t->setElideMode(mode)               ; return self(); }
-    S& tabData(int index, const QVariant &data)                    { t->setTabData(index, data)          ; return self(); }
-    S& tabButton(int index, ButtonPosition p, QWidget* w)          { t->setTabButton(index, p, w)        ; return self(); }
+    N_BUILDER_SETTER2(tabEnabled       , setTabEnabled       )
+    N_BUILDER_SETTER2(tabVisible       , setTabVisible       )
+    N_BUILDER_SETTER2(tabTextColor     , setTabTextColor     )
+    N_BUILDER_SETTER1(ElideMode        , setElideMode        )
+    N_BUILDER_SETTER2(tabData          , setTabData          )
+    N_BUILDER_SETTER3(tabButton        , setTabButton        )
 #if QT_CONFIG(tooltip)
-    S& tabToolTip(int index, const QString &tip)                   { t->setTabToolTip(index, tip)        ; return self(); }
+    N_BUILDER_SETTER2(tabToolTip       , setTabToolTip       )
 #endif
 #if QT_CONFIG(whatsthis)
-    S& tabWhatsThis(int index, const QString &text)                { t->setTabWhatsThis(index, text)     ; return self(); }
+    N_BUILDER_SETTER2(tabWhatsThis     , setTabWhatsThis     )
 #endif
 #if QT_CONFIG(accessibility)
-    S& accessibleTabName(int index, const QString &name)           { t->setAccessibleTabName(index, name); return self(); }
+    N_BUILDER_SETTER2(accessibleTabName, setAccessibleTabName)
 #endif
 
     N_BUILDER_SIGNAL(onCurrentChanged     , currentChanged     )

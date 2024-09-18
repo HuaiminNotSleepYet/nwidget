@@ -2,6 +2,7 @@
 #define NWIDGET_ACTION_H
 
 #include <QAction>
+#include <QFont>
 
 #include "object.h"
 

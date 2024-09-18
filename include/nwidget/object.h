@@ -656,9 +656,6 @@ S& NAME(const ::nwidget::BindingExpr<TN...>& expr)                  \
     return self();                                                  \
 }
 
-// #define N_BUILDER_SETTER1(NAME, SETTER) \
-// S& NAME(::nwidget::traits) { t->SETTER(_1); return self(); }
-
 
 template<typename S, typename T>
 class ObjectBuilder

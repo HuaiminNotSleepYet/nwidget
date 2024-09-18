@@ -24,7 +24,7 @@ public:
     N_BUILDER_PROPERTY(bool, default_   , setDefault    )
     N_BUILDER_PROPERTY(bool, flat       , setFlat       )
 
-    S& menu(QMenu* m) { t->setMenu(m); return self(); }
+    N_BUILDER_SETTER1(menu, setMenu)
 };
 
 N_DECLARE_BUILDER(PushButton, PushButtonBuilder, QPushButton)

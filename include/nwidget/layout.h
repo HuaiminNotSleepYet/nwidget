@@ -53,14 +53,13 @@ public:
     LayoutBuilder(T* target)                                          : ObjectBuilder<S, T>(target) {}
     LayoutBuilder(T* target, std::initializer_list<LayoutItem> items) : ObjectBuilder<S, T>(target) { addItems(items); }
 
-    S& items(std::initializer_list<LayoutItem> items) { addItems(items); return self(); }
-
     N_BUILDER_PROPERTY(int                    , spacing        , setSpacing        )
     N_BUILDER_PROPERTY(QMargins               , contentsMargins, setContentsMargins)
     N_BUILDER_PROPERTY(QLayout::SizeConstraint, sizeConstraint , setSizeConstraint )
 
-    S& alignment(Qt::Alignment a)                  { t->setAlignment(a)                     ; return self(); }
-    S& contentsMargins(int l, int t, int r, int b) { this->t->setContentsMargins(l, t, r, b); return self(); }
+    N_BUILDER_SETTER S& items(std::initializer_list<LayoutItem> items) { addItems(items); return self(); }
+    N_BUILDER_SETTER1(alignment      , setAlignment      )
+    N_BUILDER_SETTER4(contentsMargins, setContentsMargins)
 };
 
 N_DECLARE_BUILDER(Layout, LayoutBuilder, QLayout)

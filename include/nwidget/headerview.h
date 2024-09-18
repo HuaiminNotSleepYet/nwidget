@@ -34,8 +34,6 @@ class HeaderViewBuilder : public AbstractItemViewBuilder<S, T>
 {
     N_BUILDER
 
-    using ResizeMode = QHeaderView::ResizeMode;
-
 public:
     explicit HeaderViewBuilder(Qt::Orientation o) : AbstractItemViewBuilder<S, T>(new T(o)) {}
     explicit HeaderViewBuilder(T* target)         : AbstractItemViewBuilder<S, T>(target) {}
@@ -50,21 +48,21 @@ public:
     N_BUILDER_PROPERTY(Qt::Alignment, defaultAlignment       , setDefaultAlignment      )
     N_BUILDER_PROPERTY(bool         , sortIndicatorClearable , setSortIndicatorClearable)
 
-    S& resizeSection(int logicalIndex, int size)            { t->resizeSection(logicalIndex, size)       ;  return self(); }
-    S& resizeSections(QHeaderView::ResizeMode mode)         { t->resizeSections(mode)                    ;  return self(); }
-    S& hideSection(int logicalIndex)                        { t->hideSection(logicalIndex)               ;  return self(); }
-    S& showSection(int logicalIndex)                        { t->showSection(logicalIndex)               ;  return self(); }
-    S& sectionsMovable(bool movable)                        { t->setSectionsMovable(movable)             ;  return self(); }
-    S& sectionsClickable(bool clickable)                    { t->setSectionsClickable(clickable)         ;  return self(); }
-    S& sectionResizeMode(ResizeMode mode)                   { t->setSectionResizeMode(mode)              ;  return self(); }
-    S& sectionResizeMode(int logicalIndex, ResizeMode mode) { t->setSectionResizeMode(logicalIndex, mode);  return self(); }
-    S& resizeContentsPrecision(int precision)               { t->setResizeContentsPrecision(precision)   ;  return self(); }
-    S& sortIndicatorShown(bool show)                        { t->setSortIndicatorShown(show)             ;  return self(); }
-    S& sortIndicator(int logicalIndex, Qt::SortOrder order) { t->setSortIndicator(logicalIndex, order)   ;  return self(); }
-    S& cascadingSectionResizes(bool enable)                 { t->setCascadingSectionResizes(enable)      ;  return self(); }
-    S& offset(int v)                                        { t->offset(v)                               ;  return self(); }
-    S& offsetToSectionPosition(int visualIndex)             { t->offsetToSectionPosition(visualIndex)    ;  return self(); }
-    S& offsetToLastSection()                                { t->offsetToLastSection()                   ;  return self(); }
+    N_BUILDER_SETTER2(resizeSection          , resizeSection             )
+    N_BUILDER_SETTER1(resizeSections         , resizeSections            )
+    N_BUILDER_SETTER1(hideSection            , hideSection               )
+    N_BUILDER_SETTER1(showSection            , showSection               )
+    N_BUILDER_SETTER1(sectionsMovable        , setSectionsMovable        )
+    N_BUILDER_SETTER1(sectionsClickable      , setSectionsClickable      )
+    N_BUILDER_SETTER1(sectionResizeMode      , setSectionResizeMode      )
+    N_BUILDER_SETTER2(sectionResizeMode      , setSectionResizeMode      )
+    N_BUILDER_SETTER1(resizeContentsPrecision, setResizeContentsPrecision)
+    N_BUILDER_SETTER1(sortIndicatorShown     , setSortIndicatorShown     )
+    N_BUILDER_SETTER2(sortIndicator          , setSortIndicator          )
+    N_BUILDER_SETTER1(cascadingSectionResizes, setCascadingSectionResizes)
+    N_BUILDER_SETTER1(offset                 , setOffset                 )
+    N_BUILDER_SETTER1(offsetToSectionPosition, setOffsetToSectionPosition)
+    N_BUILDER_SETTER0(offsetToLastSection    , setOffsetToLastSection    )
 
     N_BUILDER_SIGNAL(onSectionMoved                 , sectionMoved                 )
     N_BUILDER_SIGNAL(onSectionResized               , sectionResized               )

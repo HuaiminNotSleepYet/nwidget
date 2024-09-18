@@ -80,17 +80,22 @@ public:
     N_BUILDER_PROPERTY(ScrollMode       , verticalScrollMode   , setVerticalScrollMode   )
     N_BUILDER_PROPERTY(ScrollMode       , horizontalScrollMode , setHorizontalScrollMode )
 
-    S& model(QAbstractItemModel* model)                                   { t->setModel(model)                           ; return self(); }
-    S& selectionModel(QItemSelectionModel* selectionModel)                { t->setSelectionModel(selectionModel)         ; return self(); }
-    S& rootIndex(const QModelIndex& index)                                { t->setRootIndex(index)                       ; return self(); }
-    S& itemDelegate(QAbstractItemDelegate* delegate)                      { t->setItemDelegate(delegate)                 ; return self(); }
+    N_BUILDER_SETTER1(selectionModel       , setSelectionModel       )
+    N_BUILDER_SETTER1(rootIndex            , setRootIndex            )
+    N_BUILDER_SETTER1(itemDelegate         , setItemDelegate         )
+    N_BUILDER_SETTER2(indexWidget          , setIndexWidget          )
+    N_BUILDER_SETTER2(itemDelegateForRow   , setItemDelegateForRow   )
+    N_BUILDER_SETTER2(itemDelegateForColumn, setItemDelegateForColumn)
+    N_BUILDER_SETTER1(currentIndex         , setCurrentIndex         )
+
+    // N_BUILDER_SETTER use decltype(&T::setter) to get parameter types,
+    // but QTabWidget::setModel is private, so we write it manually here.
+    N_BUILDER_SETTER S& model(QAbstractItemModel* model) { t->setModel(model); return self(); }
+
 #if QT_CONFIG(draganddrop)
-    S& dropIndicatorShown(bool enable)                                    { t->setDropIndicatorShown(enable)             ; return self(); }
+    N_BUILDER_SETTER1(dropIndicatorShown, setDropIndicatorShown)
 #endif
-    S& indexWidget(const QModelIndex& index, QWidget* widget)             { t->setIndexWidget(index, widget)             ; return self(); }
-    S& itemDelegateForRow(int row, QAbstractItemDelegate* delegate)       { t->setItemDelegateForRow(row, delegate)      ; return self(); }
-    S& itemDelegateForColumn(int column, QAbstractItemDelegate* delegate) { t->setItemDelegateForColumn(column, delegate); return self(); }
-    S& currentIndex(const QModelIndex& index)                             { t->setCurrentIndex(index)                    ; return self(); }
+
 
     N_BUILDER_SIGNAL(onPressed        , pressed        )
     N_BUILDER_SIGNAL(onClicked        , clicked        )

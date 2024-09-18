@@ -21,7 +21,7 @@ public:
     N_BUILDER_PROPERTY(int           , midLineWidth, setMidLineWidth)
     N_BUILDER_PROPERTY(QRect         , frameRect   , setFrameRect   )
 
-    S& frameStyle(int style) { t->setFrameStyle(style); return self(); }
+    N_BUILDER_SETTER1(frameStyle, setFrameStyle)
 };
 
 N_DECLARE_BUILDER(Frame, FrameBuilder, QFrame)

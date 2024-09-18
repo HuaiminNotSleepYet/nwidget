@@ -35,19 +35,21 @@ public:
     N_BUILDER_PROPERTY(int, rowCount   , setRowCount   )
     N_BUILDER_PROPERTY(int, columnCount, setColumnCount)
 
-    S& item(int row, int column, QTableWidgetItem* item)                            { t->setItem(row, column, item)           ; return self(); }
-    S& verticalHeaderItem(int row, QTableWidgetItem* item)                          { t->setVerticalHeaderItem(row, item)     ; return self(); }
-    S& horizontalHeaderItem(int column, QTableWidgetItem* item)                     { t->setHorizontalHeaderItem(column, item); return self(); }
-    S& verticalHeaderLabels(const QStringList& labels)                              { t->setVerticalHeaderLabels(labels)      ; return self(); }
-    S& horizontalHeaderLabels(const QStringList& labels)                            { t->setHorizontalHeaderLabels(labels)    ; return self(); }
-    S& currentItem(QTableWidgetItem* item)                                          { t->setCurrentItem(item)                 ; return self(); }
-    S& currentItem(QTableWidgetItem* item, QItemSelectionModel::SelectionFlags cmd) { t->setCurrentItem(item, cmd)            ; return self(); }
-    S& currentCell(int row, int column)                                             { t->setCurrentCell(row, column)          ; return self(); }
-    S& currentCell(int row, int column, QItemSelectionModel::SelectionFlags cmd)    { t->setCurrentCell(row, column, cmd)     ; return self(); }
-    S& sortingEnabled(bool enable)                                                  { t->setSortingEnabled(enable)            ; return self(); }
-    S& cellWidget(int row, int column, QWidget* widget)                             { t->setCellWidget(row, column, widget)   ; return self(); }
-    S& rangeSelected(const QTableWidgetSelectionRange& range, bool select)          { t->setRangeSelected(range, select)      ; return self(); }
-    S& itemPrototype(const QTableWidgetItem* item)                                  { t->setItemPrototype(item)               ; return self(); }
+    N_BUILDER_SETTER3(item                  , setItem                  )
+    N_BUILDER_SETTER2(verticalHeaderItem    , setVerticalHeaderItem    )
+    N_BUILDER_SETTER2(horizontalHeaderItem  , setHorizontalHeaderItem  )
+    N_BUILDER_SETTER1(verticalHeaderLabels  , setVerticalHeaderLabels  )
+    N_BUILDER_SETTER1(horizontalHeaderLabels, setHorizontalHeaderLabels)
+    N_BUILDER_SETTER1(currentItem           , setCurrentItem           )
+    N_BUILDER_SETTER2(currentItem           , setCurrentItem           )
+    N_BUILDER_SETTER2(currentCell           , setCurrentCell           )
+    N_BUILDER_SETTER3(currentCell           , setCurrentCell           )
+    N_BUILDER_SETTER1(sortingEnabled        , setSortingEnabled        )
+    N_BUILDER_SETTER3(cellWidget            , setCellWidget            )
+    N_BUILDER_SETTER2(rangeSelected         , setRangeSelected         )
+    N_BUILDER_SETTER1(itemPrototype         , setItemPrototype         )
+
+    S &model(QAbstractItemModel*) = delete;
 
     N_BUILDER_SIGNAL(onItemPressed         , itemPressed         )
     N_BUILDER_SIGNAL(onItemClicked         , itemClicked         )

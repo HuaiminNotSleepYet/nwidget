@@ -49,14 +49,14 @@ public:
     N_BUILDER_PROPERTY(bool, wordWrap            , setWordWrap            )
     N_BUILDER_PROPERTY(bool, expandsOnDoubleClick, setExpandsOnDoubleClick)
 
-    S& header(QHeaderView* header)                                       { t->setHeader(header)                       ; return self(); }
-    S& columnWidth(int column, int width)                                { t->setColumnWidth(column, width)           ; return self(); }
-    S& columnHidden(int column, bool hide)                               { t->setColumnHidden(column, hide)           ; return self(); }
-    S& headerHidden(bool hide)                                           { t->setHeaderHidden(hide)                   ; return self(); }
-    S& rowHidden(int row, const QModelIndex& parent, bool hide)          { t->setRowHidden(row, parent, hide)         ; return self(); }
-    S& firstColumnSpanned(int row, const QModelIndex& parent, bool span) { t->setFirstColumnSpanned(row, parent, span); return self(); }
-    S& expanded(const QModelIndex& index, bool expand)                   { t->setExpanded(index, expand)              ; return self(); }
-    S& treePosition(int logicalIndex)                                    { t->setTreePosition(logicalIndex)           ; return self(); }
+    N_BUILDER_SETTER1(header            , setHeader            )
+    N_BUILDER_SETTER2(columnWidth       , setColumnWidth       )
+    N_BUILDER_SETTER2(columnHidden      , setColumnHidden      )
+    N_BUILDER_SETTER1(headerHidden      , setHeaderHidden      )
+    N_BUILDER_SETTER3(rowHidden         , setRowHidden         )
+    N_BUILDER_SETTER3(firstColumnSpanned, setFirstColumnSpanned)
+    N_BUILDER_SETTER2(expanded          , setExpanded          )
+    N_BUILDER_SETTER1(treePosition      , setTreePosition      )
 
     N_BUILDER_SIGNAL(onExpanded , expanded )
     N_BUILDER_SIGNAL(onCollapsed, collapsed)

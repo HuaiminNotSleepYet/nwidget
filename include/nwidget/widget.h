@@ -76,36 +76,39 @@ public:
     N_BUILDER_PROPERTY(QString              , windowFilePath       ,setWindowFilePath       )
     N_BUILDER_PROPERTY(Qt::InputMethodHints , inputMethodHints     ,setInputMethodHints     )
 
-    S& layout(QLayout* l)                                        { t->setLayout(l);                         return self(); }
-    S& minimumSize(int w, int h)                                 { t->setMinimumSize(w, h);                 return self(); }
-    S& maximumSize(int w, int h)                                 { t->setMaximumSize(w, h);                 return self(); }
-    S& sizeIncrement(int w, int h)                               { t->setSizeIncrement(w, h);               return self(); }
-    S& baseSize(int w, int h)                                    { t->setBaseSize(w, h);                    return self(); }
-    S& fixedSize(const QSize& s)                                 { t->setFixedSize(s);                      return self(); }
-    S& fixedSize(int w, int h)                                   { t->setFixedSize(w, h);                   return self(); }
-    S& fixedWidth(int w)                                         { t->setFixedWidth(w);                     return self(); }
-    S& fixedHeight(int h)                                        { t->setFixedHeight(h);                    return self(); }
-    S& backgroundRole(QPalette::ColorRole role)                  { t->setBackgroundRole(role);              return self(); }
-    S& foregroundRole(QPalette::ColorRole role)                  { t->setForegroundRole(role);              return self(); }
-    S& mask(const QBitmap& m)                                    { t->setMask(m);                           return self(); }
-    S& mask(const QRegion& m)                                    { t->setMask(m);                           return self(); }
+
+    N_BUILDER_SETTER1(layout         , setLayout         )
+    N_BUILDER_SETTER2(minimumSize    , setMinimumSize    )
+    N_BUILDER_SETTER2(maximumSize    , setMaximumSize    )
+    N_BUILDER_SETTER2(sizeIncrement  , setSizeIncrement  )
+    N_BUILDER_SETTER2(baseSize       , setBaseSize       )
+    N_BUILDER_SETTER1(fixedSize      , setFixedSize      )
+    N_BUILDER_SETTER2(fixedSize      , setFixedSize      )
+    N_BUILDER_SETTER1(fixedWidth     , setFixedWidth     )
+    N_BUILDER_SETTER1(fixedHeight    , setFixedHeight    )
+    N_BUILDER_SETTER1(backgroundRole , setBackgroundRole )
+    N_BUILDER_SETTER1(foregroundRole , setForegroundRole )
+    N_BUILDER_SETTER1(windowRole     , setWindowRole     )
+    N_BUILDER_SETTER1(focus          , setFocus          )
+    N_BUILDER_SETTER1(focusProxy     , setFocusProxy     )
+    N_BUILDER_SETTER4(geometry       , setGeometry       )
+    N_BUILDER_SETTER1(windowState    , setWindowState    )
+    N_BUILDER_SETTER2(sizePolicy     , setSizePolicy     )
+    N_BUILDER_SETTER4(contentsMargins, setContentsMargins)
+    N_BUILDER_SETTER1(contentsMargins, setContentsMargins)
+
+    N_BUILDER_SETTER S& mask(const QBitmap& m)                          { t->setMask(m);              return self(); }
+    N_BUILDER_SETTER S& mask(const QRegion& m)                          { t->setMask(m);              return self(); }
+    N_BUILDER_SETTER S& windowFlag(Qt::WindowType type, bool on = true) { t->setWindowFlag(type, on); return self(); }
+
 #if QT_CONFIG(graphicseffect)
-    S& graphicsEffect(QGraphicsEffect* effect)                   { t->setGraphicsEffect(effect);            return self(); }
+    N_BUILDER_SETTER1(graphicsEffect        , setGraphicsEffect       )
 #endif
-    S& windowRole(const QString& s)                              { t->setWindowRole(s);                     return self(); }
 #if QT_CONFIG(accessibility)
-    S& asccessibleName(const QString& name)                      { t->setAccessibleName(name);              return self(); }
-    S& asccessibleDescription(const QString& desc)               { t->setAccessibleDescription(desc);       return self(); }
+    N_BUILDER_SETTER1(asccessibleName       , setAccessibleName       )
+    N_BUILDER_SETTER1(asccessibleDescription, setAccessibleDescription)
 #endif
-    S& focus(Qt::FocusReason reason)                             { t->setFocus(reason);                     return self(); }
-    S& focusProxy(QWidget* proxy)                                { t->setFocusProxy(proxy);                 return self(); }
-    S& geometry(int x, int y, int w, int h)                      { t->setGeometry(x, y, w, h);              return self(); }
-    S& windowState(Qt::WindowStates state)                       { t->setWindowState(state);                return self(); }
-    S& sizePolicy(QSizePolicy::Policy h, QSizePolicy::Policy v)  { t->setSizePolicy(h, v);                  return self(); }
-    S& contentsMargins(int l, int t, int r, int b)               { this->t->setContentsMargins(l, t, r, b); return self(); }
-    S& contentsMargins(const QMargins& margins)                  { t->setContentsMargins(margins);          return self(); }
-    S& windowFlag(Qt::WindowType type, bool on = true)           { t->setWindowFlag(type, on);              return self(); }
-    S& backingStore(QBackingStore* store)                        { t->setBackingStore(store);               return self(); }
+
 
     N_BUILDER_SIGNAL(onWindowTitleChanged        , windowTitleChanged        )
     N_BUILDER_SIGNAL(onWindowIconChanged         , windowIconChanged         )

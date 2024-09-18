@@ -27,7 +27,7 @@ public:
     N_BUILDER_PROPERTY(QProgressBar::Direction, textDirection     , setTextDirection     )
     N_BUILDER_PROPERTY(QString                , format            , setFormat            )
 
-    S& range(int min, int max) { t->setRange(min, max); return self(); }
+    N_BUILDER_SETTER2(range, setRange)
 
     N_BUILDER_SIGNAL(onValueChanged, valueChanged)
 };

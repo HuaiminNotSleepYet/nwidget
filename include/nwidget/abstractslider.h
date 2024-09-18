@@ -28,7 +28,7 @@ public:
     N_BUILDER_PROPERTY(bool           , invertedAppearance, setInvertedAppearance)
     N_BUILDER_PROPERTY(bool           , invertedControls  , setInvertedControls  )
 
-    S& range(int min, int max) { t->setRange(min, max); return self(); }
+    N_BUILDER_SETTER2(range, setRange)
 
     N_BUILDER_SIGNAL(onValueChanged   , valueChanged   )
     N_BUILDER_SIGNAL(onSliderPressed  , sliderPressed  )

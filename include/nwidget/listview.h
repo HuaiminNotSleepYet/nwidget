@@ -68,8 +68,8 @@ public:
     N_BUILDER_PROPERTY(bool         , selectionRectVisible, setSelectionRectVisible)
     N_BUILDER_PROPERTY(Qt::Alignment, itemAlignment       , setItemAlignment       )
 
-    S& wrapping(bool enable)                  { t->setWrapping(enable);     return self(); }
-    S& rowHidden(int row, bool hide)          { t->setRowHidden(row, hide); return self(); }
+    N_BUILDER_SETTER1(wrapping , setWrapping )
+    N_BUILDER_SETTER2(rowHidden, setRowHidden)
 
     N_BUILDER_SIGNAL(onIndexsMoved, indexesMoved)
 };

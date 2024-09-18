@@ -32,7 +32,7 @@ public:
     N_BUILDER_PROPERTY(int         , autoRepeatInterval, setAutoRepeatInterval)
     N_BUILDER_PROPERTY(bool        , down              , setDown              )
 
-    S& group(QButtonGroup* g, int id = -1) { g->addButton(t, id); return self(); }
+    N_BUILDER_SETTER S& group(QButtonGroup* g, int id = -1) { g->addButton(t, id); return self(); }
 
     N_BUILDER_SIGNAL(onClicked , clicked )
     N_BUILDER_SIGNAL(onPressed , pressed )

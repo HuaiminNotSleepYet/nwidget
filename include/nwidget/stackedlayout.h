@@ -18,7 +18,7 @@ public:
     N_BUILDER_PROPERTY(int                         , currentIndex, setCurrentIndex)
     N_BUILDER_PROPERTY(QStackedLayout::StackingMode, stackingMode, setStackingMode)
 
-    S& currentWidget(QWidget* widget)    { t->setCurrentWidget(widget); return self(); }
+    N_BUILDER_SETTER1(currentWidget, setCurrentWidget)
 };
 
 N_DECLARE_BUILDER(StackedLayout, StackedLayoutBuilder, QStackedLayout)

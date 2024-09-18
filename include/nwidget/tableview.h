@@ -42,13 +42,13 @@ public:
     N_BUILDER_PROPERTY(bool        , cornerButtonEnabled, setCornerButtonEnabled)
 #endif
 
-    S& horizontalHeader(QHeaderView* header)                  { t->setHorizontalHeader(header)        ; return self(); }
-    S& verticalHeader(QHeaderView* header)                    { t->setVerticalHeader(header)          ; return self(); }
-    S& rowHeight(int row, int height)                         { t->setRowHeight(row, height)          ; return self(); }
-    S& columnWidth(int column, int width)                     { t->setColumnWidth(column, width)      ; return self(); }
-    S& rowHidden(int row, bool hide)                          { t->setRowHidden(row, hide)            ; return self(); }
-    S& columnHidden(int column, bool hide)                    { t->setColumnHidden(column, hide)      ; return self(); }
-    S& span(int row, int column, int rowSpan, int colSpan) { t->setSpan(row, column, rowSpan, colSpan); return self(); }
+    N_BUILDER_SETTER1(horizontalHeader, setHorizontalHeader)
+    N_BUILDER_SETTER1(verticalHeader  , setVerticalHeader  )
+    N_BUILDER_SETTER2(rowHeight       , setRowHeight       )
+    N_BUILDER_SETTER2(columnWidth     , setColumnWidth     )
+    N_BUILDER_SETTER2(rowHidden       , setRowHidden       )
+    N_BUILDER_SETTER2(columnHidden    , setColumnHidden    )
+    N_BUILDER_SETTER4(span            , setSpan            )
 };
 
 N_DECLARE_BUILDER(TableView, TableViewBuilder, QTableView);

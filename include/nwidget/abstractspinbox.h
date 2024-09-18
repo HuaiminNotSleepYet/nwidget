@@ -28,8 +28,7 @@ public:
     N_BUILDER_PROPERTY(bool                            , keyboardTracking  , setKeyboardTracking   )
     N_BUILDER_PROPERTY(bool                            , showGroupSeparator, setGroupSeparatorShown)
 
-    S& groupSeparatorShown(bool shown) { t->setGroupSeparatorShown(shown); return self(); }
-    S& lineEdit(QLineEdit *edit)       { t->setLineEdit(edit)            ; return self(); }
+    N_BUILDER_SETTER1(groupSeparatorShown, setGroupSeparatorShown)
 
     N_BUILDER_SIGNAL(onEditingFinished, editingFinished)
 };

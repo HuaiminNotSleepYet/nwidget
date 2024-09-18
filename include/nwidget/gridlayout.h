@@ -38,18 +38,18 @@ public:
     GridLayoutBuilder(T* target)                                              : LayoutBuilder<S, T>(target) {}
     GridLayoutBuilder(T* target, std::initializer_list<GridLayoutItem> items) : LayoutBuilder<S, T>(target) { addItems(items); }
 
-    S& items(std::initializer_list<LayoutItem> items) = delete;
-    S& items(std::initializer_list<GridLayoutItem> items) { addItems(items); return self(); }
-
     N_BUILDER_PROPERTY(int, horizontalSpacing, setHorizontalSpacing)
     N_BUILDER_PROPERTY(int, verticalSpacing  , setVerticalSpacing  )
 
-    S& rowStretch(int row, int stretch)                  { t->setRowStretch(row, stretch)        ; return self(); }
-    S& columnStretch(int col, int stretch)               { t->setColumnStretch(col, stretch)     ; return self(); }
-    S& rowMinimumHeight(int row, int minSize)            { t->setRowMinimumHeight(row, minSize)  ; return self(); }
-    S& columnMinimumWidth(int col, int minSize)          { t->setColumnMinimumWidth(col, minSize); return self(); }
-    S& originCorner(Qt::Corner corner)                   { t->setOriginCorner(corner)            ; return self(); }
-    S& defaultPositioning(int n, Qt::Orientation orient) { t->setDefaultPositioning(n, orient)   ; return self(); }
+    S& items(std::initializer_list<LayoutItem> items) = delete;
+    N_BUILDER_SETTER S& items(std::initializer_list<GridLayoutItem> items) { addItems(items); return self(); }
+
+    N_BUILDER_SETTER2(rowStretch        , setRowStretch        )
+    N_BUILDER_SETTER2(columnStretch     , setColumnStretch     )
+    N_BUILDER_SETTER2(rowMinimumHeight  , setRowMinimumHeight  )
+    N_BUILDER_SETTER2(columnMinimumWidth, setColumnMinimumWidth)
+    N_BUILDER_SETTER1(originCorner      , setOriginCorner      )
+    N_BUILDER_SETTER2(defaultPositioning, setDefaultPositioning)
 };
 
 N_DECLARE_BUILDER(GridLayout, GridLayoutBuilder, QGridLayout)
