@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QSignalMapper>
 
+#include "traits.h"
+
 #if QT_VERSION <= QT_VERSION_CHECK(6, 6, 0)
 #define N_RECEIVER_T(F) typename QtPrivate::FunctionPointer<F>::Object*
 #else
@@ -516,6 +518,58 @@ auto NAME()                                                     \
 }
 
 
+// N_BUILDER_SETTER may make IntelliSense less clear:
+//      Widget::layout(QLayout*)
+//   -> Widget::layout(typename mem_fn<decltype(overload1(&QWidget::setLayout))>::template arg<0> _0) (aka QLayout*)
+// But it reduces the mistakes when manually copying code.
+
+
+// If the method is overloaded and the number of each overloaded parameters is different:
+//   QWidget::fixedSize(const QSize& s)
+//   QWidget::fixedSize(int w, int h)
+//
+// you can directly use N_BUILDER_SETTER0-4:
+//   N_BUILDER_SETTER1(fixedSize, setFixedSize)
+//   N_BUILDER_SETTER2(fixedSize, setFixedSize)
+//
+// But if the overloaded method has the same number of parameters or has default value:
+//   QWidget::setMask(const QBitmap &)
+//   QWidget::setMask(const QRegion &)
+//   QWidget::setWindowFlag(Qt::WindowType type, bool on = true)
+//
+// write the setter as follows:
+//   N_BUILDER_SETTER auto mask(const QBitmap& m) { t->setMask(m); return self(); }
+//   N_BUILDER_SETTER auto mask(const QRegion& m) { t->setMask(m); return self(); }
+//   N_BUILDER_SETTER                                     < mark it by N_BUILDER_SETTER
+//   auto windowFlag(Qt::WindowType type, bool on = true)
+//   { t->setWindowFlag(type, on); return self(); }       < return by ObjectBuilder::self()
+
+#define N_BUILDER_SETTER // An empty macro used to mark a builder setter.
+
+#define N_BUILDER_SETTER0(NAME, SETTER) \
+S& NAME() { ::nwidget::traits::overload0(&T::SETTER); t->SETTER(); return self(); }
+
+#define N_BUILDER_SETTER1(NAME, SETTER)\
+S& NAME(typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload1(&T::SETTER))>::template arg<0> _0)\
+{ t->SETTER(_0); return self(); }
+
+#define N_BUILDER_SETTER2(NAME, SETTER)\
+S& NAME(typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload2(&T::SETTER))>::template arg<0> _0,\
+        typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload2(&T::SETTER))>::template arg<1> _1)\
+{ t->SETTER(_0, _1); return self(); }
+
+#define N_BUILDER_SETTER3(NAME, SETTER)\
+S& NAME(typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload3(&T::SETTER))>::template arg<0> _0,\
+        typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload3(&T::SETTER))>::template arg<1> _1,\
+        typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload3(&T::SETTER))>::template arg<1> _2)\
+{ t->SETTER(_0, _1, _2); return self(); }
+
+#define N_BUILDER_SETTER4(NAME, SETTER)\
+S& NAME(typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload4(&T::SETTER))>::template arg<0> _0,\
+        typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload4(&T::SETTER))>::template arg<1> _1,\
+        typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload4(&T::SETTER))>::template arg<2> _2,\
+        typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload4(&T::SETTER))>::template arg<3> _3)\
+{ t->SETTER(_0, _1, _2, _3); return self(); }
 
 template<typename T>
 class ObjectIdT
@@ -601,6 +655,9 @@ S& NAME(const ::nwidget::BindingExpr<TN...>& expr)                  \
                                                                     \
     return self();                                                  \
 }
+
+// #define N_BUILDER_SETTER1(NAME, SETTER) \
+// S& NAME(::nwidget::traits) { t->SETTER(_1); return self(); }
 
 
 template<typename S, typename T>
