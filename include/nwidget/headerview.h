@@ -1,5 +1,5 @@
-#ifndef HEADERVIEW_H
-#define HEADERVIEW_H
+#ifndef NWIDGET_HEADERVIEW_H
+#define NWIDGET_HEADERVIEW_H
 
 #include <QHeaderView>
 
@@ -81,4 +81,4 @@ N_DECLARE_BUILDER_N(HeaderView, HeaderViewBuilder, QHeaderView)
 
 }
 
-#endif // HEADERVIEW_H
+#endif // NWIDGET_HEADERVIEW_H
