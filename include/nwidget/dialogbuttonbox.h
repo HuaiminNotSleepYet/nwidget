@@ -33,7 +33,7 @@ public:
     N_BUILDER_SIGNAL(onRejected     , rejected     )
 };
 
-N_DECLARE_BUILDER(DialogButtonBox, DialogButtonBoxBuilder, QDialogButtonBox)
+N_DECLARE_BUILDER_N(DialogButtonBox, DialogButtonBoxBuilder, QDialogButtonBox)
 
 
 
@@ -50,7 +50,7 @@ public:
     N_ID_PROPERTY(bool           , centerButtons  , N_READ centerButtons   N_WRITE setCenterButtons  )
 };
 
-N_DECLARE_ID(DialogButtonBox, DialogButtonBoxIdT, QDialogButtonBox)
+N_DECLARE_ID_N(DialogButtonBox, DialogButtonBoxIdT, QDialogButtonBox)
 
 }
 

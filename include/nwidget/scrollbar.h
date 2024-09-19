@@ -7,7 +7,7 @@
 
 namespace nwidget {
 
-N_DECLARE_ID(ScrollBar, AbstractSliderIdT, QScrollBar)
+N_DECLARE_ID_N(ScrollBar, AbstractSliderIdT, QScrollBar)
 
 template<typename S, typename T>
 class ScrollBarBuilder : public AbstractSliderBuilder<S, T>
@@ -22,7 +22,7 @@ public:
     ScrollBarBuilder(T* target)         : AbstractSliderBuilder<S, T>(target) {}
 };
 
-N_DECLARE_BUILDER(ScrollBar, ScrollBarBuilder, QScrollBar)
+N_DECLARE_BUILDER_N(ScrollBar, ScrollBarBuilder, QScrollBar)
 
 }
 

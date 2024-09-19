@@ -20,7 +20,7 @@ public:
     N_BUILDER_PROPERTY(QAbstractScrollArea::SizeAdjustPolicy, sizeAdjustPolicy         , setSizeAdjustPolicy         )
 };
 
-N_DECLARE_BUILDER(AbstractScrollArea, AbstractScrollAreaBuilder, QAbstractScrollArea);
+N_DECLARE_BUILDER_N(AbstractScrollArea, AbstractScrollAreaBuilder, QAbstractScrollArea);
 
 
 
@@ -37,7 +37,7 @@ public:
     N_ID_PROPERTY(SizeAdjustPolicy   , sizeAdjustPolicy         , N_READ sizeAdjustPolicy          N_WRITE setSizeAdjustPolicy         )
 };
 
-N_DECLARE_ID(AbstractScrollArea, AbstractScrollAreaIdT, QAbstractScrollArea)
+N_DECLARE_ID_N(AbstractScrollArea, AbstractScrollAreaIdT, QAbstractScrollArea)
 
 }
 

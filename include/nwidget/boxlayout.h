@@ -53,7 +53,7 @@ public:
     N_BUILDER_SETTER S& items(std::initializer_list<BoxLayoutItem> items) { addItems(items); return self(); }
 };
 
-N_DECLARE_BUILDER(BoxLayout, BoxLayoutBuilder, QBoxLayout)
+N_DECLARE_BUILDER_N(BoxLayout, BoxLayoutBuilder, QBoxLayout)
 
 class HBoxLayout : public BoxLayoutBuilder<HBoxLayout, QHBoxLayout>
 {
@@ -79,9 +79,9 @@ public:
     VBoxLayout(Layout* target, std::initializer_list<BoxLayoutItem> items) : BoxLayoutBuilder<VBoxLayout, Layout>(target) { addItems(items); }
 };
 
-N_DECLARE_ID(BoxLayout , LayoutIdT, QBoxLayout)
-N_DECLARE_ID(HBoxLayout, LayoutIdT, QHBoxLayout)
-N_DECLARE_ID(VBoxLayout, LayoutIdT, QVBoxLayout)
+N_DECLARE_ID_N(BoxLayout , LayoutIdT, QBoxLayout)
+N_DECLARE_ID_N(HBoxLayout, LayoutIdT, QHBoxLayout)
+N_DECLARE_ID_N(VBoxLayout, LayoutIdT, QVBoxLayout)
 
 }
 

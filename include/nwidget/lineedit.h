@@ -52,7 +52,7 @@ public:
     N_BUILDER_SIGNAL(onInputRejected        , inputRejected        )
 };
 
-N_DECLARE_BUILDER(LineEdit, LineEditBuilder, QLineEdit)
+N_DECLARE_BUILDER_N(LineEdit, LineEditBuilder, QLineEdit)
 
 
 
@@ -83,7 +83,7 @@ public:
     N_ID_PROPERTY(bool               , clearButtonEnabled, N_READ isClearButtonEnabled N_WRITE setClearButtonEnabled)
 };
 
-N_DECLARE_ID(LineEdit, LineEditIdT, QLineEdit)
+N_DECLARE_ID_N(LineEdit, LineEditIdT, QLineEdit)
 
 }
 

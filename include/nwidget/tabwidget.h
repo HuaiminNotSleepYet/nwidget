@@ -67,7 +67,7 @@ public:
     N_BUILDER_SIGNAL(onTabBarDoubleClicked, tabBarDoubleClicked)
 };
 
-N_DECLARE_BUILDER(TabWidget, TabWidgetBuilder, QTabWidget);
+N_DECLARE_BUILDER_N(TabWidget, TabWidgetBuilder, QTabWidget);
 
 
 
@@ -93,7 +93,7 @@ public:
     N_ID_PROPERTY(bool             , tabBarAutoHide   , N_READ tabBarAutoHide    N_WRITE setTabBarAutoHide   )
 };
 
-N_DECLARE_ID(TabWidget, TabWidgetIdT, QTabWidget)
+N_DECLARE_ID_N(TabWidget, TabWidgetIdT, QTabWidget)
 
 }
 

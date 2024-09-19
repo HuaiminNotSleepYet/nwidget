@@ -39,7 +39,7 @@ public:
     N_ID_PROPERTY(ScrollMode       , horizontalScrollMode , N_READ horizontalScrollMode  N_WRITE setHorizontalScrollMode )
 };
 
-N_DECLARE_ID(AbstractItemView, AbstractItemViewIdT, QAbstractItemView)
+N_DECLARE_ID_N(AbstractItemView, AbstractItemViewIdT, QAbstractItemView)
 
 
 
@@ -106,7 +106,7 @@ public:
     N_BUILDER_SIGNAL(onIconSizeChanged, iconSizeChanged)
 };
 
-N_DECLARE_BUILDER(AbstractItemView, AbstractItemViewBuilder, QAbstractItemView);
+N_DECLARE_BUILDER_N(AbstractItemView, AbstractItemViewBuilder, QAbstractItemView);
 
 }
 

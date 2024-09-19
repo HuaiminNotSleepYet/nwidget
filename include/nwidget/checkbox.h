@@ -25,7 +25,7 @@ public:
     N_BUILDER_SIGNAL(onStateChanged, stateChanged)
 };
 
-N_DECLARE_BUILDER(CheckBox, CheckBoxBuilder, QCheckBox)
+N_DECLARE_BUILDER_N(CheckBox, CheckBoxBuilder, QCheckBox)
 
 
 
@@ -39,7 +39,7 @@ public:
     N_ID_PROPERTY(Qt::CheckState, checkState, N_READ checkState N_WRITE setCheckState)
 };
 
-N_DECLARE_ID(CheckBox, CheckBoxIdT, QCheckBox)
+N_DECLARE_ID_N(CheckBox, CheckBoxIdT, QCheckBox)
 
 }
 

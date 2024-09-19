@@ -52,7 +52,7 @@ public:
     N_BUILDER_SETTER2(defaultPositioning, setDefaultPositioning)
 };
 
-N_DECLARE_BUILDER(GridLayout, GridLayoutBuilder, QGridLayout)
+N_DECLARE_BUILDER_N(GridLayout, GridLayoutBuilder, QGridLayout)
 
 
 
@@ -66,7 +66,7 @@ public:
     N_ID_PROPERTY(int, verticalSpacing  , N_READ verticalSpacing   N_WRITE setVerticalSpacing  )
 };
 
-N_DECLARE_ID(GridLayout, GridLayoutIdT, QGridLayout)
+N_DECLARE_ID_N(GridLayout, GridLayoutIdT, QGridLayout)
 
 }
 

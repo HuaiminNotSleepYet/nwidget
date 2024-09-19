@@ -35,7 +35,7 @@ public:
     N_ID_PROPERTY(Qt::Alignment, itemAlignment       , N_READ itemAlignment          N_WRITE setItemAlignment       )
 };
 
-N_DECLARE_ID(ListView, ListViewIdT, QListView)
+N_DECLARE_ID_N(ListView, ListViewIdT, QListView)
 
 
 
@@ -74,7 +74,7 @@ public:
     N_BUILDER_SIGNAL(onIndexsMoved, indexesMoved)
 };
 
-N_DECLARE_BUILDER(ListView, ListViewBuilder, QListView)
+N_DECLARE_BUILDER_N(ListView, ListViewBuilder, QListView)
 
 }
 

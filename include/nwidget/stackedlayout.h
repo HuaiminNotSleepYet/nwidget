@@ -21,7 +21,7 @@ public:
     N_BUILDER_SETTER1(currentWidget, setCurrentWidget)
 };
 
-N_DECLARE_BUILDER(StackedLayout, StackedLayoutBuilder, QStackedLayout)
+N_DECLARE_BUILDER_N(StackedLayout, StackedLayoutBuilder, QStackedLayout)
 
 
 
@@ -38,7 +38,7 @@ public:
     N_ID_PROPERTY(int         , count       , N_READ count)
 };
 
-N_DECLARE_ID(StackedLayout, StackedLayoutIdT, QStackedLayout)
+N_DECLARE_ID_N(StackedLayout, StackedLayoutIdT, QStackedLayout)
 
 }
 

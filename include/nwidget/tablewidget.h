@@ -17,7 +17,7 @@ public:
     N_ID_PROPERTY(int, columnCount, N_READ columnCount N_WRITE setColumnCount)
 };
 
-N_DECLARE_ID(TableWidget, TableWidgetIdT, QTableWidget)
+N_DECLARE_ID_N(TableWidget, TableWidgetIdT, QTableWidget)
 
 
 
@@ -67,7 +67,7 @@ public:
     N_BUILDER_SIGNAL(onCellChanged         , cellChanged         )
 };
 
-N_DECLARE_BUILDER(TableWidget, TableWidgetBuilder, QTableWidget);
+N_DECLARE_BUILDER_N(TableWidget, TableWidgetBuilder, QTableWidget);
 
 }
 

@@ -52,7 +52,7 @@ public:
     N_BUILDER_SIGNAL(onToggled         , toggled         )
 };
 
-N_DECLARE_BUILDER(Action, ActionBuilder, QAction);
+N_DECLARE_BUILDER_N(Action, ActionBuilder, QAction);
 
 
 
@@ -88,7 +88,7 @@ public:
     N_ID_PROPERTY(QAction::Priority  , priority         , N_READ priority        N_WRITE setPriority        N_NOTIFY changed         )
 };
 
-N_DECLARE_ID(Action, ActionIdT, QAction)
+N_DECLARE_ID_N(Action, ActionIdT, QAction)
 
 }
 

@@ -22,7 +22,7 @@ public:
 #endif
 };
 
-N_DECLARE_ID(TableView, TableViewIdT, QTableView)
+N_DECLARE_ID_N(TableView, TableViewIdT, QTableView)
 
 
 
@@ -51,7 +51,7 @@ public:
     N_BUILDER_SETTER4(span            , setSpan            )
 };
 
-N_DECLARE_BUILDER(TableView, TableViewBuilder, QTableView);
+N_DECLARE_BUILDER_N(TableView, TableViewBuilder, QTableView);
 
 }
 

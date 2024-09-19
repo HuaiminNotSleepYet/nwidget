@@ -27,7 +27,7 @@ public:
     N_BUILDER_SETTER1(menu, setMenu)
 };
 
-N_DECLARE_BUILDER(PushButton, PushButtonBuilder, QPushButton)
+N_DECLARE_BUILDER_N(PushButton, PushButtonBuilder, QPushButton)
 
 
 
@@ -42,7 +42,7 @@ public:
     N_ID_PROPERTY(bool, flat       , N_READ isFlat      N_WRITE setFlat       )
 };
 
-N_DECLARE_ID(PushButton, PushButtonIdT, QPushButton)
+N_DECLARE_ID_N(PushButton, PushButtonIdT, QPushButton)
 
 }
 

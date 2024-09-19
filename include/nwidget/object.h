@@ -15,10 +15,14 @@
 // NOTE: All namespaces within ::nwidget are for internal use only.
 namespace nwidget {
 
-/* ---------------------------- Property Binding ---------------------------- */
+/* --------------------------------- Traits --------------------------------- */
 
-template<typename Action, typename ...Args> class BindingExpr;
-template<typename PropertyInfo> class Property;
+template<typename T> struct id_of      { using type = void; };
+template<typename T> struct builder_of { using type = void; };
+
+template<typename T> using id_of_t      = typename id_of<T>::type;
+template<typename T> using builder_of_t = typename builder_of<T>::type;
+
 
 template<typename T, typename = void> struct is_observable : std::false_type {};
 template<typename A, typename B> struct is_same_property;
@@ -34,6 +38,13 @@ template<typename T> constexpr bool is_observable_v = is_observable<T>::value;
 //   is_same_property_v<Property<Info>>
 template<typename A, typename B> constexpr bool is_same_property_v = is_same_property<A, B>::value;
 
+
+
+
+/* ---------------------------- Property Binding ---------------------------- */
+
+template<typename Action, typename ...Args> class BindingExpr;
+template<typename PropertyInfo> class Property;
 
 
 struct NoAction { template<typename T> auto operator()(const T& value) { return value; } };
@@ -542,7 +553,7 @@ auto NAME()                                                     \
 //   N_BUILDER_SETTER auto mask(const QRegion& m) { t->setMask(m); return self(); }
 //   N_BUILDER_SETTER                                     < mark it by N_BUILDER_SETTER
 //   auto windowFlag(Qt::WindowType type, bool on = true)
-//   { t->setWindowFlag(type, on); return self(); }       < return by ObjectBuilder::self()
+//   { t->setWindowFlag(type, on); return self(); }       < return by ObjectBuilderT::self()
 
 #define N_BUILDER_SETTER // An empty macro used to mark a builder setter.
 
@@ -596,7 +607,14 @@ protected:
 
 #define N_DECLARE_ID(NAME, IDT, OBJECT) using NAME##Id = IDT<OBJECT>;
 
-N_DECLARE_ID(Object, ObjectIdT, QObject)
+// For internal use.
+#define N_DECLARE_ID_N(NAME, IDT, OBJECT)\
+N_DECLARE_ID(NAME, IDT, OBJECT)                             \
+template<> struct id_of<OBJECT> { using type = NAME##Id; }; \
+static auto as_id(OBJECT* t) { return NAME##Id(t); }
+
+
+N_DECLARE_ID_N(Object, ObjectIdT, QObject)
 
 
 
@@ -709,7 +727,12 @@ public:                                         \
     using BUILDER::BUILDER;                     \
 };
 
-N_DECLARE_BUILDER(Object, ObjectBuilder, QObject);
+#define N_DECLARE_BUILDER_N(NAME, BUILDER, TARGET)\
+N_DECLARE_BUILDER(NAME, BUILDER, TARGET)                    \
+template<> struct builder_of<TARGET> { using type = NAME; };\
+static auto as_builder(TARGET* t) { return NAME(t); }
+
+N_DECLARE_BUILDER_N(Object, ObjectBuilder, QObject)
 
 
 
@@ -758,6 +781,6 @@ auto ForEach(const Container& c, Generator g) { return ForEach(c.begin(), c.end(
 template<typename E, typename Generator>
 auto ForEach(std::initializer_list<E> l, Generator g) { return ForEach(l.begin(), l.end(), g); }
 
-}
+} // namespace nwidget
 
 #endif // NWIDGET_OBJECT_H

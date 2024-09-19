@@ -24,7 +24,7 @@ public:
     N_BUILDER_SETTER1(frameStyle, setFrameStyle)
 };
 
-N_DECLARE_BUILDER(Frame, FrameBuilder, QFrame)
+N_DECLARE_BUILDER_N(Frame, FrameBuilder, QFrame)
 
 
 
@@ -42,7 +42,7 @@ public:
     N_ID_PROPERTY(QRect         , frameRect   , N_READ frameRect    N_WRITE setFrameRect   )
 };
 
-N_DECLARE_ID(Frame, FrameIdT, QFrame)
+N_DECLARE_ID_N(Frame, FrameIdT, QFrame)
 
 }
 

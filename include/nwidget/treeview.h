@@ -26,7 +26,7 @@ public:
     N_ID_PROPERTY(bool, expandsOnDoubleClick, N_READ expandsOnDoubleClick N_WRITE setExpandsOnDoubleClick)
 };
 
-N_DECLARE_ID(TreeView, TreeViewIdT, QTreeView)
+N_DECLARE_ID_N(TreeView, TreeViewIdT, QTreeView)
 
 
 
@@ -63,7 +63,7 @@ public:
 
 };
 
-N_DECLARE_BUILDER(TreeView, TreeViewBuilder, QTreeView);
+N_DECLARE_BUILDER_N(TreeView, TreeViewBuilder, QTreeView);
 
 }
 

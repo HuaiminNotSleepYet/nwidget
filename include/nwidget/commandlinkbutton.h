@@ -24,7 +24,7 @@ public:
     N_BUILDER_PROPERTY(bool   , flat       , setFlat       )
 };
 
-N_DECLARE_BUILDER(CommandLinkButton, CommandLinkButtonBuilder, QCommandLinkButton)
+N_DECLARE_BUILDER_N(CommandLinkButton, CommandLinkButtonBuilder, QCommandLinkButton)
 
 
 
@@ -38,7 +38,7 @@ public:
     N_ID_PROPERTY(bool   , flat       , N_READ isFlat      N_WRITE setFlat       )
 };
 
-N_DECLARE_ID(CommandLinkButton, CommandLinkButtonIdT, QCommandLinkButton)
+N_DECLARE_ID_N(CommandLinkButton, CommandLinkButtonIdT, QCommandLinkButton)
 
 }
 
