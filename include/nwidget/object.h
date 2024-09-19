@@ -614,7 +614,8 @@ private:
 #define N_DECLARE_ID_N(NAME, IDT, OBJECT)\
 N_DECLARE_ID(NAME, IDT, OBJECT)                             \
 template<> struct id_of<OBJECT> { using type = NAME##Id; }; \
-static auto as_id(OBJECT* t) { return NAME##Id(t); }
+static auto as_id(OBJECT* t) { return NAME##Id(t); }        \
+static auto as_id(OBJECT& t) { return NAME##Id(&t); }
 
 
 N_DECLARE_ID_N(Object, ObjectIdT, QObject)
@@ -736,7 +737,8 @@ public:                                         \
 #define N_DECLARE_BUILDER_N(NAME, BUILDER, TARGET)\
 N_DECLARE_BUILDER(NAME, BUILDER, TARGET)                    \
 template<> struct builder_of<TARGET> { using type = NAME; };\
-static auto as_builder(TARGET* t) { return NAME(t); }
+static auto as_builder(TARGET* t) { return NAME(t); }       \
+static auto as_builder(TARGET& t) { return NAME(&t); }
 
 N_DECLARE_BUILDER_N(Object, ObjectBuilder, QObject)
 
