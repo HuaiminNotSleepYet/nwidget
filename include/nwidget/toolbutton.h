@@ -15,7 +15,7 @@ class ToolButtonBuilder : public AbstractButtonBuilder<S, T>
 public:
     ToolButtonBuilder()                    : AbstractButtonBuilder<S, T>(new T) {}
     explicit
-    ToolButtonBuilder(const QString& text) : AbstractButtonBuilder<S, T>(new T) { t->setText(text); }
+    ToolButtonBuilder(const QString& text) : AbstractButtonBuilder<S, T>(new T) { target()->setText(text); }
     explicit
     ToolButtonBuilder(T* target)           : AbstractButtonBuilder<S, T>(target) {}
 

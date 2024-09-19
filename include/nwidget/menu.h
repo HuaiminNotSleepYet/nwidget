@@ -60,7 +60,7 @@ public:
     explicit
     MenuBuilder(T* target)                                                              : WidgetBuilder<S, T>(target) {}
     MenuBuilder(T* target, std::initializer_list<MenuItem> items)                       : WidgetBuilder<S, T>(target) { addItems(items); }
-    MenuBuilder(T* target, const QString& title, std::initializer_list<MenuItem> items) : WidgetBuilder<S, T>(target) { t->setTitle(title); addItems(items); }
+    MenuBuilder(T* target, const QString& title, std::initializer_list<MenuItem> items) : WidgetBuilder<S, T>(target) { target()->setTitle(title); addItems(items); }
 
     N_BUILDER_SETTER S& items(std::initializer_list<MenuItem> items) { addItems(items); return self(); }
     N_BUILDER_SETTER1(icon , setIcon )

@@ -51,7 +51,7 @@ public:
     N_BUILDER_SETTER2(tabIcon      , setTabIcon      )
     N_BUILDER_SETTER1(currentWidget, setCurrentWidget)
 
-    N_BUILDER_SETTER S& cornerWidget(QWidget * w, Qt::Corner c = Qt::TopRightCorner)  { t->setCornerWidget(w, c); return self(); }
+    N_BUILDER_SETTER S& cornerWidget(QWidget * w, Qt::Corner c = Qt::TopRightCorner)  { target()->setCornerWidget(w, c); return self(); }
 
 #if QT_CONFIG(tooltip)
     N_BUILDER_SETTER2(tabToolTip   , setTabToolTip  )

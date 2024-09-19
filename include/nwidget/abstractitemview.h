@@ -57,7 +57,7 @@ class AbstractItemViewBuilder : public AbstractScrollAreaBuilder<S, T>
 public:
     AbstractItemViewBuilder()                          : AbstractScrollAreaBuilder<S, T>(new T) {}
     explicit
-    AbstractItemViewBuilder(QAbstractItemModel* model) : AbstractScrollAreaBuilder<S, T>(new T) { t->setModel(model); }
+    AbstractItemViewBuilder(QAbstractItemModel* model) : AbstractScrollAreaBuilder<S, T>(new T) { target()->setModel(model); }
     explicit
     AbstractItemViewBuilder(T* target)                 : AbstractScrollAreaBuilder<S, T>(target) {}
 
@@ -90,7 +90,7 @@ public:
 
     // N_BUILDER_SETTER use decltype(&T::setter) to get parameter types,
     // but QTabWidget::setModel is private, so we write it manually here.
-    N_BUILDER_SETTER S& model(QAbstractItemModel* model) { t->setModel(model); return self(); }
+    N_BUILDER_SETTER S& model(QAbstractItemModel* model) { target()->setModel(model); return self(); }
 
 #if QT_CONFIG(draganddrop)
     N_BUILDER_SETTER1(dropIndicatorShown, setDropIndicatorShown)

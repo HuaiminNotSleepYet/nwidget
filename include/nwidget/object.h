@@ -506,7 +506,7 @@ auto NAME()                                                     \
     using namespace ::nwidget::property;                        \
                                                                 \
     using Object                                                \
-        = std::decay_t<decltype(*this->t)>;                     \
+        = std::decay_t<decltype(*this->target())>;              \
     using Type = TYPE;                                          \
                                                                 \
     void ( __VA_ARGS__ )                                        \
@@ -525,7 +525,7 @@ auto NAME()                                                     \
         { return QStringLiteral("nwidget_binding_on_"#NAME); }  \
     };                                                          \
                                                                 \
-    return ::nwidget::Property<Info>(::nwidget::ObjectIdT<Object>::t);\
+    return ::nwidget::Property<Info>(this->target());           \
 }
 
 
@@ -549,38 +549,38 @@ auto NAME()                                                     \
 //   QWidget::setWindowFlag(Qt::WindowType type, bool on = true)
 //
 // write the setter as follows:
-//   N_BUILDER_SETTER auto mask(const QBitmap& m) { t->setMask(m); return self(); }
-//   N_BUILDER_SETTER auto mask(const QRegion& m) { t->setMask(m); return self(); }
+//   N_BUILDER_SETTER auto mask(const QBitmap& m) { target()->setMask(m); return self(); }
+//   N_BUILDER_SETTER auto mask(const QRegion& m) { target()->setMask(m); return self(); }
 //   N_BUILDER_SETTER                                     < mark it by N_BUILDER_SETTER
 //   auto windowFlag(Qt::WindowType type, bool on = true)
-//   { t->setWindowFlag(type, on); return self(); }       < return by ObjectBuilderT::self()
+//   { target()->setWindowFlag(type, on); return self(); }       < return by ObjectBuilderT::self()
 
 #define N_BUILDER_SETTER // An empty macro used to mark a builder setter.
 
 #define N_BUILDER_SETTER0(NAME, SETTER) \
-S& NAME() { ::nwidget::traits::overload0(&T::SETTER); t->SETTER(); return self(); }
+S& NAME() { ::nwidget::traits::overload0(&T::SETTER); target()->SETTER(); return self(); }
 
 #define N_BUILDER_SETTER1(NAME, SETTER)\
 S& NAME(typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload1(&T::SETTER))>::template arg<0> _0)\
-{ t->SETTER(_0); return self(); }
+{ target()->SETTER(_0); return self(); }
 
 #define N_BUILDER_SETTER2(NAME, SETTER)\
 S& NAME(typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload2(&T::SETTER))>::template arg<0> _0,\
         typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload2(&T::SETTER))>::template arg<1> _1)\
-{ t->SETTER(_0, _1); return self(); }
+{ target()->SETTER(_0, _1); return self(); }
 
 #define N_BUILDER_SETTER3(NAME, SETTER)\
 S& NAME(typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload3(&T::SETTER))>::template arg<0> _0,\
         typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload3(&T::SETTER))>::template arg<1> _1,\
         typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload3(&T::SETTER))>::template arg<1> _2)\
-{ t->SETTER(_0, _1, _2); return self(); }
+{ target()->SETTER(_0, _1, _2); return self(); }
 
 #define N_BUILDER_SETTER4(NAME, SETTER)\
 S& NAME(typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload4(&T::SETTER))>::template arg<0> _0,\
         typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload4(&T::SETTER))>::template arg<1> _1,\
         typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload4(&T::SETTER))>::template arg<2> _2,\
         typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload4(&T::SETTER))>::template arg<3> _3)\
-{ t->SETTER(_0, _1, _2, _3); return self(); }
+{ target()->SETTER(_0, _1, _2, _3); return self(); }
 
 template<typename T>
 class ObjectIdT
@@ -602,6 +602,9 @@ public:
     N_ID_PROPERTY(QString, objectName, N_READ objectName)
 
 protected:
+    T* target() const { return t; }
+
+private:
     T* t;
 };
 
@@ -622,7 +625,7 @@ N_DECLARE_ID_N(Object, ObjectIdT, QObject)
 
 #define N_BUILDER                               \
 protected:                                      \
-    using ::nwidget::ObjectBuilder<S, T>::t;    \
+    using ::nwidget::ObjectBuilder<S, T>::target;\
     using ::nwidget::ObjectBuilder<S, T>::self; \
     using ::nwidget::ObjectBuilder<S, T>::addItems;
 
@@ -631,26 +634,26 @@ protected:                                      \
 template <typename Func>                                        \
 S& NAME(Func slot,                                              \
         Qt::ConnectionType type = Qt::AutoConnection)           \
-{ QObject::connect(t, &std::decay_t<decltype(*t)>::SIG, t, slot); return self(); }          \
+{ QObject::connect(target(), &std::decay_t<decltype(*target())>::SIG, target(), slot); return self(); }\
                                                                 \
 template <typename Func>                                        \
 S& NAME(const QObject* receiver, Func method,                   \
         Qt::ConnectionType type = Qt::AutoConnection)           \
-{ QObject::connect(t, &std::decay_t<decltype(*t)>::SIG, receiver, method); return self(); } \
+{ QObject::connect(target(), &std::decay_t<decltype(*target())>::SIG, receiver, method); return self(); }\
                                                                 \
 template <typename Func>                                        \
 S& NAME(const N_RECEIVER_T(Func) context, Func slot,            \
         Qt::ConnectionType type = Qt::AutoConnection)           \
-{ QObject::connect(t, &std::decay_t<decltype(*t)>::SIG, context, slot); return self(); }
+{ QObject::connect(target(), &std::decay_t<decltype(*target())>::SIG, context, slot); return self(); }
 
 
 #define N_BUILDER_PROPERTY(TYPE, NAME, SETTER)                      \
-S& NAME(const TYPE& arg) { t->SETTER(arg); return self(); }         \
+S& NAME(const TYPE& arg) { target()->SETTER(arg); return self(); }  \
                                                                     \
 template<typename ...TN>                                            \
 S& NAME(const ::nwidget::BindingExpr<TN...>& expr)                  \
 {                                                                   \
-    using Object = typename std::decay_t<decltype(*t)>;             \
+    using Object = typename std::decay_t<decltype(*target())>;      \
     using Type = TYPE;                                              \
                                                                     \
     struct Setter { static auto func() {return &Object::SETTER;} }; \
@@ -669,7 +672,7 @@ S& NAME(const ::nwidget::BindingExpr<TN...>& expr)                  \
         { return QStringLiteral("nwidget_binding_on_"#NAME); }      \
     };                                                              \
                                                                     \
-    expr.bindTo(::nwidget::Property<Info>(t));                      \
+    expr.bindTo(::nwidget::Property<Info>(target()));               \
                                                                     \
     return self();                                                  \
 }
@@ -699,14 +702,14 @@ public:
 
     N_BUILDER_PROPERTY(QString, objectName, setObjectName)
 
-    S& property(const char* name, const QVariant& value)     { t->setProperty(name, value); return self(); }
-    S& property(const char* name, QVariant&& value)          { t->setProperty(name, value); return self(); }
+    S& property(const char* name, const QVariant& value)     { target()->setProperty(name, value); return self(); }
+    S& property(const char* name, QVariant&& value)          { target()->setProperty(name, value); return self(); }
 
     N_BUILDER_SIGNAL(onDestroyed        , destroyed        )
     N_BUILDER_SIGNAL(onObjectNameChanged, objectNameChanged)
 
 protected:
-    T* t;
+    T* target() const { return t; }
 
     S& self() { return static_cast<S&>(*this); }
 
@@ -717,6 +720,9 @@ protected:
         for (auto i = items.begin(); i != end; ++i)
             i->addTo(t);
     }
+
+private:
+    T* t;
 };
 
 

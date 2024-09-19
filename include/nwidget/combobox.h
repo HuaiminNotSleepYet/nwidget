@@ -31,12 +31,12 @@ class ComboBoxBuilder : public WidgetBuilder<S, T>
 public:
     ComboBoxBuilder()                                          : WidgetBuilder<S, T>(new T) {}
     explicit
-    ComboBoxBuilder(const QStringList& items)                  : WidgetBuilder<S, T>(new T) { t->addItems(items); }
+    ComboBoxBuilder(const QStringList& items)                  : WidgetBuilder<S, T>(new T) { target()->addItems(items); }
     ComboBoxBuilder(std::initializer_list<ComboBoxItem> items) : WidgetBuilder<S, T>(new T) { addItems(items); }
     explicit
     ComboBoxBuilder(T* target)                                 : WidgetBuilder<S, T>(target) {}
 
-    N_BUILDER_SETTER  S& items(const QStringList& items)                  { t->addItems(items); return self(); }
+    N_BUILDER_SETTER  S& items(const QStringList& items)                  { target()->addItems(items); return self(); }
     N_BUILDER_SETTER  S& items(std::initializer_list<ComboBoxItem> items) { addItems(items)   ; return self(); }
 
     N_BUILDER_PROPERTY(bool                       , editable             , setEditable             )

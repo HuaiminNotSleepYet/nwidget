@@ -15,10 +15,10 @@ class WidgetBuilder : public ObjectBuilder<S, T>
 
 public:
     WidgetBuilder()                           : ObjectBuilder<S, T>(new T) {}
-    WidgetBuilder(QLayout* layout)            : ObjectBuilder<S, T>(new T) { t->setLayout(layout); }
+    WidgetBuilder(QLayout* layout)            : ObjectBuilder<S, T>(new T) { target()->setLayout(layout); }
     explicit
     WidgetBuilder(T* target)                  : ObjectBuilder<S, T>(target) {}
-    WidgetBuilder(T* target, QLayout* layout) : ObjectBuilder<S, T>(target) { t->setLayout(layout); }
+    WidgetBuilder(T* target, QLayout* layout) : ObjectBuilder<S, T>(target) { target()->setLayout(layout); }
 
 
     N_BUILDER_PROPERTY(Qt::WindowModality   , windowModality       ,setWindowModality       )
@@ -97,9 +97,9 @@ public:
     N_BUILDER_SETTER4(contentsMargins, setContentsMargins)
     N_BUILDER_SETTER1(contentsMargins, setContentsMargins)
 
-    N_BUILDER_SETTER S& mask(const QBitmap& m)                          { t->setMask(m);              return self(); }
-    N_BUILDER_SETTER S& mask(const QRegion& m)                          { t->setMask(m);              return self(); }
-    N_BUILDER_SETTER S& windowFlag(Qt::WindowType type, bool on = true) { t->setWindowFlag(type, on); return self(); }
+    N_BUILDER_SETTER S& mask(const QBitmap& m)                          { target()->setMask(m);              return self(); }
+    N_BUILDER_SETTER S& mask(const QRegion& m)                          { target()->setMask(m);              return self(); }
+    N_BUILDER_SETTER S& windowFlag(Qt::WindowType type, bool on = true) { target()->setWindowFlag(type, on); return self(); }
 
 #if QT_CONFIG(graphicseffect)
     N_BUILDER_SETTER1(graphicsEffect        , setGraphicsEffect       )
