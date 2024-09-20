@@ -33,7 +33,7 @@ public:
     N_BUILDER_SIGNAL(onEditingFinished, editingFinished)
 };
 
-N_DECLARE_BUILDER_N(AbstractSpinBox, AbstractSpinBoxBuilder, QAbstractSpinBox);
+N_DECLARE_BUILDER(AbstractSpinBox, AbstractSpinBoxBuilder, QAbstractSpinBox)
 
 
 
@@ -60,8 +60,11 @@ public:
     N_ID_PROPERTY(bool          , showGroupSeparator, N_READ isGroupSeparatorShown N_WRITE setGroupSeparatorShown)
 };
 
-N_DECLARE_ID_N(AbstractSpinBox, AbstractSpinBoxIdT, QAbstractSpinBox)
+N_DECLARE_ID(AbstractSpinBox, AbstractSpinBoxIdT, QAbstractSpinBox)
 
 }
+
+N_REGISTER_ID(nwidget::AbstractSpinBox, QAbstractSpinBox)
+N_REGISTER_BUILDER(nwidget::AbstractSpinBox, QAbstractSpinBox)
 
 #endif // NWIDGET_ABSTRACTSPINBOX_H

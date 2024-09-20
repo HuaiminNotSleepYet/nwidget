@@ -608,17 +608,9 @@ private:
     T* t;
 };
 
-#define N_DECLARE_ID(NAME, IDT, OBJECT) using NAME##Id = IDT<OBJECT>;
+#define N_DECLARE_ID(NAME, IDT, TARGET) using NAME##Id = IDT<TARGET>;
 
-// For internal use.
-#define N_DECLARE_ID_N(NAME, IDT, OBJECT)\
-N_DECLARE_ID(NAME, IDT, OBJECT)                             \
-template<> struct id_of<OBJECT> { using type = NAME##Id; }; \
-static auto as_id(OBJECT* t) { return NAME##Id(t); }        \
-static auto as_id(OBJECT& t) { return NAME##Id(&t); }
-
-
-N_DECLARE_ID_N(Object, ObjectIdT, QObject)
+N_DECLARE_ID(Object, ObjectIdT, QObject)
 
 
 
@@ -735,13 +727,7 @@ public:                                         \
     using BUILDER::BUILDER;                     \
 };
 
-#define N_DECLARE_BUILDER_N(NAME, BUILDER, TARGET)\
-N_DECLARE_BUILDER(NAME, BUILDER, TARGET)                    \
-template<> struct builder_of<TARGET> { using type = NAME; };\
-static auto as_builder(TARGET* t) { return NAME(t); }       \
-static auto as_builder(TARGET& t) { return NAME(&t); }
-
-N_DECLARE_BUILDER_N(Object, ObjectBuilder, QObject)
+N_DECLARE_BUILDER(Object, ObjectBuilder, QObject)
 
 
 
@@ -791,5 +777,35 @@ template<typename E, typename Generator>
 auto ForEach(std::initializer_list<E> l, Generator g) { return ForEach(l.begin(), l.end(), g); }
 
 } // namespace nwidget
+
+
+
+// Make the type available in id_of<T>, builder_of<T>, as_id and as_builder.
+
+// Reasons for use func(as_id, as_builder) rather than specialization:
+//
+// when create a class without creating the corresponding Id/Builder:
+//   class CustomClass : public Widget { ... };
+//
+// calling as_id at this point will get the closest id/builder:
+//   as_id(new CustomClass)      -> WidgetId
+//   as_builder(new CustomClass) -> Widget
+
+#define N_REGISTER_ID(NAME, TARGET)\
+namespace nwidget {                                         \
+template<> struct id_of<TARGET> { using type = NAME##Id; }; \
+static auto as_id(TARGET* t) { return NAME##Id(t); }        \
+static auto as_id(TARGET& t) { return NAME##Id(&t); }       \
+}
+
+#define N_REGISTER_BUILDER(NAME, TARGET)\
+namespace nwidget {                                         \
+template<> struct builder_of<TARGET> { using type = NAME; };\
+static auto as_builder(TARGET* t) { return NAME(t); }       \
+static auto as_builder(TARGET& t) { return NAME(&t); }      \
+}
+
+N_REGISTER_ID(nwidget::Object, QObject)
+N_REGISTER_BUILDER(nwidget::Object, QObject)
 
 #endif // NWIDGET_OBJECT_H

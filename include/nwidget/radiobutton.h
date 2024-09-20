@@ -7,7 +7,7 @@
 
 namespace nwidget {
 
-N_DECLARE_ID_N(RadioButton, AbstractButtonIdT, QRadioButton)
+N_DECLARE_ID(RadioButton, AbstractButtonIdT, QRadioButton)
 
 template<typename S, typename T>
 class RadioButtonBuilder : public AbstractButtonBuilder<S, T>
@@ -22,8 +22,11 @@ public:
     RadioButtonBuilder(T* target)           : AbstractButtonBuilder<S, T>(target) {}
 };
 
-N_DECLARE_BUILDER_N(RadioButton, RadioButtonBuilder, QRadioButton)
+N_DECLARE_BUILDER(RadioButton, RadioButtonBuilder, QRadioButton)
 
 }
+
+N_REGISTER_ID(nwidget::RadioButton, QRadioButton)
+N_REGISTER_BUILDER(nwidget::RadioButton, QRadioButton)
 
 #endif // NWIDGET_RADIOBUTTON_H

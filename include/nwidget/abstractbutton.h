@@ -40,7 +40,7 @@ public:
     N_BUILDER_SIGNAL(onToggled , toggled )
 };
 
-N_DECLARE_BUILDER_N(AbstractButton, AbstractButtonBuilder, QAbstractButton);
+N_DECLARE_BUILDER(AbstractButton, AbstractButtonBuilder, QAbstractButton)
 
 
 
@@ -65,8 +65,11 @@ public:
     N_ID_PROPERTY(bool        , down              , N_READ isDown             N_WRITE setDown              )
 };
 
-N_DECLARE_ID_N(AbstractButton, AbstractButtonIdT, QAbstractButton)
+N_DECLARE_ID(AbstractButton, AbstractButtonIdT, QAbstractButton)
 
 }
+
+N_REGISTER_ID(nwidget::AbstractButton, QAbstractButton)
+N_REGISTER_BUILDER(nwidget::AbstractButton, QAbstractButton)
 
 #endif // NWIDGET_ABSTRACTBUTTON_H

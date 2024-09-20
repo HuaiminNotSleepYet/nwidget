@@ -23,7 +23,7 @@ public:
     N_ID_PROPERTY(SizeConstraint, sizeConstraint , N_READ sizeConstraint  N_WRITE setSizeConstraint )
 };
 
-N_DECLARE_ID_N(Layout, LayoutIdT, QLayout)
+N_DECLARE_ID(Layout, LayoutIdT, QLayout)
 
 
 
@@ -62,8 +62,11 @@ public:
     N_BUILDER_SETTER4(contentsMargins, setContentsMargins)
 };
 
-N_DECLARE_BUILDER_N(Layout, LayoutBuilder, QLayout)
+N_DECLARE_BUILDER(Layout, LayoutBuilder, QLayout)
 
 }
+
+N_REGISTER_ID(nwidget::Layout, QLayout)
+N_REGISTER_BUILDER(nwidget::Layout, QLayout)
 
 #endif // NWIDGET_LAYOUT_H

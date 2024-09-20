@@ -117,7 +117,7 @@ public:
     N_BUILDER_SIGNAL(onCustomContextMenuRequested, customContextMenuRequested)
 };
 
-N_DECLARE_BUILDER_N(Widget, WidgetBuilder, QWidget);
+N_DECLARE_BUILDER(Widget, WidgetBuilder, QWidget)
 
 
 
@@ -201,8 +201,11 @@ public:
     N_ID_PROPERTY(Qt::InputMethodHints , inputMethodHints     , N_READ inputMethodHints      N_WRITE setInputMethodHints  )
 };
 
-N_DECLARE_ID_N(Widget, WidgetIdT, QWidget)
+N_DECLARE_ID(Widget, WidgetIdT, QWidget)
 
 }
+
+N_REGISTER_ID(nwidget::Widget, QWidget)
+N_REGISTER_BUILDER(nwidget::Widget, QWidget)
 
 #endif // NWIDGET_WIDGET_H

@@ -23,7 +23,7 @@ public:
     N_BUILDER_PROPERTY(int                  , tickInterval, setTickInterval)
 };
 
-N_DECLARE_BUILDER_N(Slider, SliderBuilder, QSlider)
+N_DECLARE_BUILDER(Slider, SliderBuilder, QSlider)
 
 
 
@@ -37,8 +37,11 @@ public:
     N_ID_PROPERTY(int                  , tickInterval, N_READ tickInterval N_WRITE setTickInterval)
 };
 
-N_DECLARE_ID_N(Slider, SliderIdT, QSlider)
+N_DECLARE_ID(Slider, SliderIdT, QSlider)
 
 }
+
+N_REGISTER_ID(nwidget::Slider, QSlider)
+N_REGISTER_BUILDER(nwidget::Slider, QSlider)
 
 #endif // NWIDGET_SLIDER_H

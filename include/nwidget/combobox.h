@@ -62,7 +62,7 @@ public:
     N_BUILDER_SIGNAL(onCurrentTextChanged , currentTextChanged )
 };
 
-N_DECLARE_BUILDER_N(ComboBox, ComboBoxBuilder, QComboBox)
+N_DECLARE_BUILDER(ComboBox, ComboBoxBuilder, QComboBox)
 
 
 
@@ -92,8 +92,11 @@ public:
     N_ID_PROPERTY(int             , modelColumn          , N_READ modelColumn           N_WRITE setModelColumn          )
 };
 
-N_DECLARE_ID_N(ComboBox, ComboBoxIdT, QComboBox)
+N_DECLARE_ID(ComboBox, ComboBoxIdT, QComboBox)
 
 }
+
+N_REGISTER_ID(nwidget::ComboBox, QComboBox)
+N_REGISTER_BUILDER(nwidget::ComboBox, QComboBox)
 
 #endif // NWIDGET_COMBOBOX_H

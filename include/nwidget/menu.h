@@ -24,7 +24,7 @@ public:
     N_ID_PROPERTY(bool   , toolTipsVisible      , N_READ toolTipsVisible       N_WRITE setToolTipsVisible      )
 };
 
-N_DECLARE_ID_N(Menu, MenuIdT, QMenu)
+N_DECLARE_ID(Menu, MenuIdT, QMenu)
 
 
 
@@ -67,8 +67,11 @@ public:
     N_BUILDER_SETTER1(title, setTitle)
 };
 
-N_DECLARE_BUILDER_N(Menu, MenuBuilder, QMenu)
+N_DECLARE_BUILDER(Menu, MenuBuilder, QMenu)
 
 }
+
+N_REGISTER_ID(nwidget::Menu, QMenu)
+N_REGISTER_BUILDER(nwidget::Menu, QMenu)
 
 #endif // NWIDGET_MENU_H

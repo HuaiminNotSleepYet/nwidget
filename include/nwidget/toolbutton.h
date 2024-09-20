@@ -32,7 +32,7 @@ public:
 #endif
 };
 
-N_DECLARE_BUILDER_N(ToolButton, ToolButtonBuilder, QToolButton);
+N_DECLARE_BUILDER(ToolButton, ToolButtonBuilder, QToolButton)
 
 
 
@@ -50,8 +50,11 @@ public:
     N_ID_PROPERTY(Qt::ArrowType      , arrowType      , N_READ arrowType       N_WRITE setArrowType      )
 };
 
-N_DECLARE_ID_N(ToolButton, ToolButtonIdT, QToolButton)
+N_DECLARE_ID(ToolButton, ToolButtonIdT, QToolButton)
 
 }
+
+N_REGISTER_ID(nwidget::ToolButton, QToolButton)
+N_REGISTER_BUILDER(nwidget::ToolButton, QToolButton)
 
 #endif // NWIDGET_TOOLBUTTON_H

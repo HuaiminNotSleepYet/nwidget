@@ -30,7 +30,7 @@ public:
     N_BUILDER_SIGNAL(onAnchorClicked    , anchorClicked    )
 };
 
-N_DECLARE_BUILDER_N(TextBrowser, TextBrowserBuilder, QTextBrowser);
+N_DECLARE_BUILDER(TextBrowser, TextBrowserBuilder, QTextBrowser)
 
 
 
@@ -47,8 +47,11 @@ public:
     N_ID_PROPERTY(bool                       , openLinks        , N_READ openLinks         N_WRITE setOpenLinks        )
 };
 
-N_DECLARE_ID_N(TextBrowser, TextBrowserIdT, QTextBrowser)
+N_DECLARE_ID(TextBrowser, TextBrowserIdT, QTextBrowser)
 
 }
+
+N_REGISTER_ID(nwidget::TextBrowser, QTextBrowser)
+N_REGISTER_BUILDER(nwidget::TextBrowser, QTextBrowser)
 
 #endif // NWIDGET_TEXTBROWSER_H

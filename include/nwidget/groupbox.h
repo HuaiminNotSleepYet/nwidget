@@ -29,7 +29,7 @@ public:
     N_BUILDER_PROPERTY(bool         , checked  , setChecked  )
 };
 
-N_DECLARE_BUILDER_N(GroupBox, GroupBoxBuilder, QGroupBox)
+N_DECLARE_BUILDER(GroupBox, GroupBoxBuilder, QGroupBox)
 
 
 
@@ -46,8 +46,11 @@ public:
     N_ID_PROPERTY(bool         , checked  , N_READ isChecked   N_WRITE setChecked  N_NOTIFY toggled)
 };
 
-N_DECLARE_ID_N(GroupBox, GroupBoxIdT, QGroupBox)
+N_DECLARE_ID(GroupBox, GroupBoxIdT, QGroupBox)
 
 }
+
+N_REGISTER_ID(nwidget::GroupBox, QGroupBox)
+N_REGISTER_BUILDER(nwidget::GroupBox, QGroupBox)
 
 #endif // NWIDGET_GROUPBOX_H

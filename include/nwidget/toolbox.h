@@ -34,7 +34,7 @@ public:
     N_BUILDER_PROPERTY(int, currentIndex, setCurrentIndex)
 };
 
-N_DECLARE_BUILDER_N(ToolBox, ToolBoxBuilder, QToolBox);
+N_DECLARE_BUILDER(ToolBox, ToolBoxBuilder, QToolBox)
 
 
 
@@ -48,8 +48,11 @@ public:
     N_ID_PROPERTY(int, count       , N_READ count)
 };
 
-N_DECLARE_ID_N(ToolBox, ToolBoxIdT, QToolBox)
+N_DECLARE_ID(ToolBox, ToolBoxIdT, QToolBox)
 
 }
+
+N_REGISTER_ID(nwidget::ToolBox, QToolBox)
+N_REGISTER_BUILDER(nwidget::ToolBox, QToolBox)
 
 #endif // NWIDGET_TOOLBOX_H

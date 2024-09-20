@@ -41,7 +41,7 @@ public:
     N_BUILDER_PROPERTY(bool           , childrenCollapsible, setChildrenCollapsible)
 };
 
-N_DECLARE_BUILDER_N(Splitter, SplitterBuilder, QSplitter)
+N_DECLARE_BUILDER(Splitter, SplitterBuilder, QSplitter)
 
 
 
@@ -57,9 +57,11 @@ public:
     N_ID_PROPERTY(bool           , childrenCollapsible, N_READ childrenCollapsible N_WRITE setChildrenCollapsible)
 };
 
-N_DECLARE_ID_N(Splitter, SplitterIdT, QSplitter)
+N_DECLARE_ID(Splitter, SplitterIdT, QSplitter)
 
 }
 
+N_REGISTER_ID(nwidget::Splitter, QSplitter)
+N_REGISTER_BUILDER(nwidget::Splitter, QSplitter)
 
 #endif // NWIDGET_SPLITTER_H

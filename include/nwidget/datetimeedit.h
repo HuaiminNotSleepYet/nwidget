@@ -71,9 +71,9 @@ public:
     DateEditBuilder(T* target, QDate date) : DateTimeEditBuilder<S, T>(target, date) {}
 };
 
-N_DECLARE_BUILDER_N(DateTimeEdit, DateTimeEditBuilder, QDateTimeEdit)
-N_DECLARE_BUILDER_N(TimeEdit    , TimeEditBuilder    , QTimeEdit    )
-N_DECLARE_BUILDER_N(DateEdit    , DateEditBuilder    , QDateEdit    )
+N_DECLARE_BUILDER(DateTimeEdit, DateTimeEditBuilder, QDateTimeEdit)
+N_DECLARE_BUILDER(TimeEdit    , TimeEditBuilder    , QTimeEdit    )
+N_DECLARE_BUILDER(DateEdit    , DateEditBuilder    , QDateEdit    )
 
 
 
@@ -120,10 +120,17 @@ public:
     N_ID_PROPERTY(QDate, date, N_READ date N_WRITE setDate N_NOTIFY userDateChanged)
 };
 
-N_DECLARE_ID_N(DateTimeEdit, DateTimeEditIdT, QDateTimeEdit)
-N_DECLARE_ID_N(TimeEdit, TimeEditIdT, QTimeEdit)
-N_DECLARE_ID_N(DateEdit, DateEditIdT, QDateEdit)
+N_DECLARE_ID(DateTimeEdit, DateTimeEditIdT, QDateTimeEdit)
+N_DECLARE_ID(TimeEdit, TimeEditIdT, QTimeEdit)
+N_DECLARE_ID(DateEdit, DateEditIdT, QDateEdit)
 
 }
+
+N_REGISTER_ID(nwidget::DateTimeEdit, QDateTimeEdit)
+N_REGISTER_ID(nwidget::TimeEdit    , QTimeEdit    )
+N_REGISTER_ID(nwidget::DateEdit    , QDateEdit    )
+N_REGISTER_BUILDER(nwidget::DateTimeEdit, QDateTimeEdit)
+N_REGISTER_BUILDER(nwidget::TimeEdit    , QTimeEdit    )
+N_REGISTER_BUILDER(nwidget::DateEdit    , QDateEdit    )
 
 #endif // NWIDGET_DATETIMEEDIT_H
