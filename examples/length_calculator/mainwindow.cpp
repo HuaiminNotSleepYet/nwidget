@@ -13,8 +13,8 @@ class MainWindowId : public WidgetIdT<MainWindow>
 public:
     using WidgetIdT<MainWindow>::WidgetIdT;
 
-    N_ID_PROPERTY(units::length, length1, N_GETTER(length1), N_SETTER(setLength1), N_NOTIFY(length1Changed))
-    N_ID_PROPERTY(units::length, length2, N_GETTER(length2), N_SETTER(setLength2), N_NOTIFY(length2Changed))
+    N_ID_PROPERTY(units::length, length1, N_READ length1 N_WRITE setLength1 N_NOTIFY length1Changed)
+    N_ID_PROPERTY(units::length, length2, N_READ length2 N_WRITE setLength2 N_NOTIFY length2Changed)
 };
 
 
