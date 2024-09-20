@@ -501,7 +501,7 @@ using Notify = void;
 #define N_NOTIFY ); N_NOTIFY_IMPL N_LEFT_PAREN
 
 #define N_ID_PROPERTY(TYPE, NAME, ...)                          \
-auto NAME()                                                     \
+auto NAME() const                                               \
 {                                                               \
     using namespace ::nwidget::property;                        \
                                                                 \
