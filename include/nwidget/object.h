@@ -657,7 +657,8 @@ S& NAME(const ::nwidget::BindingExpr<TN...>& expr)                  \
     using Object = typename std::decay_t<decltype(*target())>;      \
     using Type = TYPE;                                              \
                                                                     \
-    struct Setter { static auto func() {return &Object::SETTER;} }; \
+    struct Setter                                                   \
+    { static void set(Object* o, const Type& v) { o->SETTER(v); } };\
                                                                     \
     struct Info                                                     \
     {                                                               \
