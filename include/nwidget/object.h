@@ -572,7 +572,7 @@ S& NAME(typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload2
 #define N_BUILDER_SETTER3(NAME, SETTER)\
 S& NAME(typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload3(&T::SETTER))>::template arg<0> _0,\
         typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload3(&T::SETTER))>::template arg<1> _1,\
-        typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload3(&T::SETTER))>::template arg<1> _2)\
+        typename ::nwidget::traits::mem_fn<decltype(::nwidget::traits::overload3(&T::SETTER))>::template arg<2> _2)\
 { target()->SETTER(_0, _1, _2); return self(); }
 
 #define N_BUILDER_SETTER4(NAME, SETTER)\
