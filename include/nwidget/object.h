@@ -696,6 +696,8 @@ public:
 
     N_BUILDER_PROPERTY(QString, objectName, setObjectName)
 
+    N_BUILDER_SETTER1(eventFilter, installEventFilter)
+
     S& property(const char* name, const QVariant& value)     { target()->setProperty(name, value); return self(); }
     S& property(const char* name, QVariant&& value)          { target()->setProperty(name, value); return self(); }
 
