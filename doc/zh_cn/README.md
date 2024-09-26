@@ -1,6 +1,6 @@
 # nwidget
 
-QWidget 的 `声明式语法` 和 `属性绑定` 拓展
+nwidget 是一个 `仅头文件` 库，为QWidget 提供了 `声明式语法` 和 `属性绑定` 的拓展
 
 [文档](Document.md)
 
@@ -62,12 +62,12 @@ nw::SliderId slider2 = new QSlider;
 
 QLayout* layout = nw::VBoxLayout{
     nw::Label(label)
-        .text(nw::asprintf("%d", slider1.value() + slider2.value())),
+        .text(nw::asprintf("%d", slider1.value() + slider2.value())), // 创建绑定
     nw::Slider(slider1).orientation(Qt::Horizontal),
     nw::Slider(slider2).orientation(Qt::Horizontal),
 };
 
-// 也等价于以下3种写法：
+// 绑定也可通过以下方式创建
 label.text() = nw::asprintf("%d", slider1.value() + slider2.value());
 
 nw::asprintf("%d", slider1.value() + slider2.value())

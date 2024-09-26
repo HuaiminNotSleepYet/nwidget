@@ -9,6 +9,8 @@
   - [Property Binding](#property-binding)
   - [is\_observable\<T\>](#is_observablet)
   - [is\_same\_property\<A, B\>](#is_same_propertya-b)
+- [Helper Method](#helper-method)
+  - [id\_of，builder\_of, as\_id，as\_builder](#id_ofbuilder_of-as_idas_builder)
 
 ## Inclusion
 
@@ -39,10 +41,12 @@ auto* button2 = new QPushButton;
 button1.setText("Button");
 
 QLayout* layout = nwidget::VBoxLayout{
-    button1,                                // Use existing instance
+    button1,                                     // Use existing instance
     new QPushButton,
     nwidget::PushButton(),
     nwidget::PushButton(button2).text("Button"), // Set on existing instance
+    // equivalent to
+    // as_builder(button2).text("Button")
 };
 ```
 
@@ -83,6 +87,10 @@ or in code:
 nwidget::SliderId slider1 = new QSlider;
 nwidget::SliderId slider2 = new QSlider;
 nwidget::SliderId slider3 = new QSlider;
+// equivalent to
+// auto slider1 = nwidget::as_id(new QSlider);
+// auto slider2 = nwidget::as_id(new QSlider);
+// auto slider3 = nwidget::as_id(new QSlider);
 
 slider3.value() = slider1.value() + slider2.value();
 ```
@@ -196,9 +204,10 @@ You can use the same instance’s properties in expressions, but need to avoid l
 
 ```cpp
 button.iconSize()
-= nwidget::constructor<QSize>(slider.value(),   // < Signal change here is subscribed
-                         button.iconSize() // < Signal change here is ignored
-                         .invoke(&QSize::height));
+= nwidget::constructor<QSize>(
+    slider.value(),   // < Signal change here is subscribed
+    button.iconSize() // < Signal change here is ignored
+        .invoke(&QSize::height));
 ```
 
 ### is_observable\<T>
@@ -226,3 +235,22 @@ nwidget::is_same_property_v<prop1, prop2>; // true
 nwidget::is_same_property_v<prop1, prop3>; // false
 
 ```
+
+## Helper Method
+
+### id_of，builder_of, as_id，as_builder
+
+```cpp
+class MySlider : public QSlider { ... };
+
+using type1 = id_of_t<QSlider>;  // nwidget::SliderId
+using type2 = id_of_t<MySlider>; // void (void if there is no corresponding builder)
+using type3 = id_of_t<int>;      // void
+
+auto slider1 = as_id(new QSlider);  // SliderId
+auto slider2 = as_id(new MySlider); // SliderId (Use parent class if there is no corresponding xxxId)
+```
+
+`builder_of`, `as_builder` are used in the same way as in the examples above.
+
+To make custom types available in these methods, declare the corresponding Id and Builder with `N_REGISTER_ID`, `N_REGISTER_BUILDER`.

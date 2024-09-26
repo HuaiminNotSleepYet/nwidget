@@ -2,7 +2,7 @@
 
 [中文](./doc/zh_cn/README.md)
 
-`declarative syntax` and `property binding` extension for QWidget.
+nwidget is a `header only` library that provides `declarative syntax` and `property binding` extensions to QWidget.
 
 [Document](./doc/en/Document.md)
 
@@ -64,12 +64,12 @@ nw::SliderId slider2 = new QSlider;
 
 QLayout* layout = nw::VBoxLayout{
     nw::Label(label)
-        .text(nw::asprintf("%d", slider1.value() + slider2.value())),
+        .text(nw::asprintf("%d", slider1.value() + slider2.value())), // create a binding
     nw::Slider(slider1).orientation(Qt::Horizontal),
     nw::Slider(slider2).orientation(Qt::Horizontal),
 };
 
-// It also equivalent to the following 3 ways:
+// A binding can also be created in one of three ways:
 label.text() = nw::asprintf("%d", slider1.value() + slider2.value());
 
 nw::asprintf("%d", slider1.value() + slider2.value())

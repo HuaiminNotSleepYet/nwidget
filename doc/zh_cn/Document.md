@@ -1,14 +1,16 @@
 # 文档
 
--[引入](#引入)
+- [引入](#引入)
 - [布局语法](#布局语法)
   - [ForEach](#foreach)
 - [属性绑定](#属性绑定)
   - [xxxId](#xxxid)
   - [Property](#property)
-  - [属性绑定](#属性绑定)
+  - [属性绑定](#属性绑定-1)
   - [is\_observable\<T\>](#is_observablet)
   - [is\_same\_property\<A, B\>](#is_same_propertya-b)
+- [辅助方法](#辅助方法)
+  - [id\_of，builder\_of, as\_id，as\_builder](#id_ofbuilder_of-as_idas_builder)
 
 ## 引入
 
@@ -39,10 +41,12 @@ auto* button2 = new QPushButton;
 button1.setText("Button");
 
 QLayout* layout = nwidget::VBoxLayout{
-    button1,                                // 使用已有实例
+    button1,                                     // 使用已有实例
     new QPushButton,
     nwidget::PushButton(),
     nwidget::PushButton(button2).text("Button"), // 在已有实例上设置
+    // 等价于
+    // as_builder(button2).text("Button")
 };
 ```
 
@@ -83,6 +87,10 @@ QLayout* layout = VBoxLayout{
 nwidget::SliderId slider1 = new QSlider;
 nwidget::SliderId slider2 = new QSlider;
 nwidget::SliderId slider3 = new QSlider;
+// 等价于
+// auto slider1 = nwidget::as_id(new QSlider);
+// auto slider2 = nwidget::as_id(new QSlider);
+// auto slider3 = nwidget::as_id(new QSlider);
 
 slider3.value() = slider1.value() + slider2.value();
 ```
@@ -195,10 +203,10 @@ label.text() = nwidget::asprintf("%d, %d", sldier1.value(), sldier2.value());
 你可以在表达式中使用相同实例的相同属性，但应避免循环和在表达式中更新表达式的值：
 
 ```cpp
-button.iconSize()
-= nwidget::constructor<QSize>(slider.value(),   // < 此处变更信号被订阅
-                         button.iconSize() // < 此处变更信号被忽略
-                         .invoke(&QSize::height));
+button.iconSize() = nwidget::constructor<QSize>(
+    slider.value(),   // < 此处变更信号被订阅
+    button.iconSize() // < 此处变更信号被忽略
+        .invoke(&QSize::height));
 ```
 
 ### is_observable\<T>
@@ -226,3 +234,22 @@ nwidget::is_same_property_v<prop1, prop2>; // true
 nwidget::is_same_property_v<prop1, prop3>; // false
 
 ```
+
+## 辅助方法
+
+### id_of，builder_of, as_id，as_builder
+
+```cpp
+class MySlider : public QSlider { ... };
+
+using type1 = id_of_t<QSlider>;  // nwidget::SliderId
+using type2 = id_of_t<MySlider>; // void（若无对应 xxxId，则为 void）
+using type3 = id_of_t<int>;      // void
+
+auto slider1 = as_id(new QSlider);  // SliderId
+auto slider2 = as_id(new MySlider); // SliderId（若无对应 xxxId，则使用父类）
+```
+
+`builder_of`、`as_builder` 的使用方法与以上示例相同
+
+要使自定义类型可在这些方法中使用，请用 `N_REGISTER_ID`，`N_REGISTER_BUILDER` 声明对应的 Id、Builder
