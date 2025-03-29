@@ -1,5 +1,9 @@
 # nwidget
 
+
+> [nwidget2](https://github.com/HuaiminNotSleepYet/nwidget2) is now available. It is a complete rewrite of nwidget, with a more elegant API and more features.
+
+
 [中文](./doc/zh_cn/README.md)
 
 nwidget is a `header only` library that provides `declarative syntax` and `property binding` extensions to QWidget.
